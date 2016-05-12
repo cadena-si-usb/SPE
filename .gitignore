@@ -1,0 +1,26 @@
+httpserver.log
+httpserver.log.orig
+httpserver.pid
+parameters_*
+
+# Archivos a ignorar en general
+*.pyc
+*.log
+*.bak
+
+# Carpetas de web2py
+examples
+logs
+applications/examples
+
+# Carpetas de SPE
+applications/SPE/databases
+applications/SPE/errors
+applications/SPE/sessions
+applications/SPE/languages
+
+# Extras
+applications/SPE/public
+*.temp
+applications/SPE/temp
+*.idea

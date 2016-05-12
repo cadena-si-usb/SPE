@@ -1,0 +1,57 @@
+{{extend 'layout.html'}}
+{{block content}}
+
+<div class="container-fluid" id="usuariosIndex">
+    <div class="row">
+        <div class="col-lg-12 rounded_border" >
+            <div class="row">
+                <center>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Usuarios</h3>
+                            <hr WIDTH="30%" />
+                            <p>Listado de Usuarios</p>
+                        </div>
+                    </div>
+
+                    Cantidad = <span id="cantidad">0</span>
+
+                    <label>Buscar: </label>
+                    <input id="search" placeholder="Buscar..." type="text">
+
+                    <!-- Add New Materials -->
+                    <div class="col-xs-4 col-xs-offset-8 col-sm-2 col-sm-offset-10 text-right">
+                        <a class="notif_link_but" title="Agregar Material" role='button' href="{{=URL('usuarios', 'agregar')}}">
+                            <i class="fa fa-plus fa-fw fa-2x yellow"></i>
+                        </a>
+                    </div>
+                    <!-- Add new materials -->
+                </center>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <table class='table table-hover borde-tabla' id="tabla_usuarios">
+                    <thead>
+                        <tr>
+                            <th class='text-center uai-table-header' id="nombre">Nombre</th>
+                            <th class='text-center'>Editar</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="elBody">
+                    </tbody>
+
+                </table>
+                <button id="next" disabled="true">
+                    MAS
+                </button>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+{{end}}
+{{include 'usuarios/contenido.html'}}
+<script src="{{=URL('static','js/contentHandler/usuarios.js')}}"></script>
