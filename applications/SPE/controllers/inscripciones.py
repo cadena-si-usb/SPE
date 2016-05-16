@@ -47,3 +47,10 @@ def modificar():
     else:
         response.flash = T('Por favor llene la forma.')
     return locals()
+
+def update():
+    obj = Encoder.to_dict(request.vars)
+
+    row = Inscripcion.update(obj)
+
+    return row.as_json()

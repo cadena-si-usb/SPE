@@ -150,7 +150,20 @@ $('#inscripcionesIndex').ready(function(){
         }, ms);
     }
 
+    function updateInscripcion(item, changes){
+        changes = {
+            id: 1,
+            nombre: "prueba"
+        };
 
+        options.data = changes;
+
+        ajaxHandler.update(options).then(function(res){
+            res = JSON.parse(res);
+        });
+    }
+
+    $('#updateInscripcion').click(updateInscripcion);
     $('#search').keyup(searchTerm);
     $('#next').click(getMoreInscripciones);
     $('.uai-table-header').click(changeOrder);

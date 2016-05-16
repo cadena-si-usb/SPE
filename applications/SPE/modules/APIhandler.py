@@ -44,8 +44,21 @@ class Model(object):
         return "SOON"
 
     #TODO
-    def update(self,id,changes):
-        return "SOON"
+    def update(self,options):
+        item = getattr(self.table,"id")
+
+        id = options["id"]
+
+        row = self.db(item == id).select().first()
+
+        del options["id"]
+
+        for attr in options:
+            row[attr] = options[attr]
+
+        row.update_record()
+
+        return row
 
     #TODO
     def delete(self,id):

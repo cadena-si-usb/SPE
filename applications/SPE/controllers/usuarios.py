@@ -10,7 +10,7 @@ def listar():
     return dict(rows=session.rows)
 
 def agregar():
-    fields = ['nombre']
+    fields = ['id','nombre','apellido','ci']
 
     form = Usuario.form(fields)
 

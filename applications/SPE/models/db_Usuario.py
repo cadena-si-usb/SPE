@@ -9,11 +9,14 @@
 #------------------------------------------------------------------------------#
 
 db.define_table('Usuario',
-    Field('nombre', unique=True,
+    Field('id', unique=True,
           requires=[IS_NOT_EMPTY(error_message='Introduzca un nombre.'),
-                    IS_NOT_IN_DB(db, 'Usuario.nombre', error_message='Nombre ya\
+                    IS_NOT_IN_DB(db, 'Usuario.id', error_message='ID ya\
                     esta almacenado, introduzca otro o modifique el anterior.'),
-                    IS_UPPER()], label='Nombre (*)' )
+                    IS_UPPER()], label='ID (*)' ),
+    Field('nombre'),
+    Field('apellido'),
+    Field('ci')
    )
 
 #------------------------------------------------------------------------------#

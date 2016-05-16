@@ -14,9 +14,17 @@ var AjaxHandler = (function(){
         return $.ajax(options);
     }
 
+    function update(options){
+        options.url = 'update/'
+        options.type = 'PUT'
+
+        return $.ajax(options);
+    }
+
     var publicAPI = {
         find: find,
-        count: count
+        count: count,
+        update: update
     }
 
     return publicAPI
