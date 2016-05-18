@@ -1,9 +1,9 @@
 (function(){
 
-$('#usuariosIndex').ready(function(){
+$('#materiasIndex').ready(function(){
     var ajaxHandler = AjaxHandler();
 
-    var usuarios = [],
+    var materia = [],
         max, area, options = {},
         filters = {order:'id',side:'>',limit:'4',page:'0'},
         filter = {},
@@ -24,18 +24,18 @@ $('#usuariosIndex').ready(function(){
 
         options.data = $.param(filters,true);
 
-        ajaxHandler.count('usuarios',options).success(function(res){
+        ajaxHandler.count('materias',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getUsuarios();
+            getMaterias();
         })
     }
 
-    function getUsuarios(){
-        ajaxHandler.find('usuarios',options).success(function(res){
-            usuarios = JSON.parse(res);
-            if (usuarios.length > 0){
-                $("#elBody").loadTemplate('#template', usuarios);
+    function getMaterias(){
+        ajaxHandler.find('materias',options).success(function(res){
+            materia = JSON.parse(res);
+            if (materia.length > 0){
+                $("#elBody").loadTemplate('#template', materia);
             }
             else {
                 var template = '<tr><td class="text-center" colspan="42">',
@@ -45,6 +45,8 @@ $('#usuariosIndex').ready(function(){
 
                 $("#elBody").html(template);
             }
+
+            disableButtonOnMax();
         });
     }
 
@@ -93,17 +95,17 @@ $('#usuariosIndex').ready(function(){
         elem.append(" <i id='orderBy' class='"+ fa +"'></i>")
     }
 
-    // Funcion que trae mas usuarios para paginacion
+    // Funcion que trae mas materia para paginacion
 
-    function getMoreUsuarios(evt){
-        filters.page = usuarios.length.toString();
+    function getMoreMaterias(evt){
+        filters.page = materia.length.toString();
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find('usuarios',options).success(function(res){
+        ajaxHandler.find('materias',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
-                usuarios.push(res[i]);
+                materia.push(res[i]);
             }
             disableButtonOnMax();
 
@@ -111,27 +113,10 @@ $('#usuariosIndex').ready(function(){
         });
     }
 
-    // Cambio de area de trabajo
-
-    function changeArea(evt){
-        area = $(this).val();
-
-        if (area){
-            filter["area"] = area;
-        }
-        else {
-            delete filter.area
-        }
-
-        filters.filter = JSON.stringify(filter);
-
-        getInfo();
-    }
-
     //Desabilitar boton de MAS
 
     function disableButtonOnMax(){
-        if ((max) && (usuarios.length.toString() != max)) {
+        if ((max) && (materia.length.toString() != max)) {
             $("#next").prop('disabled',false);
         }
         else {
@@ -168,9 +153,8 @@ $('#usuariosIndex').ready(function(){
     }
 
 
-    $('#target').change(changeArea);
     $('#search').keyup(searchTerm);
-    $('#next').click(getMoreUsuarios);
+    $('#next').click(getMoreMaterias);
     $('.uai-table-header').click(changeOrder);
 });
 })();

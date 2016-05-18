@@ -1,0 +1,7 @@
+<ul style="margin-top: 60px; margin-left: 20px; display: flex; flex-direction: column; font-family: 'DejaVu Sans' !important;">
+    {{for route in routes:}}
+        <li style="padding: 10px 10px; text-align: left;font-size: 16px; cursor: pointer; list-style-type: none">
+            <a style="text-decoration: none; color: #0e0e0e;" href="/SPE/{{=route.destino}}/listar">{{=route.nombre}}</a>
+        </li>
+    {{pass}}
+</ul>

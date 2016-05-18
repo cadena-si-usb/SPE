@@ -1,0 +1,44 @@
+{{extend 'layout.html'}}
+{{block content}}
+
+<div class="container-fluid" id="mis_pasantias_index">
+    <div class="row">
+        <div class="col-lg-12 rounded_border" >
+            <div class="row">
+                <center>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Mis Pasantias</h3>
+                            <hr WIDTH="30%" />
+                            <p>Listado de Pasantias</p>
+                        </div>
+                    </div>
+
+                    <label>Buscar: </label>
+                    <input id="search" placeholder="Buscar..." type="text">
+
+                    <!-- Add New Materials -->
+                    <div class="col-xs-4 col-xs-offset-8 col-sm-2 col-sm-offset-10 text-right">
+                        <a class="notif_link_but" title="Preinscribir" role='button' href="{{=URL('mis_pasantias', 'agregar')}}">
+                            <i class="fa fa-plus fa-fw fa-2x yellow"></i>
+                        </a>
+                    </div>
+                    <!-- Add new materials -->
+                </center>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div id="materias"></div>
+
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{include 'mis_pasantias/materias.html'}}
+{{include 'mis_pasantias/pasantias.html'}}
+<script src="{{=URL('static','js/contentHandler/mis_pasantias.js')}}"></script>

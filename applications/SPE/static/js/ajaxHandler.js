@@ -1,14 +1,16 @@
 var AjaxHandler = (function(){
 
-    function find(options){
-        options.url = 'get/'
+    var route = 'http://localhost:8000/SPE/';
+
+    function find(table,options){
+        options.url = route + table + '/get/';
         options.type = 'GET'
 
         return $.ajax(options);
     }
     
-    function count(options){
-        options.url = 'count/'
+    function count(table,options){
+        options.url = route + table + '/count/';
         options.type = 'GET'
 
         return $.ajax(options);

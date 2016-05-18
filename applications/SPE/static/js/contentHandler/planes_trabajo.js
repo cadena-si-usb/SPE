@@ -27,12 +27,12 @@ $('#planes_trabajoIndex').ready(function(){
         ajaxHandler.count(options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getCurriculos();
+            getPlanTrabajo();
         })
     }
 
-    function getCurriculos(){
-        ajaxHandler.find(options).success(function(res){
+    function getPlanTrabajo(){
+        ajaxHandler.find('planes_trabajo',options).success(function(res){
             planes_trabajo = JSON.parse(res);
             if (planes_trabajo.length > 0){
                 $("#elBody").loadTemplate('#template', planes_trabajo);
@@ -95,12 +95,12 @@ $('#planes_trabajoIndex').ready(function(){
 
     // Funcion que trae mas planes_trabajo para paginacion
 
-    function getMoreCurriculos(evt){
+    function getMorePlanTrabajo(evt){
         filters.page = planes_trabajo.length.toString();
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find(options).success(function(res){
+        ajaxHandler.find('planes_trabajo',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
                 planes_trabajo.push(res[i]);
@@ -152,7 +152,7 @@ $('#planes_trabajoIndex').ready(function(){
 
 
     $('#search').keyup(searchTerm);
-    $('#next').click(getMoreCurriculos);
+    $('#next').click(getMorePlanTrabajo);
     $('.uai-table-header').click(changeOrder);
 });
 })();

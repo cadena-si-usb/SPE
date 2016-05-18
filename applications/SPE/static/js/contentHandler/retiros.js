@@ -27,12 +27,12 @@ $('#retirosIndex').ready(function(){
         ajaxHandler.count(options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getPermisos();
+            getRetiros();
         })
     }
 
-    function getPermisos(){
-        ajaxHandler.find(options).success(function(res){
+    function getRetiros(){
+        ajaxHandler.find('permisos',options).success(function(res){
             retiros = JSON.parse(res);
             if (retiros.length > 0){
                 $("#elBody").loadTemplate('#template', retiros);
@@ -95,12 +95,12 @@ $('#retirosIndex').ready(function(){
 
     // Funcion que trae mas retiros para paginacion
 
-    function getMorePermisos(evt){
+    function getMoreRetiros(evt){
         filters.page = retiros.length.toString();
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find(options).success(function(res){
+        ajaxHandler.find('permisos',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
                 retiros.push(res[i]);
@@ -152,7 +152,7 @@ $('#retirosIndex').ready(function(){
 
 
     $('#search').keyup(searchTerm);
-    $('#next').click(getMorePermisos);
+    $('#next').click(getMoreRetiros);
     $('.uai-table-header').click(changeOrder);
 });
 })();

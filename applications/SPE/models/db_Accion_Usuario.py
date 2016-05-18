@@ -8,10 +8,10 @@
 #                            MODULO DE INVENTARIO                              #
 #------------------------------------------------------------------------------#
 
-db.define_table('Usuario',
+db.define_table('Accion_Usuario',
     Field('nombre'),
-    Field('apellido'),
-    Field('ci')
+    Field('destino'),
+    Field('rol')
    )
 
 #------------------------------------------------------------------------------#

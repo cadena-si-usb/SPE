@@ -13,7 +13,8 @@ db.define_table('Inscripcion',
           requires=[IS_NOT_EMPTY(error_message='Introduzca un nombre.'),
                     IS_NOT_IN_DB(db, 'Usuario.nombre', error_message='Nombre ya\
                     esta almacenado, introduzca otro o modifique el anterior.'),
-                    IS_UPPER()], label='Nombre (*)' )
+                    IS_UPPER()], label='Nombre (*)'),
+    Field('id_estudiante')
    )
 
 #------------------------------------------------------------------------------#

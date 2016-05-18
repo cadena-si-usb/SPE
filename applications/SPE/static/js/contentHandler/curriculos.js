@@ -32,7 +32,7 @@ $('#curriculosIndex').ready(function(){
     }
 
     function getCurriculos(){
-        ajaxHandler.find(options).success(function(res){
+        ajaxHandler.find('curriculos',options).success(function(res){
             curriculos = JSON.parse(res);
             if (curriculos.length > 0){
                 $("#elBody").loadTemplate('#template', curriculos);
@@ -100,7 +100,7 @@ $('#curriculosIndex').ready(function(){
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find(options).success(function(res){
+        ajaxHandler.find('curriculos',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
                 curriculos.push(res[i]);

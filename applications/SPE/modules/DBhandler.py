@@ -6,7 +6,7 @@ import ast
 #PRIVATE FUNCTIONS
 def _limitQuery(options):
     if not "limit" in options:
-        limit = "4"
+        return None
     else:
         limit = options["limit"]
 
@@ -73,4 +73,10 @@ def getQuery(options):
     limitBy = _limitQuery(options)
     condition = _conditionalQuery(options)
 
-    return {'order':orderBy, 'limit': limitBy, 'condition': condition}
+    res = {}
+
+    res['limit'] = limitBy
+    res['order'] = orderBy
+    res['condition'] = condition
+
+    return res

@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-from Inscripciones import Inscripcion
+from Acciones_Usuario import Accion_Usuario
 
 import Encoder
 
-Inscripcion = Inscripcion()
+Accion_Usuario = Accion_Usuario()
 
 def listar():
     session.rows = []
-    return dict(rows=session.rows)
+
+    return dict(rows=session.rows,id="prueba")
 
 def agregar():
-    fields = ['nombre','id_estudiante']
+    fields = ['nombre','destino','rol']
 
-    form = Inscripcion.form(fields)
+    form = Accion_Usuario.form(fields)
 
     if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')
@@ -25,32 +26,25 @@ def agregar():
 
 def count():
     obj = Encoder.to_dict(request.vars)
-    count = Inscripcion.count(obj)
+    count = Accion_Usuario.count(obj)
 
     return count
 
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = Inscripcion.find(obj)
+    rows = Accion_Usuario.find(obj)
 
     rows = rows.as_json()
 
     return rows
 
 def modificar():
-    record = db.Inscripcion(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.Inscripcion, record)
+    record = db.Accion_Usuario(request.args(0)) or redirect(URL('agregar'))
+    form = SQLFORM(db.Accion_Usuario, record)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')
         redirect(URL('listar'))
     else:
         response.flash = T('Por favor llene la forma.')
     return locals()
-
-def update():
-    obj = Encoder.to_dict(request.vars)
-
-    row = Inscripcion.update(obj)
-
-    return row.as_json()

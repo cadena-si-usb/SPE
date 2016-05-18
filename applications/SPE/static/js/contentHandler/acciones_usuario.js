@@ -1,9 +1,9 @@
 (function(){
 
-$('#usuariosIndex').ready(function(){
+$('#accion_usuarioIndex').ready(function(){
     var ajaxHandler = AjaxHandler();
 
-    var usuarios = [],
+    var accion_usuario = [],
         max, area, options = {},
         filters = {order:'id',side:'>',limit:'4',page:'0'},
         filter = {},
@@ -24,18 +24,18 @@ $('#usuariosIndex').ready(function(){
 
         options.data = $.param(filters,true);
 
-        ajaxHandler.count('usuarios',options).success(function(res){
+        ajaxHandler.count('acciones_usuario',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getUsuarios();
+            getAccionesUsuario();
         })
     }
 
-    function getUsuarios(){
-        ajaxHandler.find('usuarios',options).success(function(res){
-            usuarios = JSON.parse(res);
-            if (usuarios.length > 0){
-                $("#elBody").loadTemplate('#template', usuarios);
+    function getAccionesUsuario(){
+        ajaxHandler.find('acciones_usuario',options).success(function(res){
+            accion_usuario = JSON.parse(res);
+            if (accion_usuario.length > 0){
+                $("#elBody").loadTemplate('#template', accion_usuario);
             }
             else {
                 var template = '<tr><td class="text-center" colspan="42">',
@@ -45,6 +45,7 @@ $('#usuariosIndex').ready(function(){
 
                 $("#elBody").html(template);
             }
+            disableButtonOnMax();
         });
     }
 
@@ -93,17 +94,17 @@ $('#usuariosIndex').ready(function(){
         elem.append(" <i id='orderBy' class='"+ fa +"'></i>")
     }
 
-    // Funcion que trae mas usuarios para paginacion
+    // Funcion que trae mas accion_usuario para paginacion
 
-    function getMoreUsuarios(evt){
-        filters.page = usuarios.length.toString();
+    function getMoreAccionesUsuario(evt){
+        filters.page = accion_usuario.length.toString();
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find('usuarios',options).success(function(res){
+        ajaxHandler.find('acciones_usuario',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
-                usuarios.push(res[i]);
+                accion_usuario.push(res[i]);
             }
             disableButtonOnMax();
 
@@ -111,27 +112,10 @@ $('#usuariosIndex').ready(function(){
         });
     }
 
-    // Cambio de area de trabajo
-
-    function changeArea(evt){
-        area = $(this).val();
-
-        if (area){
-            filter["area"] = area;
-        }
-        else {
-            delete filter.area
-        }
-
-        filters.filter = JSON.stringify(filter);
-
-        getInfo();
-    }
-
     //Desabilitar boton de MAS
 
     function disableButtonOnMax(){
-        if ((max) && (usuarios.length.toString() != max)) {
+        if ((max) && (accion_usuario.length.toString() != max)) {
             $("#next").prop('disabled',false);
         }
         else {
@@ -168,9 +152,8 @@ $('#usuariosIndex').ready(function(){
     }
 
 
-    $('#target').change(changeArea);
     $('#search').keyup(searchTerm);
-    $('#next').click(getMoreUsuarios);
+    $('#next').click(getMoreAccionesUsuario);
     $('.uai-table-header').click(changeOrder);
 });
 })();
