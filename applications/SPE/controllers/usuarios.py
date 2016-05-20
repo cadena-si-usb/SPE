@@ -47,3 +47,12 @@ def modificar():
     else:
         response.flash = T('Por favor llene la forma.')
     return locals()
+
+def perfil():
+    return locals()
+
+def curriculo():
+    if request.vars:
+        print (request.vars)
+
+    return locals()

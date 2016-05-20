@@ -32,7 +32,7 @@ $('#inscripcionesIndex').ready(function(){
     }
 
     function getInscripciones(){
-        ajaxHandler.find(options).success(function(res){
+        ajaxHandler.find('inscripciones',options).success(function(res){
             inscripciones = JSON.parse(res);
             if (inscripciones.length > 0){
                 $("#elBody").loadTemplate('#template', inscripciones);
@@ -100,7 +100,7 @@ $('#inscripcionesIndex').ready(function(){
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find(options).success(function(res){
+        ajaxHandler.find('inscripciones',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
                 inscripciones.push(res[i]);

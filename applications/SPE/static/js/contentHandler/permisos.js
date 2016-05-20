@@ -32,7 +32,7 @@ $('#permisosIndex').ready(function(){
     }
 
     function getPermisos(){
-        ajaxHandler.find(options).success(function(res){
+        ajaxHandler.find('permisos',options).success(function(res){
             permisos = JSON.parse(res);
             if (permisos.length > 0){
                 $("#elBody").loadTemplate('#template', permisos);
@@ -100,7 +100,7 @@ $('#permisosIndex').ready(function(){
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find(options).success(function(res){
+        ajaxHandler.find('permisos',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
                 permisos.push(res[i]);

@@ -1,9 +1,9 @@
 (function(){
 
-$('#usuariosIndex').ready(function(){
+$('#pasantiaIndex').ready(function(){
     var ajaxHandler = AjaxHandler();
 
-    var usuarios = [],
+    var pasantia = [],
         max, area, options = {},
         filters = {order:'id',side:'>',limit:'4',page:'0'},
         filter = {},
@@ -24,18 +24,18 @@ $('#usuariosIndex').ready(function(){
 
         options.data = $.param(filters,true);
 
-        ajaxHandler.count('usuarios',options).success(function(res){
+        ajaxHandler.count('pasantias',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getUsuarios();
+            getPasantias();
         })
     }
 
-    function getUsuarios(){
-        ajaxHandler.find('usuarios',options).success(function(res){
-            usuarios = JSON.parse(res);
-            if (usuarios.length > 0){
-                $("#elBody").loadTemplate('#template', usuarios);
+    function getPasantias(){
+        ajaxHandler.find('pasantias',options).success(function(res){
+            pasantia = JSON.parse(res);
+            if (pasantia.length > 0){
+                $("#elBody").loadTemplate('#template', pasantia);
             }
             else {
                 var template = '<tr><td class="text-center" colspan="42">',
@@ -93,17 +93,17 @@ $('#usuariosIndex').ready(function(){
         elem.append(" <i id='orderBy' class='"+ fa +"'></i>")
     }
 
-    // Funcion que trae mas usuarios para paginacion
+    // Funcion que trae mas pasantia para paginacion
 
-    function getMoreUsuarios(evt){
-        filters.page = usuarios.length.toString();
+    function getMorePasantias(evt){
+        filters.page = pasantia.length.toString();
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find('usuarios',options).success(function(res){
+        ajaxHandler.find('pasantias',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
-                usuarios.push(res[i]);
+                pasantia.push(res[i]);
             }
             disableButtonOnMax();
 
@@ -111,27 +111,10 @@ $('#usuariosIndex').ready(function(){
         });
     }
 
-    // Cambio de area de trabajo
-
-    function changeArea(evt){
-        area = $(this).val();
-
-        if (area){
-            filter["area"] = area;
-        }
-        else {
-            delete filter.area
-        }
-
-        filters.filter = JSON.stringify(filter);
-
-        getInfo();
-    }
-
     //Desabilitar boton de MAS
 
     function disableButtonOnMax(){
-        if ((max) && (usuarios.length.toString() != max)) {
+        if ((max) && (pasantia.length.toString() != max)) {
             $("#next").prop('disabled',false);
         }
         else {
@@ -168,9 +151,8 @@ $('#usuariosIndex').ready(function(){
     }
 
 
-    $('#target').change(changeArea);
     $('#search').keyup(searchTerm);
-    $('#next').click(getMoreUsuarios);
+    $('#next').click(getMorePasantias);
     $('.uai-table-header').click(changeOrder);
 });
 })();

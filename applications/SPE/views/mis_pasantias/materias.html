@@ -1,0 +1,21 @@
+<script type="text/html" id="tmplMaterias">
+
+    <div data-id="id" data-template-bind='[{"attribute": "class", "value": "hasEnough","formatter":"Quantity"}]' style="background-color: #8b8b8b; border: 1px solid black; padding: 2px; color: black;">
+        <h2>Pasantia
+        <span class='text-center' data-template-bind='[{"attribute": "content", "value": "tipo"}]'>
+        </span></h2>
+        (Codigo <span class='text-center' data-template-bind='[{"attribute": "content", "value": "codigo"}]'>
+        </span>)
+        <br>
+        <br>
+        <p class='text-center' data-template-bind='[{"attribute": "content", "value": "descripcion"}]'>
+        </p>
+        <div style="background-color: #2aabd2; border: 1px solid black; padding: 2px; color: black;">
+            <h2>Cursos</h2>
+            <button>Preinscribir</button>
+            <div data-template-bind='[{"attribute": "id", "value": "codigo"}]'>
+            </div>
+        </div>
+    </div>
+    <br>
+</script>
