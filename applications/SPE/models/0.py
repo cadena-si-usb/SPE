@@ -2,7 +2,7 @@ from gluon.storage import Storage
 settings = Storage()
 
 settings.migrate = True
-settings.title = 'SIAGES'
+settings.title = 'SPE USB'
 settings.subtitle = 'SISTEMAS 1 _ ENE-MAR 2016'
 settings.author = 'MUCZ'
 settings.author_email = ''

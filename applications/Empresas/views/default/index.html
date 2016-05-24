@@ -1,0 +1,51 @@
+{{left_sidebar_enabled=False,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'layout.html'}}
+
+{{if 'message' in globals():}}
+
+    {{if auth.is_logged_in():}}
+        {{redirect(URL('home'))}}
+
+    {{else:}}
+
+        {{block left_sidebar}}
+          <p class='title'>{{=message}}</p>
+             <div class='content'>
+             <p class='subtitle'>Bienvenido</p>
+                 <br></br>
+             </div>
+          ¿No representas una empresa?
+            <br></br>
+          <a href={{=URL(a='SPE',c='default',f='index')}}>
+              <button class='success'>Miembros USB</button>
+          </a>
+        {{end}}
+        
+          <div class="row">
+              <p><b>Empresa pública o privada</b>, si es primera vez que visita el sistema debe completar el formulario de Registro
+                <a href={{=URL(c="empresa",f="registrar_empresa")}}><b>aqui</b>.</a></p>
+          </div>
+          <div class="row">
+            <div>
+                <a href="https://www.aportes.usb.ve/Aportes/">
+                  {{=IMG(_class='img-responsive', _src=URL('static','images/aportes.gif'),alt="aportes", _width="100%")}}
+                </a>
+            </div>
+          </div>
+          <br><br><br>
+          <br>
+
+        {{block right_sidebar}}
+            {{=form}}
+            <br><br><br>
+            </div>
+            <br><br><br>
+        {{end}}
+
+    {{pass}}
+
+    {{elif 'content' in globals():}}
+    {{=content}}
+    {{else:}}
+    {{=BEAUTIFY(response._vars)}}
+{{pass}}
