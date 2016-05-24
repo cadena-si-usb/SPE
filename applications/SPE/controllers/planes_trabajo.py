@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-from PlanesTrabajo import PlanTrabajo
+from Planes_Trabajo import Plan_Trabajo
 
 import Encoder
 
-PlanTrabajo = PlanTrabajo()
+PlanTrabajo = Plan_Trabajo()
 
 def listar():
     session.rows = []
     return dict(rows=session.rows)
 
 def agregar():
-    fields = ['nombre']
+    ##fields = ['nombre']
 
-    form = PlanTrabajo.form(fields)
+    form =SQLFORM(db.Plan_Trabajo)
 
     if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')

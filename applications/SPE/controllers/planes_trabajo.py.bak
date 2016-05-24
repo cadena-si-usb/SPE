@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-from Usuarios import Usuario
+from PlanesTrabajo import PlanTrabajo
 
 import Encoder
 
-Usuario = Usuario()
+PlanTrabajo = PlanTrabajo()
 
 def listar():
     session.rows = []
     return dict(rows=session.rows)
 
 def agregar():
-   # fields = ['id','nombre','apellido','ci']
+    fields = ['nombre']
 
-    form = SQLFORM(db.Usuario)
+    form = PlanTrabajo.form(fields)
 
     if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')
@@ -25,34 +25,25 @@ def agregar():
 
 def count():
     obj = Encoder.to_dict(request.vars)
-    count = Usuario.count(obj)
+    count = PlanTrabajo.count(obj)
 
     return count
 
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = Usuario.find(obj)
+    rows = PlanTrabajo.find(obj)
 
     rows = rows.as_json()
 
     return rows
 
 def modificar():
-    record = db.Usuario(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.Usuario, record)
+    record = db.PlanTrabajo(request.args(0)) or redirect(URL('agregar'))
+    form = SQLFORM(db.PlanTrabajo, record)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')
         redirect(URL('listar'))
     else:
         response.flash = T('Por favor llene la forma.')
-    return locals()
-
-def perfil():
-    return locals()
-
-def curriculo():
-    if request.vars:
-        print (request.vars)
-
     return locals()
