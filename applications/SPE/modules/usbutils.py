@@ -4,8 +4,8 @@ import string
 import random
 
 # Requiere:
-# sudo apt-get install libsasl2-dev python-dev libldap2-dev libssl-dev ldap-utils
-# pip install ldap
+# sudo apt-get install libsasl2-dev python-dev libldap2-dev libssl-dev ldap-utils python-ldap
+# El script de setupEnv.sh instala dichas dependencias
 
 def get_ldap_data(usbid):
     def getFirst(maybeList):

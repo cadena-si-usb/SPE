@@ -1,0 +1,13 @@
+# Pruebas de por que no usar Mysql:
+
+sorry for being late. This is from web2py's 2.6.0 changelog.
+
+Attention MySQL users: The length of string fields changed from 255 to 512 bytes. If you have migrations enabled this will trigger a large migration. To prevent it, first set migrate_enabled=False, upgrade, check everything is ok, then add length=255 to your string Fields, then re-enable migrations with migrate_enabled=True if needed.
+
+tl;dr: remember to ALWAYS set length= for strings.
+
+tl;dr n.2 : Mysql has huge issues. One of them is that you can't index a too large column. 
+
+from: https://groups.google.com/forum/#!topic/web2py/9AwEHOeLbds
+
+http://www.web2pyref.com/reference/is_not_in_db-validator
