@@ -82,11 +82,11 @@ def login_cas():
         usbid = data[1]
 
         usuario = get_ldap_data(usbid) #Se leen los datos del CAS
-        tablaUsuario  = dbSPE.usuario
+        tablaUsuario  = db.usuario
 
         #Esto nos indica si el usuario ha ingresado alguna vez al sistema
         #buscandolo en la tabla de usuario.
-        primeravez = dbSPE(tablaUsuario.usbid==usbid)
+        primeravez = db(tablaUsuario.usbid==usbid)
 
         if primeravez.isempty():
             #Si es primera vez que ingresa al sistema
@@ -118,7 +118,7 @@ def login_cas():
 
         else:
             #Como el usuario ya esta registrado, buscamos sus datos y lo logueamos.
-            datosUsuario = dbSPE(tablaUsuario.usbid==usbid).select()[0]
+            datosUsuario = db(tablaUsuario.usbid==usbid).select()[0]
             clave        = datosUsuario.llave
 
             # Caso 1: El usuario no ha registrado sus datos
@@ -147,11 +147,11 @@ def verificar_datos(usuario,usbid):
     consulta = None
 
     if usuario['tipo'] == "Docente":
-        consulta = dbSPE(dbSPE.usuario_profesor.usbid_usuario==usbid)
+        consulta = db(db.usuario_profesor.usbid_usuario==usbid)
     elif usuario['tipo'] == "Administrativo":
         pass
     elif usuario['tipo'] in ["Pregrado","Postgrado"]:
-        consulta = dbSPE(dbSPE.usuario_estudiante.usbid_usuario==usbid)
+        consulta = db(db.usuario_estudiante.usbid_usuario==usbid)
     elif usuario['tipo'] in ["Empleado","Organizacion","Egresado"]:
         pass
 
@@ -180,14 +180,14 @@ def registrar():
 def correo_no_verificado(usbid):
 
     correoUsuario = obtener_correo(usbid)
-    buscarCorreo  = dbSPE(dbSPE.correo_por_verificar.correo==correoUsuario)
+    buscarCorreo  = db(db.correo_por_verificar.correo==correoUsuario)
 
     return not(buscarCorreo.isempty())
 
 #Reenvia la verificacion del correo
 def resendVerificationEmail():
 
-    correoVerificarSet = dbSPE(dbSPE.correo_por_verificar.correo == request.vars.correo).select()
+    correoVerificarSet = db(db.correo_por_verificar.correo == request.vars.correo).select()
 
     reenviar_Correo_Verificacion(request.vars.correo)
 
@@ -210,12 +210,12 @@ def verifyEmail():
 
     if form.process().accepted:
         # Buscamos el id de la empresa
-        correoVerificarSet = dbSPE(dbSPE.correo_por_verificar.correo == correo_usuario).select()[0]
+        correoVerificarSet = db(db.correo_por_verificar.correo == correo_usuario).select()[0]
         if correoVerificarSet.codigo != request.vars.codigo:
             response.flash = T("Codigo incorrecto")
         else:
-            dbSPE(dbSPE.correo_por_verificar.correo == correo_usuario).delete()
-            usuarioUSB = dbSPE(dbSPE.usuario.usbid==request.vars.usbid).select()[0]
+            db(db.correo_por_verificar.correo == correo_usuario).delete()
+            usuarioUSB = db(db.usuario.usbid==request.vars.usbid).select()[0]
             auth.login_bare(request.vars.usbid,usuarioUSB.llave)
             redirect(URL(c='default',f='index'))
 
