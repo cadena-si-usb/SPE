@@ -9,6 +9,6 @@ db.define_table('Fase',
           requires=[IS_NOT_EMPTY
                         (error_message='Es necesario una Descripcion')],
           label='Descripcion'),
-    Field('objetivo_especifico', 'String',
+    Field('objetivo_especifico', 'string',
           label='Objetivo Especifico')
 )

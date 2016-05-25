@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 # Actividad
-dbSPE.define_table('coordinacion',
+db.define_table('Coordinacion',
                 Field('nombre','string',required=True),
                 Field('usbid','string',required=True),
-                Field('sede','string',required=True, requires=[IS_LENGTH(20)]),
+                Field('sede','string',required=True, requires=IS_IN_SET(['Sartenejas','Litoral'],zero=None)),
                 format='%(sede)s - %(nombre)s'
                )
 
-dbSPE.coordinacion.usbid.requires+=[IS_NOT_IN_DB(dbSPE, 'coordinacion.usbid',error_message=T('Universidad ya registrado'))]
+db.Coordinacion.usbid.requires+=[IS_NOT_IN_DB(db, 'Coordinacion.usbid',error_message=T('Coordinacion ya registrado'))]

@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-'''
 # Division
-dbSPE.define_table('division',
+db.define_table('Division',
                 Field('nombre','string',required=True),
                 format='%(nombre)s'
                )
 
-dbSPE.division.nombre.requires+=[IS_LENGTH(100)]
-dbSPE.division.nombre.requires+=[IS_NOT_EMPTY(error_message='Campo Obligatorio')]
-'''
+db.Division.nombre.requires+=[IS_LENGTH(100)]
+db.Division.nombre.requires+=[IS_NOT_EMPTY(error_message='Campo Obligatorio')]

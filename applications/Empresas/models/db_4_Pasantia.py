@@ -5,6 +5,12 @@ db.define_table('Pasantia',
            requires=[IS_NOT_EMPTY
                         (error_message='Es necesario un Titutlo.')],
            label='Titulo'),
+    Field('estudiante', 'reference Estudiante',
+          label='Estudiante'),
+    Field('tutor_academico', 'reference Profesor',
+          label='Tutor Academico'),
+    Field('tutor_industrial', 'reference Tutor_Industrial',
+          label='Tutor Industrial'),
     Field('periodo',##referencia a tabla Periodo
            label ='Periodo'),
     Field('area_proyecto','string',

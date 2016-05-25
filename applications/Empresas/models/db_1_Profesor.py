@@ -1,8 +1,8 @@
 db.define_table('Profesor',
-    Field('categoria',##referencia tabla categoria
+    Field('categoria','reference Categoria',
           label='Categoria'),
-    Field('dedicacion',##referencia a tabla Dedicacion
+    Field('dedicacion','reference Dedicacion',
           label='Dedicacion'),
-    Field('departamento', ##referencia a tabla Departamento
+    Field('departamento','reference Departamento',
           label='Departamento')
 )
