@@ -38,13 +38,13 @@ def generar_Correo_Verificacion(correo):
     for i in range(0,size):
                 codigoGenerado += random.choice(string.lowercase + string.uppercase + string.digits)
 
-    dbSPE.correo_por_verificar.insert(correo = correo,codigo = codigoGenerado)
+    db.correo_por_verificar.insert(correo = correo,codigo = codigoGenerado)
 
     enviar_Correo_Verificacion(correo,codigoGenerado)
 
 def reenviar_Correo_Verificacion(correo):
 
-    correoVerificarSet = dbSPE(dbSPE.correo_por_verificar.correo == request.vars.correo).select()
+    correoVerificarSet = db(db.correo_por_verificar.correo == request.vars.correo).select()
 
     codigoGenerado = correoVerificarSet[0].codigo
 
