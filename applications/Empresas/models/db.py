@@ -11,13 +11,15 @@
 
 ## app configuration made easy. Look inside private/appconfig.ini
 from gluon.contrib.appconfig import AppConfig
+from gluon import current
 ## once in production, remove reload=True to gain full speed
 myconf = AppConfig(reload=True)
 
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
-    db = DAL(myconf.take('db.uri'), pool_size=myconf.take('db.pool_size', cast=int), check_reserved=['all'])
+    db = DAL(myconf.take('db.uri'), 
+      pool_size=myconf.take('db.pool_size', cast=int), check_reserved=['all'])
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore+ndb')
@@ -28,11 +30,13 @@ else:
     ## from google.appengine.api.memcache import Client
     ## session.connect(request, response, db = MEMDB(Client()))
 
+current.db = db
 ## by default give a view/generic.extension to all actions from localhost
 ## none otherwise. a pattern can be 'controller/function.extension'
 response.generic_patterns = ['*'] if request.is_local else []
 ## choose a style for forms
-response.formstyle = myconf.take('forms.formstyle')  # or 'bootstrap3_stacked' or 'bootstrap2' or other
+# or 'bootstrap3_stacked' or 'bootstrap2' or other
+response.formstyle = myconf.take('forms.formstyle')  
 response.form_label_separator = myconf.take('forms.separator')
 
 
@@ -56,14 +60,11 @@ from gluon.tools import Auth, Service, PluginManager,Mail
 auth = Auth(db)
 service = Service()
 plugins = PluginManager()
-auth.settings.extra_fields['auth_user']= [Field('user_Type',requires=IS_IN_SET('empresa','tutor_industrial'))]
-
 
 ## create all tables needed by auth if not custom tables
-auth.define_tables(username=True, signature=False)
+auth.define_tables(username=False, signature=False)
 
 ## configure email
-
 mail = Mail()
 mail.settings.server = 'smtp.gmail.com:587'
 mail.settings.sender = 'sistemapasantiaempresarialusb@gmail.com'
@@ -74,14 +75,6 @@ mail.settings.tls = True
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
-
-def captcha_field(request=request):
-    from gluon.tools import Recaptcha2
-    w = lambda x,y: Recaptcha2(request,
-                              '6LeFHBwTAAAAAAgmUVpEbEz0NpYaJBIYYw709HIZ',
-                              '6LeFHBwTAAAAANvgDFc2Dy257hQ8nux3ZgvdgS8Q')
-
-    return Field('captcha', 'string', widget=w, default='ok')
 
 #########################################################################
 ## Define your tables below (or better in another model file) for example
@@ -101,4 +94,8 @@ def captcha_field(request=request):
 #########################################################################
 
 ## after defining tables, uncomment below to enable auditing
-# auth.enable_record_versioning(db)
+auth.enable_record_versioning(db)
+
+mail.settings.server = settings.email_server
+mail.settings.sender = settings.email_sender
+mail.settings.login = settings.email_login
