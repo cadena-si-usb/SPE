@@ -21,7 +21,7 @@ db.define_table('Pasantia',
           requires=[IS_NOT_EMPTY
                         (error_message='Coloque resumen del proyecto ')],
           label ='Resumen del Proyecto'),
-    Field('Materia',##refenrecia a tabla Materia
+    Field('materia','reference Materia',
           label ='Materia'),
     Field('obejtivo',
           requires=[IS_NOT_EMPTY
@@ -31,6 +31,8 @@ db.define_table('Pasantia',
           requires=[IS_NOT_EMPTY
                         (error_message='Adicione Area del Proyecto.')],
           label ='Detalles de Confidencialidad'),
-    Field('plan_trabajo',##referencia a plan de trabajo
-          label = 'Plan de Trabajo')
+    Field('status','string',
+          label='Estado De Pasantia'),
+    Field('etapa', 'string',
+          label='Estado De Pasantia'),
 )
