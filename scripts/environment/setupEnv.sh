@@ -14,7 +14,7 @@ else
 	echo "---------------------------------------------------------------"
 fi
 
-Instalando dependencias para usar el cas
+#Instalando dependencias para usar el cas
 echo "Instalando dependencias"
 echo "---------------------------------------------------------------"
 sudo apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev ldap-utils python-ldap
