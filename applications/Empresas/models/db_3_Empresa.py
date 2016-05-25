@@ -9,8 +9,14 @@ db.define_table('Empresa',
           comment='nombre@mail.com',
           ),
     Field('area_laboral','reference Area_Laboral',
-          label = 'Area Laboral'),    
+          label = 'Area Laboral'),
+    Field('descripcion',
+          label='Descripcion'),
     Field('direccion_web',##verificador de urls
-          label = 'Pagina Web')
+          label = 'Pagina Web'),
+    Field('contacto_RRHH',
+          label='Contactos De Recursos Humanos',requires=[IS_NOT_EMPTY(error_message='Es necesario un email.'),IS_EMAIL
+                               (error_message='Introduzca un email valido.')])
+
 )
 
