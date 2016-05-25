@@ -1,26 +1,25 @@
 # -*- coding: utf-8 -*-
 
-# Proceso de registro de empresa por medio de la opcion Empresa -> Registrarse, en el Index
-def registrar_empresa():
-    dbSPE.empresa.log.requires += [IS_NOT_IN_DB(dbSPE, 'tutor_industrial.email',error_message=T('Login No Disponible'))]
+# Proceso de registro de Empresa por medio de la opcion Empresa -> Registrarse, en el Index
+def registrar_Empresa():
     # Agregamos los campos en el orden deseado, comenzamos con el login y el password
-    fields = [dbSPE.empresa.log,dbSPE.empresa.password]
+    fields = [db.UsuarioExterno.correo,db.UsuarioExterno.password]
     # Agregamos un campo extra de comfirm password el cual debera tener el mismo valor que el password para ser aceptado
     fields += [Field('comfirm_Password','password', label=T('Comfirm Password'),
                      requires = [IS_EXPR('value==%s' % repr(request.vars.password),error_message=T('Las contraseñas no coinciden'))])]
     # Agregamos el resto de los campos
     fields += [
-        dbSPE.empresa.pregunta_secreta,
-        dbSPE.empresa.respuesta_pregunta_secreta,
-        dbSPE.empresa.nombre,
-        dbSPE.empresa.id_pais,
-        dbSPE.empresa.id_estado,
-        dbSPE.empresa.id_area_laboral,
-        dbSPE.empresa.direccion,
-        dbSPE.empresa.pag_web,
-        dbSPE.empresa.descripcion,
-        dbSPE.empresa.telefono,
-        dbSPE.empresa.contacto_RRHH
+        db.UsuarioExterno.pregunta_secreta,
+        db.UsuarioExterno.respuesta_pregunta_secreta,
+        db.UsuarioExterno.nombre,
+        db.UsuarioExterno.id_pais,
+        db.UsuarioExterno.id_estado,
+        db.Empresa.id_area_laboral,
+        db.UsuarioExterno.direccion,
+        db.Empresa.pag_web,
+        db.Empresa.descripcion,
+        db.UsuarioExterno.telefono,
+        db.Empresa.contacto_RRHH
         ]
     # Generamos el SQLFORM utilizando los campos
     form = SQLFORM.factory(
@@ -29,26 +28,26 @@ def registrar_empresa():
     submit_button='Submit',
     separator=': ',
     buttons=['submit'],
-    col3 = {'log':T('Identificación de acceso unica asignada a la empresa'),
+    col3 = {'log':T('Identificación de acceso unica asignada a la Empresa'),
             'password':T('Contraseña para acceder al sistema'),
             'comfirm_Password':T('Repita su contraseña'),
             'pregunta_secreta':T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
             'respuesta_pregunta_secreta':T('Respuesta a su pregunta secreta'),
-            'nombre':T('Nombre comercial de la empresa'),
-            'id_pais':T('Pais en el que se encuentra la empresa'),
+            'nombre':T('Nombre comercial de la Empresa'),
+            'id_pais':T('Pais en el que se encuentra la Empresa'),
             'id_estado':T('Estado del pais en el que se encuentra'),
             'id_area_laboral':T('Area Laboral de la Empresa'),
-            'direccion':T('Direccion de las instalaciones de la empresa'),
-            'pag_web':T('Pagina Web de la empresa'),
-            'descripcion':T('Descripcion breve de la empresa, su vision y sus funciones'),
-            'telefono':T('Numero telefonico de contacto de la empresa'),
-            'contacto_RRHH':T('Correo de contacto del departamento de recursos humanos de la empresa')}
+            'direccion':T('Direccion de las instalaciones de la Empresa'),
+            'pag_web':T('Pagina Web de la Empresa'),
+            'descripcion':T('Descripcion breve de la Empresa, su vision y sus funciones'),
+            'telefono':T('Numero telefonico de contacto de la Empresa'),
+            'contacto_RRHH':T('Correo de contacto del departamento de recursos humanos de la Empresa')}
     )
 
-    # Caso 1: El form se lleno de manera correcta asi que registramos la empresa y procedemos a la pagina de exito
+    # Caso 1: El form se lleno de manera correcta asi que registramos la Empresa y procedemos a la pagina de exito
     if form.process().accepted:
-        # Registramos la empresa
-        dbSPE.empresa.insert(log = request.vars.log,
+        # Registramos la Empresa
+        db.Empresa.insert(log = request.vars.log,
                              password = request.vars.password,
                              pregunta_secreta = request.vars.pregunta_secreta,
                              respuesta_pregunta_secreta = request.vars.respuesta_pregunta_secreta,
@@ -69,24 +68,24 @@ def registrar_empresa():
             "first_name":request.vars.nombre,
             "password":db.auth_user.password.validate(request.vars.password)[0],
             "email":request.vars.contacto_RRHH,
-            "user_Type":'empresa'})
+            "user_Type":'Empresa'})
 
         generar_Correo_Verificacion(request.vars.log)
 
-        paisSet = dbSPE(dbSPE.pais.id == request.vars.id_pais).select()
+        paisSet = db(db.pais.id == request.vars.id_pais).select()
         pais = paisSet[0].nombre
 
-        estadoSet = dbSPE(dbSPE.estado.id == request.vars.id_estado).select()
+        estadoSet = db(db.estado.id == request.vars.id_estado).select()
         estado = estadoSet[0].nombre
 
-        arealaboralSet = dbSPE(dbSPE.area_laboral.id == request.vars.id_area_laboral).select()
+        arealaboralSet = db(db.area_laboral.id == request.vars.id_area_laboral).select()
         area_laboral = arealaboralSet[0].nombre
 
         # Mensaje de exito
         response.flash = T("Registro Exitoso")
         # Nos dirigimos a la pagina de exito
-        return response.render('empresa/registrarEmpresa/registro_empresa_exitoso.html',message=T("Registrar Empresa"),
-                               result=T("El registro de su empresa ha sido exitoso!"),
+        return response.render('Empresa/registrarEmpresa/registro_Empresa_exitoso.html',message=T("Registrar Empresa"),
+                               result=T("El registro de su Empresa ha sido exitoso!"),
                                log=request.vars.log,
                                nombre=request.vars.nombre,
                                direccion=request.vars.direccion,
@@ -101,33 +100,33 @@ def registrar_empresa():
                                respuesta_pregunta_secreta=request.vars.respuesta_pregunta_secreta)
     # Caso 2: El form no se lleno de manera correcta asi que recargamos la pagina
     else:
-        return response.render('empresa/registrarEmpresa/registrar_empresa.html',message=T("Registrar Empresa"),form=form)
+        return response.render('Empresa/registrarEmpresa/registrar_Empresa.html',message=T("Registrar Empresa"),form=form)
 
-def registrar_tutor_industrial():
-    dbSPE.tutor_industrial.email.requires += [IS_NOT_IN_DB(dbSPE, 'empresa.log',error_message=T('Correo No Disponible'))]
+def registrar_Tutor_Industrial():
+    db.Tutor_Industrial.email.requires += [IS_NOT_IN_DB(db, 'Empresa.log',error_message=T('Correo No Disponible'))]
     # Agregamos los campos en el orden deseado, comenzamos con el login y el password
     fields =[
-       dbSPE.tutor_industrial.email,
-        dbSPE.tutor_industrial.nombre,
-        dbSPE.tutor_industrial.apellido,
-        dbSPE.tutor_industrial.ci,
-        dbSPE.tutor_industrial.password
+       db.Tutor_Industrial.email,
+        db.Tutor_Industrial.nombre,
+        db.Tutor_Industrial.apellido,
+        db.Tutor_Industrial.ci,
+        db.Tutor_Industrial.password
     ]
     # Agregamos un campo extra de comfirm password el cual debera tener el mismo valor que el password para ser aceptado
     fields += [Field('comfirm_Password','password', label=T('Comfirm Password'),
                      requires = [IS_EXPR('value==%s' % repr(request.vars.password),error_message=T('Las contraseñas no coinciden'))])]
     # Agregamos el resto de los campos
     fields +=[
-        dbSPE.tutor_industrial.pregunta_secreta,
-        dbSPE.tutor_industrial.respuesta_pregunta_secreta,
-        dbSPE.tutor_industrial.profesion,
-        dbSPE.tutor_industrial.cargo,
-        dbSPE.tutor_industrial.departamento,
-        dbSPE.tutor_industrial.direccion,
-        dbSPE.tutor_industrial.id_pais,
-        dbSPE.tutor_industrial.id_estado,
-        dbSPE.tutor_industrial.id_universidad,
-        dbSPE.tutor_industrial.telefono
+        db.Tutor_Industrial.pregunta_secreta,
+        db.Tutor_Industrial.respuesta_pregunta_secreta,
+        db.Tutor_Industrial.profesion,
+        db.Tutor_Industrial.cargo,
+        db.Tutor_Industrial.departamento,
+        db.Tutor_Industrial.direccion,
+        db.Tutor_Industrial.id_pais,
+        db.Tutor_Industrial.id_estado,
+        db.Tutor_Industrial.id_universidad,
+        db.Tutor_Industrial.telefono
     ]
 
 
@@ -138,17 +137,17 @@ def registrar_tutor_industrial():
     submit_button='Submit',
     separator=': ',
     buttons=['submit'],
-    col3 = {'email':T('Identificación de acceso unica asignada a la empresa'),
-            'nombre':T('Nombre comercial de la empresa'),
-            'apellido':T('Nombre comercial de la empresa'),
-            'ci':T('Nombre comercial de la empresa'),
+    col3 = {'email':T('Identificación de acceso unica asignada a la Empresa'),
+            'nombre':T('Nombre comercial de la Empresa'),
+            'apellido':T('Nombre comercial de la Empresa'),
+            'ci':T('Nombre comercial de la Empresa'),
             'password':T('Contraseña para acceder al sistema'),
             'comfirm_Password':T('Repita su contraseña'),
             'pregunta_secreta':T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
             'respuesta_pregunta_secreta':T('Respuesta a su pregunta secreta'),
             'profesion':T('Profesion del tutor industrial'),
-            'cargo':T('Cargo que ocupa en la empresa'),
-            'departamento':T('Departamento de la empresa en la que trabaja'),
+            'cargo':T('Cargo que ocupa en la Empresa'),
+            'departamento':T('Departamento de la Empresa en la que trabaja'),
             'direccion':T('Direccion del tutor industrial'),
             'id_pais':T('Pais en el que se encuentra domiciliado el tutor industrial'),
             'id_estado':T('Estado en el que se encuentra domiciliado el tutor industrial'),
@@ -157,11 +156,11 @@ def registrar_tutor_industrial():
            })
     # Caso 1: El form se lleno de manera correcta asi que registramos al tutor y procedemos a la pagina de exito
     if form.process().accepted:
-        # Buscamos el id de la empresa
-        empresaRegistradoraSet = dbSPE(dbSPE.empresa.log == auth.user.username).select()
-        empresaRegistradora = empresaRegistradoraSet[0]
-        # Registramos la empresa
-        dbSPE.tutor_industrial.insert(
+        # Buscamos el id de la Empresa
+        EmpresaRegistradoraSet = db(db.Empresa.log == auth.user.username).select()
+        EmpresaRegistradora = EmpresaRegistradoraSet[0]
+        # Registramos la Empresa
+        db.Tutor_Industrial.insert(
             email = request.vars.email,
             nombre = request.vars.nombre,
             apellido = request.vars.apellido,
@@ -169,7 +168,7 @@ def registrar_tutor_industrial():
             password = request.vars.password,
             pregunta_secreta = request.vars.pregunta_secreta,
             respuesta_pregunta_secreta = request.vars.respuesta_pregunta_secreta,
-            id_empresa = empresaRegistradora.id,
+            id_Empresa = EmpresaRegistradora.id,
             profesion = request.vars.profesion,
             cargo = request.vars.cargo,
             departamento = request.vars.departamento,
@@ -186,30 +185,30 @@ def registrar_tutor_industrial():
             username   = request.vars.email,
             password   = db.auth_user.password.validate(request.vars.password)[0],
             email      = request.vars.email,
-            user_Type  = 'tutor_industrial'
+            user_Type  = 'Tutor_Industrial'
         )
 
         generar_Correo_Verificacion(request.vars.email)
 
-        paisSet = dbSPE(dbSPE.pais.id == request.vars.id_pais).select()
+        paisSet = db(db.pais.id == request.vars.id_pais).select()
         pais = paisSet[0].nombre
 
-        estadoSet = dbSPE(dbSPE.estado.id == request.vars.id_estado).select()
+        estadoSet = db(db.estado.id == request.vars.id_estado).select()
         estado = estadoSet[0].nombre
 
-        universidadSet = dbSPE(dbSPE.universidad.id == request.vars.id_universidad).select()
+        universidadSet = db(db.universidad.id == request.vars.id_universidad).select()
         universidad = universidadSet[0].nombre
 
         # Mensaje de exito
         response.flash = T("Registro Exitoso")
         # Nos dirigimos a la pagina de exito
-        return response.render('empresa/registrarTutorIndustrial/registro_tutor_industrial_exitoso.html',message=T("Registrar Tutor Industrial"),
+        return response.render('Empresa/registrarTutorIndustrial/registro_Tutor_Industrial_exitoso.html',message=T("Registrar Tutor Industrial"),
                                result=T("El registro de su tutor ha sido exitoso!"),
                                email = request.vars.email,
                                nombre = request.vars.nombre,
                                apellido = request.vars.apellido,
                                ci = request.vars.ci,
-                               empresa = empresaRegistradora.nombre, # Cableado mientras se resuelven problemas
+                               Empresa = EmpresaRegistradora.nombre, # Cableado mientras se resuelven problemas
                                profesion = request.vars.profesion,
                                cargo = request.vars.cargo,
                                departamento = request.vars.departamento,
@@ -220,5 +219,5 @@ def registrar_tutor_industrial():
                                telefono = request.vars.telefono)
     # Caso 2: El form no se lleno de manera correcta asi que recargamos la pagina
     else:
-        return response.render('empresa/registrarTutorIndustrial/registrar_tutor_industrial.html',message=T("Registrar Tutor Industrial"),form=form)
+        return response.render('Empresa/registrarTutorIndustrial/registrar_Tutor_Industrial.html',message=T("Registrar Tutor Industrial"),form=form)
 

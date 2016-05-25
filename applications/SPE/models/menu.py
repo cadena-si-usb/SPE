@@ -14,7 +14,7 @@ response.subtitle = ''
 ## read more at http://dev.w3.org/html5/markup/meta.name.html
 response.meta.author = 'Universidad Simón Bolívar'
 response.meta.description = 'Sistema de Pasantías Empresariales'
-response.meta.keywords = 'pasantías, USB, empresa'
+response.meta.keywords = 'pasantías, USB, Empresa'
 response.meta.generator = 'Web2py Web Framework'
 
 ## your http://google.com/analytics id
@@ -55,8 +55,8 @@ def _():
 
     # Entradas del menu si el usuario esta autenticado
     if auth.is_logged_in():
-        # Caso 1: El usuario es una empresa
-        if auth.user.user_Type == 'empresa':
+        # Caso 1: El usuario es una Empresa
+        if auth.user.user_Type == 'Empresa':
 
             response.menu += [
                 ('Solicitudes de pasantes',False,"#",[
@@ -64,17 +64,17 @@ def _():
                     ]),
                 ('Tutores Industriales',False,"#",[
                     ('Sus tutores industriales', False, "#"),
-                    ('Registrar tutor industrial', False, URL(c='empresa', f='registrar_tutor_industrial')),
+                    ('Registrar tutor industrial', False, URL(c='Empresa', f='registrar_Tutor_Industrial')),
                     ]),
                 ('Reportes', False, "#")
             ]
         # Caso 2: El usuario es un tutor industrial
-        elif auth.user.user_Type == 'tutor_industrial':
+        elif auth.user.user_Type == 'Tutor_Industrial':
             response.menu += [
                 ('Tutor Industrial',False,"#",[
                     ('¿Qué es un tutor industrial?',False,"#"),
                     ('Consultar Pasantias',False,"#"),
-                    ('Justificar Retiro Pasante',False,URL('tutor_industrial','justificar_retiro_empresa'))
+                    ('Justificar Retiro Pasante',False,URL('Tutor_Industrial','justificar_retiro_Empresa'))
                     ])
             ]
     # Entradas del menu si el usuario NO esta autenticado
@@ -82,14 +82,14 @@ def _():
 
         response.menu += [
             ('Empresa',False,"#",[
-                ('¿Qué puede obtener tu empresa?',False,"#"),
-                ('Registrarse',False,URL(c='empresa', f='registrar_empresa'))])
+                ('¿Qué puede obtener tu Empresa?',False,"#"),
+                ('Registrarse',False,URL(c='Empresa', f='registrar_Empresa'))])
         ]
 
         response.menu += [
             ('Tutor Industrial',False,"#",[
                 ('¿Qué es un tutor industrial?',False,"#"),
-                ('Registrarse',False,URL(c='tutor_industrial', f='solicitar_registro_tutor'))
+                ('Registrarse',False,URL(c='Tutor_Industrial', f='solicitar_registro_tutor'))
                 ])
         ]
 

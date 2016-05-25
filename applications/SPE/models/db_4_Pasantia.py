@@ -9,7 +9,7 @@ db.define_table('Pasantia',
           label='Estudiante'),
     Field('tutor_academico', 'reference Profesor',
           label='Tutor Academico'),
-    Field('tutor_industrial', 'reference Tutor_Industrial',
+    Field('Tutor_Industrial', 'reference Tutor_Industrial',
           label='Tutor Industrial'),
     Field('periodo',##referencia a tabla Periodo
            label ='Periodo'),
