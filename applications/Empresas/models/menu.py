@@ -65,7 +65,7 @@ def _():
                     ]),
                 ('Tutores Industriales',False,"#",[
                     ('Sus tutores industriales', False, "#"),
-                    ('Registrar tutor industrial', False, URL(c='Empresa', f='registrar_tutor_industrial')),
+                    ('Registrar tutor industrial', False, URL(c='Empresa', f='registrar_Tutor_Industrial')),
                     ]),
                 ('Reportes', False, "#")
             ]

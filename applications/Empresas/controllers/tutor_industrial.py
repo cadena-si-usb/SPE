@@ -35,24 +35,25 @@ def solicitar_registro_tutor():
     submit_button='Submit',
     separator=': ',
     buttons=['submit'],
-    col3 = {'correo':T('Identificación de acceso unica asignada a la Empresa'),
-            'nombre':T('Nombre comercial de la Empresa'),
-            'apellido':T('Nombre comercial de la Empresa'),
-            'tipo_documento': T('Tipo De Documento'),
-            'numero_documento':T('Numero De Documento'),
-            'clave':T('Contraseña para acceder al sistema'),
-            'comfirm_Password':T('Repita su contraseña'),
-            'pregunta_secreta':T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
-            'respuesta_secreta':T('Respuesta a su pregunta secreta'),
-            'Empresa':T('Empresa en la que trabaja'),
-            'profesion':T('Profesion del tutor industrial'),
-            'cargo':T('Cargo que ocupa en la Empresa'),
-            'departamento':T('Departamento de la Empresa en la que trabaja'),
-            'direccion':T('Direccion del tutor industrial'),
-            'pais':T('Pais en el que se encuentra domiciliado el tutor industrial'),
-            'estado':T('Estado en el que se encuentra domiciliado el tutor industrial'),
-            'universidad':T('Universidad de la cual egreso el tutor'),
-            'telefono':T('Numerico telefonico del tutor industrial')
+    col3 = {
+        'correo':T('Identificación de acceso unica asignada a la Empresa'),
+        'nombre':T('Nombre comercial de la Empresa'),
+        'apellido':T('Nombre comercial de la Empresa'),
+        'tipo_documento': T('Tipo De Documento'),
+        'numero_documento':T('Numero De Documento'),
+        'clave':T('Contraseña para acceder al sistema'),
+        'comfirm_Password':T('Repita su contraseña'),
+        'pregunta_secreta':T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
+        'respuesta_secreta':T('Respuesta a su pregunta secreta'),
+        'Empresa':T('Empresa en la que trabaja'),
+        'profesion':T('Profesion del tutor industrial'),
+        'cargo':T('Cargo que ocupa en la Empresa'),
+        'departamento':T('Departamento de la Empresa en la que trabaja'),
+        'direccion':T('Direccion del tutor industrial'),
+        'pais':T('Pais en el que se encuentra domiciliado el tutor industrial'),
+        'estado':T('Estado en el que se encuentra domiciliado el tutor industrial'),
+        'universidad':T('Universidad de la cual egreso el tutor'),
+        'telefono':T('Numerico telefonico del tutor industrial')
            })
     # Caso 1: El form se lleno de manera correcta asi que registramos al tutor y procedemos a la pagina de exito
     if form.process().accepted:
@@ -132,7 +133,6 @@ def solicitar_registro_tutor():
     else:
         return response.render('Tutor_Industrial/registrarTutorIndustrial/registrar_Tutor_Industrial.html',message=T("Registrarse como Tutor Industrial"),form=form)
 
-# -*- coding: utf-8 -*-
 
 def justificar_retiro_Empresa():
     # Argumentos son: codigo, año, periodo(nombre)
