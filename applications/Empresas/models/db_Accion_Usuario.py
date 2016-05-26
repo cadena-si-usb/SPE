@@ -11,7 +11,7 @@
 db.define_table('Accion_Usuario',
     Field('nombre'),
     Field('destino'),
-    Field('rol')
+    Field('rol','reference Rol')
    )
 
 #------------------------------------------------------------------------------#
