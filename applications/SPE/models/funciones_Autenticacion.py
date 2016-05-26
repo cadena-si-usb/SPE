@@ -1,17 +1,17 @@
 # Funciones disponibles en todo el codigo.
 
-def es_Empresa(correo):
-    empresa = db(db.Empresa,db.Empresa.usuario == db.UsuarioExterno.id)(db.UsuarioExterno.correo == correo).select()
+def es_Estudiante(usbid):
+    estudiante = db(db.Estudiante,db.Estudiante.usuario == db.UsuarioUSB.id)(db.UsuarioUSB.usbid == usbid).select()
 
-    if (empresa):
-        return empresa
+    if (estudiante):
+        return estudiante
     else:
         return None
 
-def es_Tutor_Industrial(correo):
-    tutor_Industrial = db(db.Tutor_Industrial,db.Tutor_Industrial.usuario == db.UsuarioExterno.id)(db.UsuarioExterno.correo == correo).select()
+def es_Profesor(usbid):
+    profesor = db(db.Profesor,db.Profesor.usuario == db.UsuarioUSB.id)(db.UsuarioUSB.usbid == usbid).select()
 
-    if (tutor_Industrial):
-        return tutor_Industrial
+    if (profesor):
+        return profesor
     else:
         return None
