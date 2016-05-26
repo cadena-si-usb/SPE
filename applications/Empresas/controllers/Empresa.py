@@ -2,11 +2,11 @@
 
 # Proceso de registro de Empresa por medio de la opcion Empresa -> Registrarse, en el Index
 def registrar_Empresa():
-    # Agregamos los campos en el orden deseado, comenzamos con el login y el password
+    # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
     fields = [db.UsuarioExterno.correo,db.UsuarioExterno.clave]
     # Agregamos un campo extra de comfirm password el cual debera tener el mismo valor que el password para ser aceptado
     fields += [Field('comfirm_Password','password', label=T('Comfirm Password'),
-                     requires = [IS_EXPR('value==%s' % repr(request.vars.password),error_message=T('Las contraseñas no coinciden'))])]
+                     requires = [IS_EXPR('value==%s' % repr(request.vars.clave),error_message=T('Las contraseñas no coinciden'))])]
     # Agregamos el resto de los campos
     fields += [
         db.UsuarioExterno.pregunta_secreta,
@@ -28,7 +28,7 @@ def registrar_Empresa():
     submit_button='Submit',
     separator=': ',
     buttons=['submit'],
-    col3 = {'log':T('Identificación de acceso unica asignada a la Empresa'),
+    col3 = {'correo':T('Identificación de acceso unica asignada a la Empresa'),
             'clave':T('Contraseña para acceder al sistema'),
             'comfirm_Password':T('Repita su contraseña'),
             'pregunta_secreta':T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
@@ -38,7 +38,7 @@ def registrar_Empresa():
             'estado':T('Estado del pais en el que se encuentra'),
             'area_laboral':T('Area Laboral de la Empresa'),
             'direccion':T('Direccion de las instalaciones de la Empresa'),
-            'pag_web':T('Pagina Web de la Empresa'),
+            'direccion_web':T('Pagina Web de la Empresa'),
             'descripcion':T('Descripcion breve de la Empresa, su vision y sus funciones'),
             'telefono':T('Numero telefonico de contacto de la Empresa'),
             'contacto_RRHH':T('Correo de contacto del departamento de recursos humanos de la Empresa')}
@@ -46,39 +46,48 @@ def registrar_Empresa():
 
     # Caso 1: El form se lleno de manera correcta asi que registramos la Empresa y procedemos a la pagina de exito
     if form.process().accepted:
-        # Registramos la Empresa
-        db.Empresa.insert(log = request.vars.log,
-                            clave = request.vars.password,
-                             pregunta_secreta = request.vars.pregunta_secreta,
-                             respuesta_pregunta_secreta = request.vars.respuesta_secreta,
-                             nombre = request.vars.nombre,
-                             pais = request.vars.pais,
-                             estado = request.vars.estado,
-                             area_laboral = request.vars.area_laboral,
-                             direccion = request.vars.direccion,
-                             pag_web = request.vars.pag_web,
-                             descripcion = request.vars.descripcion,
-                             telefono = request.vars.telefono,
-                             contacto_RRHH = request.vars.contacto_RRHH)
 
-        #Insertamos en la tabla User de Web2py, para el login
+        # Registramos el usuario externo
+        db.UsuarioExterno.insert(
+            correo=request.vars.correo,
+            clave=request.vars.clave,
+            pregunta_secreta=request.vars.pregunta_secreta,
+            respuesta_secreta=request.vars.respuesta_secreta,
+            nombre=request.vars.nombre,
+            pais=request.vars.pais,
+            estado=request.vars.estado,
+            telefono=request.vars.telefono,
+            direccion=request.vars.direccion,
+        )
+
+        usuarioExternoSet = db(db.UsuarioExterno.correo == request.vars.correo).select()
+        usuarioExterno = usuarioExternoSet[0]
+
+        # Registramos la Empresa
+        db.Empresa.insert(
+            usuario = usuarioExterno.id,
+            area_laboral = request.vars.area_laboral,
+            direccion_web = request.vars.direccion_web,
+            descripcion = request.vars.descripcion,
+            contacto_RRHH = request.vars.contacto_RRHH
+        )
+
+        #Insertamos en la tabla User de Web2py, para el correoin
 
         auth.get_or_create_user({
-            "username":request.vars.log,
             "first_name":request.vars.nombre,
             "password":db.auth_user.password.validate(request.vars.password)[0],
-            "email":request.vars.contacto_RRHH,
-            "user_Type":'Empresa'})
+            "email":request.vars.correo})
 
-        generar_Correo_Verificacion(request.vars.log)
+        generar_Correo_Verificacion(request.vars.correo)
 
-        paisSet = db(db.pais.id == request.vars.pais).select()
+        paisSet = db(db.Pais.id == request.vars.pais).select()
         pais = paisSet[0].nombre
 
-        estadoSet = db(db.estado.id == request.vars.estado).select()
+        estadoSet = db(db.Estado.id == request.vars.estado).select()
         estado = estadoSet[0].nombre
 
-        arealaboralSet = db(db.area_laboral.id == request.vars.area_laboral).select()
+        arealaboralSet = db(db.Area_Laboral.id == request.vars.area_laboral).select()
         area_laboral = arealaboralSet[0].nombre
 
         # Mensaje de exito
@@ -86,25 +95,25 @@ def registrar_Empresa():
         # Nos dirigimos a la pagina de exito
         return response.render('Empresa/registrarEmpresa/registro_Empresa_exitoso.html',message=T("Registrar Empresa"),
                                result=T("El registro de su Empresa ha sido exitoso!"),
-                               log=request.vars.log,
+                               correo=request.vars.correo,
                                nombre=request.vars.nombre,
                                direccion=request.vars.direccion,
                                pais = pais,
                                estado = estado,
                                area_laboral = area_laboral,
-                               pag_web=request.vars.pag_web,
+                               direccion_web=request.vars.direccion_web,
                                descripcion=request.vars.descripcion,
                                telefono=request.vars.telefono,
                                contacto_RRHH=request.vars.contacto_RRHH,
                                pregunta_secreta=request.vars.pregunta_secreta,
-                               respuesta_pregunta_secreta=request.vars.respuesta_secreta)
+                               respuesta_secreta=request.vars.respuesta_secreta)
     # Caso 2: El form no se lleno de manera correcta asi que recargamos la pagina
     else:
         return response.render('Empresa/registrarEmpresa/registrar_Empresa.html',message=T("Registrar Empresa"),form=form)
 
 def registrar_Tutor_Industrial():
-    db.Tutor_Industrial.email.requires += [IS_NOT_IN_DB(db, 'Empresa.log',error_message=T('Correo No Disponible'))]
-    # Agregamos los campos en el orden deseado, comenzamos con el login y el password
+    db.Tutor_Industrial.email.requires += [IS_NOT_IN_DB(db, 'Empresa.correo',error_message=T('Correo No Disponible'))]
+    # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
     fields =[
        db.Tutor_Industrial.email,
         db.Tutor_Industrial.nombre,
@@ -144,7 +153,7 @@ def registrar_Tutor_Industrial():
             'password':T('Contraseña para acceder al sistema'),
             'comfirm_Password':T('Repita su contraseña'),
             'pregunta_secreta':T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
-            'respuesta_pregunta_secreta':T('Respuesta a su pregunta secreta'),
+            'respuesta_secreta':T('Respuesta a su pregunta secreta'),
             'profesion':T('Profesion del tutor industrial'),
             'cargo':T('Cargo que ocupa en la Empresa'),
             'departamento':T('Departamento de la Empresa en la que trabaja'),
@@ -157,7 +166,7 @@ def registrar_Tutor_Industrial():
     # Caso 1: El form se lleno de manera correcta asi que registramos al tutor y procedemos a la pagina de exito
     if form.process().accepted:
         # Buscamos el id de la Empresa
-        EmpresaRegistradoraSet = db(db.Empresa.log == auth.user.username).select()
+        EmpresaRegistradoraSet = db(db.Empresa.correo == auth.user.username).select()
         EmpresaRegistradora = EmpresaRegistradoraSet[0]
         # Registramos la Empresa
         db.Tutor_Industrial.insert(
@@ -167,7 +176,7 @@ def registrar_Tutor_Industrial():
             ci = request.vars.ci,
             password = request.vars.password,
             pregunta_secreta = request.vars.pregunta_secreta,
-            respuesta_pregunta_secreta = request.vars.respuesta_pregunta_secreta,
+            respuesta_secreta = request.vars.respuesta_secreta,
             Empresa = EmpresaRegistradora.id,
             profesion = request.vars.profesion,
             cargo = request.vars.cargo,

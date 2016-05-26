@@ -53,7 +53,7 @@ def login():
             # Si no lo encontramos entonces verificamos si es un usuario creado por
             # el catalogo de coordinador
 
-            # Se busca si es una empresa creada con el panel del coordinador
+            # Se busca si es una Empresa creada con el panel del coordinador
             # Primero buscamos en las empresas
             usuarioBuscadoSet = db(db.UsuarioExterno.correo == request.vars.login).select()
             if usuarioBuscadoSet:

@@ -1,5 +1,5 @@
 db.define_table('Empresa',
-    Field('correo', 'reference UsuarioExterno',
+    Field('usuario', 'reference UsuarioExterno',
           requires=[IS_NOT_EMPTY(error_message='Es necesario un email.'),IS_EMAIL
                                (error_message='Introduzca un email valido.') ],
           label='Email(*)'),
@@ -20,3 +20,4 @@ db.define_table('Empresa',
 
 )
 
+db.Empresa.area_laboral.requires=IS_IN_DB(db,db.Area_Laboral.id,'%(nombre)s')

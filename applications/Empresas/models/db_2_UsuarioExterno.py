@@ -6,7 +6,7 @@ db.define_table('UsuarioExterno',
                 Field('correo',
                        requires=[IS_EMPTY_OR(IS_EMAIL
                                             (error_message='Introduzca un email valido.'))],
-                       label= 'Correo'),
+                       label='Correo'),
                 Field('clave', 'password',
                        requires=[IS_NOT_EMPTY
                                     (error_message='Es,necesario una contraseña.'),
@@ -33,3 +33,6 @@ db.define_table('UsuarioExterno',
                                     (error_message='Direccion necesaria')],
                        label='Direccion')
 )
+
+db.UsuarioExterno.pais.requires=IS_IN_DB(db,db.Pais.id,'%(nombre)s')
+db.UsuarioExterno.estado.requires=IS_IN_DB(db,db.Estado.id,'%(nombre)s')
