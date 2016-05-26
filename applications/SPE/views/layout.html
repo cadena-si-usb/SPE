@@ -91,15 +91,17 @@
 
     <!-- Main ========================================= -->
     <!-- Begin page content -->
+
     <div id="main" class="container-fluid main-container">
-      {{if left_sidebar_enabled:}}
+      
         <div class="col-md-3 left-sidebar">
             {{block left_sidebar}}
             <h3>Left Sidebar</h3>
+            {{include 'sidebar/sidebar.html'}}
             <p></p>
             {{end}}
         </div>
-      {{pass}}
+      
 
       <div class="{{=middle_column}}">
         {{block center}}
