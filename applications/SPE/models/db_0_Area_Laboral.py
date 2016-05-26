@@ -1,6 +1,6 @@
 db.define_table('Area_Laboral',
                 Field('nombre', 'string', required=True, ondelete='CASCADE',
-                      notnull=True, unique=True, label='Area Laboral'),
+                      notnull=True, label='Area Laboral'),
                 Field('descripcion', 'text', required=True, notnull=True, label=T('Descripcion del Area Laboral')),
                 format='%(nombre)s')
 
