@@ -8,4 +8,4 @@ import Encoder
 class Usuario(Model):
     #Building database object
     def __init__(self):
-    	super(Usuario,self).__init__(tableName="Usuario")
+    	super(Usuario,self).__init__(tableName="UsuarioUSB")

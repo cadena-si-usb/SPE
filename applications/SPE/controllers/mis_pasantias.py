@@ -34,6 +34,7 @@ def get():
     obj = Encoder.to_dict(request.vars)
 
     rows = Pasantia.JMaterias(obj)
+    print (rows)
 
     rows = rows.as_json()
 
