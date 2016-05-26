@@ -80,48 +80,31 @@ def generar_Correo_Verificacion(correo):
                 codigoGenerado += random.choice(string.lowercase +
                     string.uppercase + string.digits)
 
-    dbSPE.correo_por_verificar.insert(correo=correo, codigo=codigoGenerado)
+    db.correo_por_verificar.insert(correo=correo, codigo=codigoGenerado)
 
     enviar_Correo_Verificacion(correo, codigoGenerado)
 
 
 def reenviar_Correo_Verificacion(correo):
 
-    correoVerificarSet = dbSPE(dbSPE.correo_por_verificar.correo ==
+    correoVerificarSet = db(db.correo_por_verificar.correo ==
         request.vars.correo).select()
 
     codigoGenerado = correoVerificarSet[0].codigo
 
     enviar_Correo_Verificacion(correo, codigoGenerado)
 
-
-def esProfesor(usbid):
-    usuarioAuthSet = (
-        dbSPE(dbSPE.usuario_profesor.usbid_usuario == usbid).select())
-    if not usuarioAuthSet:
-        return False
-    return True
-
-
-def esEstudiante(usbid):
-    usuarioAuthSet = (
-        dbSPE(dbSPE.usuario_estudiante.usbid_usuario == usbid).select())
-    if not usuarioAuthSet:
-        return False
-    return True
-
-
 def obtener_correo(usbid):
-    usuario = dbSPE(dbSPE.usuario.usbid == usbid).select()[0]
+    usuario = db(db.usuario.usbid == usbid).select()[0]
     if usuario.tipo == "Docente":
         # Buscamos el email del profesor
-        datosUsuario = dbSPE(dbSPE.usuario_profesor.usbid_usuario ==
+        datosUsuario = db(db.usuario_profesor.usbid_usuario ==
             usbid).select()[0]
     elif usuario.tipo == "Administrativo":
         pass
     elif usuario.tipo in ["Pregrado", "Postgrado"]:
         # Buscamos el email del estudiante
-        datosUsuario = dbSPE(dbSPE.usuario_estudiante.usbid_usuario ==
+        datosUsuario = db(db.usuario_estudiante.usbid_usuario ==
             usbid).select()[0]
     elif usuario.tipo in ["Empleado", "Organizacion", "Egresado"]:
         pass

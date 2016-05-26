@@ -192,8 +192,8 @@ def verifyEmail():
             response.flash = T("Codigo incorrecto")
         else:
             db(db.correo_por_verificar.correo == correo_usuario).delete()
-            usuarioUSB = db(db.usuario.usbid==request.vars.usbid).select()[0]
-            auth.login_bare(request.vars.usbid,usuarioUSB.llave)
+            usuarioUSB = db(db.UsuarioUSB.usbid==request.vars.usbid).select()[0]
+            auth.login_bare(request.vars.usbid,usuarioUSB.clave)
             redirect(URL(c='default',f='index'))
 
     return response.render('default/codigoVerificacion.html',
