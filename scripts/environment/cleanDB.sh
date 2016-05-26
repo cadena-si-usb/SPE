@@ -1,9 +1,13 @@
 #!/bin/bash
-echo "Seleccione en cual aplicacion desea realizar la limpieza de base de datos"
-echo "1) SPE"
-echo "2) Empresas"
-echo "(1/2): "
-read ans
+if [ -z $1 ]; then
+	echo "Seleccione en cual aplicacion desea realizar la limpieza de base de datos"
+	echo "   1) SPE"
+	echo "   2) Empresas"
+	printf "(1/2): "
+	read ans
+else
+	ans=$1
+fi
 
 if [ $ans -eq "1" ]; then
 	dbName=SPE
@@ -19,6 +23,7 @@ dbPasswd=spe2016
 scriptDir=$(dirname -- "$(readlink -e -- "$BASH_SOURCE")")
 cd "$scriptDir" && rm ../../applications/$dbName/databases/*
 
+dbName=SPE
 mysql -uroot -proot <<MYSQL_SCRIPT
 DROP DATABASE $dbName;
 CREATE DATABASE $dbName;
