@@ -4,7 +4,7 @@
 def solicitar_registro_tutor():
     # Agregamos los campos en el orden deseado, comenzamos con el login y el password
     fields =[
-       db.Tutor_Industrial.correo,
+        db.UsuarioExterno.correo,
         db.UsuarioExterno.nombre,
         db.Tutor_Industrial.apellido,
         db.Tutor_Industrial.tipo_documento,
@@ -13,7 +13,7 @@ def solicitar_registro_tutor():
     ]
     # Agregamos un campo extra de comfirm password el cual debera tener el mismo valor que el password para ser aceptado
     fields += [Field('comfirm_Password','password', label=T('Comfirm Password'),
-                     requires = [IS_EXPR('value==%s' % repr(request.vars.password),error_message=T('Las contraseñas no coinciden'))])]
+                     requires = [IS_EXPR('value==%s' % repr(request.vars.clave),error_message=T('Las contraseñas no coinciden'))])]
     # Agregamos el resto de los campos
     fields +=[
         db.Tutor_Industrial.Empresa,
@@ -35,15 +35,15 @@ def solicitar_registro_tutor():
     submit_button='Submit',
     separator=': ',
     buttons=['submit'],
-    col3 = {'email':T('Identificación de acceso unica asignada a la Empresa'),
+    col3 = {'correo':T('Identificación de acceso unica asignada a la Empresa'),
             'nombre':T('Nombre comercial de la Empresa'),
             'apellido':T('Nombre comercial de la Empresa'),
             'tipo_documento': T('Tipo De Documento'),
             'numero_documento':T('Numero De Documento'),
-            'password':T('Contraseña para acceder al sistema'),
+            'clave':T('Contraseña para acceder al sistema'),
             'comfirm_Password':T('Repita su contraseña'),
             'pregunta_secreta':T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
-            'respuesta_pregunta_secreta':T('Respuesta a su pregunta secreta'),
+            'respuesta_secreta':T('Respuesta a su pregunta secreta'),
             'Empresa':T('Empresa en la que trabaja'),
             'profesion':T('Profesion del tutor industrial'),
             'cargo':T('Cargo que ocupa en la Empresa'),
@@ -97,7 +97,7 @@ def solicitar_registro_tutor():
 
         generar_Correo_Verificacion(request.vars.correo)
 
-        EmpresaSet = db(db.Empresa.id == request.vars.Empresa).select()
+        EmpresaSet = db(db.UsuarioExterno.id == request.vars.Empresa).select()
         Empresa = EmpresaSet[0].nombre
 
         paisSet = db(db.Pais.id == request.vars.pais).select()
@@ -114,7 +114,7 @@ def solicitar_registro_tutor():
         # Nos dirigimos a la pagina de exito
         return response.render('Tutor_Industrial/registrarTutorIndustrial/registro_Tutor_Industrial_exitoso.html',message=T("Registrarse como Tutor Industrial"),
                                result=T("El registro de su tutor ha sido exitoso!"),
-                               email = request.vars.correo,
+                               correo = request.vars.correo,
                                nombre = request.vars.nombre,
                                apellido = request.vars.apellido,
                                tipo_documento=request.vars.tipo_documento,

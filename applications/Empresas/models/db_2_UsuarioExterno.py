@@ -31,7 +31,8 @@ db.define_table('UsuarioExterno',
                 Field('direccion','text',
                        requires=[IS_NOT_EMPTY
                                     (error_message='Direccion necesaria')],
-                       label='Direccion')
+                       label='Direccion'),
+                format='%(nombre)s - %(correo)s'
 )
 
 db.UsuarioExterno.pais.requires=IS_IN_DB(db,db.Pais.id,'%(nombre)s')
