@@ -89,29 +89,6 @@ def login_cas():
         primeravez = db(tablaUsuario.usbid==usbid)
 
         if primeravez.isempty():
-            #Si es primera vez que ingresa al sistema
-            clave   = random_key()         #Se genera una clave automatica
-
-            #Ingresamos al usuario en la tabla de Autenticacion
-            # de la base de datos de Web2Py
-            result = db.auth_user.insert(
-                first_name = usuario.get('first_name'),
-                last_name  = usuario.get('last_name'),
-                username   = usbid,
-                password   = db.auth_user.password.validate(clave)[0],
-                email      = usuario.get('email'),
-                user_Type  = usuario.get('tipo')
-            )
-
-            #Ingresamos a la base de datos de Usuario
-            resutl = tablaUsuario.insert(
-                usbid    = usbid,
-                nombre   = usuario.get('first_name'),
-                apellido = usuario.get('last_name'),
-                ci       = usuario.get('cedula'),
-                tipo     = usuario.get('tipo'),
-                llave    = clave
-            )
 
             # auth.login_bare(usbid,clave)
             redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))
@@ -215,8 +192,8 @@ def verifyEmail():
             response.flash = T("Codigo incorrecto")
         else:
             db(db.correo_por_verificar.correo == correo_usuario).delete()
-            usuarioUSB = db(db.usuario.usbid==request.vars.usbid).select()[0]
-            auth.login_bare(request.vars.usbid,usuarioUSB.llave)
+            usuarioUSB = db(db.UsuarioUSB.usbid==request.vars.usbid).select()[0]
+            auth.login_bare(request.vars.usbid,usuarioUSB.clave)
             redirect(URL(c='default',f='index'))
 
     return response.render('default/codigoVerificacion.html',

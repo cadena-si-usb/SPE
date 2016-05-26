@@ -37,31 +37,31 @@ def user():
 
 def login():
     formulario_login = SQLFORM.factory(
-        Field('login', label=T('Usuario o Correo Electronico'), required=True,
+        Field('correo', label=T('Usuario o Correo Electronico'), required=True,
                 requires=[IS_MATCH('^[a-zA-Z0-9.@_\\-]',error_message=T('Usuario o correo invalido.'))]),
-        Field('password', 'password',required=True,label=T('Contraseña')),
+        Field('clave', 'password',required=True,label=T('Contraseña')),
         captcha_field(),
         formstyle='bootstrap3_stacked'
        )
 
     if formulario_login.process(onvalidation=validar_credenciales).accepted:
         # Buscamos el usuario de web2py
-        usuarioAuthSet = db(db.auth_user.email == request.vars.login).select()
+        usuarioAuthSet = db(db.auth_user.email == request.vars.correo).select()
         usuarioBuscadoSet = None
         #
         if not usuarioAuthSet:
             # Si no lo encontramos entonces verificamos si es un usuario creado por
             # el catalogo de coordinador
 
-            # Se busca si es una empresa creada con el panel del coordinador
+            # Se busca si es una Empresa creada con el panel del coordinador
             # Primero buscamos en las empresas
-            usuarioBuscadoSet = db(db.UsuarioExterno.correo == request.vars.login).select()
+            usuarioBuscadoSet = db(db.UsuarioExterno.correo == request.vars.correo).select()
             if usuarioBuscadoSet:
                 usuarioBuscado = usuarioBuscadoSet[0]
                 #Insertamos en la tabla User de Web2py, para el login
                 auth.get_or_create_user({
                     "first_name":usuarioBuscado.nombre,
-                    "password":db.auth_user.password.validate(usuarioBuscado.password)[0],
+                    "clave":db.auth_user.clave.validate(usuarioBuscado.clave)[0],
                     "email":usuarioBuscado.correo})
                 generar_Correo_Verificacion(usuarioBuscado.correo)
             else:
@@ -69,11 +69,11 @@ def login():
         # Si se encontro el usuario por cualquiera de los dos casos, proseguimos con el proceso de inicio de sesion
         if usuarioAuthSet or usuarioBuscadoSet:
             # Buscamos el id de la Empresa
-            correoVerificarSet = db(db.correo_por_verificar.correo == request.vars.login).select()
+            correoVerificarSet = db(db.correo_por_verificar.correo == request.vars.correo).select()
             if correoVerificarSet:
-                redirect(URL(c='default', f='verifyEmail', vars=dict(correo=request.vars.login)))
+                redirect(URL(c='default', f='verifyEmail', vars=dict(correo=request.vars.correo)))
             else:
-                auth.login_bare(request.vars.login, request.vars.password)
+                auth.login_bare(request.vars.correo, request.vars.clave)
                 redirect(URL(c='default', f='home'))
                 response.flash = T("Inicio Exitoso")
 
@@ -98,11 +98,9 @@ def verifyEmail():
     form.add_button(T('Send Email Again'), URL(c='default',f='resendVerificationEmail'
         ,vars=dict(correo=request.vars.correo)))
 
-    contrasenaSet = db(db.Empresa.correo == request.vars.correo).select()
-    # Si no se encuentra en la tabla de Empresas, deben estar en la tabla de correo
-    if not (contrasenaSet):
-        contrasenaSet = db(db.Tutor_Industrial.email == request.vars.correo).select()
-    contrasena = contrasenaSet[0].password
+    usuarioSet = db(db.UsuarioExterno.correo == request.vars.correo).select()
+    usuario = usuarioSet[0]
+    contrasena = usuario.clave
 
     if form.process().accepted:
         # Buscamos el id de la Empresa
@@ -115,17 +113,17 @@ def verifyEmail():
             redirect(URL(c='default',f='home'))
     return response.render('default/codigoVerificacion.html',
         message=T("Verificacion de Correo"),resend= request.vars.resend,
-        form=form,vars=dict(correo=request.vars.login))
+        form=form,vars=dict(correo=request.vars.correo))
 
 
 def validar_credenciales(form):
     # Buscamos al usuario
-    login_Usuario  = db(db.UsuarioExterno.correo  == form.vars.login)
+    login_Usuario  = db(db.UsuarioExterno.correo  == form.vars.correo)
 
-    #Solo puedo encontrar alguno de los dos, verifico el password
+    #Solo puedo encontrar alguno de los dos, verifico el clave
     if not login_Usuario.isempty():
         datosUsuario = login_Usuario.select()[0]
-        if datosUsuario.password != form.vars.password:
+        if datosUsuario.clave != form.vars.clave:
             form.errors = "Usuario o contraseña invalida"
 
 def logout():

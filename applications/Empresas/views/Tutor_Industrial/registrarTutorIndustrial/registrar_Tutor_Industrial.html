@@ -22,8 +22,8 @@
                         </div>
                         <div id="personal" class="panel-collapse collapse in panel-body">
                             <i class="fa fa-at fa-pull-right"></i>
-                            <label for='no_table_email'>{{=form.custom.label.email}}</label>
-                            {{=form.custom.widget.email.update(_placeholder="ejemplo@ejemplo.com")}}
+                            <label for='no_table_email'>{{=form.custom.label.correo}}</label>
+                            {{=form.custom.widget.correo.update(_placeholder="ejemplo@ejemplo.com")}}
                             <br>
                             <i class="fa fa-user fa-pull-right"></i>
                             <label for='no_table_nombre'>{{=form.custom.label.nombre}}</label>
@@ -32,8 +32,11 @@
                             <label for='no_table_apellido'>{{=form.custom.label.apellido}}</label>
                             {{=form.custom.widget.apellido.update(_placeholder="Apellido del tutor industrial")}}
                             <br>
-                            <label for='no_table_ci'>{{=form.custom.label.ci}} o Pasaporte</label>
-                            {{=form.custom.widget.ci.update(_placeholder="Identificación del tutor industrial")}}
+                            <label for='no_table_tipo_documento'>{{=form.custom.label.tipo_documento}}</label>
+                            {{=form.custom.widget.tipo_documento.update(_placeholder="Identificación del tutor industrial")}}
+                            <br>
+                            <label for='no_table_numero_documento'>{{=form.custom.label.numero_documento}}</label>
+                            {{=form.custom.widget.numero_documento.update(_placeholder="Identificación del tutor industrial")}}
                             <br>
                             <i class="fa fa-phone fa-pull-right"></i>
                             <label for='no_table_telefono'>{{=form.custom.label.telefono}}</label>
@@ -58,8 +61,8 @@
                         </div>
                         <div id="password" class="panel-collapse collapse in panel-body">
                             <i class="fa fa-lock fa-pull-right"></i>
-                            <label for='no_table_password'>{{=form.custom.label.password}}</label>
-                            {{=form.custom.widget.password}}
+                            <label for='no_table_password'>{{=form.custom.label.clave}}</label>
+                            {{=form.custom.widget.clave}}
                             <br>
                             <label for='no_table_confirm_Password'>{{=form.custom.label.comfirm_Password}}</label>
                             {{=form.custom.widget.comfirm_Password}}
@@ -68,10 +71,10 @@
                             <label for='no_table_pregunta_secreta'>{{=form.custom.label.pregunta_secreta}}</label>
                             {{=form.custom.widget.pregunta_secreta.update(_placeholder="Ej: ¿Cuál es el nombre de tu mascota?")}}
                             <br>
-                            <label for='no_table_respuesta_pregunta_secreta'>
-                            {{=form.custom.label.respuesta_pregunta_secreta}}
+                            <label for='no_table_respuesta_secreta'>
+                            {{=form.custom.label.respuesta_secreta}}
                             </label>
-                            {{=form.custom.widget.respuesta_pregunta_secreta.update(_placeholder="Ej: Scooby")}}
+                            {{=form.custom.widget.respuesta_secreta.update(_placeholder="Ej: Scooby")}}
                             <br>
                         </div>
                     </div>
@@ -85,8 +88,8 @@
                             </h3>
                         </div>
                         <div id="profesional" class="panel-collapse collapse in panel-body">
-                            <label for='no_table_profesion'>{{=form.custom.label.id_empresa}}</label>
-                            {{=form.custom.widget.id_empresa.update(_placeholder="Ej: Empresas Polar C.A.")}}
+                            <label for='no_table_Empresa'>{{=form.custom.label.Empresa}}</label>
+                            {{=form.custom.widget.Empresa.update(_placeholder="Ej: Empresas Polar C.A.")}}
                             <br>
                             <label for='no_table_profesion'>{{=form.custom.label.profesion}}</label>
                             {{=form.custom.widget.profesion.update(_placeholder="Ej: Ing. Computación")}}
@@ -97,8 +100,8 @@
                             <label for='no_table_departamento'>{{=form.custom.label.departamento}}</label>
                             {{=form.custom.widget.departamento.update(_placeholder="Ej: Tecnología de la información")}}
                             <br>
-                            <label for='no_table_universidad'>{{=form.custom.label.id_universidad}}</label>
-                            {{=form.custom.widget.id_universidad.update(_placeholder="Universidad Simon Bolivar")}}
+                            <label for='no_table_universidad'>{{=form.custom.label.universidad}}</label>
+                            {{=form.custom.widget.universidad.update(_placeholder="Universidad Simon Bolivar")}}
                             <br>
                         </div>
                     </div>
@@ -119,12 +122,12 @@
                         </div>
                         <div id="location" class="panel-collapse collapse in panel-body">
                             <i class="fa fa-globe fa-pull-right"></i>
-                            <label for='no_table_id_pais'>{{=form.custom.label.id_pais}}</label>
-                            {{=form.custom.widget.id_pais}}
+                            <label for='no_table_pais'>{{=form.custom.label.pais}}</label>
+                            {{=form.custom.widget.pais}}
                             <br>
                             <i class="fa fa-map-o fa-pull-right"></i>
-                            <label for='no_table_id_estado'>{{=form.custom.label.id_estado}}</label>
-                            {{=form.custom.widget.id_estado}}
+                            <label for='no_table_estado'>{{=form.custom.label.estado}}</label>
+                            {{=form.custom.widget.estado}}
                             <br>
                             <i class="fa fa-map-marker fa-pull-right"></i>
                             <label for='no_table_direccion'>{{=form.custom.label.direccion}}</label>

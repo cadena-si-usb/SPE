@@ -18,10 +18,11 @@
                     </div>
                     <div class="panel-collapse collapse in" id="personal">
                         <div class="list-group">
-                            <p class="list-group-item">E-mail : {{=email}} </p>
+                            <p class="list-group-item">E-mail : {{=correo}} </p>
                             <p class="list-group-item">Nombre : {{=nombre}} </p>
                             <p class="list-group-item">Apellido : {{=apellido}} </p>
-                            <p class="list-group-item">Identificación (Cédula o pasaporte) : {{=ci}} </p>
+                            <p class="list-group-item">Tipo De Documento : {{=tipo_documento}} </p>
+                            <p class="list-group-item">Número : {{=numero_documento}} </p>
                             {{if 'telefono':}}
                                 <p class="list-group-item">Teléfono : {{=telefono}} </p>
                             {{pass}}
@@ -54,8 +55,8 @@
                     </div>
                     <div class="panel-collapse collapse in" id="profesional">
                         <div class="list-group">
-                            {{if empresa:}}
-                                <p class="list-group-item">Empresa : {{=empresa}} </p>
+                            {{if Empresa:}}
+                                <p class="list-group-item">Empresa : {{=Empresa}} </p>
                             {{pass}}
                             {{if profesion:}}
                                 <p class="list-group-item">Profesión : {{=profesion}} </p>
@@ -86,7 +87,7 @@
                     <div class="panel-collapse collapse in" id="location">
                         <div class="list-group">
                             {{if pais:}}
-                                <p class="list-group-item">Pais : {{=pais}} </p>
+                                <p class="list-group-item">País : {{=pais}} </p>
                             {{pass}}
                             {{if estado:}}
                                 <p class="list-group-item">Estado : {{=estado}} </p>
