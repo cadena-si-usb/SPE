@@ -76,7 +76,7 @@ def registrar_Empresa():
 
         auth.get_or_create_user({
             "first_name":request.vars.nombre,
-            "password":db.auth_user.password.validate(request.vars.password)[0],
+            "password":db.auth_user.password.validate(request.vars.clave)[0],
             "email":request.vars.correo})
 
         generar_Correo_Verificacion(request.vars.correo)
@@ -168,24 +168,35 @@ def registrar_Tutor_Industrial():
         # Buscamos el id de la Empresa
         EmpresaRegistradoraSet = db(db.Empresa.correo == auth.user.username).select()
         EmpresaRegistradora = EmpresaRegistradoraSet[0]
+
+        # Registramos el usuario externo
+        db.UsuarioExterno.insert(
+            correo=request.vars.correo,
+            clave=request.vars.clave,
+            pregunta_secreta=request.vars.pregunta_secreta,
+            respuesta_secreta=request.vars.respuesta_secreta,
+            nombre=request.vars.nombre,
+            pais=request.vars.pais,
+            estado=request.vars.estado,
+            telefono=request.vars.telefono,
+            direccion=request.vars.direccion,
+        )
+
+        usuarioExternoSet = db(db.UsuarioExterno.correo == request.vars.correo).select()
+        usuarioExterno = usuarioExternoSet[0]
+
         # Registramos la Empresa
         db.Tutor_Industrial.insert(
-            email = request.vars.email,
-            nombre = request.vars.nombre,
+            usuario = usuarioExterno.id,
             apellido = request.vars.apellido,
-            ci = request.vars.ci,
-            password = request.vars.password,
-            pregunta_secreta = request.vars.pregunta_secreta,
-            respuesta_secreta = request.vars.respuesta_secreta,
+            tipo_documento = request.vars.tipo_documento,
+            numero_documento = request.vars.numero_documento,
             Empresa = EmpresaRegistradora.id,
             profesion = request.vars.profesion,
             cargo = request.vars.cargo,
             departamento = request.vars.departamento,
-            direccion = request.vars.direccion,
-            pais = request.vars.pais,
-            estado = request.vars.estado,
             universidad = request.vars.universidad,
-            telefono = request.vars.telefono)
+        )
 
         #Insertamos en la tabla user de Web2py
         result = db.auth_user.insert(
@@ -199,10 +210,10 @@ def registrar_Tutor_Industrial():
 
         generar_Correo_Verificacion(request.vars.email)
 
-        paisSet = db(db.pais.id == request.vars.pais).select()
+        paisSet = db(db.Pais.id == request.vars.pais).select()
         pais = paisSet[0].nombre
 
-        estadoSet = db(db.estado.id == request.vars.estado).select()
+        estadoSet = db(db.Estado.id == request.vars.estado).select()
         estado = estadoSet[0].nombre
 
         universidadSet = db(db.universidad.id == request.vars.universidad).select()
@@ -216,7 +227,8 @@ def registrar_Tutor_Industrial():
                                email = request.vars.email,
                                nombre = request.vars.nombre,
                                apellido = request.vars.apellido,
-                               ci = request.vars.ci,
+                               tipo_documento = request.vars.tipo_documento,
+                               numero_documento = request.vars.numero_documento,
                                Empresa = EmpresaRegistradora.nombre, # Cableado mientras se resuelven problemas
                                profesion = request.vars.profesion,
                                cargo = request.vars.cargo,

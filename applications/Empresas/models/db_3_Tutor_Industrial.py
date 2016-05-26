@@ -18,6 +18,7 @@ db.define_table('Tutor_Industrial',
                     Field('cargo','string',label=T('Cargo')),
                     Field('departamento','string',label=T('Departamento')),
                     Field('universidad','reference Universidad',label=T('Universidad')),
+                    Field('comfirmado_Por_Empresa','integer',label=T('Comfirmado Por Empresa'), default=0, requires=IS_INT_IN_RANGE(minimum=0, maximum=1)),
                     format='%(correo)s %(nombre)s %(apellido)s')
 
 # Validadores

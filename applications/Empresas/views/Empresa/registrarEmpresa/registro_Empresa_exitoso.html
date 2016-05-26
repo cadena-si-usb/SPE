@@ -18,7 +18,7 @@
                     <div class="panel-collapse collapse in" id="collapseFour">
                         <div class="list-group">
                             <p class="list-group-item">Nombre : {{=nombre}} </p>
-                            <p class="list-group-item">Login : {{=log}} </p>
+                            <p class="list-group-item">Login : {{=correo}} </p>
                             {{if 'area_laboral':}}
                                 <p class="list-group-item">Area Laboral : {{=area_laboral}} </p>
                             {{pass}}
@@ -35,7 +35,7 @@
                                 <p class="list-group-item">Dirección : {{=direccion}} </p>
                             {{pass}}
                             {{if 'pag_web':}}
-                                <p class="list-group-item">Página web : {{=pag_web}} </p>
+                                <p class="list-group-item">Página web : {{=direccion_web}} </p>
                             {{pass}}
                             {{if 'descripcion':}}
                                 <p class="list-group-item">Descripción : {{=descripcion}} </p>
@@ -68,12 +68,12 @@
                     </div>
                     <div class="panel-collapse collapse in" id="collapseFour2">
                         <div class="list-group">
-                            <p class="list-group-item">Login : {{=log}} </p>
+                            <p class="list-group-item">Login : {{=correo}} </p>
                             {{if 'pregunta_secreta':}}
                                 <p class="list-group-item">Pregunta Secreta : {{=pregunta_secreta}} </p>
                             {{pass}}
                             {{if 'respuesta_pregunta_secreta':}}
-                                <p class="list-group-item">Respuesta a la pregunta secreta : {{=respuesta_pregunta_secreta}} </p>
+                                <p class="list-group-item">Respuesta a la pregunta secreta : {{=respuesta_secreta}} </p>
                             {{pass}}
                         </div>
                     </div>
