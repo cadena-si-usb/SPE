@@ -6,22 +6,13 @@ db.define_table('UsuarioExterno',
                 Field('correo',
                        requires=[IS_EMPTY_OR(IS_EMAIL
                                             (error_message='Introduzca un email valido.'))],
-                       label= 'Correo'),
+                       label='Correo'),
                 Field('clave', 'password',
                        requires=[IS_NOT_EMPTY
                                     (error_message='Es,necesario una contraseña.'),
                                  IS_STRONG(min=10, special=1, upper=1)],
                        label = 'Clave '
                      ),
-                Field('tipo_documento',
-                      requires=IS_IN_SET(['CI', 'Pasaporte']),
-                      label='Tipo de Documento (*)'),
-                Field('numero_documento',
-                      requires=[IS_MATCH('^[0-9][0-9]*$',
-                                         error_message='Introduzca una cedula.'),
-                                IS_NOT_IN_DB(db, 'Empleado.cedula',
-                                             error_message='Cedula ya almacenada o no introducida.')],
-                      label='Numero Documentacion (*)'),
                 Field('pregunta_secreta', 'text',
                        requires=[IS_NOT_EMPTY
                                     (error_message='Campo necesario')],
@@ -40,5 +31,11 @@ db.define_table('UsuarioExterno',
                 Field('direccion','text',
                        requires=[IS_NOT_EMPTY
                                     (error_message='Direccion necesaria')],
-                       label='Direccion')
+                       label='Direccion'),
+                format='%(nombre)s - %(correo)s'
 )
+
+
+db.UsuarioExterno.correo.requires+=[IS_NOT_IN_DB(db, 'UsuarioExterno.correo',error_message=T('Correo No Disponible'))]
+db.UsuarioExterno.pais.requires=IS_IN_DB(db,db.Pais.id,'%(nombre)s')
+db.UsuarioExterno.estado.requires=IS_IN_DB(db,db.Estado.id,'%(nombre)s')

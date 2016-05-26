@@ -56,7 +56,8 @@ def _():
     # Entradas del menu si el usuario esta autenticado
     if auth.is_logged_in():
         # Caso 1: El usuario es una Empresa
-        if auth.user.user_Type == 'Empresa':
+
+        if es_Empresa(auth.user.email):
 
             response.menu += [
                 ('Solicitudes de pasantes',False,"#",[
@@ -69,7 +70,7 @@ def _():
                 ('Reportes', False, "#")
             ]
         # Caso 2: El usuario es un tutor industrial
-        elif auth.user.user_Type == 'tutor_industrial':
+        elif es_Tutor_Industrial(auth.user.email):
             response.menu += [
                 ('Tutor Industrial',False,"#",[
                     ('¿Qué es un tutor industrial?',False,"#"),

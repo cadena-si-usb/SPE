@@ -35,5 +35,7 @@ db.define_table('UsuarioExterno',
                 format='%(nombre)s - %(correo)s'
 )
 
+
+db.UsuarioExterno.correo.requires+=[IS_NOT_IN_DB(db, 'UsuarioExterno.correo',error_message=T('Correo No Disponible'))]
 db.UsuarioExterno.pais.requires=IS_IN_DB(db,db.Pais.id,'%(nombre)s')
 db.UsuarioExterno.estado.requires=IS_IN_DB(db,db.Estado.id,'%(nombre)s')
