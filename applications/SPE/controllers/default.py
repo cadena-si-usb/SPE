@@ -82,36 +82,13 @@ def login_cas():
         usbid = data[1]
 
         usuario = get_ldap_data(usbid) #Se leen los datos del CAS
-        tablaUsuario  = db.usuario
+        tablaUsuario  = db.UsuarioUSB
 
         #Esto nos indica si el usuario ha ingresado alguna vez al sistema
         #buscandolo en la tabla de usuario.
         primeravez = db(tablaUsuario.usbid==usbid)
 
         if primeravez.isempty():
-            #Si es primera vez que ingresa al sistema
-            clave   = random_key()         #Se genera una clave automatica
-
-            #Ingresamos al usuario en la tabla de Autenticacion
-            # de la base de datos de Web2Py
-            result = db.auth_user.insert(
-                first_name = usuario.get('first_name'),
-                last_name  = usuario.get('last_name'),
-                username   = usbid,
-                password   = db.auth_user.password.validate(clave)[0],
-                email      = usuario.get('email'),
-                user_Type  = usuario.get('tipo')
-            )
-
-            #Ingresamos a la base de datos de Usuario
-            resutl = tablaUsuario.insert(
-                usbid    = usbid,
-                nombre   = usuario.get('first_name'),
-                apellido = usuario.get('last_name'),
-                ci       = usuario.get('cedula'),
-                tipo     = usuario.get('tipo'),
-                llave    = clave
-            )
 
             # auth.login_bare(usbid,clave)
             redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))
