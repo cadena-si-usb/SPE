@@ -1,3 +1,5 @@
-default_application='SPE'
-default_controller = "default"
-default_function = "reroute"
+routers = dict( 
+    BASE = dict( 
+        default_application='SPE', 
+    ) 
+) 
