@@ -82,6 +82,7 @@ def login_cas():
         usbid = data[1]
 
         usuario = get_ldap_data(usbid) #Se leen los datos del CAS
+        session.currentUser = usuario
         tablaUsuario  = db.UsuarioUSB
 
         #Esto nos indica si el usuario ha ingresado alguna vez al sistema
