@@ -11,9 +11,7 @@ def listar():
     return dict(rows=session.rows)
 
 def agregar():
-
-
-    form = SQLFORM(Pasantia.db)
+    form = Pasantia.form(['titulo','estudiante','materia'])
 
     if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')

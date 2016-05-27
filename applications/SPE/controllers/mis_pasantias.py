@@ -34,7 +34,6 @@ def get():
     obj = Encoder.to_dict(request.vars)
 
     rows = Pasantia.JMaterias(obj)
-    print (rows)
 
     rows = rows.as_json()
 
@@ -42,6 +41,13 @@ def get():
 
 def modificar():
     record = db.Pasantia(request.args(0)) or redirect(URL('agregar'))
+
+    #response.view = 'mis_pasantias/' + record.etapa + '.html'
+
+    print (record.etapa)
+    print (response.view)
+    return locals()
+    redirect(URL(''))
     form = SQLFORM(db.Pasantia, record)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')

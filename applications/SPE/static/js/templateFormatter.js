@@ -1,7 +1,7 @@
 (function(){
     $(document).ready(function(){
         $.addTemplateFormatter('AddPath',function(value,template){
-            return template + value
+            return template + value + "/preinscripcion"
         });
 
         $.addTemplateFormatter('Capitalize',function(value,template){
