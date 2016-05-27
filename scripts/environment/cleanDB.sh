@@ -1,4 +1,7 @@
 #!/bin/bash
+# cleanDB.sh
+# Limpia la base de datos de mysql y la carpeta databases de la respectiva app
+echo "---------------------------------------------------------------"
 if [ -z $1 ]; then
 	echo "Seleccione en cual aplicacion desea realizar la limpieza de base de datos"
 	echo "   1) SPE"

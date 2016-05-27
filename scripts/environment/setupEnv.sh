@@ -1,4 +1,5 @@
 #!/bin/bash
+# setupEnv.sh
 # Este script prepara el entorno de desarrollo para la aplicacion de SPE
 
 Chequeando que la distribucion de linux instalada este basada en debian
