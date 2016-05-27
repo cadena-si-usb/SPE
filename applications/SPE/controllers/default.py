@@ -82,7 +82,6 @@ def login_cas():
         usbid = data[1]
 
         usuario = get_ldap_data(usbid) #Se leen los datos del CAS
-        session.currentUser = usuario
         tablaUsuario  = db.UsuarioUSB
 
         #Esto nos indica si el usuario ha ingresado alguna vez al sistema
@@ -97,7 +96,7 @@ def login_cas():
         else:
             #Como el usuario ya esta registrado, buscamos sus datos y lo logueamos.
             datosUsuario = db(tablaUsuario.usbid==usbid).select()[0]
-            clave        = datosUsuario.llave
+            clave        = datosUsuario.clave
 
             # Caso 1: El usuario no ha registrado sus datos
             if verificar_datos(usuario,usbid).isempty():
@@ -122,14 +121,15 @@ def logout():
 
 def verificar_datos(usuario,usbid):
 
+    usuariousb = db(db.UsuarioUSB.usbid==usbid).select()[0]
     consulta = None
 
     if usuario['tipo'] == "Docente":
-        consulta = db(db.usuario_profesor.usbid_usuario==usbid)
+        consulta = db(db.Profesor.usuario==usuariousb.id)
     elif usuario['tipo'] == "Administrativo":
         pass
     elif usuario['tipo'] in ["Pregrado","Postgrado"]:
-        consulta = db(db.usuario_estudiante.usbid_usuario==usbid)
+        consulta = db(db.Estudiante.usuario==usuariousb.id)
     elif usuario['tipo'] in ["Empleado","Organizacion","Egresado"]:
         pass
 

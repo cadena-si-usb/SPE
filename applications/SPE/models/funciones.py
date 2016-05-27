@@ -11,7 +11,7 @@ def captcha_field(request=request):
 def tiene_foto(usbid):
     import os
 
-    query = dbSPE(dbSPE.usuario.usbid == usbid)
+    query = db(db.usuario.usbid == usbid)
     foto = query.select()[0].foto
     path = 'applications/SPE/static/profile_pictures/' + str(foto)
 
@@ -95,17 +95,5 @@ def reenviar_Correo_Verificacion(correo):
     enviar_Correo_Verificacion(correo, codigoGenerado)
 
 def obtener_correo(usbid):
-    usuario = db(db.usuario.usbid == usbid).select()[0]
-    if usuario.tipo == "Docente":
-        # Buscamos el email del profesor
-        datosUsuario = db(db.usuario_profesor.usbid_usuario ==
-            usbid).select()[0]
-    elif usuario.tipo == "Administrativo":
-        pass
-    elif usuario.tipo in ["Pregrado", "Postgrado"]:
-        # Buscamos el email del estudiante
-        datosUsuario = db(db.usuario_estudiante.usbid_usuario ==
-            usbid).select()[0]
-    elif usuario.tipo in ["Empleado", "Organizacion", "Egresado"]:
-        pass
-    return datosUsuario.email_sec
+    usuario = db(db.UsuarioUSB.usbid == usbid).select()[0]
+    return usuario.correo
