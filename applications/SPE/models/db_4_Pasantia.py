@@ -3,7 +3,7 @@
 db.define_table('Pasantia',
     Field('titulo',
            requires=[IS_NOT_EMPTY
-                        (error_message='Es necesario un Titutlo.')],
+                        (error_message='Es necesario un Titulo.')],
            label='Titulo'),
     Field('estudiante', 'reference Estudiante',
           label='Estudiante'),

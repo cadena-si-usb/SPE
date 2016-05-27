@@ -69,6 +69,7 @@ def _conditionalQuery(options):
     return conditions
 
 def getQuery(options):
+    print (options)
     orderBy = _orderQuery(options)
     limitBy = _limitQuery(options)
     condition = _conditionalQuery(options)

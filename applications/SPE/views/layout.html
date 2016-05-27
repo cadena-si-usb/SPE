@@ -126,10 +126,6 @@
               - Apartado 89000 Calle Unibolivar - Caracas Venezuela. <br>
               Teléfono: +58 0212-9063378. Correo: coord-ccc@usb.ve Twitter: @usbpasantias
         </div>
-        <div id="poweredBy" class="pull-right">
-          {{=T('Powered by')}}
-          <a href="http://www.web2py.com/">web2py</a>
-        </div>
         <div class="copyright pull-right">{{=T('Copyright')}} &#169; {{=request.now.year}}. &nbsp;</div>
       </div>
     </footer>
@@ -149,6 +145,12 @@
     {{pass}}
     <!-- Share ============================y============ -->
     <script src="{{=URL('static','js/share.js',vars=dict(static=URL('static','images')))}}"></script>
+
+    <script src="{{=URL('static','js/ajaxHandler.js')}}"></script>
+    <script src="{{=URL('static','js/menuHandler.js')}}"></script>
+    <script src="{{=URL('static','js/templateFormatter.js')}}"></script>
+    <script src="{{=URL('static','js/templateEngine.js')}}"></script>
+
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();

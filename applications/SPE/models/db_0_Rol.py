@@ -2,5 +2,6 @@
 
 db.define_table('Rol',
     Field('nombre','string',
-           label = 'Nombre Rol')
+           label = 'Nombre Rol'),
+    format='%(nombre)s'
 )

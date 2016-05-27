@@ -6,7 +6,7 @@
 
 db.define_table('Universidad',
                 Field('nombre','string',required=True,ondelete='CASCADE',
-                    notnull=True, unique=True,label='Universidad'),
+                    notnull=True, label='Universidad'),
                 Field('id_pais','reference Pais', required=True, notnull=True,label=T('Pais')),
                 format='%(nombre)s')
 
