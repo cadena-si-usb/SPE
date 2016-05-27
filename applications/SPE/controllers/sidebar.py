@@ -9,9 +9,10 @@ def items():
     obj = Encoder.to_dict(request.vars)
 
     #TODO Hacer que esto filtre dependiendo del rol del usuario logeado
-    #obj['filter'] = '{"rol":"admin"}'
+    #obj['filter'] = '{"rol":"1"}'
 
     rows = Accion_Usuario.find(obj)
+
 
     response.view = 'sidebar/items.load.html'
     return dict(routes=rows.as_list(),id="id")
