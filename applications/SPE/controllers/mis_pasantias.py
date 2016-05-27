@@ -39,19 +39,10 @@ def get():
 
     return rows
 
-def modificar():
-    record = db.Pasantia(request.args(0)) or redirect(URL('agregar'))
+def ver():
+    pasantia = db.Pasantia(request.args(0)) or redirect(URL('agregar'))
+    etapa = db.Etapa(pasantia.etapa)
 
-    #response.view = 'mis_pasantias/' + record.etapa + '.html'
-
-    print (record.etapa)
-    print (response.view)
-    return locals()
-    redirect(URL(''))
-    form = SQLFORM(db.Pasantia, record)
-    if form.process().accepted:
-        session.flash = T('El material fue modificado exitosamente!')
-        redirect(URL('listar'))
-    else:
-        response.flash = T('Por favor llene la forma.')
+    response.view = 'mis_pasantias/' + etapa.nombre.lower() + '.html'
+    
     return locals()

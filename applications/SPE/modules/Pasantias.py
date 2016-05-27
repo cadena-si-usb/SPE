@@ -14,6 +14,6 @@ class Pasantia(Model):
     def JMaterias(self, options):
         filter = ast.literal_eval(options['filter'])
 
-        rows = self.db((self.db.Pasantia.materia == self.db.Materia.id) & (self.db.Pasantia.estudiante == filter['estudiante'])).select()
+        rows = self.db((self.db.Pasantia.materia == self.db.Materia.id) & (self.db.Pasantia.periodo == self.db.Periodo.id) & (self.db.Pasantia.estudiante == filter['estudiante'])).select()
 
         return rows

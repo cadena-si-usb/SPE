@@ -1,0 +1,9 @@
+<ul style="margin-top: 60px; margin-left: 20px; display: flex; flex-direction: column; font-family: 'DejaVu Sans' !important;">
+    {{for etapa in etapas:}}
+    <li style="padding: 10px 10px; text-align: left;font-size: 16px; cursor: pointer; list-style-type: none">
+        <button>
+        	{{=etapa['nombre']}}
+        </button>
+    </li>
+    {{pass}}
+</ul>

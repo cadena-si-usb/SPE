@@ -1,9 +1,17 @@
 <script type="text/html" id="tmplPasantias">
 
     <div data-id="id">
-        <div class='text-center' data-template-bind='[{"attribute": "content", "value": "titulo","formatter":"Capitalize"}]'>
+        <div class='text-center'>
+	        <span data-template-bind='[{"attribute": "content", "value": "periodo.mes_inicio"}]'>
+	        </span>
+	        <span data-template-bind='[{"attribute": "content", "value": "periodo.mes_final"}]'>
+	        </span>
+	        -
+	        <span data-template-bind='[{"attribute": "content", "value": "periodo.anio"}]'>
+	        </span>
         </div>
-        <div class='text-center'><a data-template-bind='[{"attribute": "href", "value": "id","formatter":"AddPath","formatOptions":"modificar/"}]'>VER</a>
+
+        <div class='text-center'><a data-template-bind='[{"attribute": "href", "value": "id","formatter":"AddPath","formatOptions":"ver/"}]'>VER</a>
         </div>
     </div>
 </script>
