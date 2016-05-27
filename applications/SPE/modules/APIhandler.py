@@ -15,7 +15,7 @@ class Model(object):
         self.cache = current.cache
         self.table = getattr(self.db,tableName)
 
-    def form(self,projection):
+    def form(self,projection=None):
         return SQLFORM(self.table,fields=projection)
 
     def find(self,options):

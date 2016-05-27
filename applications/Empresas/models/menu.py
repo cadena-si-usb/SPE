@@ -39,7 +39,7 @@ else:
 
 menu_autenticado = [
     (texto_principal,False, '#',[
-        ("Su Perfil", False, '#'),
+        ("Su Perfil", False, URL('Empresa','ver_Perfil_Empresa')),
         (SPAN(' Cerrar Sesión', _class='fa fa-sign-out'), False, URL('default','logout'))
     ])
 ]

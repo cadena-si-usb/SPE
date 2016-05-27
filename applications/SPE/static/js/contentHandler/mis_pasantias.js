@@ -49,7 +49,9 @@
                     for (var i = 0; i < misPasantias.length; i++) {
                         codigo = misPasantias[i].Materia.codigo;
                         pasantia = misPasantias[i].Pasantia;
-
+                        pasantia.periodo = misPasantias[i].Periodo;
+                        
+                        console.log(pasantia)
                         codigos_materia[codigo].push(pasantia)
                     }
 

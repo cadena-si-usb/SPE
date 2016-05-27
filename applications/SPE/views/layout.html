@@ -91,15 +91,17 @@
 
     <!-- Main ========================================= -->
     <!-- Begin page content -->
+
     <div id="main" class="container-fluid main-container">
-      {{if left_sidebar_enabled:}}
+      
         <div class="col-md-3 left-sidebar">
             {{block left_sidebar}}
             <h3>Left Sidebar</h3>
+            {{include 'sidebar/sidebar.html'}}
             <p></p>
             {{end}}
         </div>
-      {{pass}}
+      
 
       <div class="{{=middle_column}}">
         {{block center}}
@@ -143,8 +145,6 @@
       });
     </script>
     {{pass}}
-    <!-- Share ============================y============ -->
-    <script src="{{=URL('static','js/share.js',vars=dict(static=URL('static','images')))}}"></script>
 
     <script src="{{=URL('static','js/ajaxHandler.js')}}"></script>
     <script src="{{=URL('static','js/menuHandler.js')}}"></script>
