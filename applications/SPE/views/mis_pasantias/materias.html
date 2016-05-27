@@ -4,16 +4,32 @@
         <h2>Pasantia
         <span class='text-center' data-template-bind='[{"attribute": "content", "value": "tipo"}]'>
         </span></h2>
-        (Codigo <span class='text-center' data-template-bind='[{"attribute": "content", "value": "codigo"}]'>
-        </span>)
-        <br>
-        <br>
-        <p class='text-center' data-template-bind='[{"attribute": "content", "value": "descripcion"}]'>
-        </p>
-        <div style="background-color: #2aabd2; border: 1px solid black; padding: 2px; color: black;">
-            <h2>Cursos</h2>
-            <button>Preinscribir</button>
-            <div data-template-bind='[{"attribute": "id", "value": "codigo"}]'>
+        <div style="display:flex; flex-direction: row; flex-wrap: wrap;">
+            <div style="flex:5 1 auto">
+                <p>
+                (Codigo <span class='text-center' data-template-bind='[{"attribute": "content", "value": "codigo"}]'>
+                </span>)
+                </p>
+                <p>
+                Descripcion: 
+                <span class='text-center' data-template-bind='[{"attribute": "content", "value": "descripcion"}]'>
+                </span>
+                </p>
+                <p>
+                Duracion: <span class='text-center' data-template-bind='[{"attribute": "content", "value": "duracion"}]'>
+                </span> semanas.
+                </p>
+                <a>Programa del curso</a>
+                <br>
+                <a>Reglamento</a>
+                <br>
+                <a>Procedimientos</a>
+            </div>
+            <div style="background-color: #2aabd2; border: 1px solid black; padding: 2px; color: black; flex:5 1 auto">
+                <h2>Cursos</h2>
+                <button>Preinscribir</button>
+                <div data-template-bind='[{"attribute": "id", "value": "codigo"}]'>
+                </div>
             </div>
         </div>
     </div>

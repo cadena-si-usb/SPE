@@ -31,4 +31,5 @@ response.menu = [
 (T('Inventario'),URL('materiales','listar')==URL(),URL('materiales','listar'),[]),
 (T('Empleados'),URL('empleados','listar')==URL(),URL('empleados','listar'),[]),
 (T('Notificaciones'),URL('notificaciones','notifications')==URL(),URL('notificaciones','notifications'),[]),
+(T('Perfil'),URL('usuarios','perfil')==URL(),URL('usuarios','perfil'),[])
 ]

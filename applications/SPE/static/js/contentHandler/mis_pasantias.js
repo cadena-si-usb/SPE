@@ -43,6 +43,7 @@
 
             ajaxHandler.find('mis_pasantias',params).success(function(res){
                 misPasantias = JSON.parse(res);
+                console.log(misPasantias)
                 if (misPasantias.length > 0){
                     var codigo, pasantia;
 
@@ -51,7 +52,6 @@
                         pasantia = misPasantias[i].Pasantia;
                         pasantia.periodo = misPasantias[i].Periodo;
                         
-                        console.log(pasantia)
                         codigos_materia[codigo].push(pasantia)
                     }
 
