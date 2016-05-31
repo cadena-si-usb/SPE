@@ -10,8 +10,10 @@ def items():
 
     #TODO Hacer que esto filtre dependiendo del rol del usuario logeado
     #obj['filter'] = '{"rol":"1"}'
-    if (session.currentUser['tipo'] == "Pregrado"):
-    	rol = "Estudiante"
+    if ('currentUser' in session):
+        if (session.currentUser['tipo'] == "Pregrado"):
+    	   rol = "Estudiante"
+        rol = "CCT"
     else:
     	rol = "CCT"
 

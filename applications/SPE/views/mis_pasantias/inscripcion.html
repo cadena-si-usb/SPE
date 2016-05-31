@@ -15,10 +15,21 @@
 	</div>
 
 	<div style="flex:5 1 auto; max-width:300px;">
-		Plan de trabajo <button>VER</button>
-		<br>
-		Formulario DACE <button>VER</button>
-		<br>
+
+		<div style="display:flex; flex-align:row">
+			<p>Plan de trabajo</p> 
+			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
+				<img style="position: absolute; width:100%;" src="../../static/images/search.png">
+			</div>			
+
+		</div>	
+		<div style="display:flex; flex-align:row">
+			<p>Formulario DACE</p> 
+			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
+				<img style="position: absolute; width:100%;" src="../../static/images/search.png">
+			</div>			
+
+		</div>			
 		Status del tramite: <span style="color:red;">{{=pasantia.status}}</span>
 		<p>
 			<span>Comentarios CCT:</span>

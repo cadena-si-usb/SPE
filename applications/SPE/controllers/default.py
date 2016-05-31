@@ -59,7 +59,7 @@ def login_cas():
         # url en caso de querer iniciar sesion en el servidor remoto
         url = "https://secure.dst.usb.ve/validate?ticket="+\
               request.vars.getfirst('ticket') +\
-              "&service=http%3A%2F%2F127.0.0.1%3A8000%2FSPE%2Fdefault%2Flogin_cas"
+              "&service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas"
 
         # url en caso de querer iniciar sesion en el servidor remoto
         # url = "https://secure.dst.usb.ve/validate?ticket="+\
