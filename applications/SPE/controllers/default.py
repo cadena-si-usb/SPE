@@ -9,6 +9,9 @@
 #########################################################################
 
 from usbutils import get_ldap_data, random_key
+from Usuarios import Usuario
+
+Usuario = Usuario()
 
 def reroute():
     """
@@ -82,7 +85,7 @@ def login_cas():
         usbid = data[1]
 
         usuario = get_ldap_data(usbid) #Se leen los datos del CAS
-        session.currentUser = usuario
+        
         tablaUsuario  = db.UsuarioUSB
 
         #Esto nos indica si el usuario ha ingresado alguna vez al sistema
@@ -99,8 +102,12 @@ def login_cas():
             datosUsuario = db(tablaUsuario.usbid==usbid).select()[0]
             clave        = datosUsuario.clave
 
+            auth.login_bare(usbid,clave)
+
+            respuesta = Usuario.getByRole(usbid)
+
             # Caso 1: El usuario no ha registrado sus datos
-            if verificar_datos(usuario,usbid).isempty():
+            if respuesta == None:
                 redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))
             # Caso 2: El usuario no ha verificado su correo
             elif correo_no_verificado(usbid):
@@ -110,14 +117,15 @@ def login_cas():
             # Caso 3: El usuario ha cumplido con los pasos necesarios por lo que
             # puede iniciar sesion
             else:
-                auth.login_bare(usbid,clave)
                 #Deberiamos redireccionar a un "home" dependiendo del tipo de usuario
+                session.currentUser = respuesta
                 redirect('index')
 
     return None
 
 def logout():
     url = 'http://secure.dst.usb.ve/logout'
+    session.currentUser = None
     auth.logout(next=url)
 
 def verificar_datos(usuario,usbid):

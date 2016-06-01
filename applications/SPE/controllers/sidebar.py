@@ -9,15 +9,12 @@ def items():
     obj = Encoder.to_dict(request.vars)
 
     #TODO Hacer que esto filtre dependiendo del rol del usuario logeado
-    #obj['filter'] = '{"rol":"1"}'
     if ('currentUser' in session):
-        if (session.currentUser['tipo'] == "Pregrado"):
-    	   rol = "Estudiante"
-        rol = "CCT"
-    else:
-    	rol = "CCT"
+        usuario = session.currentUser
+
+        obj['filter'] = '{"rol":"' + str(usuario['rol']) + '"}'
 
     rows = Accion_Usuario.find(obj)
 
     response.view = 'sidebar/items.load.html'
-    return dict(routes=rows.as_list(),id="id",rol=rol)
+    return dict(routes=rows.as_list(),id="id")
