@@ -9,7 +9,7 @@
             filters = {order:'id',side:'>',limit:'4',page:'0'},
             filter = {
                 "pasantias": {
-                    "estudiante": "1"
+                    "estudiante": "2"
                 }
             },
             search = {},
@@ -43,13 +43,15 @@
 
             ajaxHandler.find('mis_pasantias',params).success(function(res){
                 misPasantias = JSON.parse(res);
+                console.log(misPasantias)
                 if (misPasantias.length > 0){
                     var codigo, pasantia;
 
                     for (var i = 0; i < misPasantias.length; i++) {
                         codigo = misPasantias[i].Materia.codigo;
                         pasantia = misPasantias[i].Pasantia;
-
+                        pasantia.periodo = misPasantias[i].Periodo;
+                        
                         codigos_materia[codigo].push(pasantia)
                     }
 

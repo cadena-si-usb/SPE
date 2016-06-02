@@ -92,31 +92,22 @@
     <!-- Main ========================================= -->
     <!-- Begin page content -->
 
-    <div id="main" class="container-fluid main-container">
+    <div id="main" class="container-fluid main-container" style="display:flex; flex-direction: row; ">
       
-        <div class="col-md-3 left-sidebar">
+        <div class="left-sidebar" style="flex:3 1 200px; max-width:250px; padding-right:30px;">
             {{block left_sidebar}}
-            <h3>Left Sidebar</h3>
+            <h3>Opciones</h3>
             {{include 'sidebar/sidebar.html'}}
             <p></p>
             {{end}}
         </div>
       
 
-      <div class="{{=middle_column}}">
+      <div class="content" style="flex:7 1 auto">
         {{block center}}
         {{include}}
         {{end}}
       </div>
-
-      {{if right_sidebar_enabled:}}
-        <div class="col-md-3">
-            {{block right_sidebar}}
-            <h3>Right Sidebar</h3>
-            <p></p>
-            {{end}}
-        </div>
-      {{pass}}
 
     </div>
 
@@ -145,8 +136,6 @@
       });
     </script>
     {{pass}}
-    <!-- Share ============================y============ -->
-    <script src="{{=URL('static','js/share.js',vars=dict(static=URL('static','images')))}}"></script>
 
     <script src="{{=URL('static','js/ajaxHandler.js')}}"></script>
     <script src="{{=URL('static','js/menuHandler.js')}}"></script>

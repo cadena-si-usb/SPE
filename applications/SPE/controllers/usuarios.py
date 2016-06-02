@@ -49,6 +49,14 @@ def modificar():
     return locals()
 
 def perfil():
+
+    if session.currentUser:
+        rol = db.Rol(session.currentUser['rol'])
+    else:
+        redirect(URL(c='default',f='index'))
+
+    response.view = 'usuarios/' + rol.nombre.lower() + '.html'
+    
     return locals()
 
 def curriculo():
