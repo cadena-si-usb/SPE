@@ -13,18 +13,20 @@ class Usuario(Model):
     def getByRole(self,id):
     	usuario = None
 
-    	row = self.db((self.table.usbid == id) & (self.table.rol == self.db.Rol.id)).select()[0]
+    	row = self.db((self.table.usbid == id) & (self.table.rol == self.db.Rol.id)).select().first()
 
-    	rol = row.Rol
-    	usuarioUSB = row.UsuarioUSB
+    	if (row != None):
+    		usuario = {}
+	    	rol = row.Rol
+	    	usuarioUSB = row.UsuarioUSB
 
-    	if (rol):
-	    	if (rol["nombre"] == "CCT"):
-	    		usuario = self.db(self.db.Coordinador.usuario == usuarioUSB["id"]).select()[0].as_dict()
-	    	elif (rol["nombre"] == "Estudiante"):
-	    		usuario = self.db(self.db.Estudiante.usuario == usuarioUSB["id"]).select()[0].as_dict()
+	    	if (rol != None):
+		    	if (rol["nombre"] == "CCT"):
+		    		usuario = self.db(self.db.Coordinador.usuario == usuarioUSB["id"]).select().as_dict()
+		    	elif (rol["nombre"] == "Estudiante"):
+		    		usuario = self.db(self.db.Estudiante.usuario == usuarioUSB["id"]).select().as_dict()
 
-	    	usuario["rol"] = rol["id"]
+		    	usuario["rol"] = rol["id"]
 
     	return usuario
 		 

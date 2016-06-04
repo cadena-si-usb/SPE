@@ -19,14 +19,11 @@ else:
 
 menu_autenticado = [
     (texto_principal,False, '#',[
-        ("Su Perfil", False, '#'),
+        ("Su Perfil", False, '/SPE/usuarios/perfil'),
         (SPAN(' Cerrar Sesión', _class='fa fa-sign-out'), False, URL('default','logout'))
     ])
 ]
 
 response.menu = [
 (T('Índice'),URL('default','index')==URL(),URL('default','index'),[]),
-(T('Catálogo'),URL('catalogo','catalogue')==URL(),URL('catalogo','catalogue'),[]),
-(T('Notificaciones'),URL('notificaciones','notifications')==URL(),URL('notificaciones','notifications'),[]),
-(T('Perfil'),URL('usuarios','perfil')==URL(),URL('usuarios','perfil'),[])
 ]
