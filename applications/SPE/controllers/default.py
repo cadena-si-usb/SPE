@@ -94,8 +94,10 @@ def login_cas():
 
         if primeravez.isempty():
 
+            Usuario.registrar(usuario,auth)
+            redirect(URL(c='default',f='index'))
             # auth.login_bare(usbid,clave)
-            redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))
+            #redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))
 
         else:
             #Como el usuario ya esta registrado, buscamos sus datos y lo logueamos.
