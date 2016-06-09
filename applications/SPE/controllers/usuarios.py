@@ -56,6 +56,19 @@ def modificar():
 
 def perfil():
     ##Esto es para todos
+
+    fields = [
+        db.Estudiante.carrera,
+        db.Estudiante.correo_Alternativo,
+        db.UsuarioUSB.nombre,
+        db.UsuarioUSB.apellido,
+        db.UsuarioUSB.tipo_documento,
+        db.UsuarioUSB.numero_documento,
+        db.UsuarioUSB.sexo,
+        db.UsuarioUSB.direcUsuario,
+        db.UsuarioUSB.telefono
+    ]
+
     userid = str(auth.user['username'])
 
     usuario = db.UsuarioUSB(db.UsuarioUSB.usbid == userid).as_dict()
@@ -69,6 +82,25 @@ def perfil():
 
     user = {}
 
+    form = SQLFORM.factory(
+        *fields,
+        submit_button='Submit',
+        separator=': ',
+        buttons=['submit'],
+        col3={
+            'usbid': T('usbID'),
+            'carnet': T('Carnet Estudiantil'),
+            'carrera': T('Carrera Que Está Cursando'),
+            'correo_Alternativo': T('Correo Alternativo'),
+            'nombre': T('Nombres'),
+            'apellido': T('Apellido'),
+            'tipo_documento': T('Tipo De Documento'),
+            'numero_documento': T('Numero De Documento'),
+            'sexo': T('Sexo'),
+            'direcUsuario': T('Direccion'),
+            'telefono': T('Telefono De Contacto'),
+        })
+
     for attr in usuario:
         if (usuario[attr] == None):
             user[attr] = ""
@@ -79,7 +111,7 @@ def perfil():
     sedes = Sede.find({})
     tipos_documento = Tipo_Documento.find({})
     
-    return dict(user=user,carreras=carreras,sedes=sedes,tipos_documento=tipos_documento)
+    return dict(user=user,carreras=carreras,sedes=sedes,tipos_documento=tipos_documento,form=form)
 
 def actualizar():
     print request.vars

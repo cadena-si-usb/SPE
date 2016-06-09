@@ -6,19 +6,15 @@ import Encoder
 Accion_Usuario = Accion_Usuario()
 
 def items():
-    obj = Encoder.to_dict(request.vars)
+	rows = []
+	obj = Encoder.to_dict(request.vars)
 
-    #TODO Hacer que esto filtre dependiendo del rol del usuario logeado
-    if ('currentUser' in session):
-        usuario = session.currentUser
-        if usuario['activo']:
-        	obj['filter'] = '{"rol":"' + str(usuario['rol']) + '"}'
-    		rows = Accion_Usuario.find(obj).as_list()
-    	else:
-    		rows = []
-        	
+	#TODO Hacer que esto filtre dependiendo del rol del usuario logeado
+	if ('currentUser' in session):
+		usuario = session.currentUser
+		if usuario['activo']:
+			obj['filter'] = '{"rol":"' + str(usuario['rol']) + '"}'
+			rows = Accion_Usuario.find(obj).as_list()
 
-
-
-    response.view = 'sidebar/items.load.html'
-    return dict(routes=rows,id="id")
+	response.view = 'sidebar/items.load.html'
+	return dict(routes=rows,id="id")
