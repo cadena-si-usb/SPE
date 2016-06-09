@@ -16,6 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `Acceso_Etapa`
+--
+
+DROP TABLE IF EXISTS `Acceso_Etapa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Acceso_Etapa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rol` varchar(512) DEFAULT NULL,
+  `etapa` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Acceso_Etapa`
+--
+
+LOCK TABLES `Acceso_Etapa` WRITE;
+/*!40000 ALTER TABLE `Acceso_Etapa` DISABLE KEYS */;
+INSERT INTO `Acceso_Etapa` VALUES (1,'3','3'),(2,'2','2'),(3,'2','4'),(4,'2','3'),(5,'2','1');
+/*!40000 ALTER TABLE `Acceso_Etapa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Accion_Usuario`
 --
 
@@ -30,7 +55,7 @@ CREATE TABLE `Accion_Usuario` (
   PRIMARY KEY (`id`),
   KEY `rol__idx` (`rol`),
   CONSTRAINT `Accion_Usuario_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `Rol` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +64,7 @@ CREATE TABLE `Accion_Usuario` (
 
 LOCK TABLES `Accion_Usuario` WRITE;
 /*!40000 ALTER TABLE `Accion_Usuario` DISABLE KEYS */;
-INSERT INTO `Accion_Usuario` VALUES (1,'Acciones','/SPE/acciones_usuario/listar',2),(2,'Mis Pasantias','/SPE/mis_pasantias/listar',1);
+INSERT INTO `Accion_Usuario` VALUES (1,'Acciones','/SPE/acciones_usuario/listar',2),(2,'Mis Pasantias','/SPE/mis_pasantias/listar',1),(3,'Pasantias','/SPE/pasantias/listar',2),(4,'Pasantias','/SPE/pasantias/listar',3);
 /*!40000 ALTER TABLE `Accion_Usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,7 +108,7 @@ CREATE TABLE `Area_Laboral` (
   `nombre` varchar(512) NOT NULL,
   `descripcion` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,6 +117,7 @@ CREATE TABLE `Area_Laboral` (
 
 LOCK TABLES `Area_Laboral` WRITE;
 /*!40000 ALTER TABLE `Area_Laboral` DISABLE KEYS */;
+INSERT INTO `Area_Laboral` VALUES (1,'Tecnologia','Tecnologia');
 /*!40000 ALTER TABLE `Area_Laboral` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +187,7 @@ CREATE TABLE `Coordinacion` (
   `usbid` varchar(512) DEFAULT NULL,
   `sede` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,8 +196,35 @@ CREATE TABLE `Coordinacion` (
 
 LOCK TABLES `Coordinacion` WRITE;
 /*!40000 ALTER TABLE `Coordinacion` DISABLE KEYS */;
-INSERT INTO `Coordinacion` VALUES (1,'Coordinacion de Ciencias de la Computacion','1111','Sartenejas');
+INSERT INTO `Coordinacion` VALUES (1,'Coordinacion de Ciencias de la Computacion','1111','Sartenejas'),(2,'Coordinación de Cooperación Tecnica','123123','Sartenejas');
 /*!40000 ALTER TABLE `Coordinacion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Coordinador`
+--
+
+DROP TABLE IF EXISTS `Coordinador`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Coordinador` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(512) DEFAULT NULL,
+  `carnet` varchar(512) DEFAULT NULL,
+  `coordinacion` varchar(512) DEFAULT NULL,
+  `correo_Alternativo` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Coordinador`
+--
+
+LOCK TABLES `Coordinador` WRITE;
+/*!40000 ALTER TABLE `Coordinador` DISABLE KEYS */;
+INSERT INTO `Coordinador` VALUES (1,'6','10-10330','2','danielarturomt@gmail.com');
+/*!40000 ALTER TABLE `Coordinador` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -296,7 +349,7 @@ CREATE TABLE `Empresa` (
   KEY `area_laboral__idx` (`area_laboral`),
   CONSTRAINT `Empresa_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `UsuarioExterno` (`id`) ON DELETE CASCADE,
   CONSTRAINT `Empresa_ibfk_2` FOREIGN KEY (`area_laboral`) REFERENCES `Area_Laboral` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -305,6 +358,7 @@ CREATE TABLE `Empresa` (
 
 LOCK TABLES `Empresa` WRITE;
 /*!40000 ALTER TABLE `Empresa` DISABLE KEYS */;
+INSERT INTO `Empresa` VALUES (2,2,1,'asdasd','www.menor.com','daniel@ecorp.com');
 /*!40000 ALTER TABLE `Empresa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -322,7 +376,7 @@ CREATE TABLE `Estado` (
   PRIMARY KEY (`id`),
   KEY `Pais__idx` (`Pais`),
   CONSTRAINT `Estado_ibfk_1` FOREIGN KEY (`Pais`) REFERENCES `Pais` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -331,6 +385,7 @@ CREATE TABLE `Estado` (
 
 LOCK TABLES `Estado` WRITE;
 /*!40000 ALTER TABLE `Estado` DISABLE KEYS */;
+INSERT INTO `Estado` VALUES (1,'Aragua',1);
 /*!40000 ALTER TABLE `Estado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -353,7 +408,7 @@ CREATE TABLE `Estudiante` (
   KEY `carrera__idx` (`carrera`),
   CONSTRAINT `Estudiante_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `UsuarioUSB` (`id`) ON DELETE CASCADE,
   CONSTRAINT `Estudiante_ibfk_2` FOREIGN KEY (`carrera`) REFERENCES `Carrera` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -362,7 +417,6 @@ CREATE TABLE `Estudiante` (
 
 LOCK TABLES `Estudiante` WRITE;
 /*!40000 ALTER TABLE `Estudiante` DISABLE KEYS */;
-INSERT INTO `Estudiante` VALUES (1,1,'10-10419',1,'danielarturomt@gmail.com',NULL);
 /*!40000 ALTER TABLE `Estudiante` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -376,8 +430,10 @@ DROP TABLE IF EXISTS `Etapa`;
 CREATE TABLE `Etapa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(512) DEFAULT NULL,
+  `descripcion` varchar(512) DEFAULT NULL,
+  `procedimientos` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -386,6 +442,7 @@ CREATE TABLE `Etapa` (
 
 LOCK TABLES `Etapa` WRITE;
 /*!40000 ALTER TABLE `Etapa` DISABLE KEYS */;
+INSERT INTO `Etapa` VALUES (1,'Preinscripcion','En las primeras cuatro semanas (semana 1 a semana 4) de cada trimestre académico se llevará a cabo el Proceso de Preinscripción de la Pasantía . Los estudiantes que desean optar a una pasantía deben preinscribirse al trimestre anterior al período de la pasantía a cursar. La preinscripción tendrá carácter obligatorio y el estudiante deberá consignar ante la CCTDS, o ante la CCCE según sea el caso, específicamente al personal de Atención al Estudiante, los siguientes recaudos:','/#'),(2,'Colocacion','Después del proceso de Preinscripción, la sección de Relaciones con la Industria debe iniciar su proceso de búsqueda de pasantías mediante la comunicación con las empresas y la oferta de pasantes para el próximo período.','/#'),(3,'Inscripcion','Durante la semana doce (12) del trimestre anterior a la pasantía y hasta la semana cero (0) del trimestre en el que se cursará la pasantía, se llevará a cabo el Proceso de Inscripción de la misma. Para ello, el estudiante debe descargar de la página web de la CCTDS (www.cctds.dex.usb.ve) los siguientes formularios (de carácter obligatorio)','/#'),(4,'Ejecucion','Por contretar','/#');
 /*!40000 ALTER TABLE `Etapa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -430,8 +487,9 @@ CREATE TABLE `Materia` (
   `sede` varchar(512) NOT NULL,
   `tipo` varchar(512) DEFAULT NULL,
   `descripcion` varchar(512) DEFAULT NULL,
+  `duracion` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -440,8 +498,37 @@ CREATE TABLE `Materia` (
 
 LOCK TABLES `Materia` WRITE;
 /*!40000 ALTER TABLE `Materia` DISABLE KEYS */;
-INSERT INTO `Materia` VALUES (1,'EP3420','Sartenejas','Larga','');
+INSERT INTO `Materia` VALUES (1,'EP3420','Sartenejas','Larga','Lograr que el estudiante se integre a las actividades de la empresa o institución y actúe dentro de la misma como un recurso capaz de intervenir en el desarrollo completo de trabajos, tareas o proyectos a nivel profesional, utilizando para ello los conocimientos y la formación de que dispone.','20'),(2,'EP1420','Sartenejas','Corta','En las primeras cuatro semanas (semana 1 a semana 4) de cada trimestre académico se llevará a cabo el Proceso de Preinscripción de la Pasantía . Los estudiantes que desean optar a una pasantía deben preinscribirse al trimestre anterior al período de la pasantía a cursar. La preinscripción tendrá carácter obligatorio y el estudiante deberá consignar ante la CCTDS, o ante la CCCE según sea el caso, específicamente al personal de Atención al Estudiante, los siguientes recaudos:','6');
 /*!40000 ALTER TABLE `Materia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Materia_Periodo`
+--
+
+DROP TABLE IF EXISTS `Materia_Periodo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Materia_Periodo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `materia` int(11) DEFAULT NULL,
+  `periodo` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `materia__idx` (`materia`),
+  KEY `periodo__idx` (`periodo`),
+  CONSTRAINT `Materia_Periodo_ibfk_1` FOREIGN KEY (`materia`) REFERENCES `Materia` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `Materia_Periodo_ibfk_2` FOREIGN KEY (`periodo`) REFERENCES `Periodo` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Materia_Periodo`
+--
+
+LOCK TABLES `Materia_Periodo` WRITE;
+/*!40000 ALTER TABLE `Materia_Periodo` DISABLE KEYS */;
+INSERT INTO `Materia_Periodo` VALUES (1,1,2),(2,1,3);
+/*!40000 ALTER TABLE `Materia_Periodo` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -455,7 +542,7 @@ CREATE TABLE `Pais` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -464,6 +551,7 @@ CREATE TABLE `Pais` (
 
 LOCK TABLES `Pais` WRITE;
 /*!40000 ALTER TABLE `Pais` DISABLE KEYS */;
+INSERT INTO `Pais` VALUES (1,'Venezuela');
 /*!40000 ALTER TABLE `Pais` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -480,7 +568,6 @@ CREATE TABLE `Pasantia` (
   `estudiante` int(11) DEFAULT NULL,
   `tutor_academico` int(11) DEFAULT NULL,
   `Tutor_Industrial` int(11) DEFAULT NULL,
-  `periodo` varchar(512) DEFAULT NULL,
   `area_proyecto` varchar(512) DEFAULT NULL,
   `resumen_proyecto` longtext,
   `materia` int(11) DEFAULT NULL,
@@ -488,18 +575,25 @@ CREATE TABLE `Pasantia` (
   `confidencialidad` varchar(512) DEFAULT NULL,
   `status` varchar(512) DEFAULT NULL,
   `etapa` int(11) DEFAULT NULL,
+  `periodo` int(11) DEFAULT NULL,
+  `fecha_defensa` varchar(512) DEFAULT NULL,
+  `fecha_inicio` varchar(512) DEFAULT NULL,
+  `fecha_fin` varchar(512) DEFAULT NULL,
+  `fecha_tope_jurado` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `estudiante__idx` (`estudiante`),
   KEY `tutor_academico__idx` (`tutor_academico`),
   KEY `Tutor_Industrial__idx` (`Tutor_Industrial`),
   KEY `materia__idx` (`materia`),
   KEY `etapa__idx` (`etapa`),
+  KEY `periodo__idx` (`periodo`),
   CONSTRAINT `Pasantia_ibfk_1` FOREIGN KEY (`estudiante`) REFERENCES `Estudiante` (`id`) ON DELETE CASCADE,
   CONSTRAINT `Pasantia_ibfk_2` FOREIGN KEY (`tutor_academico`) REFERENCES `Profesor` (`id`) ON DELETE CASCADE,
   CONSTRAINT `Pasantia_ibfk_3` FOREIGN KEY (`Tutor_Industrial`) REFERENCES `Tutor_Industrial` (`id`) ON DELETE CASCADE,
   CONSTRAINT `Pasantia_ibfk_4` FOREIGN KEY (`materia`) REFERENCES `Materia` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `Pasantia_ibfk_5` FOREIGN KEY (`etapa`) REFERENCES `Etapa` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  CONSTRAINT `Pasantia_ibfk_5` FOREIGN KEY (`etapa`) REFERENCES `Etapa` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `Pasantia_ibfk_6` FOREIGN KEY (`periodo`) REFERENCES `Periodo` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -508,7 +602,6 @@ CREATE TABLE `Pasantia` (
 
 LOCK TABLES `Pasantia` WRITE;
 /*!40000 ALTER TABLE `Pasantia` DISABLE KEYS */;
-INSERT INTO `Pasantia` VALUES (1,'Prueba1',1,NULL,NULL,'','Computacion','Resumen',1,'objetivo','detalles','',NULL);
 /*!40000 ALTER TABLE `Pasantia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -524,7 +617,7 @@ CREATE TABLE `Periodo` (
   `mes_inicio` varchar(512) DEFAULT NULL,
   `mes_final` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -533,6 +626,7 @@ CREATE TABLE `Periodo` (
 
 LOCK TABLES `Periodo` WRITE;
 /*!40000 ALTER TABLE `Periodo` DISABLE KEYS */;
+INSERT INTO `Periodo` VALUES (2,'Abril','Septiembre'),(3,'Abril','Septiembre'),(4,'Octubre','Enero');
 /*!40000 ALTER TABLE `Periodo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -659,7 +753,7 @@ CREATE TABLE `Rol` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -668,7 +762,7 @@ CREATE TABLE `Rol` (
 
 LOCK TABLES `Rol` WRITE;
 /*!40000 ALTER TABLE `Rol` DISABLE KEYS */;
-INSERT INTO `Rol` VALUES (1,'Estudiante'),(2,'CCT');
+INSERT INTO `Rol` VALUES (1,'Estudiante'),(2,'Coordinador_CCT'),(3,'Coordinador'),(4,'Invitado');
 /*!40000 ALTER TABLE `Rol` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -759,7 +853,7 @@ CREATE TABLE `UsuarioExterno` (
   KEY `estado__idx` (`estado`),
   CONSTRAINT `UsuarioExterno_ibfk_1` FOREIGN KEY (`pais`) REFERENCES `Pais` (`id`) ON DELETE CASCADE,
   CONSTRAINT `UsuarioExterno_ibfk_2` FOREIGN KEY (`estado`) REFERENCES `Estado` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -768,6 +862,7 @@ CREATE TABLE `UsuarioExterno` (
 
 LOCK TABLES `UsuarioExterno` WRITE;
 /*!40000 ALTER TABLE `UsuarioExterno` DISABLE KEYS */;
+INSERT INTO `UsuarioExterno` VALUES (2,'ECorp','ecorp@ecorp.com','Daniel-420','como me llamo?Hay errores en el formulario, por favor comprúebelo. ×\r\n','daniel',1,1,'0414-4742003','cerca');
 /*!40000 ALTER TABLE `UsuarioExterno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -818,8 +913,11 @@ CREATE TABLE `UsuarioUSB` (
   `telefono` varchar(512) DEFAULT NULL,
   `direcUsuario` longtext,
   `sexo` varchar(512) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `rol` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `rol__idx` (`rol`),
+  CONSTRAINT `UsuarioUSB_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `Rol` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -828,7 +926,7 @@ CREATE TABLE `UsuarioUSB` (
 
 LOCK TABLES `UsuarioUSB` WRITE;
 /*!40000 ALTER TABLE `UsuarioUSB` DISABLE KEYS */;
-INSERT INTO `UsuarioUSB` VALUES (1,'10-10419','Daniel','Marin','danielarturomt@gmail.com','Daniel-420','CI','21464359','0414-4742003','','M');
+INSERT INTO `UsuarioUSB` VALUES (6,'10-10330','Andres','Guerrero','danielarturomt@gmail.com','DUYBIMPZEURLPWHNZQMI','CI','23796390','07863250260','Nomada','M',2),(7,'10-10292','Hector Alejandro','Goncalves Pita',NULL,'ISCVJSKUFESHIUYYRCWY','CI','23947885','04128063009','los samanes','M',3),(10,'10-10717','Francisco Javier','Sucre Gonzalez',NULL,'BVIERQAPPDFAPROHMWYV','CI','19564959','04243130932','Caracas','M',1),(19,'10-10195','Alfredo Alejandro','Delgado Lopez',NULL,'EIYMEPEEAQJAMETRQRRF',NULL,NULL,NULL,NULL,NULL,1),(21,'10-10419','Daniel Arturo','Marin Tirado',NULL,'GDGTUNSHZWREEHBVPNZO',NULL,NULL,NULL,NULL,NULL,1);
 /*!40000 ALTER TABLE `UsuarioUSB` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -878,7 +976,7 @@ CREATE TABLE `auth_event` (
   PRIMARY KEY (`id`),
   KEY `user_id__idx` (`user_id`),
   CONSTRAINT `auth_event_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -887,6 +985,7 @@ CREATE TABLE `auth_event` (
 
 LOCK TABLES `auth_event` WRITE;
 /*!40000 ALTER TABLE `auth_event` DISABLE KEYS */;
+INSERT INTO `auth_event` VALUES (2,'2016-05-27 09:30:21','127.0.0.1',NULL,'auth','Group 2 created'),(15,'2016-06-01 15:56:54','127.0.0.1',17,'auth','User 17 Logged-out'),(17,'2016-06-01 16:16:10','127.0.0.1',17,'auth','User 17 Logged-out'),(19,'2016-06-01 18:12:40','127.0.0.1',17,'auth','User 17 Logged-out'),(20,'2016-06-01 18:25:40','127.0.0.1',18,'auth','User 18 Logged-out'),(21,'2016-06-01 18:34:31','127.0.0.1',18,'auth','User 18 Logged-out'),(22,'2016-06-01 18:35:18','127.0.0.1',18,'auth','User 18 Logged-out'),(23,'2016-06-01 18:38:52','127.0.0.1',17,'auth','User 17 Logged-out'),(24,'2016-06-01 19:00:57','127.0.0.1',18,'auth','User 18 Logged-out'),(26,'2016-06-04 15:15:29','127.0.0.1',15,'auth','User 15 Logged-out'),(28,'2016-06-04 17:01:51','127.0.0.1',15,'auth','User 15 Logged-out'),(29,'2016-06-04 17:10:25','127.0.0.1',15,'auth','User 15 Logged-out'),(30,'2016-06-04 17:11:50','127.0.0.1',18,'auth','User 18 Logged-out'),(31,'2016-06-04 17:12:05','127.0.0.1',17,'auth','User 17 Logged-out'),(33,'2016-06-08 19:12:56','127.0.0.1',28,'auth','User 28 Logged-out');
 /*!40000 ALTER TABLE `auth_event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -902,7 +1001,7 @@ CREATE TABLE `auth_group` (
   `role` varchar(512) DEFAULT NULL,
   `description` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -911,6 +1010,7 @@ CREATE TABLE `auth_group` (
 
 LOCK TABLES `auth_group` WRITE;
 /*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
+INSERT INTO `auth_group` VALUES (2,'user_12','');
 /*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -930,7 +1030,7 @@ CREATE TABLE `auth_membership` (
   KEY `group_id__idx` (`group_id`),
   CONSTRAINT `auth_membership_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE,
   CONSTRAINT `auth_membership_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -939,6 +1039,7 @@ CREATE TABLE `auth_membership` (
 
 LOCK TABLES `auth_membership` WRITE;
 /*!40000 ALTER TABLE `auth_membership` DISABLE KEYS */;
+INSERT INTO `auth_membership` VALUES (2,12,2);
 /*!40000 ALTER TABLE `auth_membership` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -988,7 +1089,7 @@ CREATE TABLE `auth_user` (
   `reset_password_key` varchar(512) DEFAULT NULL,
   `registration_id` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -997,7 +1098,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'Willie','Primavera','ceduduto@example.com','javier4915','','501 c. Moreover meteorites have been made large colony of. ','Unsettled parts are so much the twelve different colours the','Cross with a yucca flower and in british museum of agricultu'),(2,'Alfonso','Ovalle','sadupopo@example.com','latrisha2789','','Callous rough-and-tumble conditions of matter and of colony.','Neolithic man s. If the down-breaking disruptive chemical el','There. so by the hebrides southwards following stages until '),(3,'Stacey','Workowski','cotocece@example.com','beau7582','','Demonstrate a wood-snail in birds because some unimaginable ','Rainbow-colour. Simple protists which give out the correspon','Invaders of the planet. She was happening is a trend. '),(4,'Yevette','Pod','macotoma@example.com','claudia6567','','Entangled air there is available on this is a large scale. ','Noticing that in saying: photo: restoration modelled by the.','One-celled organism is the earth--making a falling particles'),(5,'Adela','Coneway','damadace@example.com','denese8283','','Professor hickson s nebula 57 photo: leadbeater. an advance ','Fashion so they receive them namely portions and from the in','Chaotic molecular reality. The prism produces the risks are '),(6,'Edwardo','Christi','samomoce@example.com','mimi2491','','Matters little pinch of the animal life; c. If. ','113 the spider which the discovery of this agreement you do.','Ask the development often only shadow cast by the artificial'),(7,'Wynell','Tokay','dumodaco@example.com','katina6627','','Violet-light waves sent through one of nature but copper is ','Idea--of taking advantage of this vapour out of the moon. . ','Tries to give utterance to swallow a wonder of crustaceans w'),(8,'Pauletta','Seckinger','dupomapa@example.com','sherman3960','','Flourish sometimes justifies itself at the diet in fresh wat','Rabbit--who by their resources of a hundred trillion miles a','Articles with the steep ladder of heat energy from air water'),(9,'Diane','Dai','sosocoto@example.com','charles8087','','Legions of man alone swamp and so that are other form. ','Bats. For the seeds themselves into two straws were reptiles','Beginning. in croatia and they can be a replacement copy in.'),(10,'Lyndia','Ape','dumodapa@example.com','ramiro6428','','Frilled lizard which we owe them give a delicate larva trans','Pglaf.org while there should be stimulated brain could actua','Stopper of mammals arose races and the hoatzin inhabits brit');
+INSERT INTO `auth_user` VALUES (12,'ECorp','','ecorp@ecorp.com',NULL,'pbkdf2(1000,20,sha512)$97174ea4eb4f8afe$e9fbc0bd7b1a360595eab3cca5def45710623fdb','','','ecorp@ecorp.com'),(15,'Francisco Javier','Sucre Gonzalez','','10-10717','pbkdf2(1000,20,sha512)$82b24e12016a9e42$c1fe2000ebbc88c0965311af207f5bb14e5ce11c','','',''),(17,'Andres Miguel','Guerrero Silva','','10-10330','pbkdf2(1000,20,sha512)$b2d42a756d15d96f$7a40d5b9a7ead64884570197bf397292ad4f4f89','','',''),(18,'Hector Alejandro','Goncalves Pita','','10-10292','pbkdf2(1000,20,sha512)$adbc2d95101fca17$c50bec3cdbc55a139eab2705780dff2a6f34de24','','',''),(21,'Francisco Javier','Sucre Gonzalez','','10-10717','pbkdf2(1000,20,sha512)$bebf41709373c74a$93f106ce8f0d000b5e9430e530ea8e02122a9075','','',''),(28,'Alfredo Alejandro','Delgado Lopez','','10-10195','pbkdf2(1000,20,sha512)$90ba03c768af63bd$da9c56b930f8c376e7411b77ac7fbbce99ff5c27','','',''),(30,'Daniel Arturo','Marin Tirado','','10-10419','pbkdf2(1000,20,sha512)$a9a74b56d80bcd69$d98d4fe45c9b2968a1d15de4d082eb556cc26df4','','','');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1013,7 +1114,7 @@ CREATE TABLE `correo_por_verificar` (
   `correo` varchar(512) NOT NULL,
   `codigo` varchar(512) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1022,6 +1123,7 @@ CREATE TABLE `correo_por_verificar` (
 
 LOCK TABLES `correo_por_verificar` WRITE;
 /*!40000 ALTER TABLE `correo_por_verificar` DISABLE KEYS */;
+INSERT INTO `correo_por_verificar` VALUES (1,'frank91frank@gmail.com','9oVZEJ0'),(2,'frank91frank@gmail.com','r6cMm7nscAa'),(3,'frank91frank@gmail.com','TNXPO');
 /*!40000 ALTER TABLE `correo_por_verificar` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1034,4 +1136,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-26 23:23:14
+-- Dump completed on 2016-06-08 19:50:21

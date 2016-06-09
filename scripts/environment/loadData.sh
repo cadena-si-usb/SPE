@@ -8,12 +8,18 @@ else
 	dumpFile=$1
 fi
 
+dbName=SPE
+mysql -uroot -proot <<MYSQL_SCRIPT
+DROP DATABASE IF EXISTS $dbName;
+CREATE DATABASE $dbName;
+MYSQL_SCRIPT
+
 echo "Iniciando carga de nueva base de datos"
-./cleanDB 1
-./cleanDB 2
+./cleanD.sh 1
+./cleanDB.sh 2
 
 dbName=SPE
-mysql -u speclient -pspe2016 $dbName < $dumpfile
+mysql -u speclient -pspe2016 $dbName < $dumpFile
 
 if [[ $? -eq 0 ]]; then
 	echo "El script finalizo exitosamente"
