@@ -1,11 +1,13 @@
 <script type="text/html" id="tmplMaterias">
 
-    <div data-id="id" data-template-bind='[{"attribute": "class", "value": "hasEnough","formatter":"Quantity"}]' style="background-color: #8b8b8b; border: 1px solid black; padding: 2px; color: black;">
-        <h2>Pasantia
+    <div data-id="id" data-template-bind='[{"attribute": "class", "value": "hasEnough","formatter":"Quantity"}]' style="background-color: #ddd; border: 1px solid #98978b; padding: 20px; color: black; margin-bottom: 10px;">
+
+        <div style="display:flex; flex-direction: row; flex-wrap: wrap;">
+
+            <div style="flex:5 1 auto; max-width:600px; padding-right:25px;">
+                <h2>Pasantia
         <span class='text-center' data-template-bind='[{"attribute": "content", "value": "tipo"}]'>
         </span></h2>
-        <div style="display:flex; flex-direction: row; flex-wrap: wrap;">
-            <div style="flex:5 1 auto; max-width:600px; padding-right:25px;">
                 <p>
                     <b>Descripcion</b>: <span class='text-center' data-template-bind='[{"attribute": "content", "value": "descripcion"}]'>
                     </span>
@@ -14,16 +16,16 @@
                     <b>Duracion</b>: <span class='text-center' data-template-bind='[{"attribute": "content", "value": "duracion"}]'>
                     </span> semanas.
                 </p>
-                <a>Programa del curso</a>
+                <a class="link-spe">Programa del curso</a>
                 <br>
-                <a>Reglamento</a>
+                <a class="link-spe">Reglamento</a>
                 <br>
-                <a>Procedimientos</a>
+                <a class="link-spe">Procedimientos</a>
             </div>
             
-            <div style="background-color: #2aabd2; border: 1px solid black; padding: 2px; color: black; flex:5 1 auto">
+            <div style="background-color: #bbb; border: none; padding: 20px; color: black; flex:5 1 auto; text-align: center;">
                 <h2>Cursos</h2>
-                <button>Preinscribir</button>
+                <button class="btn btn-default">PREINSCRIBIR</button>
                 <div data-template-bind='[{"attribute": "id", "value": "codigo"}]'>
                 </div>
             </div>
