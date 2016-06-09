@@ -1,0 +1,16 @@
+.link-spe{
+    text-decoration: none;
+    color: #0000C0;
+    cursor: pointer;
+}
+
+.link-spe:hover{
+    text-decoration: none;
+    color: #00007c;
+    cursor: pointer;
+}
+
+/*FOOTER*/
+.footer{
+    margin-top: 20px;
+}

@@ -9,13 +9,13 @@ else
 fi
 
 dbName=SPE
-mysql -uroot -proot <<MYSQL_SCRIPT
+mysql -uspeclient -pspe2016 <<MYSQL_SCRIPT
 DROP DATABASE IF EXISTS $dbName;
 CREATE DATABASE $dbName;
 MYSQL_SCRIPT
 
 echo "Iniciando carga de nueva base de datos"
-./cleanD.sh 1
+./cleanDB.sh 1
 ./cleanDB.sh 2
 
 dbName=SPE

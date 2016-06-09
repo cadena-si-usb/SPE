@@ -298,6 +298,7 @@
 'modules': 'módulos',
 'must be YYYY-MM-DD HH:MM:SS!': '¡debe ser DD/MM/YYYY HH:MM:SS!',
 'must be YYYY-MM-DD!': '¡debe ser DD/MM/YYYY!',
+'Must include at least %s %s': 'Must include at least %s %s',
 'Must include at least %s lower case': 'Must include at least %s lower case',
 'Must include at least %s of the following: %s': 'Must include at least %s of the following: %s',
 'Must include at least %s upper case': 'Must include at least %s upper case',

@@ -27,7 +27,7 @@ scriptDir=$(dirname -- "$(readlink -e -- "$BASH_SOURCE")")
 cd "$scriptDir" && rm ../../applications/$dbName/databases/*
 
 dbName=SPE
-mysql -uroot -proot <<MYSQL_SCRIPT
+mysql -uspeclient -pspe2016 <<MYSQL_SCRIPT
 DROP DATABASE $dbName;
 CREATE DATABASE $dbName;
 MYSQL_SCRIPT
