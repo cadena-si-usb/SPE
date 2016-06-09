@@ -95,6 +95,14 @@ def login_cas():
         if primeravez.isempty():
 
             Usuario.registrar(usuario,auth)
+
+            respuesta = Usuario.getByRole(usbid)
+
+            session.currentUser = respuesta
+
+            if usuario['tipo'] == 'Pregrado':
+                redirect(URL(c='usuarios/perfil'))
+
             redirect(URL(c='default',f='index'))
             # auth.login_bare(usbid,clave)
             #redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))
@@ -110,7 +118,7 @@ def login_cas():
 
             # Caso 1: El usuario no ha registrado sus datos
             if respuesta == None:
-                redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))
+                redirect(URL(c='usuarios',f='perfil'))
             # Caso 2: El usuario no ha verificado su correo
             elif correo_no_verificado(usbid):
                 obtener_correo(usbid)

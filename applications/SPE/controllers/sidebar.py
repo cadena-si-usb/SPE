@@ -11,10 +11,14 @@ def items():
     #TODO Hacer que esto filtre dependiendo del rol del usuario logeado
     if ('currentUser' in session):
         usuario = session.currentUser
+        if usuario['activo']:
+        	obj['filter'] = '{"rol":"' + str(usuario['rol']) + '"}'
+    		rows = Accion_Usuario.find(obj).as_list()
+    	else:
+    		rows = []
+        	
 
-        obj['filter'] = '{"rol":"' + str(usuario['rol']) + '"}'
 
-    rows = Accion_Usuario.find(obj)
 
     response.view = 'sidebar/items.load.html'
-    return dict(routes=rows.as_list(),id="id")
+    return dict(routes=rows,id="id")

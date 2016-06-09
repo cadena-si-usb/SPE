@@ -1,3 +1,21 @@
-{{extend 'layout.html'}}
+{{extend 'usuarios/perfil.html'}}
 
-<h1>Estudiante</h1>
+<h2>Estudiante</h2>
+
+<h5>Carrera</h5>
+<select name="carrera" value="Ingenieria Mecanica" class="inputs">
+	{{for carrera in carreras:}}
+		<option value="{{=carrera.id}}">
+			{{=carrera.nombre}}
+		</option>
+	{{pass}}
+</select>
+<br>
+<h5>Sede</h5>
+<select name="sede" class="inputs">
+	{{for sede in sedes:}}
+		<option value="{{=sede.id}}">
+			{{=sede.nombre}}
+		</option>
+	{{pass}}
+</select>

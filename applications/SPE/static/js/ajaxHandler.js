@@ -1,6 +1,6 @@
 var AjaxHandler = (function(){
 
-    var route = 'http://localhost:8000/SPE/';
+    var route = '/';
 
     function find(table,options){
         options.url = route + table + '/get/';

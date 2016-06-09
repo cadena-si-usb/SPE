@@ -1,12 +1,79 @@
 {{extend 'layout.html'}}
 {{block content}}
 
-<h1>PERFIL</h1>
+<div id="perfil_estudiante">
 
-<br>
 
-<button><a href="/SPE/usuarios/curriculo">Llenar curriculo</a></button>
-<button><a href="/SPE/mis_pasantias/listar">Pasantias</a></button>
+	<h1>PERFIL</h1>
 
-<a href="http://secure.dst.usb.ve/logout">Cerrar Sesion</a>
+	<section id="sec1">
+		<div class="container"> 
+			<div class="row">
+				<div class="col-lg-6" id="foto-perfil">
+				</div>
+
+				<div class="col-lg-6">
+						<h5><b>Foto de Perfil</b></h5><br>
+						<button>Choose File</button><br>
+						<p class="parrafos">Utilice una foto tipo carnet reciente.</p><br>
+						<button class="boton-negro">SUBIR FOTO</button>
+						<p class="parrafos">Una vez completado todos sus datos finalice su inscripcion.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<section id="sec2">
+		<div class="container"> 
+			<div class="row">
+				<div class="col-lg-6 cols">
+					<form id="actualizar_usuario">
+						<h4>Datos del Perfil</h4>
+						<br>
+						<h5>Nombre</h5>
+						<input name="nombre" value="{{=user['nombre']}}" class="inputs"></input>
+						<br>
+						<h5>Apellido</h5>
+						<input name="apellido" value="{{=user['apellido']}}" class="inputs"></input>
+						<br>
+						<h5>Sexo</h5>
+						<select name="sexo" class="inputs">
+							<option>M</option>
+							<option>F</option>
+						</select>
+						<br>
+						<h5>Tipo de Documento</h5>
+						<select name="tipo_documento" class="inputs">
+							{{for tipo_documento in tipos_documento:}}
+								<option value="{{=tipo_documento.id}}">
+									{{=tipo_documento.nombre}}
+								</option>
+							{{pass}}
+						</select>
+						<br>
+						<h5>Numero documento</h5>
+						<input name="cedula" value="{{=user['numero_documento']}}" class="inputs"></input>
+						<br>
+						<h5>Direccion</h5>
+						<input name="direccion" value="{{=user['direcUsuario']}}" class="inputs"></input>
+						<br>
+						<h5>Correo Electronico</h5>
+						<input name="correo" value="{{=user['correo']}}" class="inputs"></input>
+						<br>
+						<h5>Telefono</h5>
+						<input name="telefono" value="{{=user['telefono']}}" class="inputs"></input>
+						<br>
+						{{include}}
+						<br>
+						<br><br><br><br><br><br>
+						<input type="submit" value="actualizar" class="boton-negro"></input>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
 {{end}}
+

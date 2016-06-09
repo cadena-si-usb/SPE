@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 from Usuarios import Usuario
+from Carreras import Carrera
+from Sedes import Sede
+from Tipos_Documento import Tipo_Documento
 
 import Encoder
 
 Usuario = Usuario()
+Carrera = Carrera()
+Sede = Sede()
+Tipo_Documento = Tipo_Documento()
 
 def listar():
     session.rows = []
@@ -49,6 +55,10 @@ def modificar():
     return locals()
 
 def perfil():
+    ##Esto es para todos
+    userid = str(auth.user['username'])
+
+    usuario = db.UsuarioUSB(db.UsuarioUSB.usbid == userid).as_dict()
 
     if session.currentUser:
         rol = db.Rol(session.currentUser['rol'])
@@ -56,8 +66,27 @@ def perfil():
         redirect(URL(c='default',f='index'))
 
     response.view = 'usuarios/' + rol.nombre.lower() + '.html'
+
+    user = {}
+
+    for attr in usuario:
+        if (usuario[attr] == None):
+            user[attr] = ""
+        else:
+            user[attr] = usuario[attr]
+
+    carreras = Carrera.find({})
+    sedes = Sede.find({})
+    tipos_documento = Tipo_Documento.find({})
     
-    return locals()
+    return dict(user=user,carreras=carreras,sedes=sedes,tipos_documento=tipos_documento)
+
+def actualizar():
+    print request.vars
+    row = {}
+
+    return row
+
 
 def curriculo():
     if request.vars:
