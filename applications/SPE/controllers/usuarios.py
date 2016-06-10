@@ -55,73 +55,77 @@ def modificar():
     return locals()
 
 def perfil():
-    ##Esto es para todos
-
     fields = [
-        db.Estudiante.carrera,
-        db.Estudiante.correo_Alternativo,
-        db.UsuarioUSB.nombre,
-        db.UsuarioUSB.apellido,
-        db.UsuarioUSB.tipo_documento,
-        db.UsuarioUSB.numero_documento,
-        db.UsuarioUSB.sexo,
-        db.UsuarioUSB.direcUsuario,
-        db.UsuarioUSB.telefono
+        'nombre',
+        'apellido',
+        'correo',
+        'tipo_documento',
+        'numero_documento',
+        'telefono',
+        'direcUsuario',
+        'sexo'         
     ]
 
     userid = str(auth.user['username'])
 
-    usuario = db.UsuarioUSB(db.UsuarioUSB.usbid == userid).as_dict()
+    usuario = db.UsuarioUSB(db.UsuarioUSB.usbid == userid)
 
-    if session.currentUser:
-        rol = db.Rol(session.currentUser['rol'])
+
+    form = SQLFORM(db.UsuarioUSB,record=usuario,fields=fields,submit_button='Actualizar',showid=False)
+
+    if form.process().accepted:
+        session.flash = T('Perfil actualizado exitosamente!')
+        usuario.update_record(activo=True)
+        session.currentUser = Usuario.getByRole(usuario['usbid'])
+        redirect(URL('perfil'))
     else:
-        redirect(URL(c='default',f='index'))
+        response.flash = T('Por favor llene la forma.')
 
-    response.view = 'usuarios/' + rol.nombre.lower() + '.html'
+    return locals()
 
-    user = {}
+def perfil_estudiante():
+    fields = [
+        'carrera',
+        'sede'         
+    ]
 
-    form = SQLFORM.factory(
-        *fields,
-        submit_button='Submit',
-        separator=': ',
-        buttons=['submit'],
-        col3={
-            'usbid': T('usbID'),
-            'carnet': T('Carnet Estudiantil'),
-            'carrera': T('Carrera Que Está Cursando'),
-            'correo_Alternativo': T('Correo Alternativo'),
-            'nombre': T('Nombres'),
-            'apellido': T('Apellido'),
-            'tipo_documento': T('Tipo De Documento'),
-            'numero_documento': T('Numero De Documento'),
-            'sexo': T('Sexo'),
-            'direcUsuario': T('Direccion'),
-            'telefono': T('Telefono De Contacto'),
-        })
+    userid = str(auth.user['username'])
 
-    for attr in usuario:
-        if (usuario[attr] == None):
-            user[attr] = ""
-        else:
-            user[attr] = usuario[attr]
+    estudiante = db.Estudiante(db.Estudiante.carnet == userid)
 
-    carreras = Carrera.find({})
-    sedes = Sede.find({})
-    tipos_documento = Tipo_Documento.find({})
-    
-    return dict(user=user,carreras=carreras,sedes=sedes,tipos_documento=tipos_documento,form=form)
+    form = SQLFORM(db.Estudiante,record=estudiante,fields=fields,submit_button='Actualizar',showid=False)
 
-def actualizar():
-    print request.vars
-    row = {}
+    if form.process().accepted:
+        session.flash = T('Perfil actualizado exitosamente!')
+        estudiante.update_record(activo=True)
+        redirect(URL('perfil_estudiante'))
+    else:
+        response.flash = T('Por favor llene la forma.')
 
-    return row
+    return locals()
 
 
 def curriculo():
-    if request.vars:
-        print (request.vars)
+    fields = [
+        'electivas',
+        'cursos',
+        'aficiones',
+        'idiomas'         
+    ]
+
+    userid = str(auth.user['username'])
+
+    estudiante = db.Estudiante(db.Estudiante.carnet == userid)
+
+    curriculo = db.Curriculo(db.Curriculo.estudiante == estudiante['id'])
+
+    form = SQLFORM(db.Curriculo,record=curriculo,fields=fields,submit_button='Actualizar',showid=False)
+
+    if form.process().accepted:
+        session.flash = T('Perfil actualizado exitosamente!')
+        curriculo.update_record(activo=True)
+        redirect(URL('curriculo'))
+    else:
+        response.flash = T('Por favor llene la forma.')
 
     return locals()

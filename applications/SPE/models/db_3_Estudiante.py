@@ -9,10 +9,9 @@ db.define_table('Estudiante',
           label='Carnet'),
     Field('carrera', 'reference Carrera',
           label='Carrera'),
-    Field('correo_Alternativo',  requires=IS_EMAIL(error_message='Introduzca un email valido.'),
-          label='Correo Alternativo'),
     Field('sede','reference Sede',
           requires=IS_IN_DB(db, db.Sede, '%(nombre)s',
           error_message='Elija una de las sedes.'),
-          label='Sede (*)')
+          label='Sede (*)'),
+    Field('activo','boolean')
     )

@@ -48,19 +48,29 @@ class Usuario(Model):
 
 		nombre = usuario['first_name']
 		apellido = usuario['last_name']
+		tipo = usuario['tipo']
 		carnet = usuario['email'].split('@')[0]
 		clave = random_key()
 
 		try:
-			self.table.insert(nombre=nombre,
+			usuario = self.table.insert(nombre=nombre,
 									apellido=apellido,
 									usbid=carnet,
 									rol=rol,
-									clave=clave)
+									clave=clave,
+									activo=False)
 			self.db.auth_user.insert(first_name=nombre,
 									 last_name=apellido,
 									 username=carnet,
 									 password=self.db.auth_user.password.validate(clave)[0])
+
+			if (tipo == 'Pregrado'):
+				estudiante = self.db.Estudiante.insert(usuario=usuario['id'],
+										carnet=carnet,
+										activo=False)
+				self.db.Curriculo.insert(estudiante=estudiante['id'],
+										activo=False)
+
 			auth.login_bare(carnet,clave)
 
 		except Exception as e:
