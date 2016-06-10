@@ -94,6 +94,8 @@ def login_cas():
 
         if primeravez.isempty():
 
+            print usuario['tipo']
+
             Usuario.registrar(usuario,auth)
 
             respuesta = Usuario.getByRole(usbid)
