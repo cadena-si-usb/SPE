@@ -103,7 +103,7 @@ def login_cas():
             session.currentUser = respuesta
 
             if usuario['tipo'] == 'Pregrado':
-                redirect(URL(c='usuarios/perfil'))
+                redirect(URL(c='mi_perfil/configuracion'))
 
             redirect(URL(c='default',f='index'))
             # auth.login_bare(usbid,clave)

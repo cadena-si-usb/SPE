@@ -17,11 +17,38 @@ if auth.is_logged_in():
 else:
     texto_principal = "Bienvenido"
 
-menu_autenticado = [
-    (texto_principal,False, '#',[
-        ("Su Perfil", False, '/SPE/usuarios/perfil'),
+rol = {}
+
+if ('currentUser' in session):
+	currentUser = session.currentUser
+	rol = db(db.Rol.id == currentUser.rol).select().first()
+else:
+	rol['nombre'] = 'Invitado'
+
+opciones = []
+
+opciones_estudiante = [
+        ("Ver Perfil", False, '/SPE/mi_perfil/ver'),
+        ("Mis Pasantias", False, '/SPE/mis_pasantias/listar'),
+        ("Configuracion", False, '/SPE/mi_perfil/configuracion'),
         (SPAN(' Cerrar Sesión', _class='fa fa-sign-out'), False, URL('default','logout'))
-    ])
+    ]
+
+opciones_coordinador = [
+        ("Ver Perfil", False, '/SPE/mi_perfil/ver'),
+        ("Administracion", False, '/SPE/pasantias/listar'),
+        ("Configuracion", False, '/SPE/mi_perfil/configuracion'),
+        (SPAN(' Cerrar Sesión', _class='fa fa-sign-out'), False, URL('default','logout'))
+    ]
+
+if rol['nombre'] == 'Coordinador_CCT':
+	opciones = opciones_coordinador
+else:
+	opciones = opciones_estudiante
+
+
+menu_autenticado = [
+    (texto_principal,False, '#',opciones)
 ]
 
 response.menu = [
