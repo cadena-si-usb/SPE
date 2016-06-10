@@ -9,7 +9,7 @@
             filters = {order:'id',side:'>',limit:'4',page:'0'},
             filter = {
                 "pasantias": {
-                    "estudiante": "1"
+                    "estudiante": "4"
                 }
             },
             search = {},

@@ -51,12 +51,11 @@ def ver():
 def editar():
     # Obtenemos la pasantia previamente agregada en inscripcion
     pasantia = db.Pasantia(request.args(0))
-    print(pasantia)
     #area_proyecto = db.area_proyecto
 
     fields = [
         db.Pasantia.titulo,
-        db.Pasantia.area_proyecto,
+        #db.Pasantia.area_proyecto,
         db.Pasantia.resumen_proyecto,
         db.Pasantia.objetivo,
         db.Pasantia.confidencialidad
@@ -74,7 +73,7 @@ def editar():
         buttons=['submit'],
         col3={
             'titulo': T('Título'),
-            'area_proyecto': T('Área del Proyecto'),
+            #'area_proyecto': T('Área del Proyecto'),
             'resumen_proyecto': T('Resumen del Proyecto'),
             'objetivo': T('Objetivo General'),
             'confidencialidad': T('Detalles de Confidencialidad'),
