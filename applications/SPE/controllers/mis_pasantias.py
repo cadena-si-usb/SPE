@@ -50,52 +50,59 @@ def ver():
 
 def editar():
     # Obtenemos la pasantia previamente agregada en inscripcion
-    pasantia = db.Pasantia(request.args(0))
-    print(pasantia)
     #area_proyecto = db.area_proyecto
 
     fields = [
-        db.Pasantia.titulo,
-        db.Pasantia.area_proyecto,
-        db.Pasantia.resumen_proyecto,
-        db.Pasantia.objetivo,
-        db.Pasantia.confidencialidad
+        'titulo',
+#        'area_proyecto',
+        'resumen_proyecto',
+        'objetivo',
+        'confidencialidad'
     ]
+    pasantia = db.Pasantia(request.args(0))
 
     # Cargamos el estudiante que ya esta enlazado a esta pasantia
     # db.Pasantia.estudiante.default = pasantia.estudiante['id']
     # db.Pasantia.estudiante.writable = False
-    estudiante = pasantia.estudiante['id']
 
-    form = SQLFORM.factory(
-        *fields,
-        submit_button='Submit',
-        separator=': ',
-        buttons=['submit'],
-        col3={
-            'titulo': T('Título'),
-            'area_proyecto': T('Área del Proyecto'),
-            'resumen_proyecto': T('Resumen del Proyecto'),
-            'objetivo': T('Objetivo General'),
-            'confidencialidad': T('Detalles de Confidencialidad'),
-            'estudiante': T('Estudiante')
-        }
-    )
+    form = SQLFORM(db.Pasantia,record=pasantia,fields=fields,submit_button='Actualizar',showid=False)
 
     if form.process().accepted:
-        pasantia.update_record(
-            titulo=request.vars.titulo,
-            area_proyecto=request.vars.area_proyecto,
-            objetivo=request.vars.objetivo,
-            confidencialidad=request.vars.confidencialidad,
-        )
-
-        db.Plan_Trabajo.insert(
-            pasantia=pasantia['id']
-        )        
-
+        session.flash = T('Pasantia actualizada exitosamente!')
+        redirect(URL('editar'))
+    else:
+        response.flash = T('Por favor llene la forma.')
 
     return locals()
+
+    # form = SQLFORM.factory(
+    #     *fields,
+    #     submit_button='Submit',
+    #     separator=': ',
+    #     buttons=['submit'],
+    #     col3={
+    #         'titulo': T('Título'),
+    #         'area_proyecto': T('Área del Proyecto'),
+    #         'resumen_proyecto': T('Resumen del Proyecto'),
+    #         'objetivo': T('Objetivo General'),
+    #         'confidencialidad': T('Detalles de Confidencialidad'),
+    #     }
+    # )
+
+    # if form.process().accepted:
+    #     pasantia.update_record(
+    #         titulo=request.vars.titulo,
+    #         area_proyecto=request.vars.area_proyecto,
+    #         objetivo=request.vars.objetivo,
+    #         confidencialidad=request.vars.confidencialidad,
+    #     )
+
+    #     db.Plan_Trabajo.insert(
+    #         pasantia=pasantia['id']
+    #     )        
+
+
+    # return locals()
     
 # Nueva ruta    
 def planes_trabajo():
