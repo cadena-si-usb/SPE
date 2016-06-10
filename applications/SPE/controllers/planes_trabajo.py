@@ -29,6 +29,7 @@ def count():
 
     return count
 
+# plan_trabajo/listar
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -38,6 +39,8 @@ def get():
 
     return rows
 
+# plan_trabajo/modificar
+# Cambiar vistas para que tengan 
 def modificar():
     record = db.PlanTrabajo(request.args(0)) or redirect(URL('agregar'))
     form = SQLFORM(db.PlanTrabajo, record)
@@ -47,3 +50,8 @@ def modificar():
     else:
         response.flash = T('Por favor llene la forma.')
     return locals()
+
+
+# Crear endpoint mis_pasantias/plan_trabajo/:id
+# Crear Modelo de objetivos especificos
+# Modelo de actividades
