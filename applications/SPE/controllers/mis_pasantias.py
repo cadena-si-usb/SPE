@@ -51,6 +51,7 @@ def ver():
 def editar():
     # Obtenemos la pasantia previamente agregada en inscripcion
     pasantia = db.Pasantia(request.args(0))
+    print(pasantia)
     #area_proyecto = db.area_proyecto
 
     fields = [
@@ -65,7 +66,6 @@ def editar():
     # db.Pasantia.estudiante.default = pasantia.estudiante['id']
     # db.Pasantia.estudiante.writable = False
     estudiante = pasantia.estudiante['id']
-    print(estudiante)
 
     form = SQLFORM.factory(
         *fields,
@@ -100,7 +100,6 @@ def editar():
 # Nueva ruta    
 def planes_trabajo():
     # Obtenemos la pasantia previamente agregada en inscripcion
-    print(request.args(0))
     pasantia = db.Pasantia(request.args(0))
 
     return locals()
