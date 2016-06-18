@@ -52,10 +52,11 @@ CREATE TABLE `Accion_Usuario` (
   `nombre` varchar(512) DEFAULT NULL,
   `destino` varchar(512) DEFAULT NULL,
   `rol` int(11) DEFAULT NULL,
+  `contexto` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `rol__idx` (`rol`),
   CONSTRAINT `Accion_Usuario_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `Rol` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +65,7 @@ CREATE TABLE `Accion_Usuario` (
 
 LOCK TABLES `Accion_Usuario` WRITE;
 /*!40000 ALTER TABLE `Accion_Usuario` DISABLE KEYS */;
-INSERT INTO `Accion_Usuario` VALUES (1,'Acciones','/SPE/acciones_usuario/listar',2),(2,'Mis Pasantias','/SPE/mis_pasantias/listar',1),(3,'Pasantias','/SPE/pasantias/listar',2),(4,'Pasantias','/SPE/pasantias/listar',3);
+INSERT INTO `Accion_Usuario` VALUES (1,'Acciones','/SPE/acciones_usuario/listar',2,'coordinacion'),(2,'Mis Pasantias','/SPE/mis_pasantias/listar',1,'coordinacion'),(3,'Pasantias','/SPE/pasantias/listar',2,'coordinacion'),(4,'Pasantias','/SPE/pasantias/listar',3,NULL),(6,'Editar Perfil','/SPE/mi_perfil/configuracion',1,'configuracion'),(7,'Editar Curriculo','/SPE/mi_perfil/editar_curriculo',1,'configuracion');
 /*!40000 ALTER TABLE `Accion_Usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,12 +134,11 @@ CREATE TABLE `Carrera` (
   `codigo` varchar(512) NOT NULL,
   `nombre` varchar(512) DEFAULT NULL,
   `duracion` varchar(512) NOT NULL,
-  `sede` varchar(512) NOT NULL,
   `coordinacion` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `coordinacion__idx` (`coordinacion`),
   CONSTRAINT `Carrera_ibfk_1` FOREIGN KEY (`coordinacion`) REFERENCES `Coordinacion` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +147,7 @@ CREATE TABLE `Carrera` (
 
 LOCK TABLES `Carrera` WRITE;
 /*!40000 ALTER TABLE `Carrera` DISABLE KEYS */;
-INSERT INTO `Carrera` VALUES (1,'0800','Ingenieria de la Computacion','Larga','Sartenejas',1);
+INSERT INTO `Carrera` VALUES (3,'0800','Ingenieria de la Computacion','Larga',7),(4,'0200','Ingenieria de Mecanica','Larga',6);
 /*!40000 ALTER TABLE `Carrera` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,9 +185,11 @@ CREATE TABLE `Coordinacion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(512) DEFAULT NULL,
   `usbid` varchar(512) DEFAULT NULL,
-  `sede` varchar(512) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `sede` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sede__idx` (`sede`),
+  CONSTRAINT `Coordinacion_ibfk_1` FOREIGN KEY (`sede`) REFERENCES `Sede` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,7 +198,7 @@ CREATE TABLE `Coordinacion` (
 
 LOCK TABLES `Coordinacion` WRITE;
 /*!40000 ALTER TABLE `Coordinacion` DISABLE KEYS */;
-INSERT INTO `Coordinacion` VALUES (1,'Coordinacion de Ciencias de la Computacion','1111','Sartenejas'),(2,'Coordinación de Cooperación Tecnica','123123','Sartenejas');
+INSERT INTO `Coordinacion` VALUES (6,'Coordinacion de Ingenieria Mecanica','1000',1),(7,'Coordinacion de Ingenieria de la Computacion','1001',1),(8,'Coordinación de Cooperación Tecnica','1002',1);
 /*!40000 ALTER TABLE `Coordinacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,7 +216,7 @@ CREATE TABLE `Coordinador` (
   `coordinacion` varchar(512) DEFAULT NULL,
   `correo_Alternativo` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +225,7 @@ CREATE TABLE `Coordinador` (
 
 LOCK TABLES `Coordinador` WRITE;
 /*!40000 ALTER TABLE `Coordinador` DISABLE KEYS */;
-INSERT INTO `Coordinador` VALUES (1,'6','10-10330','2','danielarturomt@gmail.com');
+INSERT INTO `Coordinador` VALUES (1,'6','10-10330','2','danielarturomt@gmail.com'),(2,'28','10-10195','8','coord@copt.com'),(3,'45','10-10292','8','asd@asd.com');
 /*!40000 ALTER TABLE `Coordinador` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,10 +243,11 @@ CREATE TABLE `Curriculo` (
   `cursos` varchar(512) DEFAULT NULL,
   `aficiones` varchar(512) DEFAULT NULL,
   `idiomas` varchar(512) DEFAULT NULL,
+  `activo` char(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `estudiante__idx` (`estudiante`),
   CONSTRAINT `Curriculo_ibfk_1` FOREIGN KEY (`estudiante`) REFERENCES `Estudiante` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,6 +256,7 @@ CREATE TABLE `Curriculo` (
 
 LOCK TABLES `Curriculo` WRITE;
 /*!40000 ALTER TABLE `Curriculo` DISABLE KEYS */;
+INSERT INTO `Curriculo` VALUES (3,4,NULL,NULL,NULL,NULL,'F'),(4,5,NULL,NULL,NULL,NULL,'F');
 /*!40000 ALTER TABLE `Curriculo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -403,12 +407,16 @@ CREATE TABLE `Estudiante` (
   `carrera` int(11) DEFAULT NULL,
   `correo_Alternativo` varchar(512) DEFAULT NULL,
   `usuario__tmp` varchar(512) DEFAULT NULL,
+  `sede` int(11) DEFAULT NULL,
+  `activo` char(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `usuario__idx` (`usuario`),
   KEY `carrera__idx` (`carrera`),
+  KEY `sede__idx` (`sede`),
   CONSTRAINT `Estudiante_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `UsuarioUSB` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `Estudiante_ibfk_2` FOREIGN KEY (`carrera`) REFERENCES `Carrera` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  CONSTRAINT `Estudiante_ibfk_2` FOREIGN KEY (`carrera`) REFERENCES `Carrera` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `Estudiante_ibfk_3` FOREIGN KEY (`sede`) REFERENCES `Sede` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -417,6 +425,7 @@ CREATE TABLE `Estudiante` (
 
 LOCK TABLES `Estudiante` WRITE;
 /*!40000 ALTER TABLE `Estudiante` DISABLE KEYS */;
+INSERT INTO `Estudiante` VALUES (4,44,'10-10419',3,NULL,NULL,1,'T'),(5,45,'10-10292',NULL,NULL,NULL,NULL,'F');
 /*!40000 ALTER TABLE `Estudiante` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -593,7 +602,7 @@ CREATE TABLE `Pasantia` (
   CONSTRAINT `Pasantia_ibfk_4` FOREIGN KEY (`materia`) REFERENCES `Materia` (`id`) ON DELETE CASCADE,
   CONSTRAINT `Pasantia_ibfk_5` FOREIGN KEY (`etapa`) REFERENCES `Etapa` (`id`) ON DELETE CASCADE,
   CONSTRAINT `Pasantia_ibfk_6` FOREIGN KEY (`periodo`) REFERENCES `Periodo` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -767,6 +776,54 @@ INSERT INTO `Rol` VALUES (1,'Estudiante'),(2,'Coordinador_CCT'),(3,'Coordinador'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Sede`
+--
+
+DROP TABLE IF EXISTS `Sede`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Sede` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Sede`
+--
+
+LOCK TABLES `Sede` WRITE;
+/*!40000 ALTER TABLE `Sede` DISABLE KEYS */;
+INSERT INTO `Sede` VALUES (1,'Sartenejas'),(2,'Litoral');
+/*!40000 ALTER TABLE `Sede` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Tipo_Documento`
+--
+
+DROP TABLE IF EXISTS `Tipo_Documento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Tipo_Documento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Tipo_Documento`
+--
+
+LOCK TABLES `Tipo_Documento` WRITE;
+/*!40000 ALTER TABLE `Tipo_Documento` DISABLE KEYS */;
+INSERT INTO `Tipo_Documento` VALUES (1,'Cedula'),(2,'Pasaporte'),(3,'RIF');
+/*!40000 ALTER TABLE `Tipo_Documento` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Tutor_Industrial`
 --
 
@@ -908,16 +965,19 @@ CREATE TABLE `UsuarioUSB` (
   `apellido` varchar(512) DEFAULT NULL,
   `correo` varchar(512) DEFAULT NULL,
   `clave` varchar(512) DEFAULT NULL,
-  `tipo_documento` varchar(512) DEFAULT NULL,
   `numero_documento` varchar(512) DEFAULT NULL,
   `telefono` varchar(512) DEFAULT NULL,
   `direcUsuario` longtext,
   `sexo` varchar(512) DEFAULT NULL,
   `rol` int(11) DEFAULT NULL,
+  `tipo_documento` int(11) DEFAULT NULL,
+  `activo` char(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `rol__idx` (`rol`),
-  CONSTRAINT `UsuarioUSB_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `Rol` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+  KEY `tipo_documento__idx` (`tipo_documento`),
+  CONSTRAINT `UsuarioUSB_ibfk_1` FOREIGN KEY (`rol`) REFERENCES `Rol` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `UsuarioUSB_ibfk_2` FOREIGN KEY (`tipo_documento`) REFERENCES `Tipo_Documento` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -926,7 +986,7 @@ CREATE TABLE `UsuarioUSB` (
 
 LOCK TABLES `UsuarioUSB` WRITE;
 /*!40000 ALTER TABLE `UsuarioUSB` DISABLE KEYS */;
-INSERT INTO `UsuarioUSB` VALUES (6,'10-10330','Andres','Guerrero','danielarturomt@gmail.com','DUYBIMPZEURLPWHNZQMI','CI','23796390','07863250260','Nomada','M',2),(7,'10-10292','Hector Alejandro','Goncalves Pita',NULL,'ISCVJSKUFESHIUYYRCWY','CI','23947885','04128063009','los samanes','M',3),(10,'10-10717','Francisco Javier','Sucre Gonzalez',NULL,'BVIERQAPPDFAPROHMWYV','CI','19564959','04243130932','Caracas','M',1),(19,'10-10195','Alfredo Alejandro','Delgado Lopez',NULL,'EIYMEPEEAQJAMETRQRRF',NULL,NULL,NULL,NULL,NULL,1),(21,'10-10419','Daniel Arturo','Marin Tirado',NULL,'GDGTUNSHZWREEHBVPNZO',NULL,NULL,NULL,NULL,NULL,1);
+INSERT INTO `UsuarioUSB` VALUES (44,'10-10419','Daniel','Marin','danielarturomt@gmail.com','OMOVBNDESVRTXOSDLBAB','21464359','0414-4742003','Las Mercedes, Calle Trinidad','M',1,1,'T'),(45,'10-10292','Hector Alejandro','Goncalves Pita','hgoncalves@ldc.usb.ve','KKNKKMTGJYXLCURWCFAC','21321312','04243130932','asdsad','M',2,1,'T');
 /*!40000 ALTER TABLE `UsuarioUSB` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -976,7 +1036,7 @@ CREATE TABLE `auth_event` (
   PRIMARY KEY (`id`),
   KEY `user_id__idx` (`user_id`),
   CONSTRAINT `auth_event_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -985,7 +1045,7 @@ CREATE TABLE `auth_event` (
 
 LOCK TABLES `auth_event` WRITE;
 /*!40000 ALTER TABLE `auth_event` DISABLE KEYS */;
-INSERT INTO `auth_event` VALUES (2,'2016-05-27 09:30:21','127.0.0.1',NULL,'auth','Group 2 created'),(15,'2016-06-01 15:56:54','127.0.0.1',17,'auth','User 17 Logged-out'),(17,'2016-06-01 16:16:10','127.0.0.1',17,'auth','User 17 Logged-out'),(19,'2016-06-01 18:12:40','127.0.0.1',17,'auth','User 17 Logged-out'),(20,'2016-06-01 18:25:40','127.0.0.1',18,'auth','User 18 Logged-out'),(21,'2016-06-01 18:34:31','127.0.0.1',18,'auth','User 18 Logged-out'),(22,'2016-06-01 18:35:18','127.0.0.1',18,'auth','User 18 Logged-out'),(23,'2016-06-01 18:38:52','127.0.0.1',17,'auth','User 17 Logged-out'),(24,'2016-06-01 19:00:57','127.0.0.1',18,'auth','User 18 Logged-out'),(26,'2016-06-04 15:15:29','127.0.0.1',15,'auth','User 15 Logged-out'),(28,'2016-06-04 17:01:51','127.0.0.1',15,'auth','User 15 Logged-out'),(29,'2016-06-04 17:10:25','127.0.0.1',15,'auth','User 15 Logged-out'),(30,'2016-06-04 17:11:50','127.0.0.1',18,'auth','User 18 Logged-out'),(31,'2016-06-04 17:12:05','127.0.0.1',17,'auth','User 17 Logged-out'),(33,'2016-06-08 19:12:56','127.0.0.1',28,'auth','User 28 Logged-out');
+INSERT INTO `auth_event` VALUES (2,'2016-05-27 09:30:21','127.0.0.1',NULL,'auth','Group 2 created'),(3,'2016-06-10 00:27:46','127.0.0.1',103,'auth','User 103 Logged-out'),(4,'2016-06-10 00:53:53','127.0.0.1',103,'auth','User 103 Logged-out'),(5,'2016-06-10 00:57:16','127.0.0.1',104,'auth','User 104 Logged-out'),(6,'2016-06-10 01:05:47','127.0.0.1',104,'auth','User 104 Logged-out'),(7,'2016-06-10 01:15:30','127.0.0.1',103,'auth','User 103 Logged-out'),(8,'2016-06-10 01:29:00','127.0.0.1',104,'auth','User 104 Logged-out');
 /*!40000 ALTER TABLE `auth_event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1030,7 +1090,7 @@ CREATE TABLE `auth_membership` (
   KEY `group_id__idx` (`group_id`),
   CONSTRAINT `auth_membership_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE,
   CONSTRAINT `auth_membership_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1039,7 +1099,6 @@ CREATE TABLE `auth_membership` (
 
 LOCK TABLES `auth_membership` WRITE;
 /*!40000 ALTER TABLE `auth_membership` DISABLE KEYS */;
-INSERT INTO `auth_membership` VALUES (2,12,2);
 /*!40000 ALTER TABLE `auth_membership` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1089,7 +1148,7 @@ CREATE TABLE `auth_user` (
   `reset_password_key` varchar(512) DEFAULT NULL,
   `registration_id` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1098,7 +1157,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (12,'ECorp','','ecorp@ecorp.com',NULL,'pbkdf2(1000,20,sha512)$97174ea4eb4f8afe$e9fbc0bd7b1a360595eab3cca5def45710623fdb','','','ecorp@ecorp.com'),(15,'Francisco Javier','Sucre Gonzalez','','10-10717','pbkdf2(1000,20,sha512)$82b24e12016a9e42$c1fe2000ebbc88c0965311af207f5bb14e5ce11c','','',''),(17,'Andres Miguel','Guerrero Silva','','10-10330','pbkdf2(1000,20,sha512)$b2d42a756d15d96f$7a40d5b9a7ead64884570197bf397292ad4f4f89','','',''),(18,'Hector Alejandro','Goncalves Pita','','10-10292','pbkdf2(1000,20,sha512)$adbc2d95101fca17$c50bec3cdbc55a139eab2705780dff2a6f34de24','','',''),(21,'Francisco Javier','Sucre Gonzalez','','10-10717','pbkdf2(1000,20,sha512)$bebf41709373c74a$93f106ce8f0d000b5e9430e530ea8e02122a9075','','',''),(28,'Alfredo Alejandro','Delgado Lopez','','10-10195','pbkdf2(1000,20,sha512)$90ba03c768af63bd$da9c56b930f8c376e7411b77ac7fbbce99ff5c27','','',''),(30,'Daniel Arturo','Marin Tirado','','10-10419','pbkdf2(1000,20,sha512)$a9a74b56d80bcd69$d98d4fe45c9b2968a1d15de4d082eb556cc26df4','','','');
+INSERT INTO `auth_user` VALUES (103,'Daniel Arturo','Marin Tirado','','10-10419','pbkdf2(1000,20,sha512)$a31950db71beba02$f425911b59726f8ff83058d981e28b28b19d03bf','','',''),(104,'Hector Alejandro','Goncalves Pita','','10-10292','pbkdf2(1000,20,sha512)$a25f21cad42986e1$f4a52a8436c2f5f2bf6e24b8b35ffa3193244a35','','','');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1136,4 +1195,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-08 19:50:21
+-- Dump completed on 2016-06-10  1:40:52
