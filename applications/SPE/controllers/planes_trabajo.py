@@ -55,3 +55,9 @@ def modificar():
 # Crear endpoint mis_pasantias/plan_trabajo/:id
 # Crear Modelo de objetivos especificos
 # Modelo de actividades
+
+
+def ver():
+    record = db.Plan_Trabajo(request.args(0))
+
+    return locals()

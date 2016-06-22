@@ -12,6 +12,7 @@ def coordinacion():
 	#TODO Hacer que esto filtre dependiendo del rol del usuario logeado
 	if ('currentUser' in session):
 		usuario = session.currentUser
+
 		if usuario['activo']:
 			rol = str(usuario['rol'])
 			rows = db((db.Accion_Usuario.rol == rol) & (db.Accion_Usuario.contexto == 'coordinacion')).select()

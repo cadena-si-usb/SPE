@@ -1,9 +1,9 @@
 (function(){
 
-$('#curriculosIndex').ready(function(){
+$('#estudiantesIndex').ready(function(){
     var ajaxHandler = AjaxHandler();
 
-    var curriculos = [],
+    var estudiantes = [],
         max, area, options = {},
         filters = {order:'id',side:'>',limit:'4',page:'0'},
         filter = {},
@@ -24,18 +24,19 @@ $('#curriculosIndex').ready(function(){
 
         options.data = $.param(filters,true);
 
-        ajaxHandler.count('curriculos',options).success(function(res){
+        ajaxHandler.count('estudiantes',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getCurriculos();
+            getEstudiantes();
         })
     }
 
-    function getCurriculos(){
-        ajaxHandler.find('curriculos',options).success(function(res){
-            curriculos = JSON.parse(res);
-            if (curriculos.length > 0){
-                $("#elBody").loadTemplate('#template', curriculos);
+    function getEstudiantes(){
+        ajaxHandler.find('estudiantes',options).success(function(res){
+            estudiantes = JSON.parse(res);
+            console.log(estudiantes)
+            if (estudiantes.length > 0){
+                $("#elBody").loadTemplate('#template', estudiantes);
             }
             else {
                 var template = '<tr><td class="text-center" colspan="42">',
@@ -93,17 +94,17 @@ $('#curriculosIndex').ready(function(){
         elem.append(" <i id='orderBy' class='"+ fa +"'></i>")
     }
 
-    // Funcion que trae mas curriculos para paginacion
+    // Funcion que trae mas estudiantes para paginacion
 
-    function getMoreCurriculos(evt){
-        filters.page = curriculos.length.toString();
+    function getMoreEstudiantes(evt){
+        filters.page = estudiantes.length.toString();
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find('curriculos',options).success(function(res){
+        ajaxHandler.find('estudiantes',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
-                curriculos.push(res[i]);
+                estudiantes.push(res[i]);
             }
             disableButtonOnMax();
 
@@ -114,7 +115,7 @@ $('#curriculosIndex').ready(function(){
     //Desabilitar boton de MAS
 
     function disableButtonOnMax(){
-        if ((max) && (curriculos.length.toString() != max)) {
+        if ((max) && (estudiantes.length.toString() != max)) {
             $("#next").prop('disabled',false);
         }
         else {
@@ -152,7 +153,7 @@ $('#curriculosIndex').ready(function(){
 
 
     $('#search').keyup(searchTerm);
-    $('#next').click(getMoreCurriculos);
+    $('#next').click(getMoreEstudiantes);
     $('.uai-table-header').click(changeOrder);
 });
 })();

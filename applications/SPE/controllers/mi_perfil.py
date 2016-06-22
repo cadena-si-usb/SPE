@@ -1,5 +1,18 @@
+from Usuarios import Usuario
+
+Usuario = Usuario()
+
 def ver():
-    return locals()
+    ident = session.currentUser.id
+
+    estudiante = db(((db.UsuarioUSB.id == ident) & (db.Estudiante.usuario == db.UsuarioUSB.id) & (db.Estudiante.carrera == db.Carrera.id) & (db.UsuarioUSB.rol == db.Rol.id))).select().first()
+
+    pasantias = db(db.Pasantia.estudiante == estudiante.Estudiante.id).select().first()
+    curriculo = db(db.Curriculo.estudiante == estudiante.Estudiante.id).select().first()
+
+    response.view = 'estudiantes/perfil.html'
+
+    return dict(estudiante=estudiante,pasantias=pasantias,curriculo=curriculo)
 
 def configuracion():
     fields = [
@@ -32,7 +45,7 @@ def configuracion():
         session.flash = T('Perfil actualizado exitosamente!')
         usuario.update_record(activo=True)
         session.currentUser = Usuario.getByRole(usuario['usbid'])
-        redirect(URL('perfil'))
+        redirect(URL('ver'))
     else:
         response.flash = T('Por favor llene la forma.')
 

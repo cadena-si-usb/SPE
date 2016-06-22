@@ -1,8 +1,8 @@
-<ul style="margin-top: 20px; display: flex; flex-direction: column; font-family: 'DejaVu Sans' !important;">
+<ul style="margin-top: 20px; display: flex; flex-direction: column; font-family: 'DejaVu Sans' !important;" class="container">
     {{for route in routes:}}
-    <li style="padding: 10px 10px; text-align: left;font-size: 16px; cursor: pointer; list-style-type: none">
+    <li style="padding: 10px 10px; text-align: left;font-size: 16px; cursor: pointer; list-style-type: none" class="row">
         <a style="text-decoration: none;"href="{{=route['destino']}}">
-	        <button>
+	        <button class="col-lg-2">
 	        	{{=route['nombre']}}
 	        </button>
         </a>

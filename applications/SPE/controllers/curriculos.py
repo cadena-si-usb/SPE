@@ -15,7 +15,7 @@ def agregar():
     form = Curriculo.form(fields)
 
     if form.process().accepted:
-        session.flash = T('El material fue agregado exitosamente!')
+        session.flash = T('El curriculo fue agregado exitosamente!')
         redirect(URL('listar'))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
@@ -42,7 +42,7 @@ def modificar():
     record = db.Curriculo(request.args(0)) or redirect(URL('agregar'))
     form = SQLFORM(db.Curriculo, record)
     if form.process().accepted:
-        session.flash = T('El material fue modificado exitosamente!')
+        session.flash = T('El curriculo fue modificado exitosamente!')
         redirect(URL('listar'))
     else:
         response.flash = T('Por favor llene la forma.')
@@ -74,3 +74,8 @@ def editar():
         response.flash = T('Por favor llene la forma.')
 
     return dict(form=form)
+
+def ver():
+    record = db.Curriculo(request.args(0))
+
+    return locals()

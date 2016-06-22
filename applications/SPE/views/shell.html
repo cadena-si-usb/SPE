@@ -1,5 +1,13 @@
 {{extend 'layout.html'}}
 
-{{=LOAD('sidebar','coordinacion.load',ajax=True)}}
-
-{{include}}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-3">
+			{{=LOAD('sidebar','coordinacion.load',ajax=True)}}
+		</div>
+			
+		<div class="col-lg-9">
+			{{include}}
+		</div>
+	</div>
+</div>
