@@ -1,0 +1,41 @@
+{{extend 'mi_perfil/ver.html'}}
+{{block content}}
+
+<h2>Hola {{=usuario['apellido']}}, {{=usuario['nombre']}}.</h2>
+<h4>{{=usuario['rol']}}</h4>
+<div id="perfil_estudiante">
+	<section id="sec1">
+		<div class="container"> 
+			<div class="row">
+				<div class="col-lg-6" id="foto-perfil">
+				</div>
+
+				<div class="col-lg-6">
+						<h5><b>Foto de Perfil</b></h5><br>
+						<button class="boton-negro">SUBIR FOTO</button>
+						<p class="parrafos">Una vez completado todos sus datos finalice su inscripcion.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<div>
+       <h2>
+           Coordinacion
+       </h2>
+       <div>
+           <h3>{{=coordinacion.Coordinacion.nombre}}</h3>
+       </div>
+</div>
+
+<div>
+       <h2>
+           Correo
+       </h2>
+       <div>
+           <h3>{{=coordinador.UsuarioUSB.correo}}</h3>
+       </div>
+</div>
+
+{{end}}

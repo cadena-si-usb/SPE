@@ -11,6 +11,5 @@ db.define_table('Inscripcion',
     Field('comentarioCCT','text', label='Comentario De La CCT'),
 
     Field('fecha_creacion','datetime',default=datetime.now()),
-    Field('estado', 'string',default="En Espera"),
-    migrate='Inscripcion.table')
+    Field('estado', 'string',default="En Espera"))
 

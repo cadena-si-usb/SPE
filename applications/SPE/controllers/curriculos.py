@@ -5,6 +5,18 @@ import Encoder
 
 Curriculo = Curriculo()
 
+# Verifica que se accedan a los recursos asignados al actor correspondiente 
+def chequear_permisologia():
+    try:
+        userid = str(auth.user['username'])
+        estudiante = db.Estudiante(db.Estudiante.carnet == userid)
+        curriculo = db.Curriculo(db.Curriculo.estudiante == estudiante['id'])
+    except Exception as e:
+        return False
+
+    return True
+
+
 def listar():
     session.rows = []
     return dict(rows=session.rows)
@@ -48,6 +60,8 @@ def modificar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+
+@auth.requires(chequear_permisologia())
 def editar():
     response.view = 'curriculos/editar.load.html'
 
@@ -74,7 +88,7 @@ def editar():
 
     return dict(form=form)
 
+@auth.requires(chequear_permisologia())
 def ver():
     record = db.Curriculo(request.args(0))
-
     return locals()

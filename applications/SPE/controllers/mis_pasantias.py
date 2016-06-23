@@ -39,6 +39,19 @@ def get():
 
     return rows
 
+# Verifica que se accedan a los recursos asignados al actor correspondiente 
+def chequear_permisologia():
+    try:
+        userid = str(auth.user['username'])
+        estudiante = db.Estudiante(db.Estudiante.carnet == userid)
+        pasantia = db.Pasantia(db.Pasantia.estudiante == estudiante['id'])
+    except Exception as e:
+        return False
+
+    return True
+
+
+@auth.requires(chequear_permisologia())
 def ver():
     pasantia = db.Pasantia(request.args(0)) or redirect(URL('agregar'))
     etapa = db.Etapa(pasantia.etapa)
@@ -47,7 +60,8 @@ def ver():
     
     return locals()
 
-
+# Agregar que no puede editar una pasantia que no ha sido inscrita por el
+#@auth.requires(chequear_permisologia())
 def editar():
     # Obtenemos la pasantia previamente agregada en inscripcion
     #area_proyecto = db.area_proyecto
@@ -76,12 +90,14 @@ def editar():
     return locals()
     
 # Nueva ruta    
+#@auth.requires(chequear_permisologia())
 def planes_trabajo():
     # Obtenemos la pasantia previamente agregada en inscripcion
     pasantia = db.Pasantia(request.args(0))
 
     return locals()
 
+#@auth.requires(chequear_permisologia())
 def preinscribir():
     idMateria = request.args(0)
     currentUser = session.currentUser

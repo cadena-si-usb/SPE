@@ -2,18 +2,51 @@ from Usuarios import Usuario
 
 Usuario = Usuario()
 
+@auth.requires_login()
 def ver():
-    ident = session.currentUser.id
+    userid = session.currentUser.id
+    # Preguntar aqui por usuario externo o usuarioUSB
+    currentUser = db.UsuarioUSB(db.UsuarioUSB.id == userid)
+    rol = db(db.Rol.id == session.currentUser.rol).select().first()
+    usuario = {
+        "apellido": currentUser.apellido,
+        "nombre": currentUser.nombre,
+        "rol":  rol.nombre,  
+    }
 
-    estudiante = db(((db.UsuarioUSB.id == ident) & (db.Estudiante.usuario == db.UsuarioUSB.id) & (db.Estudiante.carrera == db.Carrera.id) & (db.UsuarioUSB.rol == db.Rol.id))).select().first()
+    if (rol.nombre == 'Estudiante'):
+        estudiante = db(((db.UsuarioUSB.id == userid) & (db.Estudiante.usuario == db.UsuarioUSB.id) & (db.Estudiante.carrera == db.Carrera.id) & (db.UsuarioUSB.rol == db.Rol.id))).select().first()
+        sede = db(db.Sede.id == db.Estudiante.sede).select().first()
+        curriculo = db(db.Curriculo.estudiante == estudiante.Estudiante.id).select().first()
+        response.view = 'mi_perfil/ver_estudiante.html'
 
-    pasantias = db(db.Pasantia.estudiante == estudiante.Estudiante.id).select().first()
-    curriculo = db(db.Curriculo.estudiante == estudiante.Estudiante.id).select().first()
+    elif (rol.nombre == 'Profesor'):
+        profesor = db(((db.UsuarioUSB.id == userid) & (db.Profesor.usuario == db.UsuarioUSB.id) & (db.Profesor.departamento == db.Departamento.id) & (db.Profesor.categora == db.Categoria.id) & (db.Profesor.dedicacion == db.Dedicacion.id) & (db.Profesor.sede == db.Sede.id))).select().first()
+        sede = db(db.Sede.id == db.Profesor.sede).select().first()
+        response.view = 'mi_perfil/ver_profesor.html'
 
-    response.view = 'estudiantes/perfil.html'
+    elif (rol.nombre == 'CoordinadorCCT'):
+        coordinador = db(((db.UsuarioUSB.id == userid) & (db.Coordinador.usuario == db.UsuarioUSB.id))).select().first()
+        coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
+        response.view = 'mi_perfil/ver_coordinador.html'
 
-    return dict(estudiante=estudiante,pasantias=pasantias,curriculo=curriculo)
+    return locals()
 
+
+def ver_estudiante():
+    return locals()
+
+def ver_profesor():
+    # Meterle rol al profesor de tutor academico para que se vea
+    return locals()    
+
+def ver_coordinador():
+    return locals()
+
+# def ver_administrativo():
+
+
+@auth.requires_login()
 def configuracion():
     fields = [
         'nombre',
@@ -51,6 +84,7 @@ def configuracion():
 
     return locals()
 
+@auth.requires(auth.has_membership(role='Estudiante'))
 def configuracion_estudiante():
     fields = [
         'carrera',
@@ -72,6 +106,7 @@ def configuracion_estudiante():
 
     return locals()
 
+@auth.requires(auth.has_membership(role='Estudiante'))
 def editar_curriculo():
     fields = [
         'electivas',

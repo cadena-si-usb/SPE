@@ -128,6 +128,8 @@ def finalizar_preinscripcion():
                 }
             )
 '''
+@auth.requires(auth.has_membership(role='CoordinadorCCT') or 
+    auth.has_membership(role='AdministrativoCCT') or auth.has_membership(role='Estudiante') )
 def registrar_estudiante():
 
     import ast
@@ -220,6 +222,8 @@ def registrar_estudiante():
             carrera=request.vars.carrera,
             correo_Alternativo=request.vars.correo_Alternativo
         )
+
+        ############# Hacer insert en auth_group y UsuarioRol aqui ############
 
         generar_Correo_Verificacion(request.vars.correo_Alternativo)
         redirect(URL(c='default',f='verifyEmail',vars=dict(usbid= request.vars.usbid,correo=request.vars.correo_Alternativo)))

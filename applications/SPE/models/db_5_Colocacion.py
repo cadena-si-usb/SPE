@@ -9,5 +9,5 @@ db.define_table('Colocacion',
     Field('aprobacionCCT', 'boolean',label='Aprobacion De La CCT'),
     Field('comentarioCCT','text', label='Comentario De La CCT'),
     Field('estado', 'string',default="En Espera"),
-    Field('fecha_creacion','datetime',default=datetime.now()), migrate='Colocacion.table')
+    Field('fecha_creacion','datetime',default=datetime.now()))
 

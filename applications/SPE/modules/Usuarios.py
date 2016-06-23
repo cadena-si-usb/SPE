@@ -32,15 +32,22 @@ class Usuario(Model):
 			rol = row.Rol
 			usuarioUSB = row.UsuarioUSB
 
-			if (rol != None):
-				if (rol["nombre"] == "CCT"):
+			if (not rol):
+				if (rol["nombre"] == "CoordinadorCCT"):
+					usuario = self.db(self.db.Coordinador.usuario == usuarioUSB["id"]).select().first()
+				elif (rol["nombre"] == "AdministrativoCCT"):
+					usuario = self.db(self.db.Administrativo.usuario == usuarioUSB["id"]).select().first()
+				elif (rol["nombre"] == "CoordinadorCarrera"):
 					usuario = self.db(self.db.Coordinador.usuario == usuarioUSB["id"]).select().first()
 				elif (rol["nombre"] == "Estudiante"):
 					usuario = self.db(self.db.Estudiante.usuario == usuarioUSB["id"]).select().first()
+				elif (rol["nombre"] == "Profesor"):
+					usuario = self.db(self.db.Profesor.usuario == usuarioUSB["id"]).select().first()
 
-				usuarioUSB["rol"] = rol["id"]
-
-		return usuarioUSB
+			usuarioUSB["rol"] = rol["id"]
+			#auth.add_membership(usuarioUSB["id"],rol["id"])
+			 
+        	return usuarioUSB
 
 
 	def registrar(self,usuario,auth):
