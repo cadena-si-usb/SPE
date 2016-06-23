@@ -4,6 +4,7 @@ from Carreras import Carrera
 from Sedes import Sede
 from Tipos_Documento import Tipo_Documento
 
+import json
 import Encoder
 
 Usuario = Usuario()
@@ -53,3 +54,19 @@ def modificar():
         response.flash = T('Por favor llene la forma.')
     
     return locals()
+
+def getCurrentUser():
+    if not 'currentUser' in session:
+        return json.dumps([])
+
+    user = {}
+
+    user['datos'] = session.currentUser.as_dict()
+
+    rol = db(db.Rol.id == session.currentUser.rol).select().first()
+
+    if rol.nombre == 'Estudiante':
+        estudiante = db(db.Estudiante.usuario == session.currentUser.id).select().first()
+        user['estudiante'] = estudiante.as_dict()
+
+    return json.dumps(user)

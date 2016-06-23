@@ -11,9 +11,9 @@ class Pasantia(Model):
     def __init__(self):
     	super(Pasantia,self).__init__(tableName="Pasantia")
 
-    def JMaterias(self, options):
-        filter = ast.literal_eval(options['filter'])
+    def JMaterias(self, options):     
+        filters = ast.literal_eval(options['filter'])
 
-        rows = self.db((self.table.materia == self.db.Materia.id) & (self.table.periodo == self.db.Periodo.id) & (self.table.estudiante == filter['estudiante'])).select()
+        rows = self.db((self.table.estudiante == filters['estudiante']) & (self.table.materia == self.db.Materia.id) & (self.table.periodo == self.db.Periodo.id)).select()
 
         return rows

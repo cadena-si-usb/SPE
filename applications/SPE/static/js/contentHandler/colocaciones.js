@@ -1,9 +1,9 @@
 (function(){
 
-$('#inscripcionesIndex').ready(function(){
+$('#colocacionesIndex').ready(function(){
     var ajaxHandler = AjaxHandler();
 
-    var inscripciones = [],
+    var colocacion = [],
         max, area, options = {},
         filters = {order:'id',side:'>',limit:'4',page:'0'},
         filter = {},
@@ -24,18 +24,18 @@ $('#inscripcionesIndex').ready(function(){
 
         options.data = $.param(filters,true);
 
-        ajaxHandler.count('inscripciones',options).success(function(res){
+        ajaxHandler.count('colocaciones',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getInscripciones();
+            getMaterias();
         })
     }
 
-    function getInscripciones(){
-        ajaxHandler.find('inscripciones',options).success(function(res){
-            inscripciones = JSON.parse(res);
-            if (inscripciones.length > 0){
-                $("#elBody").loadTemplate('#template', inscripciones);
+    function getMaterias(){
+        ajaxHandler.find('colocaciones',options).success(function(res){
+            colocacion = JSON.parse(res);
+            if (colocacion.length > 0){
+                $("#elBody").loadTemplate('#template', colocacion);
             }
             else {
                 var template = '<tr><td class="text-center" colspan="42">',
@@ -45,6 +45,8 @@ $('#inscripcionesIndex').ready(function(){
 
                 $("#elBody").html(template);
             }
+
+            disableButtonOnMax();
         });
     }
 
@@ -93,17 +95,17 @@ $('#inscripcionesIndex').ready(function(){
         elem.append(" <i id='orderBy' class='"+ fa +"'></i>")
     }
 
-    // Funcion que trae mas inscripciones para paginacion
+    // Funcion que trae mas colocacion para paginacion
 
-    function getMoreInscripciones(evt){
-        filters.page = inscripciones.length.toString();
+    function getMoreMaterias(evt){
+        filters.page = colocacion.length.toString();
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find('inscripciones',options).success(function(res){
+        ajaxHandler.find('colocaciones',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
-                inscripciones.push(res[i]);
+                colocacion.push(res[i]);
             }
             disableButtonOnMax();
 
@@ -114,7 +116,7 @@ $('#inscripcionesIndex').ready(function(){
     //Desabilitar boton de MAS
 
     function disableButtonOnMax(){
-        if ((max) && (inscripciones.length.toString() != max)) {
+        if ((max) && (colocacion.length.toString() != max)) {
             $("#next").prop('disabled',false);
         }
         else {
@@ -150,22 +152,9 @@ $('#inscripcionesIndex').ready(function(){
         }, ms);
     }
 
-    function updateInscripcion(item, changes){
-        changes = {
-            id: 1,
-            nombre: "prueba"
-        };
 
-        options.data = changes;
-
-        ajaxHandler.update(options).then(function(res){
-            res = JSON.parse(res);
-        });
-    }
-
-    $('#updateInscripcion').click(updateInscripcion);
     $('#search').keyup(searchTerm);
-    $('#next').click(getMoreInscripciones);
+    $('#next').click(getMoreMaterias);
     $('.uai-table-header').click(changeOrder);
 });
 })();

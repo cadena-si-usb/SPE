@@ -5,12 +5,15 @@
         });
 
         $.addTemplateFormatter('Capitalize',function(value,template){
+            if (!value) {
+                return ""
+            }
+            
             return value.toLowerCase().replace( /\b./g, function(a){ return a.toUpperCase(); } );
         });
 
         $.addTemplateFormatter('ObtenerAnio',function(value,template){
             things = value.split(" ")
-            console.log(things)
             return things[things.length-1]
         });
 

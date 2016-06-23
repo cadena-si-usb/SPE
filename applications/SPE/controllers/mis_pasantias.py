@@ -74,35 +74,6 @@ def editar():
         response.flash = T('Por favor llene la forma.')
 
     return locals()
-
-    # form = SQLFORM.factory(
-    #     *fields,
-    #     submit_button='Submit',
-    #     separator=': ',
-    #     buttons=['submit'],
-    #     col3={
-    #         'titulo': T('Título'),
-    #         'area_proyecto': T('Área del Proyecto'),
-    #         'resumen_proyecto': T('Resumen del Proyecto'),
-    #         'objetivo': T('Objetivo General'),
-    #         'confidencialidad': T('Detalles de Confidencialidad'),
-    #     }
-    # )
-
-    # if form.process().accepted:
-    #     pasantia.update_record(
-    #         titulo=request.vars.titulo,
-    #         area_proyecto=request.vars.area_proyecto,
-    #         objetivo=request.vars.objetivo,
-    #         confidencialidad=request.vars.confidencialidad,
-    #     )
-
-    #     db.Plan_Trabajo.insert(
-    #         pasantia=pasantia['id']
-    #     )        
-
-
-    # return locals()
     
 # Nueva ruta    
 def planes_trabajo():
@@ -110,3 +81,29 @@ def planes_trabajo():
     pasantia = db.Pasantia(request.args(0))
 
     return locals()
+
+def preinscribir():
+    idMateria = request.args(0)
+    currentUser = session.currentUser
+    estudiante = db(db.Estudiante.usuario == currentUser.id).select().first()
+    etapa = db(db.Etapa.nombre == 'Preinscripcion').select().first()
+    periodo = db(db.Periodo).select().first()
+
+    if not estudiante:
+        return "ERROR, debes ser estudiante"
+
+    curriculo = db((db.Curriculo.estudiante == estudiante.id) and (db.Curriculo.activo == True)).select().first()
+
+    if not curriculo:
+        return "ERROR, debes tener el curriculo lleno"
+
+    tienePasantia = db((db.Pasantia.estudiante == estudiante.id) and (db.Pasantia.materia == idMateria)).select().first()
+
+    if tienePasantia:
+        return "ERROR, no puedes tener dos pasantias"
+
+    pasantia = db.Pasantia.insert(estudiante=estudiante.id,materia=idMateria,etapa=etapa.id,periodo=periodo.id)
+    preinscripcion = db.Preinscripcion.insert(pasantia=pasantia.id)
+    
+    redirect(URL('ver', args=(pasantia)))
+    

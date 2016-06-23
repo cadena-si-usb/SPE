@@ -1,3 +1,4 @@
+from datetime import datetime
 # -*- coding: utf-8 -*-
 
 db.define_table('Pasantia',
@@ -45,6 +46,7 @@ db.define_table('Pasantia',
           requires=IS_IN_DB(db, db.Etapa, '%(nombre)s',
           error_message='Elija una de las Etapas.'),
           label='Etapa (*)'),
+    Field('fecha_creacion','datetime',default=datetime.now()),
     Field('fecha_inicio','string',
           label='Fecha de inicio'),
     Field('fecha_fin','string',

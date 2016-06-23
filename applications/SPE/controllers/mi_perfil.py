@@ -91,7 +91,7 @@ def editar_curriculo():
     if form.process().accepted:
         session.flash = T('Perfil actualizado exitosamente!')
         curriculo.update_record(activo=True)
-        redirect(URL('curriculo'))
+        redirect(URL(c="default",f="index"))        
     else:
         response.flash = T('Por favor llene la forma.')
 
