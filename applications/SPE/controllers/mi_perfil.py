@@ -20,7 +20,7 @@ def ver():
         curriculo = db(db.Curriculo.estudiante == estudiante.Estudiante.id).select().first()
         response.view = 'mi_perfil/ver_estudiante.html'
 
-    elif (rol.nombre == 'Profesor'):
+    elif (rol.nombre == 'Profesor') or (rol.nombre == 'TutorAcademico'):
         profesor = db(((db.UsuarioUSB.id == userid) & (db.Profesor.usuario == db.UsuarioUSB.id) & (db.Profesor.departamento == db.Departamento.id) & (db.Profesor.categoria == db.Categoria.id) & (db.Profesor.dedicacion == db.Dedicacion.id) & (db.Profesor.sede == db.Sede.id))).select().first()
         sede = db(db.Sede.id == db.Profesor.sede).select().first()
         response.view = 'mi_perfil/ver_profesor.html'
