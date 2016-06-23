@@ -36,7 +36,7 @@
 
             if (currentUser.estudiante) {
                 getMaterias();
-                getMisPasantias();
+                //getMisPasantias();
             }
         }
 
@@ -114,6 +114,8 @@
 
                     $("#materias").html(template);
                 }
+
+                getMisPasantias();
             });
         }
     });
