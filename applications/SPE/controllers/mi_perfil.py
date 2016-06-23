@@ -21,7 +21,7 @@ def ver():
         response.view = 'mi_perfil/ver_estudiante.html'
 
     elif (rol.nombre == 'Profesor'):
-        profesor = db(((db.UsuarioUSB.id == userid) & (db.Profesor.usuario == db.UsuarioUSB.id) & (db.Profesor.departamento == db.Departamento.id) & (db.Profesor.categora == db.Categoria.id) & (db.Profesor.dedicacion == db.Dedicacion.id) & (db.Profesor.sede == db.Sede.id))).select().first()
+        profesor = db(((db.UsuarioUSB.id == userid) & (db.Profesor.usuario == db.UsuarioUSB.id) & (db.Profesor.departamento == db.Departamento.id) & (db.Profesor.categoria == db.Categoria.id) & (db.Profesor.dedicacion == db.Dedicacion.id) & (db.Profesor.sede == db.Sede.id))).select().first()
         sede = db(db.Sede.id == db.Profesor.sede).select().first()
         response.view = 'mi_perfil/ver_profesor.html'
 
