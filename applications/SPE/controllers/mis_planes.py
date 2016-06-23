@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from Planes_Trabajo import Plan_Trabajo
+from datetime import datetime
 
 import Encoder
 
@@ -11,7 +12,6 @@ def listar():
 
 def count():
     obj = Encoder.to_dict(request.vars)
-
     count = PlanTrabajo.count(obj)
 
     return count
@@ -20,11 +20,7 @@ def count():
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    idUsuario = session.currentUser.id
-
-    profesor = db(db.Profesor.usuario == idUsuario).select().first()
-
-    rows = db((db.Plan_Trabajo.pasantia == db.Pasantia.id) & (db.Pasantia.estudiante == db.Estudiante.id) & (db.Pasantia.tutor_academico == profesor.id)).select()
+    rows = db((db.Plan_Trabajo.pasantia == db.Pasantia.id) & (db.Pasantia.estudiante == db.Estudiante.id)).select()
 
     return rows.as_json()
 
@@ -38,12 +34,12 @@ def modificar():
 
     pasantia = db.Pasantia(record.pasantia)
 
-    fields = ['titulo','resumen_proyecto','objetivo','area_proyecto']
+    fields = ['tutor_academico','titulo','resumen_proyecto','objetivo','area_proyecto']
 
     form = SQLFORM(db.Pasantia, fields=fields, record=pasantia, showid=False)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')
-        redirect(URL('listar'))
+        redirect(URL(c='mis_pasantias',f='ver',args=pasantia.id))
     else:
         response.flash = T('Por favor llene la forma.')
     return locals()
@@ -56,20 +52,14 @@ def modificar():
 
 def ver():
     record = db.Plan_Trabajo(request.args(0))
+
     pasantia = db((db.Pasantia.id == record.pasantia) & (db.Pasantia.area_proyecto == db.Area_Proyecto.id)).select().first()
 
     return locals()
 
-def aprobar():
+def enviar():
     plan_trabajo = db.Plan_Trabajo(request.args(0))
 
-    plan_trabajo.update_record(aprobacion_tutor_academico="Aprobado")
+    plan_trabajo.update_record(estado="Enviado",fecha_envio=datetime.now())
 
-    redirect(URL('listar'))
-
-def reprobar():
-    plan_trabajo = db.Plan_Trabajo(request.args(0))
-
-    plan_trabajo.update_record(aprobacion_tutor_academico="En Espera",aprobacion_tutor_industrial="En Espera",aprobacion_coordinacion="En Espera",estado="Sin Enviar")
-
-    redirect(URL('listar'))
+    redirect(URL(c='mis_pasantias',f='ver',args=plan_trabajo.pasantia))

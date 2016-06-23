@@ -56,6 +56,9 @@ def ver():
     pasantia = db.Pasantia(request.args(0)) or redirect(URL('agregar'))
     etapa = db.Etapa(pasantia.etapa)
 
+    if etapa.nombre == 'Inscripcion':
+        plan_trabajo = db(db.Plan_Trabajo.pasantia == pasantia.id).select().first()
+
     response.view = 'mis_pasantias/' + etapa.nombre.lower() + '.html'
     
     return locals()
