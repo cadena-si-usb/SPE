@@ -1,0 +1,34 @@
+{{ extend 'shell.html' }}
+
+{{ block content }}
+
+	<div>
+		<h2>{{=estudiante.UsuarioUSB.nombre}}, {{=estudiante.UsuarioUSB.apellido}}</h2>
+		<h3>USBID: {{=estudiante.UsuarioUSB.usbid}}</h3>
+		<h4>{{=estudiante.Rol.nombre}}</h4>
+	</div>
+
+	<hr>
+
+	<div>
+		<h3>
+			Curriculo
+		</h3>
+		<div>
+			{{=curriculo}}
+		</div>
+	</div>
+
+	<hr>
+
+	<div>
+		<h3>
+			Pasantias
+		</h3>
+		<div>
+			{{=pasantias}}
+		</div>
+	</div>
+
+
+{{ end }}

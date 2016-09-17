@@ -11,9 +11,7 @@ def listar():
     return dict(rows=session.rows)
 
 def agregar():
-
-
-    form = SQLFORM(Pasantia.db)
+    form = Pasantia.form(['titulo','estudiante','materia'])
 
     if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')
@@ -41,10 +39,13 @@ def get():
 
 def modificar():
     record = db.Pasantia(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.Pasantia, record)
+    form = SQLFORM(db.Pasantia, fields=['etapa'],record=record,showid=False)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')
         redirect(URL('listar'))
     else:
         response.flash = T('Por favor llene la forma.')
     return locals()
+
+def create():
+    return request.vars

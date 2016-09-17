@@ -18,6 +18,8 @@ applications/SPE/databases
 applications/SPE/errors
 applications/SPE/sessions
 applications/SPE/languages
+applications/SPE/.pythonhistory
+applications/admin/sessions
 
 # Extras
 applications/SPE/public

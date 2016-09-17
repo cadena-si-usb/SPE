@@ -1,10 +1,50 @@
 {{extend 'layout.html'}}
 {{block content}}
 
-<h1>PERFIL</h1>
+<div id="perfil_estudiante">
 
-<br>
 
-<button><a href="/SPE/usuarios/curriculo">Llenar curriculo</a></button>
-<button><a href="/SPE/mis_pasantias/listar">Pasantias</a></button>
+	<section id="sec1">
+		<div class="container"> 
+			<div class="row">
+				<div class="col-lg-6" id="foto-perfil">
+				</div>
+
+				<div class="col-lg-6">
+						<h5><b>Foto de Perfil</b></h5><br>
+						<button class="boton-negro">SUBIR FOTO</button>
+						<p class="parrafos">Una vez completado todos sus datos finalice su inscripcion.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<section id="sec1">
+		<div class="container"> 
+			<div class="row">
+				<div class="col-lg-6">
+					<a href="/SPE/usuarios/perfil">Detalles</a>
+					<a href="/SPE/usuarios/perfil_estudiante">Estudiante</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<section id="sec2">
+		<div class="container"> 
+			<div class="row">
+				<div class="col-lg-8 cols">
+						<h4>Informacion</h4>
+						{{=form}}
+						<br>
+						{{include}}
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
 {{end}}
+

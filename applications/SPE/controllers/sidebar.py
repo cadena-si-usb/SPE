@@ -5,13 +5,30 @@ import Encoder
 
 Accion_Usuario = Accion_Usuario()
 
-def items():
-    obj = Encoder.to_dict(request.vars)
+def coordinacion():
+	rows = []
+	obj = Encoder.to_dict(request.vars)
 
-    #TODO Hacer que esto filtre dependiendo del rol del usuario logeado
-    #obj['filter'] = '{"rol":"admin"}'
+	#TODO Hacer que esto filtre dependiendo del rol del usuario logeado
+	if ('currentUser' in session):
+		usuario = session.currentUser
 
-    rows = Accion_Usuario.find(obj)
+		if usuario['activo']:
+			rol = str(usuario['rol'])
+			rows = db((db.Accion_Usuario.rol == rol) & (db.Accion_Usuario.contexto == 'coordinacion')).select()
 
-    response.view = 'sidebar/items.load.html'
-    return dict(routes=rows.as_list(),id="id")
+	response.view = 'sidebar/coordinacion.load.html'
+	return dict(routes=rows,id="id")
+
+def configuracion():
+	rows = []
+	obj = Encoder.to_dict(request.vars)
+
+	#TODO Hacer que esto filtre dependiendo del rol del usuario logeado
+	if ('currentUser' in session):
+		usuario = session.currentUser
+		rol = str(usuario['rol'])
+		rows = db((db.Accion_Usuario.rol == rol) & (db.Accion_Usuario.contexto == 'configuracion')).select()
+
+	response.view = 'sidebar/configuracion.load.html'
+	return dict(routes=rows,id="id")

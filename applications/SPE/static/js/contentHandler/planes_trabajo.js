@@ -24,7 +24,7 @@ $('#planes_trabajoIndex').ready(function(){
 
         options.data = $.param(filters,true);
 
-        ajaxHandler.count(options).success(function(res){
+        ajaxHandler.count('planes_trabajo',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
             getPlanTrabajo();

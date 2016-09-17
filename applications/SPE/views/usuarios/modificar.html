@@ -1,4 +1,4 @@
-{{extend 'layout.html'}}
+{{extend 'shell.html'}}
 {{block content}}
 
         <!-- Page Content -->
@@ -8,17 +8,9 @@
                         <div class="rounded_border">
                             <center>
                                 <div class="row">
-                                    <div class="col-xs-2 col-xs-offset-9 retornar">
-                                        <a href="/{{=request.application}}/{{=request.controller}}/listar" class="link_return">
-                                            <h5>
-                                                <i class="fa fa-undo fa-lg"></i>
-                                                Usuario
-                                            </h5>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="row">
                                     <h3>Modificar Usuario</h3>
+                                    <h5>{{=record.nombre}}, {{=record.apellido}}</h5>
+                                    <h6>USBID: {{=record.usbid}}</h6>
                                     <hr WIDTH="20%">
                                     <p class="col-xs-2 col-xs-offset-9 campo-obligatorio" >Campo Obligatorio (*)</p>
                                 </div>

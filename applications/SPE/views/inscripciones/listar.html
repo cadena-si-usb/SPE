@@ -1,9 +1,7 @@
-{{extend 'layout.html'}}
+{{extend 'shell.html'}}
 {{block content}}
 
 <div class="container-fluid" id="inscripcionesIndex">
-
-    <button id="updateInscripcion">PRUEBA</button>
     <div class="row">
         <div class="col-lg-12 rounded_border" >
             <div class="row">
@@ -12,7 +10,6 @@
                         <div class="col-sm-12">
                             <h3>Inscripciones</h3>
                             <hr WIDTH="30%" />
-                            <p>Listado de Inscripciones</p>
                         </div>
                     </div>
 
@@ -37,7 +34,10 @@
                 <table class='table table-hover borde-tabla' id="tabla_inscripciones">
                     <thead>
                         <tr>
-                            <th class='text-center uai-table-header' id="nombre">Nombre</th>
+                            <th class='text-center uai-table-header' id="estudiante">Estudiante</th>
+                            <th class='text-center uai-table-header' id="plan">Plan</th>
+                            <th class='text-center uai-table-header' id="estado">Estado</th>
+                            <th class='text-center uai-table-header' id="fecha">Fecha</th>
                             <th class='text-center'>Editar</th>
                         </tr>
                     </thead>

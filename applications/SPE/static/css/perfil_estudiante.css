@@ -1,0 +1,69 @@
+#img-logo-usb{
+	max-width: 200px;
+}
+
+#logo-usb{
+	text-align: center;
+}
+
+#titulo {
+	text-align: left;
+}
+
+#bannerprincipal{
+	background: url("../images/header-usb.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center center;
+
+}
+
+#foto-perfil{
+	border-radius: 50%;
+	height: 200px;
+	width: 200px;
+	background: url("../images/descarga.jpg");
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin-left: 20%;
+	margin-right: 10%;
+}
+
+#footer, #barra{
+	background: rgba(63,93,93,0.50);
+	color: #ffffff;
+}
+
+#footer{
+	padding: 10px;
+}
+
+#sec2{
+	padding: 10%;
+	padding-top: 2% !important;
+}
+
+.boton-negro{
+	background: #2B2B2B;
+	color: #DDD;
+	border: none;
+	width: 250px;
+}
+
+.cols{
+	padding: 5%;
+}
+
+.inputs{
+	width: 300px;
+	background:#ffffff;
+}
+
+.radios{
+	background-color:#ffffff !important;
+}
+
+.parrafos{
+	color: #9D9D9D;
+	font-size: 12px;
+}

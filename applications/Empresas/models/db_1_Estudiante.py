@@ -1,6 +1,6 @@
 db.define_table('Estudiante',
     Field('usuario','reference UsuarioUSB',  ##referencia a tabla Carrera
-          label='Carrera'),
+          label='Usuario'),
     Field('carnet',
           requires=IS_MATCH('^\d{2}?[\s.-]?\d{5}$',
                         error_message='Introduzca un carnet valido.'),

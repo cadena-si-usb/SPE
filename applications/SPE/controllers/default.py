@@ -9,6 +9,9 @@
 #########################################################################
 
 from usbutils import get_ldap_data, random_key
+from Usuarios import Usuario
+
+Usuario = Usuario()
 
 def reroute():
     """
@@ -59,7 +62,7 @@ def login_cas():
         # url en caso de querer iniciar sesion en el servidor remoto
         url = "https://secure.dst.usb.ve/validate?ticket="+\
               request.vars.getfirst('ticket') +\
-              "&service=http%3A%2F%2F127.0.0.1%3A8000%2FSPE%2Fdefault%2Flogin_cas"
+              "&service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas"
 
         # url en caso de querer iniciar sesion en el servidor remoto
         # url = "https://secure.dst.usb.ve/validate?ticket="+\
@@ -82,6 +85,7 @@ def login_cas():
         usbid = data[1]
 
         usuario = get_ldap_data(usbid) #Se leen los datos del CAS
+        
         tablaUsuario  = db.UsuarioUSB
 
         #Esto nos indica si el usuario ha ingresado alguna vez al sistema
@@ -90,17 +94,33 @@ def login_cas():
 
         if primeravez.isempty():
 
+            print usuario['tipo']
+
+            Usuario.registrar(usuario,auth)
+
+            respuesta = Usuario.getByRole(usbid)
+
+            session.currentUser = respuesta
+
+            if usuario['tipo'] == 'Pregrado':
+                redirect(URL(c='mi_perfil/configuracion'))
+
+            redirect(URL(c='default',f='index'))
             # auth.login_bare(usbid,clave)
-            redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))
+            #redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))
 
         else:
             #Como el usuario ya esta registrado, buscamos sus datos y lo logueamos.
             datosUsuario = db(tablaUsuario.usbid==usbid).select()[0]
-            clave        = datosUsuario.llave
+            clave        = datosUsuario.clave
+
+            auth.login_bare(usbid,clave)
+
+            respuesta = Usuario.getByRole(usbid)
 
             # Caso 1: El usuario no ha registrado sus datos
-            if verificar_datos(usuario,usbid).isempty():
-                redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))
+            if respuesta == None:
+                redirect(URL(c='usuarios',f='perfil'))
             # Caso 2: El usuario no ha verificado su correo
             elif correo_no_verificado(usbid):
                 obtener_correo(usbid)
@@ -109,26 +129,28 @@ def login_cas():
             # Caso 3: El usuario ha cumplido con los pasos necesarios por lo que
             # puede iniciar sesion
             else:
-                auth.login_bare(usbid,clave)
                 #Deberiamos redireccionar a un "home" dependiendo del tipo de usuario
+                session.currentUser = respuesta
                 redirect('index')
 
     return None
 
 def logout():
     url = 'http://secure.dst.usb.ve/logout'
+    session.currentUser = None
     auth.logout(next=url)
 
 def verificar_datos(usuario,usbid):
 
+    usuariousb = db(db.UsuarioUSB.usbid==usbid).select()[0]
     consulta = None
 
     if usuario['tipo'] == "Docente":
-        consulta = db(db.usuario_profesor.usbid_usuario==usbid)
+        consulta = db(db.Profesor.usuario==usuariousb.id)
     elif usuario['tipo'] == "Administrativo":
         pass
     elif usuario['tipo'] in ["Pregrado","Postgrado"]:
-        consulta = db(db.usuario_estudiante.usbid_usuario==usbid)
+        consulta = db(db.Estudiante.usuario==usuariousb.id)
     elif usuario['tipo'] in ["Empleado","Organizacion","Egresado"]:
         pass
 

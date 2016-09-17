@@ -24,7 +24,7 @@ $('#inscripcionesIndex').ready(function(){
 
         options.data = $.param(filters,true);
 
-        ajaxHandler.count(options).success(function(res){
+        ajaxHandler.count('inscripciones',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
             getInscripciones();

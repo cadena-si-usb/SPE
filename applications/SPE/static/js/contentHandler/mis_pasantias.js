@@ -9,14 +9,18 @@
             filters = {order:'id',side:'>',limit:'4',page:'0'},
             filter = {
                 "pasantias": {
-                    "id_estudiante": "1"
+                    "estudiante": 6
                 }
             },
             search = {},
-            codigos_materia = {};
+            codigos_materia = {},
+            currentUser = {};
 
         function activate(){
-            getInfo();
+            ajaxHandler.getCurrentUser().success(function(res){
+                currentUser = JSON.parse(res);
+                getInfo();
+            });
         }
 
         activate();
@@ -30,12 +34,20 @@
 
             options.data = $.param(filters,true);
 
-            getMaterias();
-            getMisPasantias();
+            if (currentUser.estudiante) {
+                getMaterias();
+                //getMisPasantias();
+            }
         }
 
         function getMisPasantias(){
             var params = jQuery.extend(true, {}, options);
+            
+            filter = {
+                "pasantias": {
+                    "estudiante": currentUser.estudiante.id
+                }
+            }
 
             filters.filter = JSON.stringify(filter["pasantias"]);
 
@@ -43,12 +55,18 @@
 
             ajaxHandler.find('mis_pasantias',params).success(function(res){
                 misPasantias = JSON.parse(res);
+
                 if (misPasantias.length > 0){
                     var codigo, pasantia;
 
                     for (var i = 0; i < misPasantias.length; i++) {
                         codigo = misPasantias[i].Materia.codigo;
                         pasantia = misPasantias[i].Pasantia;
+                        pasantia.periodo = misPasantias[i].Periodo;
+                        
+                        if (!codigos_materia[codigo]) {
+                            codigos_materia[codigo] = [];
+                        }
 
                         codigos_materia[codigo].push(pasantia)
                     }
@@ -96,6 +114,8 @@
 
                     $("#materias").html(template);
                 }
+
+                getMisPasantias();
             });
         }
     });

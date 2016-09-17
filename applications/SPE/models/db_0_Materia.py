@@ -12,7 +12,8 @@ db.define_table('Materia',
     Field('codigo'),
     Field('sede',requires=IS_IN_SET(['Sartenejas','Litoral'],error_message='Sede Inválida'), label='Sede', notnull=True),
     Field('tipo'),
-    Field('descripcion')
+    Field('descripcion'),
+    Field('duracion')
    )
 
 #------------------------------------------------------------------------------#

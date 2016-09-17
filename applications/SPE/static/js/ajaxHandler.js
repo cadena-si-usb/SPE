@@ -1,6 +1,15 @@
 var AjaxHandler = (function(){
 
-    var route = 'http://localhost:8000/SPE/';
+    var route = '/';
+
+    function getCurrentUser(){
+        var options = {};
+
+        options.url = route + 'usuarios/getCurrentUser/';
+        options.type = 'GET'
+
+        return $.ajax(options);
+    }
 
     function find(table,options){
         options.url = route + table + '/get/';
@@ -23,10 +32,19 @@ var AjaxHandler = (function(){
         return $.ajax(options);
     }
 
+    function create(options){
+        options.url = 'create/'
+        options.type = 'POST'
+
+        return $.ajax(options);
+    }
+
     var publicAPI = {
         find: find,
         count: count,
-        update: update
+        update: update,
+        create: create,
+        getCurrentUser: getCurrentUser
     }
 
     return publicAPI

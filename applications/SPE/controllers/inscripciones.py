@@ -7,15 +7,14 @@ Inscripcion = Inscripcion()
 
 def listar():
     session.rows = []
-    return dict(rows=session.rows)
+
+    return locals()
 
 def agregar():
-    fields = ['nombre','id_estudiante']
-
-    form = Inscripcion.form(fields)
+    form = SQLFORM(db.Inscripcion)
 
     if form.process().accepted:
-        session.flash = T('El material fue agregado exitosamente!')
+        session.flash = T('La Inscripcion fue agregada exitosamente!')
         redirect(URL('listar'))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
@@ -32,25 +31,40 @@ def count():
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = Inscripcion.find(obj)
+    rows = db((db.Inscripcion.pasantia == db.Pasantia.id) & (db.Pasantia.estudiante == db.Estudiante.id) & (db.Pasantia.id == db.Plan_Trabajo.pasantia)).select()
 
-    rows = rows.as_json()
+    # rows = Inscripcion.find(obj)
 
-    return rows
+    # rows = rows.as_json()
+
+    # print 'INICIO'
+    # print db((db.Inscripcion.pasantia == db.Pasantia.id) & (db.Pasantia.estudiante == db.Estudiante.id)).select()
+    # print '\n'
+    # print rows
+    return rows.as_json()
+
+
+# -*- coding: utf-8 -*-
 
 def modificar():
     record = db.Inscripcion(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.Inscripcion, record)
+    form = SQLFORM(db.Inscripcion, fields=['aprobacionCCT','comentarioCCT'],record=record,showid=False)
     if form.process().accepted:
-        session.flash = T('El material fue modificado exitosamente!')
+        if request.vars.aprobacionCCT:
+            pasantia = db.Pasantia(record.pasantia)
+            etapa = db.Etapa(pasantia.etapa)
+
+            if not etapa.nombre == 'Ejecucion':
+                etapaEjec = db(db.Etapa.nombre == 'Ejecucion').select().first()
+                pasantia.update_record(etapa=etapaEjec.id)
+
+                record.update_record(estado='Aprobado')          
+
+        session.flash = T('La Inscripcion fue modificada exitosamente!')
         redirect(URL('listar'))
     else:
         response.flash = T('Por favor llene la forma.')
     return locals()
 
-def update():
-    obj = Encoder.to_dict(request.vars)
-
-    row = Inscripcion.update(obj)
-
-    return row.as_json()
+def create():
+    return request.vars

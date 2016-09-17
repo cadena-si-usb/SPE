@@ -1,0 +1,30 @@
+{{extend 'shell.html'}}
+
+{{block content}}
+
+	
+	<h2>Aprobar el plan?</h2>
+
+	<a href="/SPE/mis_planes_tutor/aprobar/{{=record.id}}">
+		<button>
+			Aprobar	
+		</button>
+	</a>
+
+	<a href="/SPE/mis_planes_tutor/reprobar/{{=record.id}}">
+		<button>
+			Reprobar
+		</button>
+	</a>
+
+	<h1>VER PLAN TRABAJO</h1>
+
+	<h2>Titulo</h2>
+	<h3>{{=pasantia.Pasantia.titulo}}</h3>
+	<h2>Objetivo General</h2>
+	<h3>{{=pasantia.Pasantia.objetivo}}</h3>
+	<h2>Resumen</h2>
+	<p>{{=pasantia.Pasantia.resumen_proyecto}}</p>
+	
+
+{{end}}
