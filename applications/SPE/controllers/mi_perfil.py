@@ -107,11 +107,13 @@ def configuracion():
         redirect(URL(c="default",f="index"))
 
     if form.process().accepted:
+        # Actualizo los datos de usuario
         usuario.update_record(**db.UsuarioUSB._filter_fields(form.vars))
-
         if (rol.nombre == 'Estudiante'):
+            # Actualizo los datos exclusivos de estudiante
             estudiante.update_record(**db.Estudiante._filter_fields(form.vars))
         elif (rol.nombre == 'Profesor'):
+            # Actualizo los datos exclusivos de profesor
             profesor.update_record(**db.Profesor._filter_fields(form.vars))
 
         session.flash = T('Perfil actualizado exitosamente!')
