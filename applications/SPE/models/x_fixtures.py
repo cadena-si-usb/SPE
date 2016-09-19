@@ -9,6 +9,15 @@ if db(db.Sede.id > 0).count() == 0:
     )
     db.commit()
 
+if db(db.Pais.id > 0).count() == 0:
+    db.Pais.insert(
+        nombre='Venezuela'
+    )
+    db.Pais.insert(
+        nombre='U.S.A.'
+    )
+    db.commit()
+
 if db(db.Estado.id > 0).count() == 0:
     db.Estado.insert(
         nombre='Distrito Capital',
@@ -60,20 +69,20 @@ if db(db.Materia.id > 0).count() == 0:
     )
     db.commit()
 
-    if db(db.Periodo.id > 0).count() == 0:
-        db.Periodo.insert(
-            mes_inicio='Abril',
-            mes_final='Septiembre'
-        )
-        db.Periodo.insert(
-            mes_inicio='Abril',
-            mes_final='Septiembre'
-        )
-        db.Periodo.insert(
-            mes_inicio='Octubre',
-            mes_final='Enero'
-        )
-        db.commit()
+if db(db.Periodo.id > 0).count() == 0:
+    db.Periodo.insert(
+        mes_inicio='Abril',
+        mes_final='Septiembre'
+    )
+    db.Periodo.insert(
+        mes_inicio='Abril',
+        mes_final='Septiembre'
+    )
+    db.Periodo.insert(
+        mes_inicio='Octubre',
+        mes_final='Enero'
+    )
+    db.commit()
 
 if db(db.Rol.id > 0).count() == 0:
     db.Rol.insert(
@@ -110,15 +119,6 @@ if db(db.Area_Laboral.id > 0).count() == 0:
     db.Area_Laboral.insert(
         nombre='Arquitectura',
         descripcion='Diseño de planos'
-    )
-    db.commit()
-
-if db(db.Pais.id > 0).count() == 0:
-    db.Pais.insert(
-        nombre='Venezuela'
-    )
-    db.Pais.insert(
-        nombre='U.S.A.'
     )
     db.commit()
 
