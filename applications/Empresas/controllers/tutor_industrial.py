@@ -141,6 +141,14 @@ def consultarPasantias():
     response.view = 'Tutor_Industrial/Consultar_Pasantias.html'
     return locals()
 
+@auth.requires_login()
+def consultarPasantias(pasantiaId):
+    correo = auth.user.email
+    pasantias=db((db.UsuarioExterno.correo==correo) & (db.Tutor_Industrial.usuario==db.UsuarioExterno.id)
+                 & (db.Pasantia.tutor_industrial == db.Tutor_Industrial.id)).select()
+    response.view = 'Tutor_Industrial/Consultar_Pasantias.html'
+    return locals()
+
 def justificar_retiro_Empresa():
     # Argumentos son: codigo, año, periodo(nombre)
     pasantia=None
