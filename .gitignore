@@ -26,3 +26,6 @@ applications/SPE/public
 *.temp
 applications/SPE/temp
 *.idea
+/.project
+/.pydevproject
+/.settings/org.eclipse.core.resources.prefs

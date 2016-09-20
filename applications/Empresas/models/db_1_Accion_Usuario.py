@@ -11,7 +11,11 @@
 db.define_table('Accion_Usuario',
     Field('nombre'),
     Field('destino'),
-    Field('rol','reference Rol')
+    Field('contexto'),
+    Field('rol','reference Rol',
+          requires=IS_IN_DB(db, db.Rol, '%(nombre)s',
+          error_message='Elija uno de los roles.'),
+          label='Roles (*)')
    )
 
 #------------------------------------------------------------------------------#

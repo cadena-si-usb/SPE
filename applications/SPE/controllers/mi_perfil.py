@@ -126,28 +126,6 @@ def configuracion():
     return locals()
 
 @auth.requires(auth.has_membership(role='Estudiante'))
-def configuracion_estudiante():
-    fields = [
-        'carrera',
-        'sede'         
-    ]
-
-    userid = str(auth.user['username'])
-
-    estudiante = db.Estudiante(db.Estudiante.carnet == userid)
-
-    form = SQLFORM(db.Estudiante,record=estudiante,fields=fields,submit_button='Actualizar',showid=False)
-
-    if form.process().accepted:
-        session.flash = T('Perfil actualizado exitosamente!')
-        estudiante.update_record(activo=True)
-        redirect(URL('perfil_estudiante'))
-    else:
-        response.flash = T('Por favor llene la forma.')
-
-    return locals()
-
-@auth.requires(auth.has_membership(role='Estudiante'))
 def editar_curriculo():
     fields = [
         'electivas',

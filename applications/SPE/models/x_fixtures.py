@@ -258,3 +258,110 @@ if db(db.Acceso_Etapa.id > 0).count() == 0:
     )
 
     db.commit()
+
+if db(db.auth_group.id > 0).count() == 0:
+    db.auth_group.insert(
+        role='Estudiante',
+        description='3'
+    )
+    db.auth_group.insert(
+        role='Profesor',
+        description='2'
+    )
+    db.auth_group.insert(
+        role='Coordinador',
+        description='4'
+    )
+    db.auth_group.insert(
+        role='Empresa',
+        description='3'
+    )
+    db.auth_group.insert(
+        role='Tutor Industrial',
+        description='3'
+    )
+    db.commit()
+
+if db(db.auth_user.id > 0).count() == 0:
+    db.auth_user.insert(
+        first_name='Ecorp',
+        last_name='',
+        email='ecorp-admin@ecorp.com',
+        username=None,
+        password='pbkdf2(1000,20,sha512)$9e7fc40b64a2c681$edc7f2230715e6da7c5762a340af1357457867a6',
+        registration_key='',
+        reset_password_key='',
+        registration_id='ecorp-admin@ecorp.com'
+    )
+    db.auth_user.insert(
+        first_name='Francisco Javier',
+        last_name='Sucre González',
+        email='fsucre@integra.la',
+        username=None,
+        password='pbkdf2(1000,20,sha512)$a8021cc4975367f2$d9ea5c4e54a6663fe0e105979778b28e1f9d4ed8',
+        registration_key='',
+        reset_password_key='',
+        registration_id=''
+    )
+    db.commit()
+
+if db(db.UsuarioExterno.id > 0).count() == 0:
+    db.UsuarioExterno.insert(
+        nombre='Ecorp',
+        correo='ecorp-admin@ecorp.com',
+        clave='Ecorp.2016',
+        pregunta_secreta='¿Cual es la solucion?',
+        respuesta_secreta='¡Ecorp!',
+        pais='1',
+        estado='1',
+        telefono='04128063009',
+        direccion='Sartenejas'
+    )
+    db.UsuarioExterno.insert(
+        nombre='Francisco Javier',
+        correo='fsucre@integra.la',
+        clave='Ecorp.2016',
+        pregunta_secreta='¿Mejor Equipo Del Futbol?',
+        respuesta_secreta='Real Madrid',
+        pais='1',
+        estado='1',
+        telefono='04128063009',
+        direccion='Calle P1'
+    )
+    db.commit()
+
+if db(db.Empresa.id > 0).count() == 0:
+    db.Empresa.insert(
+        usuario='2',
+        area_laboral='2',
+        descripcion='Soluciones De Software',
+        direccion_web='www.ecorp.com',
+        contacto_RRHH='www.ecorp-rrhh@ecorp.com'
+    )
+    db.commit()
+
+if db(db.Tutor_Industrial.id > 0).count() == 0:
+    db.Tutor_Industrial.insert(
+        usuario='2',
+        apellido='Sucre González',
+        Empresa='1',
+        profesion='Consultor De Software',
+        tipo_documento='CI',
+        numero_documento='19564959',
+        cargo='Administrador De Base De Datos',
+        departamento='Tecnologia De La Informacion',
+        universidad='1',
+        comfirmado_Por_Empresa='1'
+    )
+    db.commit()
+
+if db(db.auth_membership.id > 0).count() == 0:
+    db.auth_membership.insert(
+        user_id='1',
+        group_id='4'
+    )
+    db.auth_membership.insert(
+        user_id='2',
+        group_id='5'
+    )
+    db.commit()

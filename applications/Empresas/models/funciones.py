@@ -19,6 +19,7 @@ def enviar_Correo_Verificacion(correo,codigoGenerado):
                 response.flash = T('email sent sucessfully.')
                 resultado = True
         else:
+            resultado = False
             response.flash = T('fail to send email sorry!')
     else:
         response.flash = T('Unable to send the email : email parameters not defined')

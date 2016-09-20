@@ -1,6 +1,6 @@
 db.define_table('UsuarioRol',
                 Field('usuario','reference UsuarioUSB',required=True,ondelete='CASCADE',
-                    notnull=True, unique=True,label='Usuario'),
+                    notnull=True, label='Usuario'),
                 Field('rol','reference Rol', required=True, notnull=True,label=T('Rol')),
                 format='%(nombre)s')
 

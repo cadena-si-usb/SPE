@@ -8,9 +8,8 @@ import Encoder
 class Acceso_Etapa(Model):
     #Building database object
     def __init__(self):
-    	super(Acceso_Etapa,self).__init__(tableName="Acceso_Etapa")
+        super(Acceso_Etapa,self).__init__(tableName="Acceso_Etapa")
 
     def full(self,rol):
-    	rows = self.db((self.table.rol == rol) & (self.table.etapa == self.db.Etapa.id)).select()
-
-    	return rows
+        rows = self.db((self.table.rol == rol) & (self.table.etapa == self.db.Etapa.id)).select()
+        return rows

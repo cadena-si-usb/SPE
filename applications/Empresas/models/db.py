@@ -19,7 +19,7 @@ myconf = AppConfig(reload=True)
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
     db = DAL(myconf.take('db.uri'), 
-      pool_size=myconf.take('db.pool_size', cast=int), check_reserved=['all'],migrate=False)
+      pool_size=myconf.take('db.pool_size', cast=int), check_reserved=['all'],migrate=False,migrate_enabled=False)
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore+ndb')
@@ -62,7 +62,7 @@ service = Service()
 plugins = PluginManager()
 
 ## create all tables needed by auth if not custom tables
-auth.define_tables(username=False, signature=False)
+auth.define_tables(username=False, signature=False,migrate=False)
 
 ## configure email
 mail = Mail()

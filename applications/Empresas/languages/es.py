@@ -205,6 +205,7 @@
 'Export:': 'Exportar:',
 'exposes': 'expone',
 'extends': 'extiende',
+'fail to send email sorry!': 'fail to send email sorry!',
 'failed to reload module': 'la recarga del módulo ha fallado',
 'FAQ': 'FAQ',
 'file "%(filename)s" created': 'archivo "%(filename)s" creado',
