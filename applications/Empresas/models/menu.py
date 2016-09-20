@@ -74,7 +74,7 @@ def _():
             response.menu += [
                 ('Tutor Industrial',False,"#",[
                     ('¿Qué es un tutor industrial?',False,"#"),
-                    ('Consultar Pasantias',False,"#"),
+                    ('Consultar Pasantias',False,URL('tutor_industrial','consultarPasantias')),
                     ('Justificar Retiro Pasante',False,URL('tutor_industrial','justificar_retiro_empresa'))
                     ])
             ]

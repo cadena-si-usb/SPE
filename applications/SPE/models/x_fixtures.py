@@ -332,7 +332,7 @@ if db(db.UsuarioExterno.id > 0).count() == 0:
 
 if db(db.Empresa.id > 0).count() == 0:
     db.Empresa.insert(
-        usuario='2',
+        usuario='1',
         area_laboral='2',
         descripcion='Soluciones De Software',
         direccion_web='www.ecorp.com',

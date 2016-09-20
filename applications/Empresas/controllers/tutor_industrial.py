@@ -133,6 +133,10 @@ def solicitar_registro_tutor():
     else:
         return response.render('Tutor_Industrial/registrarTutorIndustrial/registrar_Tutor_Industrial.html',message=T("Registrarse como Tutor Industrial"),form=form)
 
+@auth.requires_login()
+def consultarPasantias():
+    response.view = 'Tutor_Industrial/Consultar_Pasantias.html'
+    return locals()
 
 def justificar_retiro_Empresa():
     # Argumentos son: codigo, año, periodo(nombre)
