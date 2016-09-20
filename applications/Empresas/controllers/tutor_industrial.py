@@ -135,6 +135,9 @@ def solicitar_registro_tutor():
 
 @auth.requires_login()
 def consultarPasantias():
+    correo = auth.user.email
+    pasantias=db((db.UsuarioExterno.correo==correo) & (db.Tutor_Industrial.usuario==db.UsuarioExterno.id)
+                 & (db.Pasantia.tutor_industrial == db.Tutor_Industrial.id)).select()
     response.view = 'Tutor_Industrial/Consultar_Pasantias.html'
     return locals()
 
