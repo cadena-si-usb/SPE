@@ -1,4 +1,5 @@
 db.define_table('Etapa',
     Field('nombre','string'),
     Field('procedimientos','string'),
-	Field('descripcion','string'))
+	Field('descripcion','string'),
+    format='%(nombre)s')

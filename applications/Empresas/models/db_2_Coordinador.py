@@ -1,5 +1,5 @@
 db.define_table('Coordinador',
-    Field('usuario',
+    Field('usuario','reference UsuarioUSB',
           requires=IS_IN_DB(db, db.UsuarioUSB, '%(usbid)s',
           error_message='Elija uno de los usuarios.'),
           label='Usuario (*)'),
@@ -12,4 +12,5 @@ db.define_table('Coordinador',
           error_message='Elija una de las coordinaciones.'),
           label='Coordinacion (*)'),
     Field('correo_Alternativo',  requires=IS_EMAIL(error_message='Introduzca un email valido.'),
-          label='Correo Alternativo'))
+          label='Correo Alternativo'),
+    format = lambda r: '%s - %s %s' % (r.usuario.usbid, r.usuario.nombre, r.usuario.apellido))

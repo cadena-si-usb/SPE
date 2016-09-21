@@ -1,5 +1,5 @@
 db.define_table('Profesor',
-       Field('usuario',
+       Field('usuario','reference UsuarioUSB',
           requires=IS_IN_DB(db, db.UsuarioUSB, '%(usbid)s',
           error_message='Elija uno de los usuarios.'),
           label='Usuario (*)'),
@@ -19,5 +19,6 @@ db.define_table('Profesor',
           requires=IS_IN_DB(db, db.Sede, '%(nombre)s',
           error_message='Elija una de las sedes.'),
           label='Sede (*)'),
-    Field('activo','boolean')
+    Field('activo','boolean'),
+    format=lambda r: '%s - %s %s' % (r.usuario.usbid, r.usuario.nombre,r.usuario.apellido)
 )

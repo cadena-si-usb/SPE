@@ -14,12 +14,12 @@ logs
 applications/examples
 
 # Carpetas de SPE
-applications/SPE/databases
-applications/SPE/errors
-applications/SPE/sessions
-applications/SPE/languages
-applications/SPE/.pythonhistory
-applications/admin/sessions
+applications/*/databases
+applications/*/errors
+applications/*/sessions
+applications/*/languages
+applications/*/.pythonhistory
+applications/*/sessions
 
 # Extras
 applications/SPE/public

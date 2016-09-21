@@ -137,7 +137,27 @@ def solicitar_registro_tutor():
 def consultarPasantias():
     correo = auth.user.email
     pasantias=db((db.UsuarioExterno.correo==correo) & (db.Tutor_Industrial.usuario==db.UsuarioExterno.id)
-                 & (db.Pasantia.tutor_industrial == db.Tutor_Industrial.id)).select()
+                 & (db.Pasantia.tutor_industrial == db.Tutor_Industrial.id) & (db.Etapa.id == db.Pasantia.etapa))
+
+    #Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
+    # this is not required in later versions)
+    fields = (db.Pasantia.titulo, db.Etapa.nombre, db.Pasantia.status)
+
+    #Define headers as tuples/dictionaries
+    headers = {
+            'Pasantia.titulo': 'Titulo',
+            'Etapa.nombre':'Etapa',
+            'Pasantia.status': 'Status' }
+
+    #Let's specify a default sort order on date_of_birth column in grid
+    default_sort_order=[db.Pasantia.titulo]
+    links = [lambda row: A('Detalle', _href=URL(c='tutor_industrial',f='verDetallePasantia',vars=dict(pasantiaId=row.Pasantia.id)))]
+
+    #Creating the grid object
+    form = SQLFORM.grid(query=pasantias, fields=fields, headers=headers, orderby=default_sort_order,
+                create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,
+                links=links,csv=False,user_signature=False)
+
     response.view = 'Tutor_Industrial/Consultar_Pasantias.html'
     return locals()
 
@@ -153,6 +173,61 @@ def verDetallePasantia():
     area_proyecto = db((db.Area_Proyecto.id == pasantia.area_proyecto)).select().first()
     materia = db((db.Materia.id == pasantia.materia)).select().first()
     etapa = db((db.Etapa.id == pasantia.etapa)).select().first()
+    planTrabajo = db((db.Plan_Trabajo.pasantia==pasantiaId)).select().first()
+
+    for field in db.Pasantia:
+        field.writable=False
+
+    db.Pasantia.titulo.default=pasantia.titulo
+    db.Pasantia.estudiante.default = pasantia.estudiante
+    db.Pasantia.tutor_academico.default = pasantia.tutor_academico
+    db.Pasantia.tutor_industrial.default = pasantia.tutor_industrial
+    db.Pasantia.periodo.default = pasantia.periodo
+    db.Pasantia.area_proyecto.default = pasantia.area_proyecto
+    db.Pasantia.resumen_proyecto.default = pasantia.resumen_proyecto
+    db.Pasantia.materia.default = pasantia.materia
+    db.Pasantia.objetivo.default = pasantia.objetivo
+    db.Pasantia.confidencialidad.default = pasantia.confidencialidad
+    db.Pasantia.status.default = pasantia.status
+    db.Pasantia.etapa.default = pasantia.etapa
+    db.Pasantia.fecha_creacion.default = pasantia.fecha_creacion
+    db.Pasantia.fecha_inicio.default = pasantia.fecha_inicio
+    db.Pasantia.fecha_fin.default = pasantia.fecha_fin
+    db.Pasantia.fecha_tope_jurado.default = pasantia.fecha_tope_jurado
+    db.Pasantia.fecha_defensa.default = pasantia.fecha_defensa
+
+    for field in db.Plan_Trabajo:
+        field.writable=False
+
+    formPasantia = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
+
+    formPlanTrabajo = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
+
+
+
+    response.view = 'Tutor_Industrial/Detalle_Pasantia.html'
+    return locals()
+
+@auth.requires_login()
+def verPlanDeTrabajo():
+    pasantiaId=request.vars.pasantiaId
+
+    pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
+    tutorIndustrial=db((db.Tutor_Industrial.id == pasantia.tutor_industrial) & (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
+    tutorAcademico = db((db.Profesor.id == pasantia.tutor_academico) & (db.Profesor.usuario == db.UsuarioUSB.id)).select().first()
+    estudiante = db((db.Estudiante.id == pasantia.estudiante) & (db.Estudiante.usuario == db.UsuarioUSB.id)).select().first()
+    periodo = db((db.Periodo.id == pasantia.periodo)).select().first()
+    area_proyecto = db((db.Area_Proyecto.id == pasantia.area_proyecto)).select().first()
+    materia = db((db.Materia.id == pasantia.materia)).select().first()
+    etapa = db((db.Etapa.id == pasantia.etapa)).select().first()
+    planTrabajo = db((db.Plan_Trabajo.pasantia==pasantiaId)).select().first()
+
+
+
+    form = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, submit_button='Actualizar', showid=False)
+
+    fields = (db.Pasantia.titulo, db.Etapa.nombre, db.Pasantia.status)
+
     response.view = 'Tutor_Industrial/Detalle_Pasantia.html'
     return locals()
 

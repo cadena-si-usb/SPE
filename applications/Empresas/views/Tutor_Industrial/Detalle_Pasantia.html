@@ -1,17 +1,75 @@
 {{extend 'layout.html'}}
 
-<div class='container'>
-    {{if auth.is_logged_in():}}
-        <p class="title"> Bienvenido Tutor {{=auth.user.first_name}} {{=auth.user.last_name}} </p>
-        <div class="panel">
-            <p>Detalle De La Pasantia {{=pasantia.titulo}}</p>
-            <div>
-
-            </div>
-            <div>
-
+<div class='content'>
+    <p class='title'>Pasantias Asignadas a {{=auth.user.first_name}} {{=auth.user.last_name}}</p>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#personal">
+                                <i class="fa fa-check-square-o fa-pull-right"></i>
+                                <b>Detalle De Pasantia</b>
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="panel-collapse collapse in" id="personal">
+                        <div class="list-group">
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.titulo}}</b> : {{=formPasantia.custom.widget.titulo}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.estudiante}}</b> : {{=formPasantia.custom.widget.estudiante}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.tutor_academico}}</b> : {{=formPasantia.custom.widget.tutor_academico}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.tutor_industrial}}</b> : {{=formPasantia.custom.widget.tutor_industrial}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.periodo}}</b> : {{=formPasantia.custom.widget.periodo}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.area_proyecto}}</b> : {{=formPasantia.custom.widget.area_proyecto}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.resumen_proyecto}}</b> : {{=formPasantia.custom.widget.resumen_proyecto}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.materia}}</b> : {{=formPasantia.custom.widget.materia}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.objetivo}}</b> : {{=formPasantia.custom.widget.objetivo}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.confidencialidad}}</b> : {{=formPasantia.custom.widget.confidencialidad}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.status}}</b> : {{=formPasantia.custom.widget.status}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.etapa}}</b> : {{=formPasantia.custom.widget.etapa}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.fecha_creacion}}</b> : {{=formPasantia.custom.widget.fecha_creacion}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.fecha_inicio}}</b> : {{=formPasantia.custom.widget.fecha_inicio}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.fecha_fin}}</b> : {{=formPasantia.custom.widget.fecha_fin}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.fecha_tope_jurado}}</b> : {{=formPasantia.custom.widget.fecha_tope_jurado}} </p>
+                            <p class="list-group-item"><b>{{=formPasantia.custom.label.fecha_defensa}}</b> : {{=formPasantia.custom.widget.fecha_defensa}} </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#personal">
+                                <i class="fa fa-check-square-o fa-pull-right"></i>
+                                <b>Plan De Trabajo</b>
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="panel-collapse collapse in" id="personal">
+                        <div class="list-group">
+                            <p class="list-group-item"><b>{{=formPlanTrabajo.custom.label.aprobacion_tutor_academico}}</b> : {{=formPlanTrabajo.custom.widget.aprobacion_tutor_academico}} </p>
+                            <p class="list-group-item"><b>{{=formPlanTrabajo.custom.label.aprobacion_tutor_industrial}}</b> : {{=formPlanTrabajo.custom.widget.aprobacion_tutor_industrial}} </p>
+                            <p class="list-group-item"><b>{{=formPlanTrabajo.custom.label.aprobacion_coordinacion}}</b> : {{=formPlanTrabajo.custom.widget.aprobacion_coordinacion}} </p>
+                            <p class="list-group-item"><b>{{=formPlanTrabajo.custom.label.fecha_creacion}}</b> : {{=formPlanTrabajo.custom.widget.fecha_creacion}} </p>
+                            <p class="list-group-item"><b>{{=formPlanTrabajo.custom.label.fecha_envio}}</b> : {{=formPlanTrabajo.custom.widget.fecha_envio}} </p>
+                            <p class="list-group-item"><b>{{=formPlanTrabajo.custom.label.estado}}</b> : {{=formPlanTrabajo.custom.widget.estado}} </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row center">
+                    <br>
+                        {{=A(T('Ver Detalle De Plan De Trabajo'), _class='btn btn-default',_href=URL  (c='tutor_industrial',f='verPlanDeTrabajo'))}}
+                    </br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <br><br>
+    </div>
 
-    {{pass}}
 </div>

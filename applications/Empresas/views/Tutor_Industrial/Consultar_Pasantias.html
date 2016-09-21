@@ -2,16 +2,11 @@
 
 <div class='container'>
     {{if auth.is_logged_in():}}
-        <p class="title"> Bienvenido Tutor {{=auth.user.first_name}} {{=auth.user.last_name}} </p>
+        <p class='title'>Pasantias Asignadas a '{{=auth.user.first_name}} {{=auth.user.last_name}}'</p>
         <div class="panel">
-            {{if pasantias:}}
-                <p> Mis Pasantias: </p>
-                {{for pasantia in pasantias:}}
-                    <div class="panel"><a href="{{=URL(c='tutor_industrial',f='verDetallePasantia',vars=dict(pasantiaId=pasantia.Pasantia.id))}}"> {{=pasantia.Pasantia.titulo}}</a></div>
-                {{pass}}
-            {{else:}}
-                <p> No Es Tutor De Ninguna Pasantia Actualmente </p>
-            {{pass}}
+            <div>
+                {{=form}}
+            </div>
         </div>
 
     {{pass}}

@@ -1,2 +1,3 @@
 db.define_table('Categoria',
-    Field('nombre','string'))
+    Field('nombre','string'),
+    format='%(nombre)s')
