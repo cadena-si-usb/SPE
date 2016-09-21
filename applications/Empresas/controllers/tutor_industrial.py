@@ -166,13 +166,6 @@ def verDetallePasantia():
     pasantiaId=request.vars.pasantiaId
 
     pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
-    tutorIndustrial=db((db.Tutor_Industrial.id == pasantia.tutor_industrial) & (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
-    tutorAcademico = db((db.Profesor.id == pasantia.tutor_academico) & (db.Profesor.usuario == db.UsuarioUSB.id)).select().first()
-    estudiante = db((db.Estudiante.id == pasantia.estudiante) & (db.Estudiante.usuario == db.UsuarioUSB.id)).select().first()
-    periodo = db((db.Periodo.id == pasantia.periodo)).select().first()
-    area_proyecto = db((db.Area_Proyecto.id == pasantia.area_proyecto)).select().first()
-    materia = db((db.Materia.id == pasantia.materia)).select().first()
-    etapa = db((db.Etapa.id == pasantia.etapa)).select().first()
     planTrabajo = db((db.Plan_Trabajo.pasantia==pasantiaId)).select().first()
 
     for field in db.Pasantia:
@@ -199,6 +192,14 @@ def verDetallePasantia():
     for field in db.Plan_Trabajo:
         field.writable=False
 
+    if (planTrabajo):
+        db.Plan_Trabajo.aprobacion_tutor_academico.default = planTrabajo.aprobacion_tutor_academico
+        db.Plan_Trabajo.aprobacion_tutor_industrial.default = planTrabajo.aprobacion_tutor_industrial
+        db.Plan_Trabajo.aprobacion_coordinacion.default = planTrabajo.aprobacion_coordinacion
+        db.Plan_Trabajo.fecha_creacion.default = planTrabajo.fecha_creacion
+        db.Plan_Trabajo.fecha_envio.default = planTrabajo.fecha_envio
+        db.Plan_Trabajo.estado.default = planTrabajo.estado
+
     formPasantia = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
 
     formPlanTrabajo = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
@@ -213,18 +214,11 @@ def verPlanDeTrabajo():
     pasantiaId=request.vars.pasantiaId
 
     pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
-    tutorIndustrial=db((db.Tutor_Industrial.id == pasantia.tutor_industrial) & (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
-    tutorAcademico = db((db.Profesor.id == pasantia.tutor_academico) & (db.Profesor.usuario == db.UsuarioUSB.id)).select().first()
-    estudiante = db((db.Estudiante.id == pasantia.estudiante) & (db.Estudiante.usuario == db.UsuarioUSB.id)).select().first()
-    periodo = db((db.Periodo.id == pasantia.periodo)).select().first()
-    area_proyecto = db((db.Area_Proyecto.id == pasantia.area_proyecto)).select().first()
-    materia = db((db.Materia.id == pasantia.materia)).select().first()
-    etapa = db((db.Etapa.id == pasantia.etapa)).select().first()
     planTrabajo = db((db.Plan_Trabajo.pasantia==pasantiaId)).select().first()
+    fases = db((db.Fase.plan_trabajo == planTrabajo.id)).select()
+    actividades = db((db.Actividad.plan_trabajo == fases.id)).select()
 
-
-
-    form = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, submit_button='Actualizar', showid=False)
+    form = SQLFORM.factory(db.Plan_Trabajo, fields=None, submit_button='Actualizar', showid=False)
 
     fields = (db.Pasantia.titulo, db.Etapa.nombre, db.Pasantia.status)
 

@@ -453,3 +453,42 @@ if db(db.auth_membership.id > 0).count() == 0:
         group_id='5'
     )
     db.commit()
+
+if db(db.Accion_Usuario.id > 0).count() == 0:
+    db.Accion_Usuario.insert(
+        nombre='Acciones',
+        destino='/SPE/acciones_usuario/listar',
+        contexto='coordinacion',
+        rol='2'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Mis Pasantias',
+        destino='/SPE/mis_pasantias/listar',
+        contexto='coordinacion',
+        rol='1'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Pasantias',
+        destino='/SPE/pasantias/listar',
+        contexto='coordinacion',
+        rol='2'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Pasantias',
+        destino='/SPE/pasantias/listar',
+        contexto=None,
+        rol='3'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Editar Perfil',
+        destino='/SPE/mi_perfil/configuracion',
+        contexto='configuracion',
+        rol='1'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Editar Curriculo',
+        destino='/SPE/mi_perfil/editar_curriculo',
+        contexto='configuracion',
+        rol='1'
+    )
+    db.commit()
