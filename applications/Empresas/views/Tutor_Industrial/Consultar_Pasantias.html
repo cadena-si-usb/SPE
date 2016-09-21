@@ -7,7 +7,7 @@
             {{if pasantias:}}
                 <p> Mis Pasantias: </p>
                 {{for pasantia in pasantias:}}
-                    <div class="panel">{{=pasantia.Pasantia.titulo}}</div>
+                    <div class="panel"><a href="{{=URL(c='tutor_industrial',f='verDetallePasantia',vars=dict(pasantiaId=pasantia.Pasantia.id))}}"> {{=pasantia.Pasantia.titulo}}</a></div>
                 {{pass}}
             {{else:}}
                 <p> No Es Tutor De Ninguna Pasantia Actualmente </p>

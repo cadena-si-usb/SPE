@@ -1,5 +1,29 @@
 # -*- coding: utf-8 -*-
 
+if db(db.Dedicacion.id > 0).count() == 0:
+    db.Dedicacion.insert(
+        nombre='Exclusiva'
+    )
+    db.commit()
+
+if db(db.Division.id > 0).count() == 0:
+    db.Division.insert(
+        nombre='Ciencias Informaticas'
+    )
+    db.commit()
+
+if db(db.Area_Proyecto.id > 0).count() == 0:
+    db.Area_Proyecto.insert(
+        nombre='Informatica Forense',
+        descripcion=''
+    )
+    db.Area_Proyecto.insert(
+        nombre='Sistema De Informacion',
+        descripcion=''
+    )
+    db.commit()
+
+
 if db(db.Sede.id > 0).count() == 0:
     db.Sede.insert(
         nombre='Sartenejas'
@@ -69,6 +93,15 @@ if db(db.Materia.id > 0).count() == 0:
     )
     db.commit()
 
+if db(db.Departamento.id > 0).count() == 0:
+    db.Departamento.insert(
+        nombre='Ciencias De La Informacion',
+        id_division='1',
+        email_dep='ci@usb.ve',
+        sede='1',
+    )
+    db.commit()
+
 if db(db.Periodo.id > 0).count() == 0:
     db.Periodo.insert(
         mes_inicio='Abril',
@@ -96,6 +129,9 @@ if db(db.Rol.id > 0).count() == 0:
     )
     db.Rol.insert(
         nombre='Invitado'
+    )
+    db.Rol.insert(
+        nombre='Profesor'
     )
     db.commit()
 
@@ -327,6 +363,58 @@ if db(db.UsuarioExterno.id > 0).count() == 0:
         estado='1',
         telefono='04128063009',
         direccion='Calle P1'
+    )
+    db.commit()
+
+if db(db.UsuarioUSB.id > 0).count() == 0:
+    db.UsuarioUSB.insert(
+        usbid='emuguerza',
+        nombre='Enrique',
+        apellido='Muguerza',
+        correo='emuguerza@gmail.com',
+        clave='123456789',
+        tipo_documento='1',
+        numero_documento='11234112',
+        telefono='04122347576',
+        direcUsuario='Caracas',
+        sexo='M',
+        rol='5',
+        activo='True'
+    )
+    db.UsuarioUSB.insert(
+        usbid='10-10102',
+        nombre='Roberto Andres',
+        apellido='Manzanilla',
+        correo='queso976@gmail.com',
+        clave='123456789',
+        tipo_documento='1',
+        numero_documento='20101324',
+        telefono='04129767576',
+        direcUsuario='Prados Del Este',
+        sexo='M',
+        rol='1',
+        activo='True'
+    )
+    db.commit()
+
+if db(db.Estudiante.id > 0).count() == 0:
+    db.Estudiante.insert(
+        usuario='2',
+        carnet='10-10102',
+        carrera='1',
+        sede='1',
+        activo='True'
+    )
+    db.commit()
+
+if db(db.Profesor.id > 0).count() == 0:
+    db.Profesor.insert(
+        usuario='1',
+        categoria='1',
+        dedicacion='1',
+        departamento='1',
+        sede='1',
+        activo='True'
     )
     db.commit()
 

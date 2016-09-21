@@ -142,11 +142,18 @@ def consultarPasantias():
     return locals()
 
 @auth.requires_login()
-def consultarPasantias(pasantiaId):
-    correo = auth.user.email
-    pasantias=db((db.UsuarioExterno.correo==correo) & (db.Tutor_Industrial.usuario==db.UsuarioExterno.id)
-                 & (db.Pasantia.tutor_industrial == db.Tutor_Industrial.id)).select()
-    response.view = 'Tutor_Industrial/Consultar_Pasantias.html'
+def verDetallePasantia():
+    pasantiaId=request.vars.pasantiaId
+
+    pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
+    tutorIndustrial=db((db.Tutor_Industrial.id == pasantia.tutor_industrial) & (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
+    tutorAcademico = db((db.Profesor.id == pasantia.tutor_academico) & (db.Profesor.usuario == db.UsuarioUSB.id)).select().first()
+    estudiante = db((db.Estudiante.id == pasantia.estudiante) & (db.Estudiante.usuario == db.UsuarioUSB.id)).select().first()
+    periodo = db((db.Periodo.id == pasantia.periodo)).select().first()
+    area_proyecto = db((db.Area_Proyecto.id == pasantia.area_proyecto)).select().first()
+    materia = db((db.Materia.id == pasantia.materia)).select().first()
+    etapa = db((db.Etapa.id == pasantia.etapa)).select().first()
+    response.view = 'Tutor_Industrial/Detalle_Pasantia.html'
     return locals()
 
 def justificar_retiro_Empresa():
