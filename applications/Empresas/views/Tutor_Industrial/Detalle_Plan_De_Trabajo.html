@@ -1,0 +1,44 @@
+{{extend 'layout.html'}}
+
+<div class='content'>
+    <p class='title'>Plan De Trabajo de la pasantia '{{=pasantia.titulo}}' </p>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#personal">
+                                <i class="fa fa-check-square-o fa-pull-right"></i>
+                                <b>Datos Del Plan De Trabajo</b>
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="panel-collapse collapse in" id="personal">
+                        <div class="list-group">
+                            <p class="list-group-item"><b>{{=}}</b> : {{=}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#personal">
+                                <i class="fa fa-check-square-o fa-pull-right"></i>
+                                <b>Detalle De Pasantia</b>
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="panel-collapse collapse in" id="personal">
+                        <div class="list-group">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <br><br>
+    </div>
+
+</div>

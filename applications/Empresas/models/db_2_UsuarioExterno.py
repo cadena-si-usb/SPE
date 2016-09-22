@@ -1,4 +1,5 @@
-db.define_table('UsuarioExterno', 
+db.define_table('UsuarioExterno',
+                Field('auth_User', 'reference auth_user'),
                 Field('nombre',
                        requires=[IS_NOT_EMPTY
                                     (error_message='Es necesario un nombre.') ],
@@ -26,7 +27,7 @@ db.define_table('UsuarioExterno',
                 Field('estado','reference Estado',
                        label= 'Estado'), 
                 Field('telefono',
-                       requires=IS_MATCH('^\d{4}?[\s.-]?\d{7}$',                  error_message='Numero no valido,ingrese numero telefonico'),
+                       requires=IS_MATCH('^\d{4}?[\s.-]?\d{7}$',error_message='Numero no valido,ingrese numero telefonico'),
                        label = 'Telefono'),
                 Field('direccion','text',
                        requires=[IS_NOT_EMPTY

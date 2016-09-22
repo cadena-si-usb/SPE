@@ -47,8 +47,18 @@ def registrar_Empresa():
     # Caso 1: El form se lleno de manera correcta asi que registramos la Empresa y procedemos a la pagina de exito
     if form.process().accepted:
 
+        # Insertamos en la tabla User de Web2py, para el correoin
+        result = db.auth_user.insert(
+            first_name=request.vars.nombre,
+            password=db.auth_user.password.validate(request.vars.clave)[0],
+            email=request.vars.correo,
+        )
+        group_id = auth.id_group(role='Empresa')
+        auth.add_membership(group_id, result)
+
         # Registramos el usuario externo
         db.UsuarioExterno.insert(
+            auth_User=result,
             correo=request.vars.correo,
             clave=request.vars.clave,
             pregunta_secreta=request.vars.pregunta_secreta,
@@ -72,11 +82,7 @@ def registrar_Empresa():
             contacto_RRHH = request.vars.contacto_RRHH
         )
 
-        #Insertamos en la tabla User de Web2py, para el correoin
-        auth.get_or_create_user({
-            "first_name":request.vars.nombre,
-            "password":db.auth_user.password.validate(request.vars.clave)[0],
-            "email":request.vars.correo})
+
 
         generar_Correo_Verificacion(request.vars.correo)
 

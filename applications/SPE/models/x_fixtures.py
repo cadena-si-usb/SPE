@@ -339,10 +339,31 @@ if db(db.auth_user.id > 0).count() == 0:
         reset_password_key='',
         registration_id=''
     )
+    db.auth_user.insert(
+        first_name='Enrique',
+        last_name='Muguerza',
+        email='emuguerza@gmail.com',
+        username=None,
+        password='pbkdf2(1000,20,sha512)$a8021cc4975367f2$d9ea5c4e54a6663fe0e105979778b28e1f9d4ed8',
+        registration_key='',
+        reset_password_key='',
+        registration_id=''
+    )
+    db.auth_user.insert(
+        first_name='Roberto Andres',
+        last_name='Manzanilla',
+        email='queso976@gmail.com',
+        username=None,
+        password='pbkdf2(1000,20,sha512)$a8021cc4975367f2$d9ea5c4e54a6663fe0e105979778b28e1f9d4ed8',
+        registration_key='',
+        reset_password_key='',
+        registration_id=''
+    )
     db.commit()
 
 if db(db.UsuarioExterno.id > 0).count() == 0:
     db.UsuarioExterno.insert(
+        auth_User=1,
         nombre='Ecorp',
         correo='ecorp-admin@ecorp.com',
         clave='Ecorp.2016',
@@ -354,6 +375,7 @@ if db(db.UsuarioExterno.id > 0).count() == 0:
         direccion='Sartenejas'
     )
     db.UsuarioExterno.insert(
+        auth_User=2,
         nombre='Francisco Javier',
         correo='fsucre@integra.la',
         clave='Ecorp.2016',
@@ -368,6 +390,7 @@ if db(db.UsuarioExterno.id > 0).count() == 0:
 
 if db(db.UsuarioUSB.id > 0).count() == 0:
     db.UsuarioUSB.insert(
+        auth_User=3,
         usbid='emuguerza',
         nombre='Enrique',
         apellido='Muguerza',
@@ -382,6 +405,7 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
         activo='True'
     )
     db.UsuarioUSB.insert(
+        auth_User=4,
         usbid='10-10102',
         nombre='Roberto Andres',
         apellido='Manzanilla',
@@ -451,6 +475,14 @@ if db(db.auth_membership.id > 0).count() == 0:
     db.auth_membership.insert(
         user_id='2',
         group_id='5'
+    )
+    db.auth_membership.insert(
+        user_id='4',
+        group_id='1'
+    )
+    db.auth_membership.insert(
+        user_id='3',
+        group_id='2'
     )
     db.commit()
 

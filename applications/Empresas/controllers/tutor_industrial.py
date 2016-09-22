@@ -58,8 +58,17 @@ def solicitar_registro_tutor():
     # Caso 1: El form se lleno de manera correcta asi que registramos al tutor y procedemos a la pagina de exito
     if form.process().accepted:
 
+        # Insertamos en la tabla user de Web2py
+        result = db.auth_user.insert(
+            first_name=request.vars.nombre,
+            last_name=request.vars.apellido,
+            password=db.auth_user.password.validate(request.vars.clave)[0],
+            email=request.vars.correo,
+        )
+
         # Registramos el usuario externo
         db.UsuarioExterno.insert(
+            auth_User=result,
             correo=request.vars.correo,
             clave=request.vars.clave,
             pregunta_secreta=request.vars.pregunta_secreta,
@@ -73,6 +82,7 @@ def solicitar_registro_tutor():
 
         usuarioExternoSet = db(db.UsuarioExterno.correo == request.vars.correo).select()
         usuarioExterno = usuarioExternoSet[0]
+
 
         # Registramos al tutor
         db.Tutor_Industrial.insert(
@@ -88,13 +98,10 @@ def solicitar_registro_tutor():
             comfirmado_Por_Empresa=0
         )
 
-        #Insertamos en la tabla user de Web2py
-        result = db.auth_user.insert(
-            first_name = request.vars.nombre,
-            last_name  = request.vars.apellido,
-            password   = db.auth_user.password.validate(request.vars.clave)[0],
-            email      = request.vars.correo,
-        )
+
+
+        group_id = auth.id_group(role='Tutor_Industrial')
+        auth.add_membership(group_id, result)
 
         generar_Correo_Verificacion(request.vars.correo)
 
@@ -164,13 +171,13 @@ def consultarPasantias():
 @auth.requires_login()
 def verDetallePasantia():
     pasantiaId=request.vars.pasantiaId
-
+    # Buscamos los datos necesarios
     pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
-    planTrabajo = db((db.Plan_Trabajo.pasantia==pasantiaId)).select().first()
-
+    planTrabajo = pasantia.Plan_Trabajo.select().first()
+    # Definimos que no se pueden editar los datos
     for field in db.Pasantia:
         field.writable=False
-
+    # Llenamos Los Campos con los datos encontrados
     db.Pasantia.titulo.default=pasantia.titulo
     db.Pasantia.estudiante.default = pasantia.estudiante
     db.Pasantia.tutor_academico.default = pasantia.tutor_academico
@@ -188,10 +195,10 @@ def verDetallePasantia():
     db.Pasantia.fecha_fin.default = pasantia.fecha_fin
     db.Pasantia.fecha_tope_jurado.default = pasantia.fecha_tope_jurado
     db.Pasantia.fecha_defensa.default = pasantia.fecha_defensa
-
+    # Definimos que no se pueden editar los datos
     for field in db.Plan_Trabajo:
         field.writable=False
-
+    # Si existe el plan de trabajo repetimos el proceso con el plan de trabajo
     if (planTrabajo):
         db.Plan_Trabajo.aprobacion_tutor_academico.default = planTrabajo.aprobacion_tutor_academico
         db.Plan_Trabajo.aprobacion_tutor_industrial.default = planTrabajo.aprobacion_tutor_industrial
@@ -199,9 +206,8 @@ def verDetallePasantia():
         db.Plan_Trabajo.fecha_creacion.default = planTrabajo.fecha_creacion
         db.Plan_Trabajo.fecha_envio.default = planTrabajo.fecha_envio
         db.Plan_Trabajo.estado.default = planTrabajo.estado
-
+    # Creamos Los forms con lso que mostraremos los datos
     formPasantia = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
-
     formPlanTrabajo = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
 
 
@@ -212,17 +218,10 @@ def verDetallePasantia():
 @auth.requires_login()
 def verPlanDeTrabajo():
     pasantiaId=request.vars.pasantiaId
-
     pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
-    planTrabajo = db((db.Plan_Trabajo.pasantia==pasantiaId)).select().first()
-    fases = db((db.Fase.plan_trabajo == planTrabajo.id)).select()
-    actividades = db((db.Actividad.plan_trabajo == fases.id)).select()
-
-    form = SQLFORM.factory(db.Plan_Trabajo, fields=None, submit_button='Actualizar', showid=False)
-
-    fields = (db.Pasantia.titulo, db.Etapa.nombre, db.Pasantia.status)
-
-    response.view = 'Tutor_Industrial/Detalle_Pasantia.html'
+    planTrabajo = pasantia.Plan_Trabajo.select().first()
+    fase=planTrabajo.Fase.select()
+    response.view = 'Tutor_Industrial/Detalle_Plan_De_Trabajo.html'
     return locals()
 
 def justificar_retiro_Empresa():

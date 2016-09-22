@@ -1,4 +1,5 @@
 db.define_table('UsuarioUSB',
+    Field('auth_User','reference auth_user'),
     Field('usbid', 'string',
           requires=[IS_NOT_EMPTY(error_message='Es necesario un usbid.')],
           label='USB ID (*)'),

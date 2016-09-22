@@ -69,7 +69,7 @@
                 {{if planTrabajo:}}
                     <div class="row center">
                         <br>
-                            {{=A(T('Ver Detalle De Plan De Trabajo'), _class='btn btn-default',_href=URL  (c='tutor_industrial',f='verPlanDeTrabajo'))}}
+                            {{=A(T('Ver Detalle De Plan De Trabajo'), _class='btn btn-default',_href=URL  (c='tutor_industrial',f='verPlanDeTrabajo',vars=dict(pasantiaId=pasantia.id)))}}
                         </br>
                     </div>
                 {{pass}}

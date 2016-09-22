@@ -60,23 +60,32 @@ class Usuario(Model):
 		clave = random_key()
 
 		try:
-			usuario = self.table.insert(nombre=nombre,
-									apellido=apellido,
-									usbid=carnet,
-									rol=rol,
-									clave=clave,
-									activo=False)
-			self.db.auth_user.insert(first_name=nombre,
+			auth_User_Id=self.db.auth_user.insert(first_name=nombre,
 									 last_name=apellido,
 									 username=carnet,
 									 password=self.db.auth_user.password.validate(clave)[0])
+			usuario = self.table.insert(auth_User=auth_User_Id,
+										nombre=nombre,
+										apellido=apellido,
+										usbid=carnet,
+										rol=rol,
+										clave=clave,
+										activo=False)
 
-			if (tipo == 'Pregrado'):
+			if (tipo == 'Pregrado' or tipo == 'Postgrado'):
 				estudiante = self.db.Estudiante.insert(usuario=usuario['id'],
 										carnet=carnet,
 										activo=False)
 				self.db.Curriculo.insert(estudiante=estudiante['id'],
 										activo=False)
+				group_id = auth.id_group(role='Estudiante')
+				auth.add_membership(group_id, auth_User_Id)
+			elif (tipo == 'Profesor'):
+				group_id = auth.id_group(role='Profesor')
+				auth.add_membership(group_id, auth_User_Id)
+			elif (tipo == 'Coordinador'):
+				group_id = auth.id_group(role='Coordinador')
+				auth.add_membership(group_id, auth_User_Id)
 
 			auth.login_bare(carnet,clave)
 
