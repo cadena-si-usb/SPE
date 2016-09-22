@@ -1,5 +1,9 @@
+import os.path
+
 db.define_table('UsuarioUSB',
     Field('auth_User','reference auth_user'),
+    Field('imagen','upload',uploadseparate=False,uploadfolder=os.path.join(request.folder,'uploads'),
+          requires=IS_EMPTY_OR(IS_IMAGE('jpeg'))),
     Field('usbid', 'string',
           requires=[IS_NOT_EMPTY(error_message='Es necesario un usbid.')],
           label='USB ID (*)'),

@@ -22,9 +22,10 @@
 	border-radius: 50%;
 	height: 200px;
 	width: 200px;
-	background: url("../images/descarga.jpg");
+	background: url("../images/profile.png");
 	background-position: center center;
 	background-repeat: no-repeat;
+	background-size: contain;
 	margin-left: 20%;
 	margin-right: 10%;
 }
