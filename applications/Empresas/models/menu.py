@@ -34,15 +34,26 @@ DEVELOPMENT_MENU = True
 
 if auth.is_logged_in():
     texto_principal = auth.user.first_name
+    if es_Empresa(auth.user.email):
+        menu_autenticado = [
+            (texto_principal, False, '#', [
+                ("Su Perfil", False, URL('Empresa', 'ver_Perfil_Empresa')),
+                (SPAN(' Cerrar Sesión', _class='fa fa-sign-out'), False, URL('default', 'logout'))
+            ])
+        ]
+    elif es_Tutor_Industrial(auth.user.email):
+        menu_autenticado = [
+            (texto_principal,False, '#',[
+                ("Su Perfil", False, URL('tutor_industrial','verPerfil')),
+                (SPAN(' Cerrar Sesión', _class='fa fa-sign-out'), False, URL('default','logout'))
+            ])
+        ]
 else:
     texto_principal = "Bienvenido"
+    menu_autenticado = [
+        (texto_principal, False, '#', [])
+    ]
 
-menu_autenticado = [
-    (texto_principal,False, '#',[
-        ("Su Perfil", False, URL('Empresa','ver_Perfil_Empresa')),
-        (SPAN(' Cerrar Sesión', _class='fa fa-sign-out'), False, URL('default','logout'))
-    ])
-]
 #########################################################################
 ## provide shortcuts for development. remove in production
 #########################################################################
@@ -56,15 +67,13 @@ def _():
     # Entradas del menu si el usuario esta autenticado
     if auth.is_logged_in():
         # Caso 1: El usuario es una Empresa
-
         if es_Empresa(auth.user.email):
-
             response.menu += [
                 ('Solicitudes de pasantes',False,"#",[
                     ('Agregar solicitud', False, "#")
                     ]),
                 ('Tutores Industriales',False,"#",[
-                    ('Sus tutores industriales', False, "#"),
+                    ('Sus tutores industriales', False, URL(c='Empresa', f='consultarTutores')),
                     ('Registrar tutor industrial', False, URL(c='Empresa', f='registrar_Tutor_Industrial')),
                     ]),
                 ('Reportes', False, "#")

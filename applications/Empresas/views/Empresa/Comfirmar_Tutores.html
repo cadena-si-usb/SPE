@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+
+<div class='container'>
+    {{if auth.is_logged_in():}}
+        <p class='title'>Tutores Industriales De '{{=auth.user.first_name}}'</p>
+        <div class="panel">
+            <p class="text-info">¿Desea Comfirmar a {{=usuarioExterno.nombre}} {{=tutor.apellido}} Como Tutor De Su Empresa?</p>
+            <div>
+                {{=form}}
+            </div>
+        </div>
+
+    {{pass}}
+</div>

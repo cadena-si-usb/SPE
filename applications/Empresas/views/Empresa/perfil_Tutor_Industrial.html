@@ -1,0 +1,101 @@
+{{extend 'layout.html'}}
+
+<div class='content'>
+    <p class='title'>Perfil De '{{=usuarioExterno.nombre}} {{=tutor.apellido}}'</p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#personal">
+                                <i class="fa fa-check-square-o fa-pull-right"></i>
+                                Datos personales del tutor industrial
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="panel-collapse collapse in" id="personal">
+                        <div class="list-group">
+                            <p class="list-group-item">{{=form.custom.label.correo}} : {{=form.custom.widget.correo}} </p>
+                            <p class="list-group-item">{{=form.custom.label.nombre}} : {{=form.custom.widget.nombre}} </p>
+                            <p class="list-group-item">{{=form.custom.label.apellido}} : {{=form.custom.widget.apellido}} </p>
+                            <p class="list-group-item">{{=form.custom.label.tipo_documento}} : {{=form.custom.widget.tipo_documento}} </p>
+                            <p class="list-group-item">{{=form.custom.label.numero_documento}} : {{=form.custom.widget.numero_documento}} </p>
+                            {{if usuarioExterno.telefono:}}
+                                <p class="list-group-item">{{=form.custom.label.telefono}} : {{=form.custom.widget.telefono}} </p>
+                            {{pass}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel-group" id="accordionTwo">
+                {{if tutor.profesion or tutor.cargo or tutor.departamento:}}
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a data-toggle="collapse" href="#profesional">
+                                <i class="fa fa-check-square-o fa-pull-right"></i>
+                                Datos profesionales del tutor industrial
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="panel-collapse collapse in" id="profesional">
+                        <div class="list-group">
+                            {{if tutor.Empresa:}}
+                                <p class="list-group-item">{{=form.custom.label.Empresa}} : {{=form.custom.widget.Empresa}} </p>
+                            {{pass}}
+                            {{if tutor.profesion:}}
+                                <p class="list-group-item">{{=form.custom.label.profesion}} : {{=form.custom.widget.profesion}} </p>
+                            {{pass}}
+                            {{if tutor.cargo:}}
+                                <p class="list-group-item">{{=form.custom.label.cargo}} : {{=form.custom.widget.cargo}} </p>
+                            {{pass}}
+                            {{if tutor.departamento:}}
+                                <p class="list-group-item">{{=form.custom.label.departamento}} : {{=form.custom.widget.departamento}} </p>
+                            {{pass}}
+                            {{if tutor.universidad:}}
+                                <p class="list-group-item">{{=form.custom.label.universidad}} : {{=form.custom.widget.universidad}} </p>
+                            {{pass}}
+                        </div>
+                    </div>
+                </div>
+                {{pass}}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel-group" id="accordionTwo">
+                {{if usuarioExterno.estado or usuarioExterno.direccion:}}
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a data-toggle="collapse" href="#location">
+                                <i class="fa fa-check-square-o fa-pull-right"></i>
+                                Ubicación del tutor industrial
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="panel-collapse collapse in" id="location">
+                        <div class="list-group">
+                            {{if usuarioExterno.pais:}}
+                                <p class="list-group-item">{{=form.custom.label.pais}} : {{=form.custom.widget.pais}} </p>
+                            {{pass}}
+                            {{if usuarioExterno.estado:}}
+                                <p class="list-group-item">{{=form.custom.label.estado}} : {{=form.custom.widget.estado}} </p>
+                            {{pass}}
+                            {{if usuarioExterno.direccion:}}
+                                <p class="list-group-item">{{=form.custom.label.direccion}} : {{=form.custom.widget.direccion}} </p>
+                            {{pass}}
+                        </div>
+                    </div>
+                </div>
+                {{pass}}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <br></br>
+    </div>
+
+</div>

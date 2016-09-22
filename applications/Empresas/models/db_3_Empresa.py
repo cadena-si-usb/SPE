@@ -14,9 +14,6 @@ db.define_table('Empresa',
                                (error_message='Introduzca un email valido.')]),
     format=lambda r: '%s %s' % (r.usuario.nombre, r.usuario.correo)
 
-    ##format=lambda r: '%s' % (db.UsuarioExterno[r.usuario].nombre)
-
-
 )
 
 db.Empresa.area_laboral.requires=IS_IN_DB(db,db.Area_Laboral.id,'%(nombre)s')

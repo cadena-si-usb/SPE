@@ -16,7 +16,7 @@ db.define_table('Tutor_Industrial',
                     Field('cargo','string',label=T('Cargo')),
                     Field('departamento','string',label=T('Departamento')),
                     Field('universidad','reference Universidad',label=T('Universidad')),
-                    Field('comfirmado_Por_Empresa','integer',label=T('Comfirmado Por Empresa'), default=0, requires=IS_INT_IN_RANGE(minimum=0, maximum=1)),
+                    Field('comfirmado_Por_Empresa','integer',label=T('Comfirmado Por Empresa'), default=0, requires=IS_IN_SET([0,1],zero=None),represent=lambda v, r: 'Aprobado' if v==1 else 'No Aprobado'),
                     format = lambda r: '%s %s - %s' % (r.usuario.nombre, r.apellido,r.usuario.correo))
 
 # Validadores

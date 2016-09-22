@@ -77,7 +77,6 @@ def configuracion():
         rol = db.Rol(db.Rol.id == usuario['rol'])
 
         if (rol.nombre == 'Estudiante'):
-            SQLFORM.factory(db.UsuarioUSB, db.Estudiante)
             estudiante = db.Estudiante(db.Estudiante.usuario == usuario.id)
             fields.append('carnet')
             fields.append('carrera')
@@ -87,7 +86,6 @@ def configuracion():
             db.Estudiante.sede.default = estudiante.sede
             form = SQLFORM.factory(db.UsuarioUSB,db.Estudiante,fields=fields,submit_button='Actualizar', showid=False)
         elif (rol.nombre == 'Profesor'):
-            SQLFORM.factory(db.UsuarioUSB, db.Profesor)
             profesor = db.Profesor(db.Profesor.usuario == usuario.id)
             fields.append('categoria')
             fields.append('dedicacion')

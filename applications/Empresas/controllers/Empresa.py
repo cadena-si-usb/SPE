@@ -437,3 +437,104 @@ def editar_Perfil_Empresa():
     else:
         return response.render('Empresa/editar_Registrar_Empresa.html', message=T("Editando Perfil Empresa"),
                                form=form)
+
+@auth.requires_login()
+def consultarTutores():
+    userId = auth.user.id
+    tutores=db((db.UsuarioExterno.auth_User==userId) & (db.Empresa.usuario==db.UsuarioExterno.id)
+                 & (db.Tutor_Industrial.Empresa == db.Empresa.id))
+    #Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
+    # this is not required in later versions)
+    fields = [db.UsuarioExterno.nombre, db.Tutor_Industrial.apellido, db.Tutor_Industrial.comfirmado_Por_Empresa]
+    prueba=tutores.select().first()
+    #Define headers as tuples/dictionaries
+    headers = {
+            'UsuarioExterno.nombre': 'Nombre',
+            'Tutor_Industrial.apellido':'Apellido',
+            'Tutor_Industrial.comfirmado_Por_Empresa': 'Comfirmado' }
+
+    verPerfil=lambda row: A('Ver Perfil', _href=URL(c='Empresa', f='verPerfilTutor', vars=dict(tutorId=row.Tutor_Industrial.id)))
+    comfirmarTutor = lambda row: A('Comfirmar', _href=URL(c='Empresa', f='comfirmarTutor', vars=dict(tutorId=row.Tutor_Industrial.id))) if row.Tutor_Industrial.comfirmado_Por_Empresa == 0 else None
+
+
+
+    #Let's specify a default sort order on date_of_birth column in grid
+    default_sort_order=[db.UsuarioExterno.nombre]
+    links = [verPerfil,comfirmarTutor]
+
+    #Creating the grid object
+    form = SQLFORM.grid(query=tutores, fields=fields, headers=headers, orderby=default_sort_order,
+                create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,
+                links=links,csv=False,user_signature=False,field_id=db.Tutor_Industrial.id)
+
+    response.view = 'Empresa/Consultar_Tutores.html'
+    return locals()
+
+@auth.requires_login()
+def comfirmarTutor():
+    form = FORM.confirm('Comfirmar', {'Volver': URL(c='Empresa', f='consultarTutores')})
+    tutorId = request.vars.tutorId
+    tutor = db((db.Tutor_Industrial.id == tutorId)).select().first()
+    usuarioExterno = db((tutor.usuario == db.UsuarioExterno.id)).select().first()
+    if form.accepted:
+        #Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
+        # this is not required in later versions)
+        tutor.update_record(comfirmado_Por_Empresa=1)
+        redirect(URL(c='Empresa', f='consultarTutores'))
+    response.view = 'Empresa/Comfirmar_Tutores.html'
+    return locals()
+
+@auth.requires_login()
+def verPerfilTutor():
+    tutorId = request.vars.tutorId
+
+    tutor = db((db.Tutor_Industrial.id == tutorId)).select().first()
+    usuarioExterno = db((tutor.usuario == db.UsuarioExterno.id)).select().first()
+
+    db.UsuarioExterno.correo.default = usuarioExterno.correo
+    db.UsuarioExterno.clave.default = usuarioExterno.clave
+    db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
+    db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
+    db.UsuarioExterno.nombre.default = usuarioExterno.nombre
+    db.UsuarioExterno.pais.default = usuarioExterno.pais
+    db.UsuarioExterno.estado.default = usuarioExterno.estado
+
+    db.Tutor_Industrial.apellido.default = tutor.apellido
+    db.Tutor_Industrial.Empresa.default = tutor.Empresa
+    db.Tutor_Industrial.profesion.default = tutor.profesion
+    db.Tutor_Industrial.tipo_documento.default = tutor.tipo_documento
+    db.Tutor_Industrial.numero_documento.default = tutor.numero_documento
+    db.Tutor_Industrial.cargo.default = tutor.cargo
+    db.Tutor_Industrial.departamento.default = tutor.departamento
+    db.Tutor_Industrial.universidad.default = tutor.universidad
+    db.UsuarioExterno.direccion.default = usuarioExterno.direccion
+    db.UsuarioExterno.telefono.default = usuarioExterno.telefono
+
+    for field in db.UsuarioExterno:
+        field.writable=False
+    for field in db.Tutor_Industrial:
+        field.writable=False
+
+    fields = [
+        'correo',
+        'nombre',
+        'apellido',
+        'tipo_documento',
+        'numero_documento',
+        'clave',
+        'Empresa',
+        'pregunta_secreta',
+        'respuesta_secreta',
+        'profesion',
+        'cargo',
+        'departamento',
+        'pais',
+        'estado',
+        'universidad',
+        'direccion',
+        'telefono'
+    ]
+    form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
+
+    response.view = 'Empresa/perfil_Tutor_Industrial.html'
+    return locals()
