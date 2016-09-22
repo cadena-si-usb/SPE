@@ -68,6 +68,7 @@ def solicitar_registro_tutor():
 
         # Registramos el usuario externo
         db.UsuarioExterno.insert(
+            id=result,
             auth_User=result,
             correo=request.vars.correo,
             clave=request.vars.clave,
@@ -86,6 +87,7 @@ def solicitar_registro_tutor():
 
         # Registramos al tutor
         db.Tutor_Industrial.insert(
+            id=result,
             usuario=usuarioExterno.id,
             apellido=request.vars.apellido,
             tipo_documento=request.vars.tipo_documento,

@@ -64,7 +64,8 @@ class Usuario(Model):
 									 last_name=apellido,
 									 username=carnet,
 									 password=self.db.auth_user.password.validate(clave)[0])
-			usuario = self.table.insert(auth_User=auth_User_Id,
+			usuario = self.table.insert(id=auth_User_Id,
+										auth_User=auth_User_Id,
 										nombre=nombre,
 										apellido=apellido,
 										usbid=carnet,
@@ -73,9 +74,11 @@ class Usuario(Model):
 										activo=False)
 
 			if (tipo == 'Pregrado' or tipo == 'Postgrado'):
-				estudiante = self.db.Estudiante.insert(usuario=usuario['id'],
-										carnet=carnet,
-										activo=False)
+				estudiante = self.db.Estudiante.insert(
+					id=auth_User_Id,
+					usuario=usuario['id'],
+					carnet=carnet,
+					activo=False)
 				self.db.Curriculo.insert(estudiante=estudiante['id'],
 										activo=False)
 				group_id = auth.id_group(role='Estudiante')

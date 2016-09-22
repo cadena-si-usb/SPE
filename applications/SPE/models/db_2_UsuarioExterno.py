@@ -33,7 +33,7 @@ db.define_table('UsuarioExterno',
                        requires=[IS_NOT_EMPTY
                                     (error_message='Direccion necesaria')],
                        label='Direccion'),
-                format='%(nombre)s - %(correo)s'
+                format='%(nombre)s - %(correo)s',
 )
 
 

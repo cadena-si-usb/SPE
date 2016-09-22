@@ -58,6 +58,7 @@ def registrar_Empresa():
 
         # Registramos el usuario externo
         db.UsuarioExterno.insert(
+            id=result,
             auth_User=result,
             correo=request.vars.correo,
             clave=request.vars.clave,
@@ -75,6 +76,7 @@ def registrar_Empresa():
 
         # Registramos la Empresa
         db.Empresa.insert(
+            id=result,
             usuario = usuarioExterno.id,
             area_laboral = request.vars.area_laboral,
             direccion_web = request.vars.direccion_web,
@@ -172,8 +174,18 @@ def registrar_Tutor_Industrial():
     # Caso 1: El form se lleno de manera correcta asi que registramos al tutor y procedemos a la pagina de exito
     if form.process().accepted:
 
+        # Insertamos en la tabla user de Web2py
+        result = db.auth_user.insert(
+            first_name=request.vars.nombre,
+            last_name=request.vars.apellido,
+            password=db.auth_user.password.validate(request.vars.clave)[0],
+            email=request.vars.correo,
+        )
+
         # Registramos el usuario externo
         db.UsuarioExterno.insert(
+            id=result,
+            auth_User=result,
             correo=request.vars.correo,
             clave=request.vars.clave,
             pregunta_secreta=request.vars.pregunta_secreta,
@@ -193,6 +205,7 @@ def registrar_Tutor_Industrial():
 
         # Registramos al tutor
         db.Tutor_Industrial.insert(
+            id=result,
             usuario=usuarioExterno.id,
             apellido=request.vars.apellido,
             tipo_documento=request.vars.tipo_documento,
@@ -203,14 +216,6 @@ def registrar_Tutor_Industrial():
             departamento=request.vars.departamento,
             universidad=request.vars.universidad,
             comfirmado_Por_Empresa=1
-        )
-
-        # Insertamos en la tabla user de Web2py
-        result = db.auth_user.insert(
-            first_name=request.vars.nombre,
-            last_name=request.vars.apellido,
-            password=db.auth_user.password.validate(request.vars.clave)[0],
-            email=request.vars.correo,
         )
 
         generar_Correo_Verificacion(request.vars.correo)
