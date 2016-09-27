@@ -220,9 +220,16 @@ def verDetallePasantia():
 @auth.requires_login()
 def verPlanDeTrabajo():
     pasantiaId=request.vars.pasantiaId
+    # Obtenemos el objeto de pasantia
     pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
+    # Obtenemos el plan de trabajo
     planTrabajo = pasantia.Plan_Trabajo.select().first()
-    fase=planTrabajo.Fase.select()
+    # Obtenemos las fases del plan de trabajo
+    fases=planTrabajo.Fase.select()
+    # Verificamos si el plan ya fue aprobado, si no es asi entonces puede ser editado por el tutor industrial
+    editable=(planTrabajo.aprobacion_coordinacion=='Aprobado'
+              and planTrabajo.aprobacion_tutor_academico=='Aprobado'
+              and planTrabajo.aprobacion_tutor_industrial=='Aprobado')
     response.view = 'Tutor_Industrial/Detalle_Plan_De_Trabajo.html'
     return locals()
 

@@ -16,23 +16,32 @@
                     </div>
                     <div class="panel-collapse collapse in" id="personal">
                         <div class="list-group">
-                            <p class="list-group-item"><b>{{=}}</b> : {{=}}</p>
+                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_academico}}</p>
+                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_industrial}}</p>
+                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_coordinacion}}</p>
+                            <p class="list-group-item"><b>estado</b> : {{=planTrabajo.estado}}</p>
                         </div>
                     </div>
-                </div>
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#personal">
-                                <i class="fa fa-check-square-o fa-pull-right"></i>
-                                <b>Detalle De Pasantia</b>
-                            </a>
-                        </h3>
-                    </div>
-                    <div class="panel-collapse collapse in" id="personal">
-                        <div class="list-group">
+                    {{ for fase in fases: }}
+                        <div class="panel-collapse collapse in" id="personal">
+                            <div class="list-group">
+                                <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_academico}}</p>
+                                <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_industrial}}</p>
+                                <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_coordinacion}}</p>
+                                <p class="list-group-item"><b>estado</b> : {{=planTrabajo.estado}}</p>
+                            </div>
+                                {{ for actividad in fase.Actividad.select(): }}
+                                    <div class="panel-collapse collapse in" id="personal">
+                                        <div class="list-group">
+                                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_academico}}</p>
+                                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_industrial}}</p>
+                                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_coordinacion}}</p>
+                                            <p class="list-group-item"><b>estado</b> : {{=planTrabajo.estado}}</p>
+                                        </div>
+                                    </div>
+                                {{ pass }}
                         </div>
-                    </div>
+                    {{ pass }}
                 </div>
             </div>
         </div>

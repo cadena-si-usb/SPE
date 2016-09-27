@@ -203,6 +203,11 @@ if db(db.Coordinacion.id > 0).count() == 0:
         usbid='1001',
         sede=1
     )
+    db.Coordinacion.insert(
+        nombre='Coordinación de Cooperación Tecnica',
+        usbid='1002',
+        sede=1
+    )
     db.commit()
 
 if db(db.Carrera.id > 0).count() == 0:
@@ -255,46 +260,6 @@ if db(db.Acceso_Etapa.id > 0).count() == 0:
     )
     db.commit()
 
-if db(db.Acceso_Etapa.id > 0).count() == 0:
-    db.Acceso_Etapa.insert(
-        nombre='Acciones',
-        destino='/SPE/acciones_usuario/listar',
-        contexto='coordinacion',
-        rol='2'
-    )
-    db.Acceso_Etapa.insert(
-        nombre='Mis Pasantias',
-        destino='/SPE/mis_pasantias/listar',
-        contexto='coordinacion',
-        rol='1'
-    )
-    db.Acceso_Etapa.insert(
-        nombre='Pasantias',
-        destino='/SPE/pasantias/listar',
-        contexto='coordinacion',
-        rol='2'
-    )
-    db.Acceso_Etapa.insert(
-        nombre='Pasantias',
-        destino='/SPE/pasantias/listar',
-        contexto=None,
-        rol='3'
-    )
-    db.Acceso_Etapa.insert(
-        nombre='Editar Perfil',
-        destino='/SPE/mi_perfil/configuracion',
-        contexto='configuracion',
-        rol='1'
-    )
-    db.Acceso_Etapa.insert(
-        nombre='Editar Curriculo',
-        destino='/SPE/mi_perfil/editar_curriculo',
-        contexto='configuracion',
-        rol='1'
-    )
-
-    db.commit()
-
 if db(db.auth_group.id > 0).count() == 0:
     db.auth_group.insert(
         role='Estudiante',
@@ -320,6 +285,7 @@ if db(db.auth_group.id > 0).count() == 0:
 
 if db(db.auth_user.id > 0).count() == 0:
     db.auth_user.insert(
+        id=1,
         first_name='Ecorp',
         last_name='',
         email='ecorp-admin@ecorp.com',
@@ -330,6 +296,7 @@ if db(db.auth_user.id > 0).count() == 0:
         registration_id='ecorp-admin@ecorp.com'
     )
     db.auth_user.insert(
+        id=2,
         first_name='Francisco Javier',
         last_name='Sucre González',
         email='fsucre@integra.la',
@@ -340,6 +307,7 @@ if db(db.auth_user.id > 0).count() == 0:
         registration_id=''
     )
     db.auth_user.insert(
+        id=3,
         first_name='Enrique',
         last_name='Muguerza',
         email='emuguerza@gmail.com',
@@ -350,11 +318,67 @@ if db(db.auth_user.id > 0).count() == 0:
         registration_id=''
     )
     db.auth_user.insert(
+        id=4,
         first_name='Roberto Andres',
         last_name='Manzanilla',
         email='queso976@gmail.com',
         username=None,
         password='pbkdf2(1000,20,sha512)$a8021cc4975367f2$d9ea5c4e54a6663fe0e105979778b28e1f9d4ed8',
+        registration_key='',
+        reset_password_key='',
+        registration_id=''
+    )
+    db.auth_user.insert(
+        id=5,
+        first_name='Hector Alejandro',
+        last_name='Goncalves Pita',
+        email='',
+        username='10-10292',
+        password='pbkdf2(1000,20,sha512)$a25f21cad42986e1$f4a52a8436c2f5f2bf6e24b8b35ffa3193244a35',
+        registration_key='',
+        reset_password_key='',
+        registration_id=''
+    )
+    db.auth_user.insert(
+        id=6,
+        first_name='Daniel Arturo',
+        last_name='Marin Tirado',
+        email='',
+        username='10-10419',
+        password='pbkdf2(1000,20,sha512)$9b087027ff330ac0$6531b331348da4487a807605a7b44130af93beda',
+        registration_key='',
+        reset_password_key='',
+        registration_id=''
+    )
+    db.auth_user.insert(
+        id=7,
+        first_name='Francisco Javier',
+        last_name='Sucre Gonzalez',
+        email='',
+        username='10-10717',
+        password='pbkdf2(1000,20,sha512)$b94c524c26eb4f03$b5ed28362b7422334de61ab389730cb8c3bf403c',
+        registration_key='',
+        reset_password_key='',
+        registration_id=''
+    )
+    db.auth_user.insert(
+        id=8,
+        first_name='Roberto Antonio',
+        last_name='Romero Barrientos',
+        email='',
+        username='10-10642',
+        password='pbkdf2(1000,20,sha512)$915d2a6f4c2ff0f6$12040ff51286f9a3ffd970013fea95db0728ad9f',
+        registration_key='',
+        reset_password_key='',
+        registration_id=''
+    )
+    db.auth_user.insert(
+        id=9,
+        first_name='Andres Rafael',
+        last_name='Hernandez Monterola',
+        email='',
+        username='10-10353',
+        password='pbkdf2(1000,20,sha512)$ad1699544ba1ac2f$dafd3e9e2a1ade4ec5aa3ead9cd2ad029b60d016',
         registration_key='',
         reset_password_key='',
         registration_id=''
@@ -390,6 +414,7 @@ if db(db.UsuarioExterno.id > 0).count() == 0:
 
 if db(db.UsuarioUSB.id > 0).count() == 0:
     db.UsuarioUSB.insert(
+        id=3,
         auth_User=3,
         usbid='emuguerza',
         nombre='Enrique',
@@ -405,6 +430,7 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
         activo='True'
     )
     db.UsuarioUSB.insert(
+        id=4,
         auth_User=4,
         usbid='10-10102',
         nombre='Roberto Andres',
@@ -419,12 +445,101 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
         rol='1',
         activo='True'
     )
+    db.UsuarioUSB.insert(
+        id=5,
+        auth_User=5,
+        usbid='10-10292',
+        nombre='Hector Alejandro',
+        apellido='Goncalves Pita',
+        correo='KKNKKMTGJYXLCURWCFAC',
+        clave='21321312',
+        tipo_documento='1',
+        numero_documento='20101324',
+        telefono='04243130932',
+        direcUsuario='Prados Del Este',
+        sexo='M',
+        rol='5',
+        activo='True'
+    )
+    db.UsuarioUSB.insert(
+        id=6,
+        auth_User=6,
+        usbid='10-10419',
+        nombre='Daniel Arturo',
+        apellido='Marin Tirado',
+        correo='NULL',
+        clave='QHQNVEMXTOYMUGEEHEIZ',
+        tipo_documento='1',
+        numero_documento='21464359',
+        telefono='0414-4742003',
+        direcUsuario='merche',
+        sexo='M',
+        rol='2',
+        activo='True'
+    )
+    db.UsuarioUSB.insert(
+        id=7,
+        auth_User=7,
+        usbid='10-10717',
+        nombre='Francisco Javier',
+        apellido='Sucre Gonzalez',
+        correo='10-10717@usb.ve',
+        clave='MUVUEDMICWTEDTOQEEHF',
+        tipo_documento='1',
+        numero_documento='19564959',
+        telefono='02127653852',
+        direcUsuario='La Floresta',
+        sexo='M',
+        rol='1',
+        activo='True'
+    )
+    db.UsuarioUSB.insert(
+        id=8,
+        auth_User=8,
+        usbid='10-10642',
+        nombre='Roberto Antonio',
+        apellido='Romero Barrientos',
+        correo='romero@gmail.com',
+        clave='RXNTIYYFRUPCHHULMCOM',
+        tipo_documento='1',
+        numero_documento='20101324',
+        telefono='04129767576',
+        direcUsuario='Prados Del Este',
+        sexo='M',
+        rol='3',
+        activo='True'
+    )
+    db.UsuarioUSB.insert(
+        id=9,
+        auth_User=9,
+        usbid='10-10353',
+        nombre='Andres Rafael',
+        apellido='Hernandez Monterola',
+        correo='queso976@gmail.com',
+        clave='CJAISTOHHYHGUTSBTXGK',
+        tipo_documento='1',
+        numero_documento='20101324',
+        telefono='04129767576',
+        direcUsuario='Prados Del Este',
+        sexo='M',
+        rol='3',
+        activo='True'
+    )
     db.commit()
 
 if db(db.Estudiante.id > 0).count() == 0:
     db.Estudiante.insert(
-        usuario='2',
+        id='4',
+        usuario='4',
         carnet='10-10102',
+        carrera='1',
+        sede='1',
+        activo='True'
+    )
+    db.Estudiante.insert(
+        id='7',
+        usuario='7',
+        carnet='10-10717',
         carrera='1',
         sede='1',
         activo='True'
@@ -433,7 +548,17 @@ if db(db.Estudiante.id > 0).count() == 0:
 
 if db(db.Profesor.id > 0).count() == 0:
     db.Profesor.insert(
-        usuario='1',
+        id='3',
+        usuario='3',
+        categoria='1',
+        dedicacion='1',
+        departamento='1',
+        sede='1',
+        activo='True'
+    )
+    db.Profesor.insert(
+        id='5',
+        usuario='5',
         categoria='1',
         dedicacion='1',
         departamento='1',
@@ -482,7 +607,11 @@ if db(db.auth_membership.id > 0).count() == 0:
     )
     db.auth_membership.insert(
         user_id='3',
-        group_id='2'
+        group_id='1'
+    )
+    db.auth_membership.insert(
+        user_id='7',
+        group_id='1'
     )
     db.commit()
 
@@ -522,5 +651,93 @@ if db(db.Accion_Usuario.id > 0).count() == 0:
         destino='/SPE/mi_perfil/editar_curriculo',
         contexto='configuracion',
         rol='1'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Usuarios',
+        destino='/SPE/usuarios/listar',
+        contexto='coordinacion',
+        rol='2'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Estudiantes',
+        destino='/SPE/estudiantes/listar',
+        contexto='coordinacion',
+        rol='2'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Sedes',
+        destino='/SPE/sedes/listar',
+        contexto='coordinacion',
+        rol='2'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Carreras',
+        destino='/SPE/carreras/listar',
+        contexto='coordinacion',
+        rol='2'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Coordinaciones',
+        destino='/SPE/preinscripciones/listar',
+        contexto='coordinacion',
+        rol='2'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Colocaciones',
+        destino='/SPE/colocaciones/listar',
+        contexto='coordinacion',
+        rol='2'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Inscripciones',
+        destino='/SPE/inscripciones/listar',
+        contexto='coordinacion',
+        rol='2'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Mis Planes',
+        destino='/SPE/mis_planes_tutor/listar',
+        contexto='coordinacion',
+        rol='2'
+    )
+    db.commit()
+
+if db(db.Coordinador.id > 0).count() == 0:
+    db.Coordinador.insert(
+        usuario='6',
+        carnet='10-10330',
+        coordinacion = '3',
+        correo_Alternativo='danielarturomt@gmail.com'
+    )
+    db.Coordinador.insert(
+        usuario='8',
+        carnet='10-10195',
+        coordinacion = '1',
+        correo_Alternativo='coord@copt.com'
+    )
+    db.Coordinador.insert(
+        usuario='9',
+        carnet='10-10292',
+        coordinacion = '2',
+        correo_Alternativo='asd@asd.com'
+    )
+    db.commit()
+
+if db(db.Curriculo.id > 0).count() == 0:
+    db.Curriculo.insert(
+        estudiante='4',
+        electivas='Diseño De Piezas',
+        cursos = 'Matlab II',
+        aficiones='Fifa 2016',
+        idiomas='Español, Ingles',
+        activo=True
+    )
+    db.Curriculo.insert(
+        estudiante='7',
+        electivas='Sistemas De Informacion II, Sistemas De Informacion III,Base De Datos II,Modelos Lineales II',
+        cursos = 'Codeacademy',
+        aficiones='Musica',
+        idiomas='Español, Ingles,Portugues',
+        activo=True
     )
     db.commit()
