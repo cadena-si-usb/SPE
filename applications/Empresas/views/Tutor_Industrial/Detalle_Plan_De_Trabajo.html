@@ -4,50 +4,94 @@
     <p class='title'>Plan De Trabajo de la pasantia '{{=pasantia.titulo}}' </p>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel-group" id="accordion">
+            <div class="panel-group" id="accordionplanTrabajo">
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#personal">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionplanTrabajo" href="#planTrabajo">
                                 <i class="fa fa-check-square-o fa-pull-right"></i>
                                 <b>Datos Del Plan De Trabajo</b>
                             </a>
                         </h3>
                     </div>
-                    <div class="panel-collapse collapse in" id="personal">
+                    <div class="panel-collapse collapse in" id="planTrabajo">
                         <div class="list-group">
                             <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_academico}}</p>
-                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_industrial}}</p>
-                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_coordinacion}}</p>
+                            <p class="list-group-item"><b>aprobacion_tutor_industrial</b> : {{=planTrabajo.aprobacion_tutor_industrial}}</p>
+                            <p class="list-group-item"><b>aprobacion_coordinacion</b> : {{=planTrabajo.aprobacion_coordinacion}}</p>
                             <p class="list-group-item"><b>estado</b> : {{=planTrabajo.estado}}</p>
                         </div>
                     </div>
-                    {{ for fase in fases: }}
-                        <div class="panel-collapse collapse in" id="personal">
-                            <div class="list-group">
-                                <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_academico}}</p>
-                                <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_industrial}}</p>
-                                <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_coordinacion}}</p>
-                                <p class="list-group-item"><b>estado</b> : {{=planTrabajo.estado}}</p>
-                            </div>
-                                {{ for actividad in fase.Actividad.select(): }}
-                                    <div class="panel-collapse collapse in" id="personal">
-                                        <div class="list-group">
-                                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_academico}}</p>
-                                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_industrial}}</p>
-                                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_coordinacion}}</p>
-                                            <p class="list-group-item"><b>estado</b> : {{=planTrabajo.estado}}</p>
-                                        </div>
-                                    </div>
-                                {{ pass }}
-                        </div>
-                    {{ pass }}
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    {{ for fase in fases: }}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-group" id="accordionfase_{{=fase.numero}}">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionfase_{{=fase.numero}}" href="#fase_{{=fase.numero}}">
+                                    <i class="fa fa-check-square-o fa-pull-right"></i>
+                                    <b>Fase {{=fase.numero}}</b>
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="panel-collapse collapse in" id="fase_{{=fase.numero}}">
+                            <div class="list-group">
+                                <p class="list-group-item"><b>Descripcion</b> : {{=fase.descripcion}}</p>
+                            </div>
+                            <div>
+                                {{ for actividad in fase.Actividad.select(): }}
+                                    <div id="act_{{=actividad.numero}}">
+                                        <div class="list-group-item"><b>Actividad</b> : {{=actividad.numero}}</div>
+                                        <div class="list-group-item">
+                                            <div><b>Descripcion</b> : {{=actividad.descripcion}}</div>
+                                            <div><b>Semana De Inicio</b> : {{=actividad.semana_inicio}}</div>
+                                            <div><b>Semana De Finalizacion</b> : {{=actividad.semana_fin}}</div>
+                                            <div class="center">
+                                                <a href="{{=URL('SPE', 'tutor_industrial', 'editarActividad', vars=dict(planId=planTrabajo.id,faseId=fase.id,actId=actividad.id))}}">
+                                                    <button class='success'>Editar Actividad</button>
+                                                </a>
+                                                <a href="{{=URL('SPE', 'tutor_industrial', 'eliminarActividad', vars=dict(planId=planTrabajo.id,faseId=fase.id,actId=actividad.id))}}">
+                                                    <button class='success'>Eliminar Actividad</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{ pass }}
+                            </div>
+                        </div>
+
+                        <div class="list-group-item center">
+                            <a href="{{=URL('SPE', 'tutor_industrial', 'editarFase', vars=dict(planId=planTrabajo.id))}}">
+                                <button class='success'>Editar Fase</button>
+                            </a>
+                            <a href="{{=URL('SPE', 'tutor_industrial', 'agregarActividad', vars=dict(planId=planTrabajo.id,faseId=fase.id))}}">
+                                <button class='success'>Agregar Actividad</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ pass }}
+    <div class="row center">
+        <a href="{{=URL('SPE', 'tutor_industrial', 'CrearFase', vars=dict(planId=planTrabajo.id))}}">
+            <button class='success'>Agregar Fase</button>
+        </a>
+        {{ if planTrabajo.aprobacion_tutor_industrial!='Aprobado': }}
+            <a href="{{=URL('SPE', 'tutor_industrial', 'AprobarPlanTrabajo', vars=dict(planId=planTrabajo.id))}}">
+                <button class='success'>Aprobar Plan De Trabajo</button>
+            </a>
+        {{ pass }}
         <br><br>
+    </div>
+    <div class="row">
+        <br><br><br>
     </div>
 
 </div>
+
