@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # Proceso de registro en el cual un tutor solicita un registro a una Empresa
+from shlex import shlex
+
+
 def solicitar_registro_tutor():
     # Agregamos los campos en el orden deseado, comenzamos con el login y el password
     fields =[
@@ -220,6 +223,8 @@ def verDetallePasantia():
 @auth.requires_login()
 def verPlanDeTrabajo():
     pasantiaId=request.vars.pasantiaId
+    if pasantiaId is None:
+        pasantiaId=request.vars.planId
     # Obtenemos el objeto de pasantia
     pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
     # Obtenemos el plan de trabajo
@@ -286,33 +291,77 @@ def verPerfil():
     response.view = 'Tutor_Industrial/perfil_Tutor_Industrial.html'
     return locals()
 
-def CrearFase():
-    return locals()
-
-def editarFase():
+def crudFase():
+    db.Fase.plan_trabajo.readable=False
+    db.Fase.plan_trabajo.writable = False
+    record = db.Fase(request.vars.faseId)
+    if record is None:
+        db.Fase.plan_trabajo.default=request.vars.planId
+    db.Actividad.fase.writable = False
+    form = SQLFORM(db.Fase, record,showid=False)
+    if form.process().accepted:
+        response.flash = 'form accepted'
+        reprobar()
+        redirect(URL('verPlanDeTrabajo', vars=dict(planId=request.vars.planId)))
+    elif form.errors:
+        response.flash = 'form has errors'
     return locals()
 
 def eliminarFase():
+    form = FORM.confirm('¿Esta Seguro Que Desea Eliminar Esta Fase?', {'Back': URL('verPlanDeTrabajo',vars=dict(planId=request.vars.planId))})
+    if form.accepted:
+        fase = db.Fase(id=request.vars.faseId)
+        fase.delete_record()
+        reprobar()
+        redirect(URL('verPlanDeTrabajo',vars=dict(planId=request.vars.planId)))
     return locals()
 
-def agregarActividad():
-    return locals()
-
-def editarActividad():
+def crudActividad():
+    record = db.Actividad(request.vars.actId)
+    if record is None:
+        db.Actividad.fase.default=request.vars.faseId
+    db.Actividad.fase.writable = False
+    form = SQLFORM(db.Actividad, record,showid=False)
+    if form.process().accepted:
+        response.flash = 'form accepted'
+        reprobar()
+        redirect(URL('verPlanDeTrabajo', vars=dict(planId=request.vars.planId)))
+    elif form.errors:
+        response.flash = 'form has errors'
     return locals()
 
 def eliminarActividad():
+    form = FORM.confirm('¿Esta Seguro Que Desea Eliminar Esta Actividad?', {'Back': URL('verPlanDeTrabajo',vars=dict(planId=request.vars.planId))})
+    if form.accepted:
+        actividad = db.Actividad(id=request.vars.actId)
+        actividad.delete_record()
+        reprobar()
+        redirect(URL('verPlanDeTrabajo',vars=dict(planId=request.vars.planId)))
     return locals()
 
 def AprobarPlanTrabajo():
+    form = FORM.confirm('¿Esta Seguro Aprobar Este Plan De Trabajo?',
+                        {'Back': URL('verPlanDeTrabajo', vars=dict(planId=request.vars.planId))})
+    if form.accepted:
+        fase = db.Fase(id=request.vars.faseId)
+        fase.delete_record()
+        reprobar()
+        redirect(URL('verPlanDeTrabajo', vars=dict(planId=request.vars.planId)))
     return locals()
 
 def reprobar():
     plan_trabajo = db.Plan_Trabajo(id=request.vars.planId)
-
-    plan_trabajo.update_record(aprobacion_tutor_academico="En Espera",aprobacion_tutor_industrial="En Espera",aprobacion_coordinacion="En Espera",estado="Sin Enviar")
-
-    redirect(URL('listar'))
+    # Verificamos si hay que revertir aprobaciones para evitar ir a la base de datos innecesariamente
+    if ((plan_trabajo.aprobacion_tutor_academico!="En Espera"
+        or plan_trabajo.aprobacion_tutor_industrial!="En Espera"
+        or plan_trabajo.aprobacion_coordinacion!="En Espera")
+        and plan_trabajo.estado!="Enviado"):
+        # Cambiamos el estado
+        plan_trabajo.update_record(
+            aprobacion_tutor_academico="En Espera",
+            aprobacion_tutor_industrial="En Espera",
+            aprobacion_coordinacion="En Espera",
+            estado="Sin Enviar")
 
 def justificar_retiro_Empresa():
     # Argumentos son: codigo, año, periodo(nombre)
