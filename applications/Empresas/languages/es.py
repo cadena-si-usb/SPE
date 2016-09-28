@@ -195,6 +195,7 @@
 'Edit This App': 'Edite esta App',
 'Editando Perfil Empresa': 'Editando Perfil Empresa',
 'Editar': 'Editar',
+'Editar Datos De La Pasantia': 'Editar Datos De La Pasantia',
 'Editing file': 'Editando archivo',
 'Editing file "%s"': 'Editando archivo "%s"',
 'El Correo ha sido reenviado': 'El Correo ha sido reenviado',

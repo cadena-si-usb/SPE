@@ -1,7 +1,7 @@
 {{extend 'layout.html'}}
 
 <div class='content'>
-    <p class='title'>Pasantias Asignadas a {{=auth.user.first_name}} {{=auth.user.last_name}}</p>
+    <p class='title'>Pasantia - {{=formPasantia.custom.widget.titulo}}</p>
     <div class="row">
         <div class="col-md-6">
             <div class="panel-group" id="accordion">
@@ -69,6 +69,7 @@
                 {{if planTrabajo:}}
                     <div class="row center">
                         <br>
+                            {{=A(T('Editar Datos De La Pasantia'), _class='btn btn-default',_href=URL  (c='tutor_industrial',f='verPlanDeTrabajo',vars=dict(pasantiaId=pasantia.id)))}}
                             {{=A(T('Ver Detalle De Plan De Trabajo'), _class='btn btn-default',_href=URL  (c='tutor_industrial',f='verPlanDeTrabajo',vars=dict(pasantiaId=pasantia.id)))}}
                         </br>
                     </div>
