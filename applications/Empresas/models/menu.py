@@ -69,8 +69,8 @@ def _():
         # Caso 1: El usuario es una Empresa
         if es_Empresa(auth.user.email):
             response.menu += [
-                ('Solicitudes de pasantes',False,"#",[
-                    ('Agregar solicitud', False, "#")
+                ('Pasantias',False,"#",[
+                    ('Consultar Pasantias', False, URL('Empresa','consultarPasantias'))
                     ]),
                 ('Tutores Industriales',False,"#",[
                     ('Sus tutores industriales', False, URL(c='Empresa', f='consultarTutores')),

@@ -261,7 +261,6 @@ def ver_Perfil_Empresa():
     # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
     fields = [
         db.UsuarioExterno.correo,
-        db.UsuarioExterno.clave,
         db.UsuarioExterno.pregunta_secreta,
         db.UsuarioExterno.respuesta_secreta,
         db.UsuarioExterno.nombre,
@@ -326,7 +325,6 @@ def ver_Perfil_Empresa():
 
     return response.render('Empresa/perfil_Empresa.html',message=T("Perfil Empresarial"),form=form)
 
-# Proceso de registro de Empresa por medio de la opcion Empresa -> Registrarse, en el Index
 def editar_Perfil_Empresa():
     usuarioExterno = db(db.UsuarioExterno.correo == auth.user.email).select()[0]
     empresa = db(db.Empresa.usuario == usuarioExterno.id).select()[0]
@@ -386,7 +384,6 @@ def editar_Perfil_Empresa():
     separator=': ',
     buttons=['submit'],
     col3 = {'correo':T('Identificación de acceso unica asignada a la Empresa'),
-            'clave':T('Contraseña para acceder al sistema'),
             'comfirm_Password':T('Repita su contraseña'),
             'pregunta_secreta':T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
             'respuesta_secreta':T('Respuesta a su pregunta secreta'),
@@ -538,5 +535,35 @@ def verPerfilTutor():
     ]
     form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
 
-    response.view = 'Empresa/perfil_Tutor_Industrial.html'
+    response.view = 'Empresa/verPerfil.html'
+    return locals()
+
+@auth.requires_login()
+def consultarPasantias():
+    userId= auth.user.id
+    correo = auth.user.email
+    pasantias=db((db.Empresa.id==userId) & (db.Pasantia.tutor_industrial == db.Tutor_Industrial.id) &
+                 (db.Tutor_Industrial.Empresa==db.Empresa.id) & (db.UsuarioExterno.id==db.Tutor_Industrial.usuario))
+    #Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
+    # this is not required in later versions)
+    fields = [db.Pasantia.titulo, db.Etapa.nombre, db.Pasantia.status, db.UsuarioExterno.nombre,db.Tutor_Industrial.apellido]
+
+    #Define headers as tuples/dictionaries
+    headers = {
+            'Pasantia.titulo': 'Titulo',
+            'Etapa.nombre':'Etapa',
+            'Pasantia.status': 'Status',
+            'UsuarioExterno.nombre': 'Nombre Tutor Industrial',
+            'Tutor_Industrial.apellido': 'Apellido Tutor Industrial'}
+
+    #Let's specify a default sort order on date_of_birth column in grid
+    default_sort_order=[db.Pasantia.titulo]
+    links = [lambda row: A('Detalle', _href=URL(a='Empresas',c='Pasantia',f='verDetallePasantia',vars=dict(pasantiaId=row.Pasantia.id)))]
+
+    #Creating the grid object
+    form = SQLFORM.grid(query=pasantias, fields=fields, headers=headers, orderby=default_sort_order,
+                create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,
+                links=links,csv=False,user_signature=False)
+
+    response.view = 'Empresa/Consultar_Pasantias.html'
     return locals()

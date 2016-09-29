@@ -8,8 +8,6 @@ db.define_table('Carrera',
                 Field('coordinacion','reference Coordinacion', label="Coordinación", required=True),
                 format='%(codigo)s %(nombre)s'
                )
-
-db.Carrera.coordinacion.requires=IS_IN_DB(db,db.Coordinacion.id,'%(nombre)s',zero=None)
 db.Carrera.codigo.requires = [IS_LENGTH(4)
         ,IS_NOT_EMPTY(error_message='Campo Obligatorio')
         ,IS_NOT_IN_DB(db, 'Carrera.codigo',error_message=T('Carrera ya existe'))

@@ -4,8 +4,6 @@
 
 db.define_table('Actividad',
     Field('fase','reference Fase',
-    	requires=IS_IN_DB(db, db.Fase, '%(numero)s',
-    	error_message='Elija una de las materias.'),
 		label = 'Fase'),
     Field('numero','integer',
           requires=[IS_NOT_EMPTY

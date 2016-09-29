@@ -6,8 +6,7 @@ db.define_table('Tutor_Industrial',
                     Field('apellido','string',label=T('Apellido'),),
                     Field('Empresa','reference Empresa',required=True, notnull=True,label=T('Empresa')),
                     Field('profesion','string',label=T('Profesion')),
-                    Field('tipo_documento',
-                          requires=IS_IN_SET(['CI', 'Pasaporte']),
+                    Field('tipo_documento','reference Tipo_Documento',
                           label='Tipo de Documento (*)'),
                     Field('numero_documento',
                           requires=[IS_MATCH('^[0-9][0-9]*$',
@@ -22,7 +21,3 @@ db.define_table('Tutor_Industrial',
 # Validadores
 db.Tutor_Industrial.apellido.requires=[IS_LENGTH(512)]
 db.Tutor_Industrial.apellido.requires+=[IS_NOT_EMPTY(error_message='Campo Obligatorio')]
-
-#db.Tutor_Industrial.Empresa.requires=IS_IN_DB(db,db.Empresa.id,'%(usuario)s',error_message=T('Elija Una Empresa Valida'),zero=None)
-
-db.Tutor_Industrial.universidad.requires=IS_IN_DB(db,db.Universidad.id,'%(nombre)s',error_message=T('Elija Una Universidad Valida'),zero=None)

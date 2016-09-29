@@ -152,6 +152,124 @@ def solicitar_registro_tutor():
         return response.render('Tutor_Industrial/registrarTutorIndustrial/registrar_Tutor_Industrial.html',message=T("Registrarse como Tutor Industrial"),form=form)
 
 @auth.requires_login()
+def verPerfil():
+    usuarioExterno = db(db.UsuarioExterno, (auth.user.id == db.UsuarioExterno.auth_User)).select().first()
+    tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
+
+    db.UsuarioExterno.correo.default = usuarioExterno.correo
+    db.UsuarioExterno.clave.default = usuarioExterno.clave
+    db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
+    db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
+    db.UsuarioExterno.nombre.default = usuarioExterno.nombre
+    db.UsuarioExterno.pais.default = usuarioExterno.pais
+    db.UsuarioExterno.estado.default = usuarioExterno.estado
+
+    db.Tutor_Industrial.apellido.default = tutor.apellido
+    db.Tutor_Industrial.Empresa.default = tutor.Empresa
+    db.Tutor_Industrial.profesion.default = tutor.profesion
+    db.Tutor_Industrial.tipo_documento.default = tutor.tipo_documento
+    db.Tutor_Industrial.numero_documento.default = tutor.numero_documento
+    db.Tutor_Industrial.cargo.default = tutor.cargo
+    db.Tutor_Industrial.departamento.default = tutor.departamento
+    db.Tutor_Industrial.universidad.default = tutor.universidad
+    db.UsuarioExterno.direccion.default = usuarioExterno.direccion
+    db.UsuarioExterno.telefono.default = usuarioExterno.telefono
+
+    for field in db.UsuarioExterno:
+        field.writable=False
+    for field in db.Tutor_Industrial:
+        field.writable=False
+
+    fields = [
+        'correo',
+        'nombre',
+        'apellido',
+        'tipo_documento',
+        'numero_documento',
+        'clave',
+        'Empresa',
+        'pregunta_secreta',
+        'respuesta_secreta',
+        'profesion',
+        'cargo',
+        'departamento',
+        'pais',
+        'estado',
+        'universidad',
+        'direccion',
+        'telefono'
+    ]
+    form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
+
+    response.view = 'Tutor_Industrial/verPerfil.html'
+    return locals()
+
+@auth.requires_login()
+def editarPerfil():
+    message = T("Editar Perfil")
+    usuarioExterno = db(db.UsuarioExterno, (auth.user.id == db.UsuarioExterno.auth_User)).select().first()
+    tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
+
+    db.UsuarioExterno.correo.default = usuarioExterno.correo
+    db.UsuarioExterno.clave.default = usuarioExterno.clave
+    db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
+    db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
+    db.UsuarioExterno.nombre.default = usuarioExterno.nombre
+    db.UsuarioExterno.pais.default = usuarioExterno.pais
+    db.UsuarioExterno.estado.default = usuarioExterno.estado
+
+    db.Tutor_Industrial.apellido.default = tutor.apellido
+    db.Tutor_Industrial.Empresa.default = tutor.Empresa
+    db.Tutor_Industrial.profesion.default = tutor.profesion
+    db.Tutor_Industrial.tipo_documento.default = tutor.tipo_documento
+    db.Tutor_Industrial.numero_documento.default = tutor.numero_documento
+    db.Tutor_Industrial.cargo.default = tutor.cargo
+    db.Tutor_Industrial.departamento.default = tutor.departamento
+    db.Tutor_Industrial.universidad.default = tutor.universidad
+    db.UsuarioExterno.direccion.default = usuarioExterno.direccion
+    db.UsuarioExterno.telefono.default = usuarioExterno.telefono
+
+    db.Tutor_Industrial.Empresa.writable=False
+
+    fields = [
+        'correo',
+        'nombre',
+        'apellido',
+        'tipo_documento',
+        'numero_documento',
+        'clave',
+        'Empresa',
+        'pregunta_secreta',
+        'respuesta_secreta',
+        'profesion',
+        'cargo',
+        'departamento',
+        'pais',
+        'estado',
+        'universidad',
+        'direccion',
+        'telefono'
+    ]
+    form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
+
+    if form.accepts(request.vars):
+        db(db.auth_user.id == auth.user.id).update(
+            first_name=request.vars.nombre,
+            last_name=request.vars.apellido,
+            password=db.auth_user.password.validate(request.vars.clave)[0]
+        )
+
+        id = db.client.update(**db.UsuarioExterno._filter_fields(form.vars))
+        form.vars.client = id
+        id = db.address.update(**db.Tutor_Industrial._filter_fields(form.vars))
+        # Nos dirigimos a la pagina de exito
+        redirect(URL(c='tutor_industrial', f='verPerfil'))
+
+
+    response.view = 'Tutor_Industrial/editarPerfil.html'
+    return locals()
+
+@auth.requires_login()
 def consultarPasantias():
     correo = auth.user.email
     pasantias=db((db.UsuarioExterno.correo==correo) & (db.Tutor_Industrial.usuario==db.UsuarioExterno.id)

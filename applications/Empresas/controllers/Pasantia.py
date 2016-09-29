@@ -44,10 +44,23 @@ def verDetallePasantia():
     # Creamos Los forms con lso que mostraremos los datos
     formPasantia = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
     formPlanTrabajo = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
-
-
-
     response.view = 'Pasantia/Detalle_Pasantia.html'
+    return locals()
+
+@auth.requires_login()
+def crudPasantia():
+    pasantia = db(db.Pasantia.id == request.vars.pasantiaId).select().first()
+    db.Actividad.fase.writable = False
+    form = SQLFORM(db.Pasantia, pasantia,showid=False)
+    if form.process().accepted:
+        response.flash = 'form accepted'
+        # Reprobamos el plan de trabajo para que deba ser revisado por todos los actores de nuevo
+        reprobar(request.vars.pasantiaId)
+        redirect(URL(c='Pasantia',f='verDetallePasantia', vars=dict(pasantiaId=request.vars.pasantiaId)))
+    elif form.errors:
+        response.flash = 'form has errors'
+    # Definimos la vista que vamos a renderizar
+    response.view='Pasantia/crudPasantia.html'
     return locals()
 
 @auth.requires_login()
@@ -69,59 +82,6 @@ def verPlanDeTrabajo():
     return locals()
 
 @auth.requires_login()
-def verPerfil():
-    usuarioExterno = db(db.UsuarioExterno, (auth.user.id == db.UsuarioExterno.auth_User)).select().first()
-    tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
-
-    db.UsuarioExterno.correo.default = usuarioExterno.correo
-    db.UsuarioExterno.clave.default = usuarioExterno.clave
-    db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
-    db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
-    db.UsuarioExterno.nombre.default = usuarioExterno.nombre
-    db.UsuarioExterno.pais.default = usuarioExterno.pais
-    db.UsuarioExterno.estado.default = usuarioExterno.estado
-
-    db.Tutor_Industrial.apellido.default = tutor.apellido
-    db.Tutor_Industrial.Empresa.default = tutor.Empresa
-    db.Tutor_Industrial.profesion.default = tutor.profesion
-    db.Tutor_Industrial.tipo_documento.default = tutor.tipo_documento
-    db.Tutor_Industrial.numero_documento.default = tutor.numero_documento
-    db.Tutor_Industrial.cargo.default = tutor.cargo
-    db.Tutor_Industrial.departamento.default = tutor.departamento
-    db.Tutor_Industrial.universidad.default = tutor.universidad
-    db.UsuarioExterno.direccion.default = usuarioExterno.direccion
-    db.UsuarioExterno.telefono.default = usuarioExterno.telefono
-
-    for field in db.UsuarioExterno:
-        field.writable=False
-    for field in db.Tutor_Industrial:
-        field.writable=False
-
-    fields = [
-        'correo',
-        'nombre',
-        'apellido',
-        'tipo_documento',
-        'numero_documento',
-        'clave',
-        'Empresa',
-        'pregunta_secreta',
-        'respuesta_secreta',
-        'profesion',
-        'cargo',
-        'departamento',
-        'pais',
-        'estado',
-        'universidad',
-        'direccion',
-        'telefono'
-    ]
-    form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
-
-    response.view = 'Pasantia/perfil_Tutor_Industrial.html'
-    return locals()
-
-@auth.requires_login()
 def crudFase():
     db.Fase.plan_trabajo.readable=False
     db.Fase.plan_trabajo.writable = False
@@ -134,7 +94,7 @@ def crudFase():
     if form.process().accepted:
         response.flash = 'form accepted'
         # Reprobamos el plan de trabajo para que deba ser revisado por todos los actores de nuevo
-        reprobar()
+        reprobar(request.vars.planId)
         redirect(URL(c='Pasantia',f='verPlanDeTrabajo', vars=dict(planId=request.vars.planId)))
     elif form.errors:
         response.flash = 'form has errors'
@@ -154,7 +114,7 @@ def eliminarFase():
         # Eliminamos la pasantia
         fase.delete_record()
         # Reprobamos el plan de trabajo para que deba ser revisado por todos los actores de nuevo
-        reprobar()
+        reprobar(request.vars.planId)
         # Retornamos a la vista de plan de trabajo
         redirect(URL(c='Pasantia',f='verPlanDeTrabajo',vars=dict(planId=request.vars.planId)))
     # Definimos la vista que vamos a renderizar
@@ -181,7 +141,7 @@ def crudActividad():
     if form.process().accepted:
         response.flash = 'form accepted'
         # Reprobamos el plan de trabajo para que deba ser revisado por todos los actores de nuevo
-        reprobar()
+        reprobar(request.vars.planId)
         redirect(URL(c='Pasantia',f='verPlanDeTrabajo', vars=dict(planId=request.vars.planId)))
     elif form.errors:
         response.flash = 'form has errors'
@@ -198,7 +158,7 @@ def eliminarActividad():
     if form.accepted:
         actividad.delete_record()
         # Reprobamos el plan de trabajo para que deba ser revisado por todos los actores de nuevo
-        reprobar()
+        reprobar(request.vars.planId)
         redirect(URL(c='Pasantia',f='verPlanDeTrabajo',vars=dict(planId=request.vars.planId)))
     # Definimos la vista que vamos a renderizar
     response.view = 'Pasantia/eliminarActividad.html'
@@ -211,13 +171,13 @@ def AprobarPlanTrabajo():
     if form.accepted:
         fase = db.Fase(id=request.vars.faseId)
         fase.delete_record()
-        reprobar()
+        reprobar(request.vars.planId)
         redirect(URL(c='Pasantia',f='verPlanDeTrabajo', vars=dict(planId=request.vars.planId)))
     return locals()
 
 @auth.requires_login()
-def reprobar():
-    plan_trabajo = db.Plan_Trabajo(id=request.vars.planId)
+def reprobar(planId):
+    plan_trabajo = db.Plan_Trabajo(id=planId)
     # Verificamos si hay que revertir aprobaciones para evitar ir a la base de datos innecesariamente
     if ((plan_trabajo.aprobacion_tutor_academico!="En Espera"
         or plan_trabajo.aprobacion_tutor_industrial!="En Espera"

@@ -1,7 +1,5 @@
 db.define_table('Estudiante',
     Field('usuario','reference UsuarioUSB',
-          requires=IS_IN_DB(db, db.UsuarioUSB, '%(usbid)s',
-          error_message='Elija uno de los usuarios.'),
           label='Usuario (*)'),
     Field('carnet',
           requires=IS_MATCH('^\d{2}?[\s.-]?\d{5}$',

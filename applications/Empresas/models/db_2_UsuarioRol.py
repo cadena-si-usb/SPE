@@ -7,5 +7,3 @@ db.define_table('UsuarioRol',
 db.Universidad.nombre.requires=[IS_NOT_EMPTY(error_message='Campo Obligatorio')]
 db.Universidad.nombre.requires+=[IS_LENGTH(512)]
 db.Universidad.nombre.requires+=[IS_NOT_IN_DB(db, 'Universidad.nombre',error_message=T('Universidad ya registrada'))]
-
-db.Universidad.id_pais.requires=IS_IN_DB(db,db.Pais.id,'%(nombre)s')
