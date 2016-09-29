@@ -73,12 +73,18 @@ def login():
             if correoVerificarSet:
                 redirect(URL(c='default', f='verifyEmail', vars=dict(correo=request.vars.correo)))
             else:
-                auth.login_bare(request.vars.correo, request.vars.clave)
-                redirect(URL(c='default', f='home'))
-                response.flash = T("Inicio Exitoso")
+                tutor=db((db.UsuarioExterno.correo==request.vars.correo)
+                         & (db.Tutor_Industrial.usuario==db.UsuarioExterno.id)).select()
+                if (tutor.first() and tutor.first().Tutor_Industrial.comfirmado_Por_Empresa==0):
+                    message = T(
+                        'Usted Aun No Ha Sido Comfirmado Como Tutor Industrial Por Su Empresa, Por Lo Que Aun No Puede' \
+                        'Iniciar Sesion')
+                    redirect(URL(c='tutor_industrial', f='tutorNoComfirmado'))
 
-    else:
-        response.flash = T("Usuario o Contraseña invalida.")
+                else:
+                    auth.login_bare(request.vars.correo, request.vars.clave)
+                    redirect(URL(c='default', f='home'))
+                    response.flash = T("Inicio Exitoso")
     return formulario_login
 
 def resendVerificationEmail():
@@ -109,8 +115,17 @@ def verifyEmail():
             response.flash = T("Codigo incorrecto")
         else:
             db(db.correo_por_verificar.correo == request.vars.correo).delete()
-            auth.login_bare(request.vars.correo,contrasena)
-            redirect(URL(c='default',f='home'))
+            # Verificamos si es un tutor industrial y si ya fue comfirmado
+            tutor = db((db.UsuarioExterno.correo == request.vars.correo)
+                       & (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select()
+            if (tutor.first() and tutor.first().Tutor_Industrial.comfirmado_Por_Empresa == 0):
+                message = T(
+                    'Usted Aun No Ha Sido Comfirmado Como Tutor Industrial Por Su Empresa, Por Lo Que Aun No Puede' \
+                    'Iniciar Sesion')
+                redirect(URL(c='tutor_industrial', f='tutorNoComfirmado'))
+            else:
+                auth.login_bare(request.vars.correo,contrasena)
+                redirect(URL(c='default',f='home'))
     return response.render('default/codigoVerificacion.html',
         message=T("Verificacion de Correo"),resend= request.vars.resend,
         form=form,vars=dict(correo=request.vars.correo))

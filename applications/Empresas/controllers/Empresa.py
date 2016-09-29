@@ -379,13 +379,9 @@ def editar_Perfil_Empresa():
     db.UsuarioExterno.telefono.writable = True
     db.Empresa.contacto_RRHH.writable = True
 
-
-
     # Generamos el SQLFORM utilizando los campos
     form = SQLFORM.factory(
     *fields,
-
-
     submit_button='Submit',
     separator=': ',
     buttons=['submit'],
@@ -445,9 +441,10 @@ def editar_Perfil_Empresa():
 
 @auth.requires_login()
 def consultarTutores():
+    # Buscamos el id de la empresa
     userId = auth.user.id
-    tutores=db((db.UsuarioExterno.auth_User==userId) & (db.Empresa.usuario==db.UsuarioExterno.id)
-                 & (db.Tutor_Industrial.Empresa == db.Empresa.id))
+    # Buscamos los tutores de la empresa
+    tutores=db((db.UsuarioExterno.id==db.Tutor_Industrial.usuario) & (db.Tutor_Industrial.Empresa == userId))
     #Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
     # this is not required in later versions)
     fields = [db.UsuarioExterno.nombre, db.Tutor_Industrial.apellido, db.Tutor_Industrial.comfirmado_Por_Empresa]

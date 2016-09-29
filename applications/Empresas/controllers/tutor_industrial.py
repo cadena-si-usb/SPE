@@ -3,6 +3,12 @@
 # Proceso de registro en el cual un tutor solicita un registro a una Empresa
 from shlex import shlex
 
+def tutorNoComfirmado():
+    message = T(
+        'Usted Aun No Ha Sido Comfirmado Como Tutor Industrial Por Su Empresa, Por Lo Que Aun No Puede ' \
+        'Iniciar Sesion')
+    response.view = 'Tutor_Industrial/tutorNoComfirmado.html'
+    return locals()
 
 def solicitar_registro_tutor():
     # Agregamos los campos en el orden deseado, comenzamos con el login y el password
@@ -163,7 +169,7 @@ def consultarPasantias():
 
     #Let's specify a default sort order on date_of_birth column in grid
     default_sort_order=[db.Pasantia.titulo]
-    links = [lambda row: A('Detalle', _href=URL(c='tutor_industrial',f='verDetallePasantia',vars=dict(pasantiaId=row.Pasantia.id)))]
+    links = [lambda row: A('Detalle', _href=URL(a='Empresas',c='Pasantia',f='verDetallePasantia',vars=dict(pasantiaId=row.Pasantia.id)))]
 
     #Creating the grid object
     form = SQLFORM.grid(query=pasantias, fields=fields, headers=headers, orderby=default_sort_order,
@@ -172,196 +178,6 @@ def consultarPasantias():
 
     response.view = 'Tutor_Industrial/Consultar_Pasantias.html'
     return locals()
-
-@auth.requires_login()
-def verDetallePasantia():
-    pasantiaId=request.vars.pasantiaId
-    # Buscamos los datos necesarios
-    pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
-    planTrabajo = pasantia.Plan_Trabajo.select().first()
-    # Definimos que no se pueden editar los datos
-    for field in db.Pasantia:
-        field.writable=False
-    # Llenamos Los Campos con los datos encontrados
-    db.Pasantia.titulo.default=pasantia.titulo
-    db.Pasantia.estudiante.default = pasantia.estudiante
-    db.Pasantia.tutor_academico.default = pasantia.tutor_academico
-    db.Pasantia.tutor_industrial.default = pasantia.tutor_industrial
-    db.Pasantia.periodo.default = pasantia.periodo
-    db.Pasantia.area_proyecto.default = pasantia.area_proyecto
-    db.Pasantia.resumen_proyecto.default = pasantia.resumen_proyecto
-    db.Pasantia.materia.default = pasantia.materia
-    db.Pasantia.objetivo.default = pasantia.objetivo
-    db.Pasantia.confidencialidad.default = pasantia.confidencialidad
-    db.Pasantia.status.default = pasantia.status
-    db.Pasantia.etapa.default = pasantia.etapa
-    db.Pasantia.fecha_creacion.default = pasantia.fecha_creacion
-    db.Pasantia.fecha_inicio.default = pasantia.fecha_inicio
-    db.Pasantia.fecha_fin.default = pasantia.fecha_fin
-    db.Pasantia.fecha_tope_jurado.default = pasantia.fecha_tope_jurado
-    db.Pasantia.fecha_defensa.default = pasantia.fecha_defensa
-    # Definimos que no se pueden editar los datos
-    for field in db.Plan_Trabajo:
-        field.writable=False
-    # Si existe el plan de trabajo repetimos el proceso con el plan de trabajo
-    if (planTrabajo):
-        db.Plan_Trabajo.aprobacion_tutor_academico.default = planTrabajo.aprobacion_tutor_academico
-        db.Plan_Trabajo.aprobacion_tutor_industrial.default = planTrabajo.aprobacion_tutor_industrial
-        db.Plan_Trabajo.aprobacion_coordinacion.default = planTrabajo.aprobacion_coordinacion
-        db.Plan_Trabajo.fecha_creacion.default = planTrabajo.fecha_creacion
-        db.Plan_Trabajo.fecha_envio.default = planTrabajo.fecha_envio
-        db.Plan_Trabajo.estado.default = planTrabajo.estado
-    # Creamos Los forms con lso que mostraremos los datos
-    formPasantia = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
-    formPlanTrabajo = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
-
-
-
-    response.view = 'Tutor_Industrial/Detalle_Pasantia.html'
-    return locals()
-
-@auth.requires_login()
-def verPlanDeTrabajo():
-    pasantiaId=request.vars.pasantiaId
-    if pasantiaId is None:
-        pasantiaId=request.vars.planId
-    # Obtenemos el objeto de pasantia
-    pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
-    # Obtenemos el plan de trabajo
-    planTrabajo = pasantia.Plan_Trabajo.select().first()
-    # Obtenemos las fases del plan de trabajo
-    fases=planTrabajo.Fase.select()
-    # Verificamos si el plan ya fue aprobado, si no es asi entonces puede ser editado por el tutor industrial
-    editable=(planTrabajo.aprobacion_coordinacion=='Aprobado'
-              and planTrabajo.aprobacion_tutor_academico=='Aprobado'
-              and planTrabajo.aprobacion_tutor_industrial=='Aprobado')
-    response.view = 'Tutor_Industrial/Detalle_Plan_De_Trabajo.html'
-    return locals()
-
-@auth.requires_login()
-def verPerfil():
-    usuarioExterno = db(db.UsuarioExterno, (auth.user.id == db.UsuarioExterno.auth_User)).select().first()
-    tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
-
-    db.UsuarioExterno.correo.default = usuarioExterno.correo
-    db.UsuarioExterno.clave.default = usuarioExterno.clave
-    db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
-    db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
-    db.UsuarioExterno.nombre.default = usuarioExterno.nombre
-    db.UsuarioExterno.pais.default = usuarioExterno.pais
-    db.UsuarioExterno.estado.default = usuarioExterno.estado
-
-    db.Tutor_Industrial.apellido.default = tutor.apellido
-    db.Tutor_Industrial.Empresa.default = tutor.Empresa
-    db.Tutor_Industrial.profesion.default = tutor.profesion
-    db.Tutor_Industrial.tipo_documento.default = tutor.tipo_documento
-    db.Tutor_Industrial.numero_documento.default = tutor.numero_documento
-    db.Tutor_Industrial.cargo.default = tutor.cargo
-    db.Tutor_Industrial.departamento.default = tutor.departamento
-    db.Tutor_Industrial.universidad.default = tutor.universidad
-    db.UsuarioExterno.direccion.default = usuarioExterno.direccion
-    db.UsuarioExterno.telefono.default = usuarioExterno.telefono
-
-    for field in db.UsuarioExterno:
-        field.writable=False
-    for field in db.Tutor_Industrial:
-        field.writable=False
-
-    fields = [
-        'correo',
-        'nombre',
-        'apellido',
-        'tipo_documento',
-        'numero_documento',
-        'clave',
-        'Empresa',
-        'pregunta_secreta',
-        'respuesta_secreta',
-        'profesion',
-        'cargo',
-        'departamento',
-        'pais',
-        'estado',
-        'universidad',
-        'direccion',
-        'telefono'
-    ]
-    form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
-
-    response.view = 'Tutor_Industrial/perfil_Tutor_Industrial.html'
-    return locals()
-
-def crudFase():
-    db.Fase.plan_trabajo.readable=False
-    db.Fase.plan_trabajo.writable = False
-    record = db.Fase(request.vars.faseId)
-    if record is None:
-        db.Fase.plan_trabajo.default=request.vars.planId
-    db.Actividad.fase.writable = False
-    form = SQLFORM(db.Fase, record,showid=False)
-    if form.process().accepted:
-        response.flash = 'form accepted'
-        reprobar()
-        redirect(URL('verPlanDeTrabajo', vars=dict(planId=request.vars.planId)))
-    elif form.errors:
-        response.flash = 'form has errors'
-    return locals()
-
-def eliminarFase():
-    form = FORM.confirm('¿Esta Seguro Que Desea Eliminar Esta Fase?', {'Back': URL('verPlanDeTrabajo',vars=dict(planId=request.vars.planId))})
-    if form.accepted:
-        fase = db.Fase(id=request.vars.faseId)
-        fase.delete_record()
-        reprobar()
-        redirect(URL('verPlanDeTrabajo',vars=dict(planId=request.vars.planId)))
-    return locals()
-
-def crudActividad():
-    record = db.Actividad(request.vars.actId)
-    if record is None:
-        db.Actividad.fase.default=request.vars.faseId
-    db.Actividad.fase.writable = False
-    form = SQLFORM(db.Actividad, record,showid=False)
-    if form.process().accepted:
-        response.flash = 'form accepted'
-        reprobar()
-        redirect(URL('verPlanDeTrabajo', vars=dict(planId=request.vars.planId)))
-    elif form.errors:
-        response.flash = 'form has errors'
-    return locals()
-
-def eliminarActividad():
-    form = FORM.confirm('¿Esta Seguro Que Desea Eliminar Esta Actividad?', {'Back': URL('verPlanDeTrabajo',vars=dict(planId=request.vars.planId))})
-    if form.accepted:
-        actividad = db.Actividad(id=request.vars.actId)
-        actividad.delete_record()
-        reprobar()
-        redirect(URL('verPlanDeTrabajo',vars=dict(planId=request.vars.planId)))
-    return locals()
-
-def AprobarPlanTrabajo():
-    form = FORM.confirm('¿Esta Seguro Aprobar Este Plan De Trabajo?',
-                        {'Back': URL('verPlanDeTrabajo', vars=dict(planId=request.vars.planId))})
-    if form.accepted:
-        fase = db.Fase(id=request.vars.faseId)
-        fase.delete_record()
-        reprobar()
-        redirect(URL('verPlanDeTrabajo', vars=dict(planId=request.vars.planId)))
-    return locals()
-
-def reprobar():
-    plan_trabajo = db.Plan_Trabajo(id=request.vars.planId)
-    # Verificamos si hay que revertir aprobaciones para evitar ir a la base de datos innecesariamente
-    if ((plan_trabajo.aprobacion_tutor_academico!="En Espera"
-        or plan_trabajo.aprobacion_tutor_industrial!="En Espera"
-        or plan_trabajo.aprobacion_coordinacion!="En Espera")
-        and plan_trabajo.estado!="Enviado"):
-        # Cambiamos el estado
-        plan_trabajo.update_record(
-            aprobacion_tutor_academico="En Espera",
-            aprobacion_tutor_industrial="En Espera",
-            aprobacion_coordinacion="En Espera",
-            estado="Sin Enviar")
 
 def justificar_retiro_Empresa():
     # Argumentos son: codigo, año, periodo(nombre)

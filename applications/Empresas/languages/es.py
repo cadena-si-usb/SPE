@@ -558,6 +558,7 @@
 'User Logged-out': 'El usuario finalizó la sesión',
 'Username': 'Nombre de usuario',
 'Username retrieve': 'Recuperar nombre de usuario',
+'Usted Aun No Ha Sido Comfirmado Como Tutor Industrial Por Su Empresa, Por Lo Que Aun No PuedeIniciar Sesion': 'Usted Aun No Ha Sido Comfirmado Como Tutor Industrial Por Su Empresa, Por Lo Que Aun No PuedeIniciar Sesion',
 'Usuario': 'Usuario',
 'Usuario o Contraseña invalida.': 'Usuario o Contraseña inválida.',
 'Usuario o Correo Electronico': 'Usuario o Correo Electrónico',
