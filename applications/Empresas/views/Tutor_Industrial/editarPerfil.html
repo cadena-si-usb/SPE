@@ -1,0 +1,144 @@
+{{('message' in globals())}}
+{{extend 'layout.html'}}
+
+{{if 'message' in globals():}}
+<div class='container'>
+    <div class='title'>
+        {{=message}}
+    </div>
+    <br>
+        {{=form.custom.begin}}
+        <div class="row">
+            <div class='col-md-4'>
+                <div class="panel-group">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" href="#personal">
+                                    <i class="fa fa-users fa-pull-right"></i>
+                                    Datos personales
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="personal" class="panel-collapse collapse in panel-body">
+                            <i class="fa fa-at fa-pull-right"></i>
+                            <label for='no_table_email'>{{=form.custom.label.correo}}</label>
+                            {{=form.custom.widget.correo}}
+                            <br>
+                            <i class="fa fa-user fa-pull-right"></i>
+                            <label for='no_table_nombre'>{{=form.custom.label.nombre}}</label>
+                            {{=form.custom.widget.nombre}}
+                            <br>
+                            <label for='no_table_apellido'>{{=form.custom.label.apellido}}</label>
+                            {{=form.custom.widget.apellido}}
+                            <br>
+                            <label for='no_table_tipo_documento'>{{=form.custom.label.tipo_documento}}</label>
+                            {{=form.custom.widget.tipo_documento}}
+                            <br>
+                            <label for='no_table_numero_documento'>{{=form.custom.label.numero_documento}}</label>
+                            {{=form.custom.widget.numero_documento}}
+                            <br>
+                            <i class="fa fa-phone fa-pull-right"></i>
+                            <label for='no_table_telefono'>{{=form.custom.label.telefono}}</label>
+                            {{=form.custom.widget.telefono}}
+                            <br>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+            <div class='col-md-4'>
+                <div class="panel-group">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" href="#password">
+                                    <i class="fa fa-asterisk fa-pull-right"></i>
+                                    Contraseña y recuperación
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="password" class="panel-collapse collapse in panel-body">
+                            <i class="fa fa-lock fa-pull-right"></i>
+                            <label for='no_table_password'>{{=form.custom.label.clave}}</label>
+                            {{=form.custom.widget.clave}}
+                            <br>
+                            <i class="fa fa-unlock-alt fa-pull-right"></i>
+                            <label for='no_table_pregunta_secreta'>{{=form.custom.label.pregunta_secreta}}</label>
+                            {{=form.custom.widget.pregunta_secreta}}
+                            <br>
+                            <label for='no_table_respuesta_secreta'>
+                            {{=form.custom.label.respuesta_secreta}}
+                            </label>
+                            {{=form.custom.widget.respuesta_secreta}}
+                            <br>
+                        </div>
+                    </div>
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" href="#profesional">
+                                    <i class="fa fa-briefcase fa-pull-right"></i>
+                                    Datos profesionales
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="profesional" class="panel-collapse collapse in panel-body">
+                            <label for='no_table_Empresa'>{{=form.custom.label.Empresa}}</label>
+                            {{=form.custom.widget.Empresa}}
+                            <br>
+                            <label for='no_table_profesion'>{{=form.custom.label.profesion}}</label>
+                            {{=form.custom.widget.profesion}}
+                            <br>
+                            <label for='no_table_cargo'>{{=form.custom.label.cargo}}</label>
+                            {{=form.custom.widget.cargo}}
+                            <br>
+                            <label for='no_table_departamento'>{{=form.custom.label.departamento}}</label>
+                            {{=form.custom.widget.departamento}}
+                            <br>
+                            <label for='no_table_universidad'>{{=form.custom.label.universidad}}</label>
+                            {{=form.custom.widget.universidad}}
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+            </div>
+
+            <div class='col-md-4'>
+                <div class="panel-group">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" href="#location">
+                                    <i class="fa fa-location-arrow fa-pull-right"></i>
+                                    Ubicación
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="location" class="panel-collapse collapse in panel-body">
+                            <i class="fa fa-globe fa-pull-right"></i>
+                            <label for='no_table_pais'>{{=form.custom.label.pais}}</label>
+                            {{=form.custom.widget.pais}}
+                            <br>
+                            <i class="fa fa-map-o fa-pull-right"></i>
+                            <label for='no_table_estado'>{{=form.custom.label.estado}}</label>
+                            {{=form.custom.widget.estado}}
+                            <br>
+                            <i class="fa fa-map-marker fa-pull-right"></i>
+                            <label for='no_table_direccion'>{{=form.custom.label.direccion}}</label>
+                            {{=form.custom.widget.direccion.update(_placeholder="Ej: Ciudad xxxx, Av. xxxx, Calle xxxx...")}}
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            <div class="row center">
+                {{=form.custom.submit}}
+            </div>
+        </div>
+    </div>
+    {{=form.custom.end}}
+
+</div>
+{{pass}}
