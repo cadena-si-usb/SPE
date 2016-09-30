@@ -66,14 +66,16 @@
                         {{pass}}
                     </div>
                 </div>
-                {{if planTrabajo:}}
-                    <div class="row center">
-                        <br>
-                            {{=A(T('Editar Datos De La Pasantia'), _class='btn btn-default',_href=URL  (c='Pasantia',f='crudPasantia',args=[pasantia.id]))}}
-                            {{=A(T('Ver Detalle De Plan De Trabajo'), _class='btn btn-default',_href=URL  (c='Pasantia',f='verPlanDeTrabajo',args=[pasantia.id]))}}
-                        </br>
-                    </div>
-                {{pass}}
+                <div class="row center">
+                    <br>
+                    {{if (auth.has_membership(role='Estudiante') and planTrabajo.estado!="Enviado"):}}
+                        {{=A(T('Editar Datos De La Pasantia'), _class='btn btn-default',_href=URL  (c='Pasantia',f='crudPasantia',args=[pasantia.id]))}}
+                    {{pass}}
+                    {{if planTrabajo:}}
+                        {{=A(T('Ver Detalle De Plan De Trabajo'), _class='btn btn-default',_href=URL  (c='Pasantia',f='verPlanDeTrabajo',args=[pasantia.id]))}}
+                    {{pass}}
+                    </br>
+                </div>
             </div>
         </div>
     </div>

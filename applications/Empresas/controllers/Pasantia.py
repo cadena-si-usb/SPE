@@ -56,7 +56,31 @@ def verDetallePasantia():
                and not Plan_Trabajo.comprobarPlanAprobado(db,request.args[0]))
 def crudPasantia():
     pasantia = db(db.Pasantia.id == request.args[0]).select().first()
-    db.Actividad.fase.writable = False
+    # Quitamos los campo que no se deben modificar
+    db.Pasantia.etapa.writable = False
+    db.Pasantia.status.writable = False
+    db.Pasantia.fecha_creacion.writable = False
+    db.Pasantia.fecha_inicio.writable = False
+    db.Pasantia.fecha_fin.writable = False
+    db.Pasantia.fecha_tope_jurado.writable = False
+    db.Pasantia.fecha_defensa.writable = False
+    db.Pasantia.estudiante.writable = False
+    # Quitamos los campo que no se deben leer
+    db.Pasantia.etapa.readable = False
+    db.Pasantia.status.readable = False
+    db.Pasantia.fecha_creacion.readable = False
+    db.Pasantia.fecha_inicio.readable = False
+    db.Pasantia.fecha_fin.readable = False
+    db.Pasantia.fecha_tope_jurado.readable = False
+    db.Pasantia.fecha_defensa.readable = False
+    db.Pasantia.estudiante.readable = False
+    # Solo el estudiante puede cambiar al resto de los actores
+    if not auth.has_membership(role='Estudiante'):
+        db.Pasantia.tutor_industrial.writable = False
+        db.Pasantia.tutor_academico.writable = False
+        db.Pasantia.tutor_industrial.readable = False
+        db.Pasantia.tutor_academico.readable = False
+    # Creo el formulario
     form = SQLFORM(db.Pasantia, pasantia,showid=False)
     if form.process().accepted:
         response.flash = 'form accepted'
@@ -84,7 +108,7 @@ def verPlanDeTrabajo():
     editable=(planTrabajo.aprobacion_coordinacion=='Aprobado'
               and planTrabajo.aprobacion_tutor_academico=='Aprobado'
               and planTrabajo.aprobacion_tutor_industrial=='Aprobado')
-    response.view = 'Pasantia/Detalle_Plan_De_Trabajo_estudiante.html'
+    response.view = 'Pasantia/Detalle_Plan_De_Trabajo.html'
     return locals()
 
 @auth.requires(auth.is_logged_in()
@@ -93,9 +117,12 @@ def verPlanDeTrabajo():
 def crudFase():
     db.Fase.plan_trabajo.readable=False
     db.Fase.plan_trabajo.writable = False
-    record = db.Fase(request.args[1])
-    if record is None:
-        db.Fase.plan_trabajo.default=request.args[0]
+
+    if len(request.args) == 1:
+        db.Fase.plan_trabajo.default = request.args[0]
+        record = None
+    else:
+        record = db.Fase(request.args[1])
     pasantia = db(db.Pasantia.id == request.args[0]).select().first()
     db.Actividad.fase.writable = False
     form = SQLFORM(db.Fase, record,showid=False)
@@ -115,7 +142,7 @@ def crudFase():
                and not Plan_Trabajo.comprobarPlanAprobado(db,request.args[0]))
 def eliminarFase():
     # Creamos el formulario
-    form = FORM.confirm('¿Esta Seguro Que Desea Eliminar Esta Fase?', {'Retornar': URL('verPlanDeTrabajo',args=[request.vars.planId],vars=dict(planId=request.vars.planId))})
+    form = FORM.confirm('¿Esta Seguro Que Desea Eliminar Esta Fase?', {'Retornar': URL('verPlanDeTrabajo',args=[request.vars.planId])})
     # Buscamos informacion de la pasantia
     fase = db.Fase(id=request.args[1])
     # Buscamos informacion de la pasantia

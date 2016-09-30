@@ -16,10 +16,10 @@
                     </div>
                     <div class="panel-collapse collapse in" id="planTrabajo">
                         <div class="list-group">
-                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_academico}}</p>
-                            <p class="list-group-item"><b>aprobacion_tutor_industrial</b> : {{=planTrabajo.aprobacion_tutor_industrial}}</p>
-                            <p class="list-group-item"><b>aprobacion_coordinacion</b> : {{=planTrabajo.aprobacion_coordinacion}}</p>
-                            <p class="list-group-item"><b>estado</b> : {{=planTrabajo.estado}}</p>
+                            <p class="list-group-item"><b>Aprobacion Del Tutor Académico</b> : {{=planTrabajo.aprobacion_tutor_academico}}</p>
+                            <p class="list-group-item"><b>Aprobacion Del Tutor Industrial</b> : {{=planTrabajo.aprobacion_tutor_industrial}}</p>
+                            <p class="list-group-item"><b>Aprobacion Del Coordinador De Carrera</b> : {{=planTrabajo.aprobacion_coordinacion}}</p>
+                            <p class="list-group-item"><b>Estado</b> : {{=planTrabajo.estado}}</p>
                         </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                                             <div><b>Descripcion</b> : {{=actividad.descripcion}}</div>
                                             <div><b>Semana De Inicio</b> : {{=actividad.semana_inicio}}</div>
                                             <div><b>Semana De Finalizacion</b> : {{=actividad.semana_fin}}</div>
-                                            {{ if planTrabajo.aprobacion_tutor_industrial!='Aprobado': }}
+                                            {{ if planTrabajo.estado!='Enviado': }}
                                                 <div class="center">
                                                     <a href="{{=URL(c='Pasantia', f='crudActividad',args=[planTrabajo.id,fase.id,actividad.id])}}">
                                                         <button class='success'>Editar Actividad</button>
@@ -66,7 +66,7 @@
                                 {{ pass }}
                             </div>
                         </div>
-                        {{ if planTrabajo.aprobacion_tutor_industrial!='Aprobado': }}
+                        {{ if planTrabajo.estado!='Enviado': }}
                             <div class="list-group-item center">
                                 <a href="{{=URL(c='Pasantia', f='crudFase',args=[planTrabajo.id,fase.id])}}">
                                     <button class='success'>Editar Fase</button>
@@ -85,14 +85,17 @@
         </div>
     {{ pass }}
     <div class="row-md-12 center">
-        <a href="{{=URL(c='Pasantia', f='crudFase',args=[planTrabajo.id])}}">
-            <button class='success'>Agregar Fase</button>
-        </a>
         {{ if planTrabajo.estado!='Enviado': }}
+            <a href="{{=URL(c='Pasantia', f='crudFase',args=[planTrabajo.id])}}">
+                <button class='success'>Agregar Fase</button>
+            </a>
             <a href="{{=URL(c='Pasantia',f= 'enviarPlanTrabajo', args=[planTrabajo.id])}}">
                 <button class='success'>Enviar</button>
             </a>
         {{ pass }}
+        <a href="{{=URL(c='Pasantia', f='verDetallePasantia',args=[planTrabajo.id])}}">
+            <button class='success'>Retornar</button>
+        </a>
         <br><br>
     </div>
     <div class="row">

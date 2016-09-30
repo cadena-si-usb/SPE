@@ -12,10 +12,10 @@ class Plan_Trabajo(Model):
     def reprobar(self,id):
         plan_de_trabajo = self.db(self.table.id == id).select().first()
         # Verificamos si hay que revertir aprobaciones para evitar ir a la base de datos innecesariamente
-        if ((plan_de_trabajo.aprobacion_tutor_academico != "En Espera"
+        if (plan_de_trabajo.aprobacion_tutor_academico != "En Espera"
              or plan_de_trabajo.aprobacion_tutor_industrial != "En Espera"
-             or plan_de_trabajo.aprobacion_coordinacion != "En Espera")
-            and plan_de_trabajo.estado != "Enviado"):
+             or plan_de_trabajo.aprobacion_coordinacion != "En Espera"
+             or plan_de_trabajo.estado != "Sin Enviar"):
             # Cambiamos el estado
             plan_de_trabajo.update_record(
                 aprobacion_tutor_academico="En Espera",

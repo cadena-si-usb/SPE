@@ -16,10 +16,10 @@
                     </div>
                     <div class="panel-collapse collapse in" id="planTrabajo">
                         <div class="list-group">
-                            <p class="list-group-item"><b>aprobacion_tutor_academico</b> : {{=planTrabajo.aprobacion_tutor_academico}}</p>
-                            <p class="list-group-item"><b>aprobacion_tutor_industrial</b> : {{=planTrabajo.aprobacion_tutor_industrial}}</p>
-                            <p class="list-group-item"><b>aprobacion_coordinacion</b> : {{=planTrabajo.aprobacion_coordinacion}}</p>
-                            <p class="list-group-item"><b>estado</b> : {{=planTrabajo.estado}}</p>
+                            <p class="list-group-item"><b>Aprobacion Del Tutor Académico</b> : {{=planTrabajo.aprobacion_tutor_academico}}</p>
+                            <p class="list-group-item"><b>Aprobacion Del Tutor Industrial</b> : {{=planTrabajo.aprobacion_tutor_industrial}}</p>
+                            <p class="list-group-item"><b>Aprobacion Del Coordinador De Carrera</b> : {{=planTrabajo.aprobacion_coordinacion}}</p>
+                            <p class="list-group-item"><b>Estado</b> : {{=planTrabajo.estado}}</p>
                         </div>
                     </div>
                 </div>
@@ -94,6 +94,9 @@
                     <button class='success'>Aprobar Plan De Trabajo</button>
                 </a>
             {{ pass }}
+            <a href="{{=URL(c='Pasantia', f='verDetallePasantia',args=[planTrabajo.id])}}">
+                <button class='success'>Retornar</button>
+            </a>
             <br><br>
         </div>
     {{ pass }}

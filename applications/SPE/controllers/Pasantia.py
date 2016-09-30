@@ -56,7 +56,31 @@ def verDetallePasantia():
                and not Plan_Trabajo.comprobarPlanAprobado(db,request.args[0]))
 def crudPasantia():
     pasantia = db(db.Pasantia.id == request.args[0]).select().first()
-    db.Actividad.fase.writable = False
+    # Quitamos los campo que no se deben modificar
+    db.Pasantia.etapa.writable = False
+    db.Pasantia.status.writable = False
+    db.Pasantia.fecha_creacion.writable = False
+    db.Pasantia.fecha_inicio.writable = False
+    db.Pasantia.fecha_fin.writable = False
+    db.Pasantia.fecha_tope_jurado.writable = False
+    db.Pasantia.fecha_defensa.writable = False
+    db.Pasantia.estudiante.writable = False
+    # Quitamos los campo que no se deben leer
+    db.Pasantia.etapa.readable = False
+    db.Pasantia.status.readable = False
+    db.Pasantia.fecha_creacion.readable = False
+    db.Pasantia.fecha_inicio.readable = False
+    db.Pasantia.fecha_fin.readable = False
+    db.Pasantia.fecha_tope_jurado.readable = False
+    db.Pasantia.fecha_defensa.readable = False
+    db.Pasantia.estudiante.readable = False
+    # Solo el estudiante puede cambiar al resto de los actores
+    if not auth.has_membership(role='Estudiante'):
+        db.Pasantia.tutor_industrial.writable = False
+        db.Pasantia.tutor_academico.writable = False
+        db.Pasantia.tutor_industrial.readable = False
+        db.Pasantia.tutor_academico.readable = False
+    # Creo el formulario
     form = SQLFORM(db.Pasantia, pasantia,showid=False)
     if form.process().accepted:
         response.flash = 'form accepted'
