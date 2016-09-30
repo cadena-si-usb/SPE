@@ -27,4 +27,5 @@ db.define_table('Plan_Trabajo',
                             error_message='Opcion Invalida'),
           default="Sin Enviar",
           represent=lambda v, r: 'N/A' if v is None else v),
+    format=lambda r: 'Plan De Trabajo De La Pasantia "%s"' % (r.pasantia.titulo)
 )

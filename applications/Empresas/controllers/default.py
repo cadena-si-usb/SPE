@@ -32,7 +32,6 @@ def user():
     also notice there is http://..../[app]/appadmin/manage/auth to allow
     administrator to manage users
     """
-
     return dict(form=auth())
 
 def login():
@@ -145,6 +144,7 @@ def logout():
     url = (URL(c='default',f='index'))
     auth.logout(next=url)
 
+@auth.requires(auth.is_logged_in())
 def home():
     return response.render('default/home.html')
 

@@ -9,4 +9,5 @@ db.define_table('Fase',
           requires=[IS_NOT_EMPTY
                         (error_message='Es necesario una Descripcion')],
           label = 'Descripcón'),
+    format=lambda r: 'Fase "%s" De La Pasantia "%s"' % (r.numero,r.plan_trabajo.pasantia.titulo)
 )

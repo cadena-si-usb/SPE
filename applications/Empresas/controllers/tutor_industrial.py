@@ -151,7 +151,7 @@ def solicitar_registro_tutor():
     else:
         return response.render('Tutor_Industrial/registrarTutorIndustrial/registrar_Tutor_Industrial.html',message=T("Registrarse como Tutor Industrial"),form=form)
 
-@auth.requires_login()
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Tutor Industrial'))
 def verPerfil():
     usuarioExterno = db(db.UsuarioExterno, (auth.user.id == db.UsuarioExterno.auth_User)).select().first()
     tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
@@ -204,7 +204,7 @@ def verPerfil():
     response.view = 'Tutor_Industrial/verPerfil.html'
     return locals()
 
-@auth.requires_login()
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Tutor Industrial'))
 def editarPerfil():
     message = T("Editar Perfil")
     usuarioExterno = db(db.UsuarioExterno, (auth.user.id == db.UsuarioExterno.auth_User)).select().first()
@@ -269,7 +269,7 @@ def editarPerfil():
     response.view = 'Tutor_Industrial/editarPerfil.html'
     return locals()
 
-@auth.requires_login()
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Tutor Industrial'))
 def consultarPasantias():
     correo = auth.user.email
     pasantias=db((db.UsuarioExterno.correo==correo) & (db.Tutor_Industrial.usuario==db.UsuarioExterno.id)
@@ -277,17 +277,19 @@ def consultarPasantias():
 
     #Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
     # this is not required in later versions)
-    fields = (db.Pasantia.titulo, db.Etapa.nombre, db.Pasantia.status)
+    fields = (db.Pasantia.titulo, db.Pasantia.estudiante,db.Etapa.nombre, db.Pasantia.status)
 
     #Define headers as tuples/dictionaries
     headers = {
+            ''
             'Pasantia.titulo': 'Titulo',
-            'Etapa.nombre':'Etapa',
+            'Pasantia.estudiante':'Estudiante',
+            'Pasantia.etapa':'Etapa',
             'Pasantia.status': 'Status' }
 
     #Let's specify a default sort order on date_of_birth column in grid
     default_sort_order=[db.Pasantia.titulo]
-    links = [lambda row: A('Detalle', _href=URL(a='Empresas',c='Pasantia',f='verDetallePasantia',vars=dict(pasantiaId=row.Pasantia.id)))]
+    links = [lambda row: A('Detalle', _href=URL(a='Empresas',c='Pasantia',f='verDetallePasantia',args=[row.Pasantia.id]))]
 
     #Creating the grid object
     form = SQLFORM.grid(query=pasantias, fields=fields, headers=headers, orderby=default_sort_order,
@@ -296,71 +298,3 @@ def consultarPasantias():
 
     response.view = 'Tutor_Industrial/Consultar_Pasantias.html'
     return locals()
-
-def justificar_retiro_Empresa():
-    # Argumentos son: codigo, año, periodo(nombre)
-    pasantia=None
-    if len(request.args)==4:
-        pasantia = db((db.pasantia.codigo==request.args[0]) &
-                (db.pasantia.anio==request.args[1]) &
-                (db.pasantia.periodo==request.args[2]) &
-                (db.pasantia.estudiante==request.args[3])
-                ).select()[0]
-        field =[db.pasantia.motivo_retiro_Tutor_Industrial]
-        form = SQLFORM.factory(
-            *field,submit_button='Subir Carta',
-            separator=': ',
-            buttons=['submit'],
-            type='text',
-            col3 = {'motivo':T('Motivo justificativo')}
-            )
-        if form.process().accepted:
-            pasantia = db((db.pasantia.codigo==request.args[0]) &
-                (db.pasantia.anio==request.args[1]) &
-                (db.pasantia.periodo==request.args[2]) &
-                (db.pasantia.estudiante==request.args[3])
-                )
-            pasantia.update(motivo_retiro_Tutor_Industrial = request.vars.motivo_retiro_Tutor_Industrial)
-            response.flash = 'Actualizado el motivo'
-            redirect(URL('justificacion_retiro_Empresa/'+request.args[0]+'/'+request.args[1]+'/'+request.args[2]+'/'+request.args[3]))
-
-        elif form.errors:
-            response.flash = 'Error'
-
-    else:
-        pasantias = db((db.pasantia.Tutor_Industrial==auth.user.username) &
-            (db.pasantia.motivo_retiro_estudiante!=None)
-        )
-
-        opciones = []
-        periodos = {}
-        pasantias2 = {}
-        for p in pasantias.select():
-            periodo = db.periodo(p.periodo)
-            periodos[periodo.nombre] = p.periodo
-            datos_estudiante = db(db.usuario.usbid==p.estudiante).select()[0]
-            opciones.append('['+p.codigo+'] '+periodo.nombre+' '+str(p.anio)+' '+p.titulo+' '+datos_estudiante.nombre+' '+datos_estudiante.apellido+' '+datos_estudiante.usbid)
-            pasantias2[opciones[-1]] = p
-
-        form = SQLFORM.factory(
-            Field('pasantia', requires = IS_IN_SET(opciones)),submit_button='Buscar')
-        if form.process().accepted:
-            # Datos: codigo, periodo(nombre), año
-            # datos = form.vars.pasantia.split()
-            # datos[0] = datos[0][1:-1]
-            pasantia = pasantias2[form.vars.pasantia]
-            redirect(URL('justificar_retiro_Empresa/'+str(pasantia.codigo)+'/'+str(pasantia.anio)+'/'+str(pasantia.periodo)+'/'+str(pasantia.estudiante)))
-
-        elif form.errors:
-            response.flash = 'Error'
-
-    return dict(form=form,pasantia=pasantia)
-
-def justificacion_retiro_Empresa():
-    pasantia = db((db.pasantia.codigo==request.args[0]) &
-                (db.pasantia.anio==request.args[1]) &
-                (db.pasantia.periodo==request.args[2]) &
-                (db.pasantia.estudiante==request.args[3])
-                ).select()[0]
-    estudiante = db(db.usuario.usbid==request.args[3]).select()[0]
-    return dict(pasantia=pasantia,estudiante=estudiante)

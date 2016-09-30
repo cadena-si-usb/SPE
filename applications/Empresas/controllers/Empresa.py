@@ -118,6 +118,7 @@ def registrar_Empresa():
     else:
         return response.render('Empresa/registrarEmpresa/registrar_Empresa.html',message=T("Registrar Empresa"),form=form)
 
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def registrar_Tutor_Industrial():
     # Agregamos los campos en el orden deseado, comenzamos con el login y el password
     fields = [
@@ -254,7 +255,7 @@ def registrar_Tutor_Industrial():
         return response.render('Empresa/registrarTutorIndustrial/registrar_Tutor_Industrial.html',
                                message=T("Registrar Tutor Industrial"), form=form)
 
-# Proceso de registro de Empresa por medio de la opcion Empresa -> Registrarse, en el Index
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def ver_Perfil_Empresa():
     usuarioExterno = db(db.UsuarioExterno.correo == auth.user.email).select()[0]
     empresa = db(db.Empresa.usuario == usuarioExterno.id).select()[0]
@@ -325,6 +326,7 @@ def ver_Perfil_Empresa():
 
     return response.render('Empresa/perfil_Empresa.html',message=T("Perfil Empresarial"),form=form)
 
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def editar_Perfil_Empresa():
     usuarioExterno = db(db.UsuarioExterno.correo == auth.user.email).select()[0]
     empresa = db(db.Empresa.usuario == usuarioExterno.id).select()[0]
@@ -436,7 +438,7 @@ def editar_Perfil_Empresa():
         return response.render('Empresa/editar_Registrar_Empresa.html', message=T("Editando Perfil Empresa"),
                                form=form)
 
-@auth.requires_login()
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def consultarTutores():
     # Buscamos el id de la empresa
     userId = auth.user.id
@@ -469,7 +471,7 @@ def consultarTutores():
     response.view = 'Empresa/Consultar_Tutores.html'
     return locals()
 
-@auth.requires_login()
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def comfirmarTutor():
     form = FORM.confirm('Comfirmar', {'Volver': URL(c='Empresa', f='consultarTutores')})
     tutorId = request.vars.tutorId
@@ -483,7 +485,7 @@ def comfirmarTutor():
     response.view = 'Empresa/Comfirmar_Tutores.html'
     return locals()
 
-@auth.requires_login()
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def verPerfilTutor():
     tutorId = request.vars.tutorId
 
@@ -538,7 +540,7 @@ def verPerfilTutor():
     response.view = 'Empresa/verPerfil.html'
     return locals()
 
-@auth.requires_login()
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def consultarPasantias():
     userId= auth.user.id
     correo = auth.user.email
