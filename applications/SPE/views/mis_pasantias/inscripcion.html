@@ -19,12 +19,12 @@
 		<div style="display:flex; flex-align:row">
 			<p>Plan de trabajo</p> 
 			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
-				<a href="/SPE/mis_planes/modificar/{{=plan_trabajo.id}}"><img style="position: absolute; width:100%;" src="../../static/images/editar.png"></a>
+				<a href="{{=URL(c='Pasantia',f='verDetallePasantia',args=[plan_trabajo.id])}}"><img style="position: absolute; width:100%;" src="../../static/images/editar.png"></a>
 			</div>			
 
 		</div>	
 		<div style="display:flex; flex-align:row">
-			<p>Formulario DACE</p> 
+			<p>Formulario DACE</p>
 			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
 				<img style="position: absolute; width:100%;" src="../../static/images/search.png">
 			</div>			

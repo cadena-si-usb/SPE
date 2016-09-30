@@ -1,0 +1,18 @@
+{{extend 'layout.html'}}
+
+<div class='container'>
+    {{if auth.is_logged_in():}}
+        <div class="panel">
+            <div class="row">
+                <p class='title'>Pasantia - {{=pasantia.titulo}}</p>
+            </div>
+            <div class="row">
+                {{=form}}
+            </div>
+        </div>
+        <div class="row">
+            <br>
+            <br>
+        </div>
+    {{pass}}
+</div>

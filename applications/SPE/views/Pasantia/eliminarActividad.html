@@ -1,0 +1,18 @@
+{{extend 'layout.html'}}
+
+<div class='container'>
+    {{if auth.is_logged_in():}}
+        <div class="panel">
+            <div class="row">
+            <p class='title'>Plan De Trabajo de la pasantia '{{=pasantia.titulo}}'</p>
+            </div>
+            <div class="row">
+                <p>Esta Por Eliminar La Actividad '{{=actividad.numero}}' de la fase '{{=fase.numero}}'</p>
+            </div>
+            <div class="row">
+                {{=form}}
+            </div>
+        </div>
+
+    {{pass}}
+</div>
