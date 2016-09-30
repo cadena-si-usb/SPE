@@ -454,8 +454,8 @@ def consultarTutores():
             'Tutor_Industrial.apellido':'Apellido',
             'Tutor_Industrial.comfirmado_Por_Empresa': 'Comfirmado' }
 
-    verPerfil=lambda row: A('Ver Perfil', _href=URL(c='Empresa', f='verPerfilTutor', vars=dict(tutorId=row.Tutor_Industrial.id)))
-    comfirmarTutor = lambda row: A('Comfirmar', _href=URL(c='Empresa', f='comfirmarTutor', vars=dict(tutorId=row.Tutor_Industrial.id))) if row.Tutor_Industrial.comfirmado_Por_Empresa == 0 else None
+    verPerfil=lambda row: A('Ver Perfil', _href=URL(c='Empresa', f='verPerfilTutor',args=[row.Tutor_Industrial.id]))
+    comfirmarTutor = lambda row: A('Comfirmar', _href=URL(c='Empresa', f='comfirmarTutor',args=[row.Tutor_Industrial.id])) if row.Tutor_Industrial.comfirmado_Por_Empresa == 0 else None
 
 
 
@@ -474,7 +474,7 @@ def consultarTutores():
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def comfirmarTutor():
     form = FORM.confirm('Comfirmar', {'Volver': URL(c='Empresa', f='consultarTutores')})
-    tutorId = request.vars.tutorId
+    tutorId = request.args[0]
     tutor = db((db.Tutor_Industrial.id == tutorId)).select().first()
     usuarioExterno = db((tutor.usuario == db.UsuarioExterno.id)).select().first()
     if form.accepted:
@@ -487,7 +487,7 @@ def comfirmarTutor():
 
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def verPerfilTutor():
-    tutorId = request.vars.tutorId
+    tutorId = request.args[0]
 
     tutor = db((db.Tutor_Industrial.id == tutorId)).select().first()
     usuarioExterno = db((tutor.usuario == db.UsuarioExterno.id)).select().first()
@@ -543,29 +543,27 @@ def verPerfilTutor():
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def consultarPasantias():
     userId= auth.user.id
-    correo = auth.user.email
     pasantias=db((db.Empresa.id==userId) & (db.Pasantia.tutor_industrial == db.Tutor_Industrial.id) &
                  (db.Tutor_Industrial.Empresa==db.Empresa.id) & (db.UsuarioExterno.id==db.Tutor_Industrial.usuario))
     #Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
     # this is not required in later versions)
-    fields = [db.Pasantia.titulo, db.Etapa.nombre, db.Pasantia.status, db.UsuarioExterno.nombre,db.Tutor_Industrial.apellido]
+    fields = [db.Pasantia.titulo, db.Pasantia.etapa, db.Pasantia.status, db.Pasantia.tutor_industrial]
 
     #Define headers as tuples/dictionaries
     headers = {
             'Pasantia.titulo': 'Titulo',
-            'Etapa.nombre':'Etapa',
+            'Pasantia.etapa':'Etapa',
             'Pasantia.status': 'Status',
-            'UsuarioExterno.nombre': 'Nombre Tutor Industrial',
-            'Tutor_Industrial.apellido': 'Apellido Tutor Industrial'}
+            'Pasantia.tutor_industrial': 'Tutor Industrial'}
 
     #Let's specify a default sort order on date_of_birth column in grid
     default_sort_order=[db.Pasantia.titulo]
-    links = [lambda row: A('Detalle', _href=URL(a='Empresas',c='Pasantia',f='verDetallePasantia',vars=dict(pasantiaId=row.Pasantia.id)))]
+    links = [lambda row: A('Detalle', _href=URL(c='Pasantia',f='verDetallePasantia',args=[row.id]))]
 
     #Creating the grid object
     form = SQLFORM.grid(query=pasantias, fields=fields, headers=headers, orderby=default_sort_order,
                 create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,
-                links=links,csv=False,user_signature=False)
+                links=links,csv=False,user_signature=False,field_id=db.Pasantia.id)
 
     response.view = 'Empresa/Consultar_Pasantias.html'
     return locals()

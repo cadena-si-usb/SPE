@@ -25,11 +25,10 @@ def ver():
         sede = db(db.Sede.id == db.Profesor.sede).select().first()
         response.view = 'mi_perfil/ver_profesor.html'
 
-    elif (rol.nombre == 'CoordinadorCCT'):
+    elif (rol.nombre == 'CoordinadorCCT' or rol.nombre == 'Coordinador'):
         coordinador = db(((db.UsuarioUSB.id == userid) & (db.Coordinador.usuario == db.UsuarioUSB.id))).select().first()
         coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
         response.view = 'mi_perfil/ver_coordinador.html'
-
     return locals()
 
 
@@ -96,6 +95,14 @@ def configuracion():
             db.Profesor.sede.default = profesor.departamento
             db.Profesor.sede.default = profesor.sede
             form = SQLFORM.factory(db.UsuarioUSB,db.Estudiante,fields=fields,submit_button='Actualizar', showid=False)
+        elif (rol.nombre == 'Coordinador' or rol.nombre == 'CoordinacionCCT'):
+            coordinador = db.Coordinador(db.Coordinador.id == usuario.id)
+            fields.append('carnet')
+            fields.append('correo_Alternativo')
+            db.Coordinador.carnet.default = coordinador.carnet
+            db.Coordinador.correo_Alternativo.default = coordinador.correo_Alternativo
+            form = SQLFORM.factory(db.UsuarioUSB,db.Coordinador,fields=fields,submit_button='Actualizar', showid=False)
+
         else:
             form = SQLFORM(db.UsuarioUSB, record=usuario, fields=fields, submit_button='Actualizar', showid=False)
 
@@ -113,6 +120,9 @@ def configuracion():
         elif (rol.nombre == 'Profesor'):
             # Actualizo los datos exclusivos de profesor
             profesor.update_record(**db.Profesor._filter_fields(form.vars))
+        elif (rol.nombre == 'Coordinacion' or rol.nombre == 'CoordinacionCCT'):
+            # Actualizo los datos exclusivos de profesor
+            coordinador.update_record(**db.Coordinador._filter_fields(form.vars))
 
         session.flash = T('Perfil actualizado exitosamente!')
         usuario.update_record(activo=True)

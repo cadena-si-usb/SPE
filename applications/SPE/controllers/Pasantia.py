@@ -114,7 +114,7 @@ def verPlanDeTrabajo():
     elif auth.user.id==pasantia.tutor_academico:
         response.view = 'Pasantia/Detalle_Plan_De_Trabajo_tutor.html'
     else:
-        response.view = 'Pasantia/Detalle_Plan_De_Trabajo_coordinacion.html'
+        response.view = 'Pasantia/Detalle_Plan_De_Trabajo_coordinador.html'
 
     return locals()
 
@@ -226,7 +226,7 @@ def eliminarActividad():
 def AprobarPlanTrabajoTutorAcademico():
     plan_trabajo = db.Plan_Trabajo(id=request.args[0])
     plan_trabajo.update_record(aprobacion_tutor_academico="Aprobado")
-    redirect(URL(c='Pasantia',f='verPlanDeTrabajo', vars=dict(planId=request.args[0])))
+    redirect(URL(c='Pasantia',f='verPlanDeTrabajo', args=[request.args[0]]))
     return locals()
 
 @auth.requires(auth.is_logged_in()
@@ -235,7 +235,7 @@ def AprobarPlanTrabajoTutorAcademico():
 def AprobarPlanTrabajoCoordinador():
     plan_trabajo = db.Plan_Trabajo(id=request.args[0])
     plan_trabajo.update_record(aprobacion_coordinacion="Aprobado")
-    redirect(URL(c='Pasantia',f='verPlanDeTrabajo', vars=dict(planId=request.args[0])))
+    redirect(URL(c='Pasantia',f='verPlanDeTrabajo', args=[request.args[0]]))
     return locals()
 
 @auth.requires(auth.is_logged_in()
