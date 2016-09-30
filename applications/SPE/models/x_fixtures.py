@@ -363,10 +363,10 @@ if db(db.auth_user.id > 0).count() == 0:
     )
     db.auth_user.insert(
         id=8,
-        first_name='Roberto Antonio',
-        last_name='Romero Barrientos',
+        first_name='Mathieu',
+        last_name='Da Valery',
         email='',
-        username='10-10642',
+        username='10-10193',
         password='pbkdf2(1000,20,sha512)$915d2a6f4c2ff0f6$12040ff51286f9a3ffd970013fea95db0728ad9f',
         registration_key='',
         reset_password_key='',
@@ -496,10 +496,10 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
     db.UsuarioUSB.insert(
         id=8,
         auth_User=8,
-        usbid='10-10642',
-        nombre='Roberto Antonio',
-        apellido='Romero Barrientos',
-        correo='romero@gmail.com',
+        usbid='10-10193',
+        nombre='Mathieu',
+        apellido='Da Valery',
+        correo='mvalery@gmail.com',
         clave='RXNTIYYFRUPCHHULMCOM',
         tipo_documento='1',
         numero_documento='20101324',
@@ -708,12 +708,12 @@ if db(db.Coordinador.id > 0).count() == 0:
     db.Coordinador.insert(
         usuario='6',
         carnet='10-10330',
-        coordinacion = '3',
+        coordinacion='3',
         correo_Alternativo='danielarturomt@gmail.com'
     )
     db.Coordinador.insert(
         usuario='8',
-        carnet='10-10195',
+        carnet='10-10193',
         coordinacion = '1',
         correo_Alternativo='coord@copt.com'
     )

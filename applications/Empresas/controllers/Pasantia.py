@@ -84,7 +84,7 @@ def verPlanDeTrabajo():
     editable=(planTrabajo.aprobacion_coordinacion=='Aprobado'
               and planTrabajo.aprobacion_tutor_academico=='Aprobado'
               and planTrabajo.aprobacion_tutor_industrial=='Aprobado')
-    response.view = 'Pasantia/Detalle_Plan_De_Trabajo.html'
+    response.view = 'Pasantia/Detalle_Plan_De_Trabajo_estudiante.html'
     return locals()
 
 @auth.requires(auth.is_logged_in()

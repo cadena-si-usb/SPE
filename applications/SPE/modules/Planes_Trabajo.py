@@ -42,8 +42,15 @@ class Plan_Trabajo(Model):
         pasantia = db.Pasantia(id=id)
         # Verificamos si hay que revertir aprobaciones para evitar ir a la base de datos innecesariamente
         try:
-            return (pasantia.estudiante==userId
-                    or pasantia.tutor_industrial==userId
-                    or pasantia.tutor_academico==userId)
+            resultado=(pasantia.estudiante==userId
+                       or pasantia.tutor_industrial==userId
+                       or pasantia.tutor_academico==userId)
+            if not resultado:
+                coordID=db((db.Coordinador.usuario==userId) & (db.Coordinador.coordinacion==pasantia.estudiante.carrera.coordinacion))
+                if coordID:
+                    return True
+                else:
+                    return False
+            return resultado
         except:
             return False

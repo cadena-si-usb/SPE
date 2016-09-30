@@ -84,7 +84,14 @@ def verPlanDeTrabajo():
     editable=(planTrabajo.aprobacion_coordinacion=='Aprobado'
               and planTrabajo.aprobacion_tutor_academico=='Aprobado'
               and planTrabajo.aprobacion_tutor_industrial=='Aprobado')
-    response.view = 'Pasantia/Detalle_Plan_De_Trabajo.html'
+
+    if auth.user.id==pasantia.estudiante:
+        response.view = 'Pasantia/Detalle_Plan_De_Trabajo_estudiante.html'
+    elif auth.user.id==pasantia.tutor_academico:
+        response.view = 'Pasantia/Detalle_Plan_De_Trabajo_tutor.html'
+    else:
+        response.view = 'Pasantia/Detalle_Plan_De_Trabajo_coordinacion.html'
+
     return locals()
 
 @auth.requires(auth.is_logged_in()
@@ -192,11 +199,26 @@ def eliminarActividad():
 @auth.requires(auth.is_logged_in()
                and Plan_Trabajo.esActorDePlan(db,auth.user.id,request.args[0])
                and not Plan_Trabajo.comprobarPlanAprobado(db,request.args[0]))
-def AprobarPlanTrabajoTutorIndustrial():
-    form = FORM.confirm('¿Esta Seguro Aprobar Este Plan De Trabajo?',
-                        {'Back': URL(c='Pasantia',f='verPlanDeTrabajo',args=[request.args[0]])})
-    if form.accepted:
-        plan_trabajo = db.Plan_Trabajo(id=request.args[0])
-        plan_trabajo.update_record(aprobacion_tutor_industrial="Aprobado")
-        redirect(URL(c='Pasantia',f='verPlanDeTrabajo', vars=dict(planId=request.args[0])))
+def AprobarPlanTrabajoTutorAcademico():
+    plan_trabajo = db.Plan_Trabajo(id=request.args[0])
+    plan_trabajo.update_record(aprobacion_tutor_academico="Aprobado")
+    redirect(URL(c='Pasantia',f='verPlanDeTrabajo', vars=dict(planId=request.args[0])))
+    return locals()
+
+@auth.requires(auth.is_logged_in()
+               and Plan_Trabajo.esActorDePlan(db,auth.user.id,request.args[0])
+               and not Plan_Trabajo.comprobarPlanAprobado(db,request.args[0]))
+def AprobarPlanTrabajoCoordinador():
+    plan_trabajo = db.Plan_Trabajo(id=request.args[0])
+    plan_trabajo.update_record(aprobacion_coordinacion="Aprobado")
+    redirect(URL(c='Pasantia',f='verPlanDeTrabajo', vars=dict(planId=request.args[0])))
+    return locals()
+
+@auth.requires(auth.is_logged_in()
+               and Plan_Trabajo.esActorDePlan(db,auth.user.id,request.args[0])
+               and not Plan_Trabajo.comprobarPlanAprobado(db,request.args[0]))
+def enviarPlanTrabajo():
+    plan_trabajo = db.Plan_Trabajo(id=request.args[0])
+    plan_trabajo.update_record(estado="Enviado",fecha_envio=request.now)
+    redirect(URL(c='Pasantia',f='verPlanDeTrabajo', args=[request.args[0]]))
     return locals()
