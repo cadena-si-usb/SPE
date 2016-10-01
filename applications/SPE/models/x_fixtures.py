@@ -700,7 +700,7 @@ if db(db.Accion_Usuario.id > 0).count() == 0:
         rol='6'
     )
     db.Accion_Usuario.insert(
-        nombre='Planes De rabajo',
+        nombre='Planes De Trabajo',
         destino='/SPE/SPE/planes_trabajo/listar/listar',
         contexto='coordinacion',
         rol='6'

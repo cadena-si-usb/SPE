@@ -69,7 +69,6 @@ class Usuario(Model):
 										nombre=nombre,
 										apellido=apellido,
 										usbid=carnet,
-										rol=rol,
 										clave=clave,
 										activo=False)
 

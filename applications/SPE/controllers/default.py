@@ -105,8 +105,6 @@ def login_cas():
             if usuario['tipo'] == 'Pregrado' or usuario['tipo'] == 'Postgrado':
                 redirect(URL(c='mi_perfil/configuracion'))
 
-
-
             redirect(URL(c='default',f='index'))
             # auth.login_bare(usbid,clave)
             #redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))

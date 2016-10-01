@@ -15,7 +15,8 @@ def ver():
     }
 
     if (auth.has_membership(role='Estudiante')):
-        estudiante = db(((db.UsuarioUSB.id == userid) & (db.Estudiante.usuario == db.UsuarioUSB.id) & (db.Estudiante.carrera == db.Carrera.id))).select().first()
+        estudiante = db(((db.UsuarioUSB.id == userid) & (db.Estudiante.usuario == db.UsuarioUSB.id))).select().first()
+        carrera=db.Carrera(id=estudiante.Estudiante.carrera)
         sede = db(db.Sede.id == db.Estudiante.sede).select().first()
         curriculo = db(db.Curriculo.estudiante == estudiante.Estudiante.id).select().first()
         response.view = 'mi_perfil/ver_estudiante.html'
