@@ -152,16 +152,18 @@ def solicitar_registro_tutor():
 
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Tutor Industrial'))
 def verPerfil():
+    # Buscamos la informacion general del usuario
     usuarioExterno = db(db.UsuarioExterno, (auth.user.id == db.UsuarioExterno.auth_User)).select().first()
+    # Buscamos la informacion de tutor
     tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
-
+    # Llenamos el valor de los campos
     db.UsuarioExterno.correo.default = usuarioExterno.correo
     db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
     db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
     db.UsuarioExterno.nombre.default = usuarioExterno.nombre
     db.UsuarioExterno.pais.default = usuarioExterno.pais
     db.UsuarioExterno.estado.default = usuarioExterno.estado
-
+    # Llenamos el valor de los campos
     db.Tutor_Industrial.apellido.default = tutor.apellido
     db.Tutor_Industrial.Empresa.default = tutor.Empresa
     db.Tutor_Industrial.profesion.default = tutor.profesion
@@ -172,12 +174,12 @@ def verPerfil():
     db.Tutor_Industrial.universidad.default = tutor.universidad
     db.UsuarioExterno.direccion.default = usuarioExterno.direccion
     db.UsuarioExterno.telefono.default = usuarioExterno.telefono
-
+    # Marcamos los campos como no modificables
     for field in db.UsuarioExterno:
         field.writable=False
     for field in db.Tutor_Industrial:
         field.writable=False
-
+    # Seleccionamos los campos a mostrar
     fields = [
         'correo',
         'nombre',
@@ -196,8 +198,9 @@ def verPerfil():
         'direccion',
         'telefono'
     ]
+    # Construimos el formulario
     form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
-
+    # Elegimos la vista a renderizar
     response.view = 'Tutor_Industrial/verPerfil.html'
     return locals()
 
