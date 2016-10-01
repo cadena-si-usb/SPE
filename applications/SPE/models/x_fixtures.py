@@ -677,6 +677,12 @@ if db(db.Accion_Usuario.id > 0).count() == 0:
     )
     db.Accion_Usuario.insert(
         nombre='Coordinaciones',
+        destino='/SPE/coordinaciones/listar',
+        contexto='coordinacion',
+        rol='6'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Preinscripciones',
         destino='/SPE/preinscripciones/listar',
         contexto='coordinacion',
         rol='6'
