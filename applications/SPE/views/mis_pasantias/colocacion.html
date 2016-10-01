@@ -27,7 +27,12 @@
 		Status del tramite: <span style="color:red;">{{=pasantia.status}}</span>
 		<p>
 			<span>Comentarios CCT:</span>
-			bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla 
+			<span>Comentarios CCT:</span>
+            {{if colocacion:}}
+			    {{=colocacion.comentarioCCT}}
+            {{else:}}
+                N/A
+            {{pass}}
 		</p>
 	</div>
 </div>

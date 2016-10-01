@@ -57,7 +57,23 @@ def ver():
     etapa = db.Etapa(pasantia.etapa)
 
     if etapa.nombre == 'Inscripcion':
+        inscripcion=db(db.Inscripcion.pasantia == pasantia.id).select().first()
         plan_trabajo = db(db.Plan_Trabajo.pasantia == pasantia.id).select().first()
+    elif etapa.nombre == 'Colocacion':
+        try:
+            colocacion=db(db.Colocacion.pasantia == pasantia.id).select().first()
+        except:
+            colocacion=None
+    elif etapa.nombre == 'Preinscripcion':
+        try:
+            preinscripcion=db(db.Preinscripcion.pasantia == pasantia.id).select().first()
+        except:
+            inscripcion=None
+    elif etapa.nombre == 'Ejecucion':
+        try:
+            ejecucion=db(db.Ejecucion.pasantia == pasantia.id).select().first()
+        except:
+            ejecucion=None
 
     response.view = 'mis_pasantias/' + etapa.nombre.lower() + '.html'
     

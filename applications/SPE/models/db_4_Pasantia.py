@@ -45,5 +45,6 @@ db.define_table('Pasantia',
           represent=lambda v, r: 'N/A' if v is None else v),
     Field('fecha_defensa','date',
           label='Fecha de la defensa',
-          represent=lambda v, r: 'N/A' if v is None else v)
+          represent=lambda v, r: 'N/A' if v is None else v),
+    format=lambda r: '%s %s - %s %s (%s)' % (r.id,r.titulo, r.estudiante.nombre,r.estudiante.apellido,r.estudiante.usbid)
 )

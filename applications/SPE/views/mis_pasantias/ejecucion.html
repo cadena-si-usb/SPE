@@ -45,7 +45,11 @@
 		</div>
 		<p>
 			<span>Comentarios CCT:</span>
-			bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla 
+            {{if ejecucion:}}
+			    {{=ejecucion.comentarioCCT}}
+            {{else:}}
+                N/A
+            {{pass}}
 		</p>
 
 		<div style="display:flex; flex-align:row">

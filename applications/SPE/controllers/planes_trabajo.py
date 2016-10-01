@@ -10,8 +10,6 @@ def listar():
     return dict(rows=session.rows)
 
 def agregar():
-    ##fields = ['nombre']
-
     form =SQLFORM(db.Plan_Trabajo)
 
     if form.process().accepted:
@@ -42,8 +40,8 @@ def get():
 # plan_trabajo/modificar
 # Cambiar vistas para que tengan 
 def modificar():
-    record = db.PlanTrabajo(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.PlanTrabajo, record)
+    record = db.Plan_Trabajo(request.args(0)) or redirect(URL('agregar'))
+    form = SQLFORM(db.Plan_Trabajo, record)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')
         redirect(URL('listar'))

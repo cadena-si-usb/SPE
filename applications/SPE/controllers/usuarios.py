@@ -64,9 +64,7 @@ def getCurrentUser():
 
     user['datos'] = session.currentUser.as_dict()
 
-    rol = db(db.Rol.id == session.currentUser.rol).select().first()
-
-    if rol.nombre == 'Estudiante':
+    if auth.has_membership(role='Estudiante'):
         estudiante = db(db.Estudiante.usuario == session.currentUser.id).select().first()
         user['estudiante'] = estudiante.as_dict()
 
