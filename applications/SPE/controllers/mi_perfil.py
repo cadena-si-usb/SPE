@@ -7,43 +7,29 @@ def ver():
     userid = session.currentUser.id
     # Preguntar aqui por usuario externo o usuarioUSB
     currentUser = db.UsuarioUSB(db.UsuarioUSB.id == userid)
-    rol = db(db.Rol.id == session.currentUser.rol).select().first()
+    rol=db((db.auth_membership.user_id==userid) & (db.auth_membership.group_id==db.auth_group.id)).select().first()
     usuario = {
         "apellido": currentUser.apellido,
         "nombre": currentUser.nombre,
-        "rol":  rol.nombre,  
+        "rol":  rol.auth_group.role,
     }
 
-    if (rol.nombre == 'Estudiante'):
-        estudiante = db(((db.UsuarioUSB.id == userid) & (db.Estudiante.usuario == db.UsuarioUSB.id) & (db.Estudiante.carrera == db.Carrera.id) & (db.UsuarioUSB.rol == db.Rol.id))).select().first()
+    if (auth.has_membership(role='Estudiante')):
+        estudiante = db(((db.UsuarioUSB.id == userid) & (db.Estudiante.usuario == db.UsuarioUSB.id) & (db.Estudiante.carrera == db.Carrera.id))).select().first()
         sede = db(db.Sede.id == db.Estudiante.sede).select().first()
         curriculo = db(db.Curriculo.estudiante == estudiante.Estudiante.id).select().first()
         response.view = 'mi_perfil/ver_estudiante.html'
 
-    elif (rol.nombre == 'Profesor') or (rol.nombre == 'TutorAcademico'):
+    elif (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
         profesor = db(((db.UsuarioUSB.id == userid) & (db.Profesor.usuario == db.UsuarioUSB.id) & (db.Profesor.departamento == db.Departamento.id) & (db.Profesor.categoria == db.Categoria.id) & (db.Profesor.dedicacion == db.Dedicacion.id) & (db.Profesor.sede == db.Sede.id))).select().first()
         sede = db(db.Sede.id == db.Profesor.sede).select().first()
         response.view = 'mi_perfil/ver_profesor.html'
 
-    elif (rol.nombre == 'CoordinadorCCT' or rol.nombre == 'Coordinador'):
+    elif (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
         coordinador = db(((db.UsuarioUSB.id == userid) & (db.Coordinador.usuario == db.UsuarioUSB.id))).select().first()
         coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
         response.view = 'mi_perfil/ver_coordinador.html'
     return locals()
-
-
-def ver_estudiante():
-    return locals()
-
-def ver_profesor():
-    # Meterle rol al profesor de tutor academico para que se vea
-    return locals()    
-
-def ver_coordinador():
-    return locals()
-
-# def ver_administrativo():
-
 
 @auth.requires_login()
 def configuracion():
@@ -73,9 +59,7 @@ def configuracion():
         db.UsuarioUSB.direcUsuario.default = usuario.direcUsuario
         db.UsuarioUSB.sexo.default = usuario.sexo
 
-        rol = db.Rol(db.Rol.id == usuario['rol'])
-
-        if (rol.nombre == 'Estudiante'):
+        if (auth.has_membership(role='Estudiante')):
             estudiante = db.Estudiante(db.Estudiante.usuario == usuario.id)
             fields.append('carnet')
             fields.append('carrera')
@@ -84,7 +68,8 @@ def configuracion():
             db.Estudiante.carrera.default = estudiante.carrera
             db.Estudiante.sede.default = estudiante.sede
             form = SQLFORM.factory(db.UsuarioUSB,db.Estudiante,fields=fields,submit_button='Actualizar', showid=False)
-        elif (rol.nombre == 'Profesor'):
+            response.view = 'mi_perfil/configuracion_estudiante.html'
+        elif (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
             profesor = db.Profesor(db.Profesor.usuario == usuario.id)
             fields.append('categoria')
             fields.append('dedicacion')
@@ -95,38 +80,36 @@ def configuracion():
             db.Profesor.sede.default = profesor.departamento
             db.Profesor.sede.default = profesor.sede
             form = SQLFORM.factory(db.UsuarioUSB,db.Estudiante,fields=fields,submit_button='Actualizar', showid=False)
-        elif (rol.nombre == 'Coordinador' or rol.nombre == 'CoordinacionCCT'):
+            response.view = 'mi_perfil/configuracion__profesor.html'
+        elif (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
             coordinador = db.Coordinador(db.Coordinador.id == usuario.id)
             fields.append('carnet')
             fields.append('correo_Alternativo')
             db.Coordinador.carnet.default = coordinador.carnet
             db.Coordinador.correo_Alternativo.default = coordinador.correo_Alternativo
             form = SQLFORM.factory(db.UsuarioUSB,db.Coordinador,fields=fields,submit_button='Actualizar', showid=False)
-
+            response.view = 'mi_perfil/configuracion_coordinador.html'
         else:
             form = SQLFORM(db.UsuarioUSB, record=usuario, fields=fields, submit_button='Actualizar', showid=False)
-
-        if (rol.nombre.lower() != 'Invitado'):
-            response.view = 'mi_perfil/configuracion_' + rol.nombre.lower() + '.html'
     else:
         redirect(URL(c="default",f="index"))
 
     if form.process().accepted:
         # Actualizo los datos de usuario
         usuario.update_record(**db.UsuarioUSB._filter_fields(form.vars))
-        if (rol.nombre == 'Estudiante'):
+        if (auth.has_membership(role='Estudiante')):
             # Actualizo los datos exclusivos de estudiante
             estudiante.update_record(**db.Estudiante._filter_fields(form.vars))
-        elif (rol.nombre == 'Profesor'):
+        elif (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
             # Actualizo los datos exclusivos de profesor
             profesor.update_record(**db.Profesor._filter_fields(form.vars))
-        elif (rol.nombre == 'Coordinacion' or rol.nombre == 'CoordinacionCCT'):
+        elif (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
             # Actualizo los datos exclusivos de profesor
             coordinador.update_record(**db.Coordinador._filter_fields(form.vars))
 
         session.flash = T('Perfil actualizado exitosamente!')
         usuario.update_record(activo=True)
-        session.currentUser = Usuario.getByRole(usuario['usbid'])
+        session.currentUser = Usuario.getByRole(usuario.id)
         redirect(URL('ver'))
     else:
         response.flash = T('Por favor llene la forma.')

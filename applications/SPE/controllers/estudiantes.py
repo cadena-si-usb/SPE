@@ -43,11 +43,3 @@ def modificar():
     else:
         response.flash = T('Por favor llene la forma.')
     return locals()
-
-def perfil():
-    estudiante = db(((db.Estudiante.id == request.args(0)) & (db.Estudiante.usuario == db.UsuarioUSB.id) & (db.Estudiante.carrera == db.Carrera.id) & (db.UsuarioUSB.rol == db.Rol.id))).select().first()
-
-    pasantias = db(db.Pasantia.estudiante == estudiante.Estudiante.id).select().first()
-    curriculo = db(db.Curriculo.estudiante == estudiante.Estudiante.id).select().first()
-
-    return dict(estudiante=estudiante,pasantias=pasantias,curriculo=curriculo)

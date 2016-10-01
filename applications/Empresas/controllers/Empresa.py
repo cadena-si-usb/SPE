@@ -3,10 +3,10 @@
 # Proceso de registro de Empresa por medio de la opcion Empresa -> Registrarse, en el Index
 def registrar_Empresa():
     # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
-    fields = [db.UsuarioExterno.correo,db.UsuarioExterno.clave]
+    fields = [db.UsuarioExterno.correo,db.auth_user.password]
     # Agregamos un campo extra de comfirm password el cual debera tener el mismo valor que el password para ser aceptado
     fields += [Field('comfirm_Password','password', label=T('Comfirm Password'),
-                     requires = [IS_EXPR('value==%s' % repr(request.vars.clave),error_message=T('Las contraseñas no coinciden'))])]
+                     requires = [IS_EXPR('value==%s' % repr(request.vars.password),error_message=T('Las contraseñas no coinciden'))])]
     # Agregamos el resto de los campos
     fields += [
         db.UsuarioExterno.pregunta_secreta,
@@ -29,7 +29,7 @@ def registrar_Empresa():
     separator=': ',
     buttons=['submit'],
     col3 = {'correo':T('Identificación de acceso unica asignada a la Empresa'),
-            'clave':T('Contraseña para acceder al sistema'),
+            'password':T('Contraseña para acceder al sistema'),
             'comfirm_Password':T('Repita su contraseña'),
             'pregunta_secreta':T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
             'respuesta_secreta':T('Respuesta a su pregunta secreta'),
@@ -50,7 +50,7 @@ def registrar_Empresa():
         # Insertamos en la tabla User de Web2py, para el correoin
         result = db.auth_user.insert(
             first_name=request.vars.nombre,
-            password=db.auth_user.password.validate(request.vars.clave)[0],
+            password=db.auth_user.password.validate(request.vars.password)[0],
             email=request.vars.correo,
         )
         group_id = auth.id_group(role='Empresa')
@@ -61,7 +61,6 @@ def registrar_Empresa():
             id=result,
             auth_User=result,
             correo=request.vars.correo,
-            clave=request.vars.clave,
             pregunta_secreta=request.vars.pregunta_secreta,
             respuesta_secreta=request.vars.respuesta_secreta,
             nombre=request.vars.nombre,
@@ -127,11 +126,11 @@ def registrar_Tutor_Industrial():
         db.Tutor_Industrial.apellido,
         db.Tutor_Industrial.tipo_documento,
         db.Tutor_Industrial.numero_documento,
-        db.UsuarioExterno.clave
+        db.auth_user.password
     ]
     # Agregamos un campo extra de comfirm password el cual debera tener el mismo valor que el password para ser aceptado
     fields += [Field('comfirm_Password', 'password', label=T('Comfirm Password'),
-                     requires=[IS_EXPR('value==%s' % repr(request.vars.clave),
+                     requires=[IS_EXPR('value==%s' % repr(request.vars.password),
                                        error_message=T('Las contraseñas no coinciden'))])]
     # Agregamos el resto de los campos
     fields += [
@@ -159,7 +158,7 @@ def registrar_Tutor_Industrial():
             'apellido': T('Nombre comercial de la Empresa'),
             'tipo_documento': T('Tipo De Documento'),
             'numero_documento': T('Numero De Documento'),
-            'clave': T('Contraseña para acceder al sistema'),
+            'password': T('Contraseña para acceder al sistema'),
             'comfirm_Password': T('Repita su contraseña'),
             'pregunta_secreta': T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
             'respuesta_secreta': T('Respuesta a su pregunta secreta'),
@@ -179,7 +178,7 @@ def registrar_Tutor_Industrial():
         result = db.auth_user.insert(
             first_name=request.vars.nombre,
             last_name=request.vars.apellido,
-            password=db.auth_user.password.validate(request.vars.clave)[0],
+            password=db.auth_user.password.validate(request.vars.password)[0],
             email=request.vars.correo,
         )
 
@@ -188,7 +187,6 @@ def registrar_Tutor_Industrial():
             id=result,
             auth_User=result,
             correo=request.vars.correo,
-            clave=request.vars.clave,
             pregunta_secreta=request.vars.pregunta_secreta,
             respuesta_secreta=request.vars.respuesta_secreta,
             nombre=request.vars.nombre,
@@ -275,7 +273,6 @@ def ver_Perfil_Empresa():
         db.Empresa.contacto_RRHH]
 
     db.UsuarioExterno.correo.default = usuarioExterno.correo
-    db.UsuarioExterno.clave.default = usuarioExterno.clave
     db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
     db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
     db.UsuarioExterno.nombre.default = usuarioExterno.nombre
@@ -289,7 +286,6 @@ def ver_Perfil_Empresa():
     db.Empresa.contacto_RRHH.default = empresa.contacto_RRHH
 
     db.UsuarioExterno.correo.writable = False
-    db.UsuarioExterno.clave.writable = False
     db.UsuarioExterno.pregunta_secreta.writable = False
     db.UsuarioExterno.respuesta_secreta.writable = False
     db.UsuarioExterno.nombre.writable = False
@@ -307,7 +303,6 @@ def ver_Perfil_Empresa():
     *fields,
     separator=': ',
     col3 = {'correo':T('Identificación de acceso unica asignada a la Empresa'),
-            'clave':T('Contraseña para acceder al sistema'),
             'comfirm_Password':T('Repita su contraseña'),
             'pregunta_secreta':T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
             'respuesta_secreta':T('Respuesta a su pregunta secreta'),
@@ -332,10 +327,7 @@ def editar_Perfil_Empresa():
     empresa = db(db.Empresa.usuario == usuarioExterno.id).select()[0]
     # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
     # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
-    fields = [db.UsuarioExterno.correo,db.UsuarioExterno.clave]
-    # Agregamos un campo extra de comfirm password el cual debera tener el mismo valor que el password para ser aceptado
-    fields += [Field('comfirm_Password','password',default= usuarioExterno.clave, label=T('Comfirm Password'),
-                     requires = [IS_EXPR('value==%s' % repr(request.vars.clave),error_message=T('Las contraseñas no coinciden'))])]
+    fields = [db.UsuarioExterno.correo]
     # Agregamos el resto de los campos
     fields += [
         db.UsuarioExterno.pregunta_secreta,
@@ -352,7 +344,6 @@ def editar_Perfil_Empresa():
         ]
 
     db.UsuarioExterno.correo.default = usuarioExterno.correo
-    db.UsuarioExterno.clave.default = usuarioExterno.clave
     db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
     db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
     db.UsuarioExterno.nombre.default = usuarioExterno.nombre
@@ -366,7 +357,6 @@ def editar_Perfil_Empresa():
     db.Empresa.contacto_RRHH.default = empresa.contacto_RRHH
 
     db.UsuarioExterno.correo.writable = False
-    db.UsuarioExterno.clave.writable = True
     db.UsuarioExterno.pregunta_secreta.writable = True
     db.UsuarioExterno.respuesta_secreta.writable = True
     db.UsuarioExterno.nombre.writable = True
@@ -404,7 +394,6 @@ def editar_Perfil_Empresa():
 
         # Registramos el usuario externo
         db(db.UsuarioExterno.id == usuarioExterno.id).update(
-            clave=request.vars.clave,
             pregunta_secreta=request.vars.pregunta_secreta,
             respuesta_secreta=request.vars.respuesta_secreta,
             nombre=request.vars.nombre,
@@ -425,7 +414,7 @@ def editar_Perfil_Empresa():
 
         db(db.auth_user.id == auth.user.id).update(
             first_name=request.vars.nombre,
-            password = db.auth_user.password.validate(request.vars.clave)[0]
+            password = db.auth_user.password.validate(request.vars.password)[0]
         )
 
         # Mensaje de exito
@@ -488,12 +477,11 @@ def comfirmarTutor():
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def verPerfilTutor():
     tutorId = request.args[0]
-
+    authUser=db.auth_user(id=tutorId)
     tutor = db((db.Tutor_Industrial.id == tutorId)).select().first()
     usuarioExterno = db((tutor.usuario == db.UsuarioExterno.id)).select().first()
 
     db.UsuarioExterno.correo.default = usuarioExterno.correo
-    db.UsuarioExterno.clave.default = usuarioExterno.clave
     db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
     db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
     db.UsuarioExterno.nombre.default = usuarioExterno.nombre
@@ -522,7 +510,6 @@ def verPerfilTutor():
         'apellido',
         'tipo_documento',
         'numero_documento',
-        'clave',
         'Empresa',
         'pregunta_secreta',
         'respuesta_secreta',
@@ -537,7 +524,7 @@ def verPerfilTutor():
     ]
     form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
 
-    response.view = 'Empresa/verPerfil.html'
+    response.view = 'Empresa/verPerfilTutor.html'
     return locals()
 
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))

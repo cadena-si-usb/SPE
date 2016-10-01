@@ -22,7 +22,7 @@
 
 <div>
        <h2>
-           Carrera
+           <b>Carrera</b>
        </h2>
        <div>
            <h4>{{=estudiante.Carrera.nombre}}</h4>
@@ -31,7 +31,7 @@
 
 <div>
        <h2>
-           Sede
+           <b>Sede</b>
        </h2>
        <div>
            <h4>{{=sede.Sede.nombre}}</h4>
@@ -39,7 +39,7 @@
 </div>
 <div>
        <h2>
-           Correo
+           <b>Correo</b>
        </h2>
        <div>
            <h4>{{=estudiante.UsuarioUSB.correo}}</h4>
@@ -49,16 +49,16 @@
 <div>
    {{if curriculo:}}
        <h2>
-           Curriculo
+           <b>Curriculo</b>
        </h2>
        <div>
-           <h3>Idiomas: </h3>
+           <h3><b>Idiomas:</b> </h3>
            <h4>{{=curriculo.idiomas}}</h4>
-           <h3>Electivas: </h4>
+           <h3><b>Electivas:</b> </h4>
            <h4>{{=curriculo.electivas}}</h4>
-           <h3>Cursos: </h4>
+           <h3><b>Cursos:</b> </h4>
            <h4>{{=curriculo.cursos}}</h4>
-           <h3>Aficiones: </h3>
+           <h3><b>Aficiones:</b> </h3>
            <h4>{{=curriculo.aficiones}}</h4>
        </div>
    {{pass}}

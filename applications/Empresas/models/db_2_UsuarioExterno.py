@@ -8,12 +8,6 @@ db.define_table('UsuarioExterno',
                        requires=[IS_EMPTY_OR(IS_EMAIL
                                             (error_message='Introduzca un email valido.'))],
                        label='Correo'),
-                Field('clave', 'password',
-                       requires=[IS_NOT_EMPTY
-                                    (error_message='Es,necesario una contraseña.'),
-                                 IS_STRONG(min=10, special=1, upper=1)],
-                       label = 'Clave '
-                     ),
                 Field('pregunta_secreta', 'text',
                        requires=[IS_NOT_EMPTY
                                     (error_message='Campo necesario')],

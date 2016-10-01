@@ -33,7 +33,5 @@ db.define_table('UsuarioUSB',
     Field('sexo',
           requires=IS_IN_SET(['M','F']),
           label = 'Sexo (*)'),
-    Field('rol','reference Rol',
-          label='Rol (*)'),
     Field('activo','boolean')
 )

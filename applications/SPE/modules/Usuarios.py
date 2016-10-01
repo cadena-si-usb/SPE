@@ -6,13 +6,14 @@ from APIhandler import Model
 import Encoder
 from ast import literal_eval as to_object
 from usbutils import random_key
+from gluon import current
 
 def obtenerRoles(db,tipo):
 	if (tipo == 'Pregrado'):
-		rol = db(db.Rol.nombre == 'Estudiante').select().first().as_dict()
+		rol = db(db.auth_group.role=='Estudiante').select().first().as_dict()
 		rol = rol['id']
 	else:
-		rol = db(db.Rol.nombre == 'Invitado').select().first().as_dict()
+		rol = db(db.auth_group.role == 'Invitado').select().first().as_dict()
 		rol = rol['id']
 
 	return str(rol)
@@ -25,27 +26,26 @@ class Usuario(Model):
 	def getByRole(self,id):
 		usuario = None
 
-		row = self.db((self.table.usbid == id) & (self.table.rol == self.db.Rol.id)).select().first()
-
+		row = self.db((self.table.id == id) & (self.db.auth_membership.user_id==self.table.id)
+					  & (self.db.auth_group.id == self.db.auth_membership.group_id)).select().first()
+		usuarioUSB = row.UsuarioUSB
+		rol = row.auth_group
 		if (row != None):
 			usuario = {}
-			rol = row.Rol
-			usuarioUSB = row.UsuarioUSB
 
 			if (not rol):
-				if (rol["nombre"] == "CoordinadorCCT"):
+				if (rol["role"] == "CoordinadorCCT"):
 					usuario = self.db(self.db.Coordinador.usuario == usuarioUSB["id"]).select().first()
-				elif (rol["nombre"] == "AdministrativoCCT"):
+				elif (rol["role"] == "AdministrativoCCT"):
 					usuario = self.db(self.db.Administrativo.usuario == usuarioUSB["id"]).select().first()
-				elif (rol["nombre"] == "CoordinadorCarrera"):
+				elif (rol["role"] == "Coordinador"):
 					usuario = self.db(self.db.Coordinador.usuario == usuarioUSB["id"]).select().first()
-				elif (rol["nombre"] == "Estudiante"):
+				elif (rol["role"] == "Estudiante"):
 					usuario = self.db(self.db.Estudiante.usuario == usuarioUSB["id"]).select().first()
-				elif (rol["nombre"] == "Profesor"):
+				elif (rol["role"] == "Profesor"):
 					usuario = self.db(self.db.Profesor.usuario == usuarioUSB["id"]).select().first()
 
-			usuarioUSB["rol"] = rol["id"]
-			#auth.add_membership(usuarioUSB["id"],rol["id"])
+				current.auth.add_membership(user_id=usuarioUSB["id"],role=rol["role"])
 			 
         	return usuarioUSB
 
@@ -81,16 +81,14 @@ class Usuario(Model):
 					activo=False)
 				self.db.Curriculo.insert(estudiante=estudiante['id'],
 										activo=False)
-				group_id = auth.id_group(role='Estudiante')
-				auth.add_membership(group_id, auth_User_Id)
+				auth.add_membership(role='Estudiante', user_id=auth_User_Id)
 			elif (tipo == 'Profesor'):
-				group_id = auth.id_group(role='Profesor')
-				auth.add_membership(group_id, auth_User_Id)
+				auth.add_membership(role='Profesor', user_id=auth_User_Id)
 			elif (tipo == 'Coordinador'):
-				group_id = auth.id_group(role='Coordinador')
-				auth.add_membership(group_id, auth_User_Id)
+				auth.add_membership(role='Coordinador', user_id=auth_User_Id)
 
 			auth.login_bare(carnet,clave)
+			return auth_User_Id
 
 		except Exception as e:
 			print 'ERROR: ',

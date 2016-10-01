@@ -14,8 +14,9 @@ def coordinacion():
 		usuario = session.currentUser
 
 		if usuario['activo']:
-			rol = str(usuario['rol'])
-			rows = db((db.Accion_Usuario.rol == rol) & (db.Accion_Usuario.contexto == 'coordinacion')).select()
+			rol= db((db.auth_membership.user_id == auth.user.id)
+						  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
+			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'coordinacion')).select()
 
 	response.view = 'sidebar/coordinacion.load.html'
 	return dict(routes=rows,id="id")

@@ -39,8 +39,9 @@ def count():
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = db(db.UsuarioUSB.rol == db.Rol.id).select()
-    
+    rows = db(
+        (db.auth_membership.user_id == db.UsuarioUSB.id) & (db.auth_membership.group_id == db.auth_group.id)).select()
+    prueba=rows.as_json()
     return rows.as_json()
 
 def modificar():

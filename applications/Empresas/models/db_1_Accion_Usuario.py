@@ -12,7 +12,7 @@ db.define_table('Accion_Usuario',
     Field('nombre'),
     Field('destino'),
     Field('contexto'),
-    Field('rol','reference Rol',
+    Field('rol','reference auth_group',
           label='Roles (*)')
    )
 

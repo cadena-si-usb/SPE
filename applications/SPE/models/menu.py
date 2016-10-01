@@ -17,14 +17,6 @@ if auth.is_logged_in():
 else:
     texto_principal = "Bienvenido"
 
-rol = {}
-
-if ('currentUser' in session):
-    currentUser = session.currentUser
-    rol = db(db.Rol.id == currentUser.rol).select().first()
-else:
-    rol['nombre'] = 'Invitado'
-
 opciones = []
 
 opciones_estudiante = [
@@ -34,7 +26,7 @@ opciones_estudiante = [
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
 
-opciones_coordinador = [
+opciones_coordinadorCCT = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-list'), '  Administracion'), False, '/SPE/pasantias/listar'),
     ((SPAN(_class='fa fa-cog'), '  Configuración'), False, '/SPE/mi_perfil/configuracion'),
@@ -55,13 +47,13 @@ opciones_profesor = [
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
 
-if rol['nombre'] == 'Coordinador_CCT':
-    opciones = opciones_coordinador
-elif rol['nombre'] == 'Estudiante':
+if auth.has_membership(role='CoordinadorCCT'):
+    opciones = opciones_coordinadorCCT
+elif auth.has_membership(role='Estudiante'):
     opciones = opciones_estudiante
-elif rol['nombre'] == 'Profesor':
+elif auth.has_membership(role='Profesor'):
     opciones = opciones_profesor
-elif rol['nombre'] == 'Coordinador':
+elif auth.has_membership(role='Coordinador'):
     opciones = opciones_coordinador
 
 menu_autenticado = [

@@ -96,9 +96,9 @@ def login_cas():
 
             print usuario['tipo']
 
-            Usuario.registrar(usuario,auth)
+            authUserId=Usuario.registrar(usuario,auth)
 
-            respuesta = Usuario.getByRole(usbid)
+            respuesta = Usuario.getByRole(authUserId)
 
             session.currentUser = respuesta
 
@@ -118,7 +118,7 @@ def login_cas():
 
             auth.login_bare(usbid,clave)
 
-            respuesta = Usuario.getByRole(usbid)
+            respuesta = Usuario.getByRole(auth.user.id)
 
             # Caso 1: El usuario no ha registrado sus datos
             if respuesta == None:

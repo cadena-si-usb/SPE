@@ -1,7 +1,7 @@
 {{extend 'layout.html'}}
 
 <div class='content'>
-    <p class='title'>Perfil De '{{=auth.user.first_name}} {{=auth.user.last_name}}'</p>
+    <p class='title'>Perfil De '{{=authUser.first_name}} {{=authUser.last_name}}'</p>
     <div class="row">
         <div class="col-md-4">
             <div class="panel-group" id="accordion">
@@ -91,12 +91,6 @@
                     </div>
                 </div>
                 {{pass}}
-                <div class="row center">
-                    <br>
-                        {{=A(T('Editar'), _class='btn btn-default',_href=URL  (c='tutor_industrial',f='editarPerfil'))}}
-                        {{=A(T('Cambiar Contraseña'), _class='btn btn-default',_href=URL  (c='default',f='cambiarClave'))}}
-                    </br>
-                </div>
             </div>
         </div>
     </div>

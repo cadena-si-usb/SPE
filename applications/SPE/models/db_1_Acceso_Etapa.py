@@ -1,6 +1,6 @@
 db.define_table('Acceso_Etapa',
     Field('rol',
-          'reference Rol', '%(nombre)s',
+          'reference auth_group', '%(nombre)s',
           label='Rol (*)'),
     Field('etapa','reference Etapa',
           label='Etapas (*)'))

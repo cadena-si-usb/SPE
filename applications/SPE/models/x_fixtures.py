@@ -1,4 +1,34 @@
 # -*- coding: utf-8 -*-
+if db(db.auth_group.id > 0).count() == 0:
+    db.auth_group.insert(
+        role='Estudiante',
+        description='3'
+    )
+    db.auth_group.insert(
+        role='Profesor',
+        description='2'
+    )
+    db.auth_group.insert(
+        role='Coordinador',
+        description='4'
+    )
+    db.auth_group.insert(
+        role='Empresa',
+        description='3'
+    )
+    db.auth_group.insert(
+        role='Tutor Industrial',
+        description='3'
+    )
+    db.auth_group.insert(
+        role='CoordinadorCCT',
+        description='3'
+    )
+    db.auth_group.insert(
+        role='AdministrativoCCT',
+        description='3'
+    )
+    db.commit()
 
 if db(db.Dedicacion.id > 0).count() == 0:
     db.Dedicacion.insert(
@@ -117,24 +147,6 @@ if db(db.Periodo.id > 0).count() == 0:
     )
     db.commit()
 
-if db(db.Rol.id > 0).count() == 0:
-    db.Rol.insert(
-        nombre='Estudiante'
-    )
-    db.Rol.insert(
-        nombre='Coordinador_CCT'
-    )
-    db.Rol.insert(
-        nombre='Coordinador'
-    )
-    db.Rol.insert(
-        nombre='Invitado'
-    )
-    db.Rol.insert(
-        nombre='Profesor'
-    )
-    db.commit()
-
 if db(db.Area_Laboral.id > 0).count() == 0:
     db.Area_Laboral.insert(
         nombre='Tecnologia',
@@ -243,43 +255,20 @@ if db(db.Acceso_Etapa.id > 0).count() == 0:
         etapa='3'
     )
     db.Acceso_Etapa.insert(
-        rol='2',
+        rol='6',
         etapa='2'
     )
     db.Acceso_Etapa.insert(
-        rol='2',
+        rol='6',
         etapa='4'
     )
     db.Acceso_Etapa.insert(
-        rol='2',
+        rol='6',
         etapa='3'
     )
     db.Acceso_Etapa.insert(
-        rol='2',
+        rol='6',
         etapa='1'
-    )
-    db.commit()
-
-if db(db.auth_group.id > 0).count() == 0:
-    db.auth_group.insert(
-        role='Estudiante',
-        description='3'
-    )
-    db.auth_group.insert(
-        role='Profesor',
-        description='2'
-    )
-    db.auth_group.insert(
-        role='Coordinador',
-        description='4'
-    )
-    db.auth_group.insert(
-        role='Empresa',
-        description='3'
-    )
-    db.auth_group.insert(
-        role='Tutor Industrial',
-        description='3'
     )
     db.commit()
 
@@ -290,7 +279,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='',
         email='ecorp-admin@ecorp.com',
         username=None,
-        password='pbkdf2(1000,20,sha512)$9e7fc40b64a2c681$edc7f2230715e6da7c5762a340af1357457867a6',
+        password=db.auth_user.password.validate('Ecorp.2016'),
         registration_key='',
         reset_password_key='',
         registration_id='ecorp-admin@ecorp.com'
@@ -301,7 +290,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='Sucre González',
         email='fsucre@integra.la',
         username=None,
-        password='pbkdf2(1000,20,sha512)$a8021cc4975367f2$d9ea5c4e54a6663fe0e105979778b28e1f9d4ed8',
+        password=db.auth_user.password.validate('Ecorp.2016'),
         registration_key='',
         reset_password_key='',
         registration_id=''
@@ -390,7 +379,6 @@ if db(db.UsuarioExterno.id > 0).count() == 0:
         auth_User=1,
         nombre='Ecorp',
         correo='ecorp-admin@ecorp.com',
-        clave='Ecorp.2016',
         pregunta_secreta='¿Cual es la solucion?',
         respuesta_secreta='¡Ecorp!',
         pais='1',
@@ -402,7 +390,6 @@ if db(db.UsuarioExterno.id > 0).count() == 0:
         auth_User=2,
         nombre='Francisco Javier',
         correo='fsucre@integra.la',
-        clave='Ecorp.2016',
         pregunta_secreta='¿Mejor Equipo Del Futbol?',
         respuesta_secreta='Real Madrid',
         pais='1',
@@ -426,7 +413,6 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
         telefono='04122347576',
         direcUsuario='Caracas',
         sexo='M',
-        rol='5',
         activo='True'
     )
     db.UsuarioUSB.insert(
@@ -442,7 +428,6 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
         telefono='04129767576',
         direcUsuario='Prados Del Este',
         sexo='M',
-        rol='1',
         activo='True'
     )
     db.UsuarioUSB.insert(
@@ -458,7 +443,6 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
         telefono='04243130932',
         direcUsuario='Prados Del Este',
         sexo='M',
-        rol='5',
         activo='True'
     )
     db.UsuarioUSB.insert(
@@ -474,7 +458,6 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
         telefono='0414-4742003',
         direcUsuario='merche',
         sexo='M',
-        rol='2',
         activo='True'
     )
     db.UsuarioUSB.insert(
@@ -490,7 +473,6 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
         telefono='02127653852',
         direcUsuario='La Floresta',
         sexo='M',
-        rol='1',
         activo='True'
     )
     db.UsuarioUSB.insert(
@@ -506,7 +488,6 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
         telefono='04129767576',
         direcUsuario='Prados Del Este',
         sexo='M',
-        rol='3',
         activo='True'
     )
     db.UsuarioUSB.insert(
@@ -522,7 +503,6 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
         telefono='04129767576',
         direcUsuario='Prados Del Este',
         sexo='M',
-        rol='3',
         activo='True'
     )
     db.commit()
@@ -604,17 +584,34 @@ if db(db.auth_membership.id > 0).count() == 0:
         group_id='5'
     )
     db.auth_membership.insert(
+        user_id='3',
+        group_id='1'
+    )
+    db.auth_membership.insert(
         user_id='4',
         group_id='1'
     )
     db.auth_membership.insert(
-        user_id='3',
-        group_id='1'
+        user_id='5',
+        group_id='2'
+    )
+    db.auth_membership.insert(
+        user_id='6',
+        group_id='6'
     )
     db.auth_membership.insert(
         user_id='7',
         group_id='1'
     )
+    db.auth_membership.insert(
+        user_id='8',
+        group_id='3'
+    )
+    db.auth_membership.insert(
+        user_id='9',
+        group_id='6'
+    )
+
     db.commit()
 
 if db(db.Accion_Usuario.id > 0).count() == 0:
@@ -622,7 +619,7 @@ if db(db.Accion_Usuario.id > 0).count() == 0:
         nombre='Acciones',
         destino='/SPE/acciones_usuario/listar',
         contexto='coordinacion',
-        rol='2'
+        rol='6'
     )
     db.Accion_Usuario.insert(
         nombre='Mis Pasantias',
@@ -634,7 +631,7 @@ if db(db.Accion_Usuario.id > 0).count() == 0:
         nombre='Pasantias',
         destino='/SPE/pasantias/listar',
         contexto='coordinacion',
-        rol='2'
+        rol='6'
     )
     db.Accion_Usuario.insert(
         nombre='Pasantias',
@@ -658,66 +655,75 @@ if db(db.Accion_Usuario.id > 0).count() == 0:
         nombre='Usuarios',
         destino='/SPE/usuarios/listar',
         contexto='coordinacion',
-        rol='2'
+        rol='6'
     )
     db.Accion_Usuario.insert(
         nombre='Estudiantes',
         destino='/SPE/estudiantes/listar',
         contexto='coordinacion',
-        rol='2'
+        rol='6'
     )
     db.Accion_Usuario.insert(
         nombre='Sedes',
         destino='/SPE/sedes/listar',
         contexto='coordinacion',
-        rol='2'
+        rol='6'
     )
     db.Accion_Usuario.insert(
         nombre='Carreras',
         destino='/SPE/carreras/listar',
         contexto='coordinacion',
-        rol='2'
+        rol='6'
     )
     db.Accion_Usuario.insert(
         nombre='Coordinaciones',
         destino='/SPE/preinscripciones/listar',
         contexto='coordinacion',
-        rol='2'
+        rol='6'
     )
     db.Accion_Usuario.insert(
         nombre='Colocaciones',
         destino='/SPE/colocaciones/listar',
         contexto='coordinacion',
-        rol='2'
+        rol='6'
     )
     db.Accion_Usuario.insert(
         nombre='Inscripciones',
         destino='/SPE/inscripciones/listar',
         contexto='coordinacion',
-        rol='2'
+        rol='6'
     )
     db.Accion_Usuario.insert(
         nombre='Mis Planes',
         destino='/SPE/mis_planes_tutor/listar',
         contexto='coordinacion',
-        rol='2'
+        rol='6'
+    )
+    db.Accion_Usuario.insert(
+        nombre='Mis Pasantias',
+        destino='/SPE/Coordinador/consultarPasantias',
+        contexto='coordinacion',
+        rol='3'
     )
     db.commit()
 
 if db(db.Coordinador.id > 0).count() == 0:
     db.Coordinador.insert(
+        id='6',
         usuario='6',
         carnet='10-10330',
         coordinacion='3',
         correo_Alternativo='danielarturomt@gmail.com'
     )
     db.Coordinador.insert(
+        id='8',
         usuario='8',
         carnet='10-10193',
         coordinacion = '1',
         correo_Alternativo='coord@copt.com'
     )
     db.Coordinador.insert(
+        id='9',
         usuario='9',
         carnet='10-10292',
         coordinacion = '2',

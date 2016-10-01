@@ -18,11 +18,11 @@ def solicitar_registro_tutor():
         db.Tutor_Industrial.apellido,
         db.Tutor_Industrial.tipo_documento,
         db.Tutor_Industrial.numero_documento,
-        db.UsuarioExterno.clave
+        db.auth_user.password
     ]
     # Agregamos un campo extra de comfirm password el cual debera tener el mismo valor que el password para ser aceptado
     fields += [Field('comfirm_Password','password', label=T('Comfirm Password'),
-                     requires = [IS_EXPR('value==%s' % repr(request.vars.clave),error_message=T('Las contraseñas no coinciden'))])]
+                     requires = [IS_EXPR('value==%s' % repr(request.vars.password),error_message=T('Las contraseñas no coinciden'))])]
     # Agregamos el resto de los campos
     fields +=[
         db.Tutor_Industrial.Empresa,
@@ -50,7 +50,7 @@ def solicitar_registro_tutor():
         'apellido':T('Nombre comercial de la Empresa'),
         'tipo_documento': T('Tipo De Documento'),
         'numero_documento':T('Numero De Documento'),
-        'clave':T('Contraseña para acceder al sistema'),
+        'password':T('Contraseña para acceder al sistema'),
         'comfirm_Password':T('Repita su contraseña'),
         'pregunta_secreta':T('Si necesita obtener de nuevo su contraseña se le hara esta pregunta'),
         'respuesta_secreta':T('Respuesta a su pregunta secreta'),
@@ -71,7 +71,7 @@ def solicitar_registro_tutor():
         result = db.auth_user.insert(
             first_name=request.vars.nombre,
             last_name=request.vars.apellido,
-            password=db.auth_user.password.validate(request.vars.clave)[0],
+            password=db.auth_user.password.validate(request.vars.password)[0],
             email=request.vars.correo,
         )
 
@@ -80,7 +80,6 @@ def solicitar_registro_tutor():
             id=result,
             auth_User=result,
             correo=request.vars.correo,
-            clave=request.vars.clave,
             pregunta_secreta=request.vars.pregunta_secreta,
             respuesta_secreta=request.vars.respuesta_secreta,
             nombre=request.vars.nombre,
@@ -157,7 +156,6 @@ def verPerfil():
     tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
 
     db.UsuarioExterno.correo.default = usuarioExterno.correo
-    db.UsuarioExterno.clave.default = usuarioExterno.clave
     db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
     db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
     db.UsuarioExterno.nombre.default = usuarioExterno.nombre
@@ -186,7 +184,6 @@ def verPerfil():
         'apellido',
         'tipo_documento',
         'numero_documento',
-        'clave',
         'Empresa',
         'pregunta_secreta',
         'respuesta_secreta',
@@ -211,7 +208,6 @@ def editarPerfil():
     tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
 
     db.UsuarioExterno.correo.default = usuarioExterno.correo
-    db.UsuarioExterno.clave.default = usuarioExterno.clave
     db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
     db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
     db.UsuarioExterno.nombre.default = usuarioExterno.nombre
@@ -237,7 +233,6 @@ def editarPerfil():
         'apellido',
         'tipo_documento',
         'numero_documento',
-        'clave',
         'Empresa',
         'pregunta_secreta',
         'respuesta_secreta',
@@ -256,7 +251,6 @@ def editarPerfil():
         db(db.auth_user.id == auth.user.id).update(
             first_name=request.vars.nombre,
             last_name=request.vars.apellido,
-            password=db.auth_user.password.validate(request.vars.clave)[0]
         )
 
         id = db.client.update(**db.UsuarioExterno._filter_fields(form.vars))
@@ -264,7 +258,6 @@ def editarPerfil():
         id = db.address.update(**db.Tutor_Industrial._filter_fields(form.vars))
         # Nos dirigimos a la pagina de exito
         redirect(URL(c='tutor_industrial', f='verPerfil'))
-
 
     response.view = 'Tutor_Industrial/editarPerfil.html'
     return locals()
@@ -298,3 +291,4 @@ def consultarPasantias():
 
     response.view = 'Tutor_Industrial/Consultar_Pasantias.html'
     return locals()
+
