@@ -36,7 +36,7 @@ else
 	# Instala el servidor de MySQL en Debian/Ubuntu
 	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
 	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
-	sudo apt-get -y install mysql-client-5.6 mysql-client-core-5.6 mysql-common-5.6 mysql-server-5.6 mysql-server-core-5.6
+	sudo apt-get -y install mysql-client-5.6 mysql-client-core-5.6 mysql-common-5.6 mysql-server-5.6 mysql-server-core-5.6 python-tk python-ldap python-pip python-pip-whl python-wheel libsasl2-dev python-dev libldap2-dev libssl-dev ldap-utils python-reportlab
 fi
 
 echo "Cuentas habilitadas:"

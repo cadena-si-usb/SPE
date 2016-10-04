@@ -86,7 +86,7 @@ def crudPasantia():
         response.flash = 'form accepted'
         # Reprobamos el plan de trabajo para que deba ser revisado por todos los actores de nuevo
         Plan_Trabajo.reprobar(id=request.args[0])
-        redirect(URL(c='Pasantia',f='verDetallePasantia', args=[request.args[0]],vars=dict(pasantiaId=request.args[0])))
+        redirect(URL(c='Pasantia',f='verDetallePasantia', args=[request.args[0]]))
     elif form.errors:
         response.flash = 'form has errors'
     # Definimos la vista que vamos a renderizar
