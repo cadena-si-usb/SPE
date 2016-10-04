@@ -372,6 +372,28 @@ if db(db.auth_user.id > 0).count() == 0:
         reset_password_key='',
         registration_id=''
     )
+    db.auth_user.insert(
+        id=10,
+        first_name='Roberto',
+        last_name='Romero',
+        email='',
+        username='10-10642',
+        password='pbkdf2(1000,20,sha512)$ad1699544ba1ac2f$dafd3e9e2a1ade4ec5aa3ead9cd2ad029b60d016',
+        registration_key='',
+        reset_password_key='',
+        registration_id=''
+    )
+    db.auth_user.insert(
+        id=11,
+        first_name='Gabriel',
+        last_name='Austin',
+        email='',
+        username='09-10066',
+        password='pbkdf2(1000,20,sha512)$ad1699544ba1ac2f$dafd3e9e2a1ade4ec5aa3ead9cd2ad029b60d016',
+        registration_key='',
+        reset_password_key='',
+        registration_id=''
+    )
     db.commit()
 
 if db(db.UsuarioExterno.id > 0).count() == 0:
@@ -505,6 +527,36 @@ if db(db.UsuarioUSB.id > 0).count() == 0:
         sexo='M',
         activo='True'
     )
+    db.UsuarioUSB.insert(
+        id=10,
+        auth_User=10,
+        usbid='10-10642',
+        nombre='Roberto',
+        apellido='Romero',
+        correo='robert@gmail.com',
+        clave='CJAISTOHHYHGUTSBTXGK',
+        tipo_documento='1',
+        numero_documento='20101324',
+        telefono='04129767576',
+        direcUsuario='Prados Del Este',
+        sexo='M',
+        activo='True'
+    )
+    db.UsuarioUSB.insert(
+        id=11,
+        auth_User=11,
+        usbid='09-10066',
+        nombre='Gabriel',
+        apellido='Austin',
+        correo='gmailaustin@gmail.com',
+        clave='CJAISTOHHYHGUTSBTXGK',
+        tipo_documento='1',
+        numero_documento='20101324',
+        telefono='04129767576',
+        direcUsuario='Prados Del Este',
+        sexo='M',
+        activo='True'
+    )
     db.commit()
 
 if db(db.Estudiante.id > 0).count() == 0:
@@ -544,6 +596,25 @@ if db(db.Profesor.id > 0).count() == 0:
         departamento='1',
         sede='1',
         activo='True'
+    )
+    db.Profesor.insert(
+        id='10',
+        usuario='10',
+        categoria='1',
+        dedicacion='1',
+        departamento='1',
+        sede='1',
+        activo='True'
+    )
+    db.commit()
+
+if db(db.Administrativo.id > 0).count() == 0:
+    db.Administrativo.insert(
+        id='11',
+        usuario='11',
+        carnet='09-10066',
+        coordinacion='3',
+        correo_Alternativo='gmailaustin@gmail.com'
     )
     db.commit()
 
