@@ -48,7 +48,7 @@ def configuracion():
 
     if auth.is_logged_in():
         userid = str(auth.user['username'])
-
+        usuarioAuth = db.auth_user(auth.user.id)
         usuario = db.UsuarioUSB(db.UsuarioUSB.usbid == userid)
 
         db.UsuarioUSB.nombre.default=usuario.nombre
@@ -96,6 +96,9 @@ def configuracion():
         redirect(URL(c="default",f="index"))
 
     if form.process().accepted:
+        usuarioAuth.update_record(first_name=form.vars.nombre,
+                                  last_name=form.vars.apellido,
+                                  email=form.vars.correo)
         # Actualizo los datos de usuario
         usuario.update_record(**db.UsuarioUSB._filter_fields(form.vars))
         if (auth.has_membership(role='Estudiante')):
