@@ -56,6 +56,9 @@ from applications.SPE_lib.modules.db_6_Fase import Fase
 
 from applications.SPE_lib.modules.db_7_Actividad import Actividad
 from applications.SPE_lib.modules.db_7_Materia_Periodo import Materia_Periodo
+
+from applications.SPE_lib.modules.fixtures import load_fixtures
+
 ## once in production, remove reload=True to gain full speed
 myconf = AppConfig(reload=True)
 
@@ -144,6 +147,7 @@ mail.settings.server = settings.email_server
 mail.settings.sender = settings.email_sender
 mail.settings.login = settings.email_login
 
+# Cargamos Nuestros Modelos
 Area_Laboral(db,T)
 Area_Proyecto(db,T)
 Categoria(db,T)
@@ -183,3 +187,5 @@ Preinscripcion(db,T)
 Fase(db,T)
 Actividad(db,T)
 Materia_Periodo(db,T)
+# Cargamos La Data Predeterminada
+load_fixtures(db,T)
