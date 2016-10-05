@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 #########################################################################
@@ -13,6 +12,53 @@
 ## app configuration made easy. Look inside private/appconfig.ini
 from gluon.contrib.appconfig import AppConfig
 from gluon import current
+
+from applications.SPE_lib.modules.db_0_Area_Laboral import Area_Laboral
+from applications.SPE_lib.modules.db_0_Area_Proyecto import Area_Proyecto
+from applications.SPE_lib.modules.db_0_Categoria import Categoria
+from applications.SPE_lib.modules.db_0_Dedicacion import Dedicacion
+from applications.SPE_lib.modules.db_0_Division import Division
+from applications.SPE_lib.modules.db_0_Etapa import Etapa
+from applications.SPE_lib.modules.db_0_Periodo import Periodo
+from applications.SPE_lib.modules.db_0_Sede import Sede
+from applications.SPE_lib.modules.db_0_Tipo_Documento import Tipo_Documento
+from applications.SPE_lib.modules.db_1_Acceso_Etapa import Acceso_Etapa
+from applications.SPE_lib.modules.db_1_Accion_Usuario import Accion_Usuario
+from applications.SPE_lib.modules.db_1_Coordinacion import Coordinacion
+from applications.SPE_lib.modules.db_1_correo_Por_Verificar import correo_por_verificar
+from applications.SPE_lib.modules.db_1_Departamento import Departamento
+from applications.SPE_lib.modules.db_1_Materia import Materia
+from applications.SPE_lib.modules.db_1_Pais import Pais
+from applications.SPE_lib.modules.db_1_Universidad import Universidad
+from applications.SPE_lib.modules.db_1_UsuarioUSB import UsuarioUSB
+from applications.SPE_lib.modules.db_2_Administrativo import Administrativo
+from applications.SPE_lib.modules.db_2_Carrera import Carrera
+from applications.SPE_lib.modules.db_2_Coordinador import Coordinador
+from applications.SPE_lib.modules.db_2_Estado import Estado
+from applications.SPE_lib.modules.db_2_Profesor import Profesor
+from applications.SPE_lib.modules.db_2_UsuarioExterno import UsuarioExterno
+from applications.SPE_lib.modules.db_3_Empresa import Empresa
+from applications.SPE_lib.modules.db_3_Estudiante import Estudiante
+from applications.SPE_lib.modules.db_3_Tutor_Industrial import Tutor_Industrial
+
+from applications.SPE_lib.modules.db_4_Curriculo import Curriculo
+from applications.SPE_lib.modules.db_4_Pasantia import Pasantia
+from applications.SPE_lib.modules.db_4_Permiso import Permiso
+from applications.SPE_lib.modules.db_4_Retiro import Retiro
+
+from applications.SPE_lib.modules.db_5_Colocacion import Colocacion
+from applications.SPE_lib.modules.db_5_Ejecucion import Ejecucion
+from applications.SPE_lib.modules.db_5_Inscripcion import Inscripcion
+from applications.SPE_lib.modules.db_5_Plan_Trabajo import Plan_Trabajo
+from applications.SPE_lib.modules.db_5_Preinscripcion import Preinscripcion
+
+from applications.SPE_lib.modules.db_6_Fase import Fase
+
+from applications.SPE_lib.modules.db_7_Actividad import Actividad
+from applications.SPE_lib.modules.db_7_Materia_Periodo import Materia_Periodo
+
+from applications.SPE_lib.modules.fixtures import load_fixtures
+
 ## once in production, remove reload=True to gain full speed
 myconf = AppConfig(reload=True)
 
@@ -100,3 +146,45 @@ auth.enable_record_versioning(db)
 mail.settings.server = settings.email_server
 mail.settings.sender = settings.email_sender
 mail.settings.login = settings.email_login
+# Cargamos Nuestros Modelos
+Area_Laboral(db,T)
+Area_Proyecto(db,T)
+Categoria(db,T)
+Dedicacion(db,T)
+Division(db,T)
+Etapa(db,T)
+Periodo(db,T)
+Sede(db,T)
+Tipo_Documento(db,T)
+Acceso_Etapa(db,T)
+Accion_Usuario(db,T)
+Coordinacion(db,T)
+correo_por_verificar(db,T)
+Departamento(db,T)
+Materia(db,T)
+Pais(db,T)
+Universidad(db,T)
+UsuarioUSB(db,T)
+Administrativo(db,T)
+Carrera(db,T)
+Coordinador(db,T)
+Estado(db,T)
+Profesor(db,T)
+UsuarioExterno(db,T)
+Empresa(db,T)
+Estudiante(db,T)
+Tutor_Industrial(db,T)
+Curriculo(db,T)
+Pasantia(db,T)
+Permiso(db,T)
+Retiro(db,T)
+Colocacion(db,T)
+Ejecucion(db,T)
+Inscripcion(db,T)
+Plan_Trabajo(db,T)
+Preinscripcion(db,T)
+Fase(db,T)
+Actividad(db,T)
+Materia_Periodo(db,T)
+# Cargamos La Data Predeterminada
+load_fixtures(db,T)
