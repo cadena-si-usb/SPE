@@ -111,10 +111,10 @@ def login_cas():
 
         else:
             #Como el usuario ya esta registrado, buscamos sus datos y lo logueamos.
-            datosUsuario = db(tablaUsuario.usbid==usbid).select()[0]
-            clave        = datosUsuario.clave
-
-            auth.login_bare(usbid,clave)
+            datosAuth=db(db.auth_user.username==usbid).select().first()
+            # Iniciamos Sesion
+            auth.user=datosAuth
+            auth.login_user(datosAuth)
 
             respuesta = Usuario.getByRole(auth.user.id)
 

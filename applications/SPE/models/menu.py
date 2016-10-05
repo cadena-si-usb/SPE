@@ -49,17 +49,30 @@ opciones_profesor = [
 
 if auth.has_membership(role='CoordinadorCCT'):
     opciones = opciones_coordinadorCCT
+    response.menu = [
+        (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
+        (T('Administracion'), False, "#",[
+            ('Catalogos', False, URL(c='tutor_industrial', f='solicitar_registro_tutor')),
+            ('Pasantias', False, URL(c='tutor_industrial', f='solicitar_registro_tutor')),
+            ('Usuarios', False, URL(c='tutor_industrial', f='solicitar_registro_tutor'))
+        ]),
+        (T('Reportes Y Estadisticas'), False, "#", []),
+    ]
 elif auth.has_membership(role='Estudiante'):
     opciones = opciones_estudiante
 elif auth.has_membership(role='Profesor'):
     opciones = opciones_profesor
 elif auth.has_membership(role='Coordinador'):
     opciones = opciones_coordinador
+elif not auth.is_logged_in():
+    response.menu = [
+        (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
+    ]
+else:
+    response.menu = [
+        (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
+    ]
 
 menu_autenticado = [
     (texto_principal, False, '#', opciones)
-]
-
-response.menu = [
-    (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
 ]
