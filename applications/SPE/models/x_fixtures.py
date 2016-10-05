@@ -279,7 +279,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='',
         email='ecorp-admin@ecorp.com',
         username=None,
-        password=db.auth_user.password.validate('Ecorp.2016'),
+        password=db.auth_user.password.validate('Ecorp.2016')[0],
         registration_key='',
         reset_password_key='',
         registration_id='ecorp-admin@ecorp.com'
@@ -290,7 +290,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='Sucre González',
         email='fsucre@integra.la',
         username=None,
-        password=db.auth_user.password.validate('Ecorp.2016'),
+        password=db.auth_user.password.validate('Ecorp.2016')[0],
         registration_key='',
         reset_password_key='',
         registration_id=''
@@ -301,7 +301,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='Muguerza',
         email='emuguerza@gmail.com',
         username=None,
-        password='pbkdf2(1000,20,sha512)$a8021cc4975367f2$d9ea5c4e54a6663fe0e105979778b28e1f9d4ed8',
+        password=db.auth_user.password.validate('Ecorp.2016')[0],
         registration_key='',
         reset_password_key='',
         registration_id=''
@@ -312,7 +312,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='Manzanilla',
         email='queso976@gmail.com',
         username=None,
-        password='pbkdf2(1000,20,sha512)$a8021cc4975367f2$d9ea5c4e54a6663fe0e105979778b28e1f9d4ed8',
+        password=db.auth_user.password.validate('Ecorp.2016')[0],
         registration_key='',
         reset_password_key='',
         registration_id=''
@@ -323,7 +323,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='Goncalves Pita',
         email='',
         username='10-10292',
-        password='pbkdf2(1000,20,sha512)$a25f21cad42986e1$f4a52a8436c2f5f2bf6e24b8b35ffa3193244a35',
+        password=db.auth_user.password.validate('Ecorp.2016')[0],
         registration_key='',
         reset_password_key='',
         registration_id=''
@@ -334,7 +334,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='Marin Tirado',
         email='',
         username='10-10419',
-        password='pbkdf2(1000,20,sha512)$9b087027ff330ac0$6531b331348da4487a807605a7b44130af93beda',
+        password=db.auth_user.password.validate('Ecorp.2016')[0],
         registration_key='',
         reset_password_key='',
         registration_id=''
@@ -345,7 +345,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='Sucre Gonzalez',
         email='',
         username='10-10717',
-        password='pbkdf2(1000,20,sha512)$b94c524c26eb4f03$b5ed28362b7422334de61ab389730cb8c3bf403c',
+        password=db.auth_user.password.validate('Ecorp.2016')[0],
         registration_key='',
         reset_password_key='',
         registration_id=''
@@ -356,7 +356,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='Da Valery',
         email='',
         username='10-10193',
-        password='pbkdf2(1000,20,sha512)$915d2a6f4c2ff0f6$12040ff51286f9a3ffd970013fea95db0728ad9f',
+        password=db.auth_user.password.validate('Ecorp.2016')[0],
         registration_key='',
         reset_password_key='',
         registration_id=''
@@ -367,7 +367,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='Hernandez Monterola',
         email='',
         username='10-10353',
-        password='pbkdf2(1000,20,sha512)$ad1699544ba1ac2f$dafd3e9e2a1ade4ec5aa3ead9cd2ad029b60d016',
+        password=db.auth_user.password.validate('Ecorp.2016')[0],
         registration_key='',
         reset_password_key='',
         registration_id=''
@@ -378,7 +378,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='Romero',
         email='',
         username='10-10642',
-        password='pbkdf2(1000,20,sha512)$ad1699544ba1ac2f$dafd3e9e2a1ade4ec5aa3ead9cd2ad029b60d016',
+        password=db.auth_user.password.validate('Ecorp.2016')[0],
         registration_key='',
         reset_password_key='',
         registration_id=''
@@ -389,7 +389,7 @@ if db(db.auth_user.id > 0).count() == 0:
         last_name='Austin',
         email='',
         username='09-10066',
-        password='pbkdf2(1000,20,sha512)$ad1699544ba1ac2f$dafd3e9e2a1ade4ec5aa3ead9cd2ad029b60d016',
+        password=db.auth_user.password.validate('Ecorp.2016')[0],
         registration_key='',
         reset_password_key='',
         registration_id=''
