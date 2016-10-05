@@ -1,10 +1,10 @@
 <script type="text/html" id="tmplMaterias">
 
-    <div data-id="id" data-template-bind='[{"attribute": "class", "value": "hasEnough","formatter":"Quantity"}]' style="background-color: #ddd; border: 1px solid #98978b; padding: 20px; color: black; margin-bottom: 10px;">
+    <div data-id="id" data-template-bind='[{"attribute": "class", "value": "hasEnough","formatter":"Quantity"}]' style="background-color: #ddd; padding: 20px; color: black; margin-bottom: 10px;-webkit-box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);">
 
         <div style="display:flex; flex-direction: row; flex-wrap: wrap;">
 
-            <div style="flex:5 1 auto; max-width:600px; padding-right:25px;">
+            <div class="col-lg-8" style="flex:5 1 auto; max-width:600px; padding-right:25px; text-align: justify;">
                 <h2>Pasantia
         <span class='text-center' data-template-bind='[{"attribute": "content", "value": "tipo"}]'>
         </span> (<span class='text-center' data-template-bind='[{"attribute": "content", "value": "codigo"}]'>
@@ -24,7 +24,7 @@
                 <a class="link-spe" target="_blank" href="http://cct.dex.usb.ve/sites/default/files/Normas_y_Procedimientos_05_2011.pdf">Procedimientos</a>
             </div>
             
-            <div style="background-color: #bbb; border: none; padding: 20px; color: black; flex:5 1 auto; text-align: center;">
+            <div class="col-lg-4" style="background-color: #bbb; border: none; padding: 20px; color: black; flex:5 1 auto; text-align: center;">
                 <h2>Cursos</h2>
                 <button class="btn btn-default">
                     <a style="color:white;" data-template-bind='[{"attribute": "href", "value": "id","formatter":"AddPath","formatOptions":"preinscribir/"}]'>Preinscribir</a>
