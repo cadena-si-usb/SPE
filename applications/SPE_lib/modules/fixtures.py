@@ -702,7 +702,7 @@ def load_fixtures(db,T):
         db.Accion_Usuario.insert(
             nombre='Pasantias',
             destino='/SPE/pasantias/listar',
-            contexto='coordinacion',
+            contexto='pasantias',
             rol='6'
         )
         db.Accion_Usuario.insert(
@@ -738,43 +738,43 @@ def load_fixtures(db,T):
         db.Accion_Usuario.insert(
             nombre='Sedes',
             destino='/SPE/sedes/listar',
-            contexto='coordinacion',
+            contexto='catalogos',
             rol='6'
         )
         db.Accion_Usuario.insert(
             nombre='Carreras',
             destino='/SPE/carreras/listar',
-            contexto='coordinacion',
+            contexto='catalogos',
             rol='6'
         )
         db.Accion_Usuario.insert(
             nombre='Coordinaciones',
             destino='/SPE/coordinaciones/listar',
-            contexto='coordinacion',
+            contexto='catalogos',
             rol='6'
         )
         db.Accion_Usuario.insert(
             nombre='Preinscripciones',
             destino='/SPE/preinscripciones/listar',
-            contexto='coordinacion',
+            contexto='pasantias',
             rol='6'
         )
         db.Accion_Usuario.insert(
             nombre='Colocaciones',
             destino='/SPE/colocaciones/listar',
-            contexto='coordinacion',
+            contexto='pasantias',
             rol='6'
         )
         db.Accion_Usuario.insert(
             nombre='Inscripciones',
             destino='/SPE/inscripciones/listar',
-            contexto='coordinacion',
+            contexto='pasantias',
             rol='6'
         )
         db.Accion_Usuario.insert(
             nombre='Planes De Trabajo',
             destino='/SPE/planes_trabajo/listar',
-            contexto='coordinacion',
+            contexto='pasantias',
             rol='6'
         )
         db.Accion_Usuario.insert(
@@ -782,6 +782,24 @@ def load_fixtures(db,T):
             destino='/SPE/Coordinador/consultarPasantias',
             contexto='coordinacion',
             rol='3'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Materias',
+            destino='/SPE/materias/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Permisos',
+            destino='/SPE/permisos/listar',
+            contexto='pasantias',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Retiros',
+            destino='/SPE/retiros/listar',
+            contexto='pasantias',
+            rol='6'
         )
         db.commit()
 

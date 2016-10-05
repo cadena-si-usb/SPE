@@ -52,18 +52,27 @@ if auth.has_membership(role='CoordinadorCCT'):
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
         (T('Administracion'), False, "#",[
-            ('Catalogos', False, URL(c='tutor_industrial', f='solicitar_registro_tutor')),
-            ('Pasantias', False, URL(c='tutor_industrial', f='solicitar_registro_tutor')),
-            ('Usuarios', False, URL(c='tutor_industrial', f='solicitar_registro_tutor'))
+            ((SPAN(_class='fa fa-cog'), '  Catalogos'), False, '/SPE/materias/listar'),
+            ((SPAN(_class='fa fa-list'), '  Pasantias'), False, '/SPE/pasantias/listar'),
+            ((SPAN(_class='fa fa-user'), '  Usuarios'), False, '/SPE/usuarios/listar')
         ]),
         (T('Reportes Y Estadisticas'), False, "#", []),
     ]
 elif auth.has_membership(role='Estudiante'):
     opciones = opciones_estudiante
+    response.menu = [
+        (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
+    ]
 elif auth.has_membership(role='Profesor'):
     opciones = opciones_profesor
+    response.menu = [
+        (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
+    ]
 elif auth.has_membership(role='Coordinador'):
     opciones = opciones_coordinador
+    response.menu = [
+        (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
+    ]
 elif not auth.is_logged_in():
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
