@@ -748,7 +748,7 @@ def load_fixtures(db,T):
             rol='6'
         )
         db.Accion_Usuario.insert(
-            nombre='Coordinaciones',
+            nombre='coordinaciones',
             destino='/SPE/coordinaciones/listar',
             contexto='catalogos',
             rol='6'

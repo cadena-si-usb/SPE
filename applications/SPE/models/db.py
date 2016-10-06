@@ -110,7 +110,6 @@ plugins = PluginManager()
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
-
 ## configure email
 mail = Mail()
 mail.settings.server = 'smtp.gmail.com:587'

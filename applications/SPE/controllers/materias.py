@@ -33,7 +33,9 @@ def count():
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = Materia.find(obj)
+    rows = db((db.Materia.sede == db.Sede.id)).select()
+
+    # rows = Materia.find(obj)
 
     rows = rows.as_json()
 
@@ -41,7 +43,7 @@ def get():
 
 def modificar():
     record = db.Materia(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.Materia, record)
+    form = SQLFORM(db.Materia, record,showid=False)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')
         redirect(URL('listar'))

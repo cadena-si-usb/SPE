@@ -14,6 +14,7 @@ def Accion_Usuario(db,T):
         Field('destino'),
         Field('contexto'),
         Field('rol','reference auth_group',
+              requires=IS_IN_DB(db,'auth_group.id','%(role)s',zero=None),
               label='Roles (*)')
        )
 

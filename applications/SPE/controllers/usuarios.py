@@ -46,7 +46,7 @@ def get():
 
 def modificar():
     record = db.UsuarioUSB(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.UsuarioUSB,fields=['rol','activo'], record=record, showid=False)
+    form = SQLFORM(db.UsuarioUSB,fields=['activo'], record=record, showid=False)
     
     if form.process().accepted:
         session.flash = T('El usuario fue modificado exitosamente!')
