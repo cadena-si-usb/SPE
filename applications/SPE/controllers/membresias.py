@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from Acciones_Usuario import Accion_Usuario
+from Membresias import Membresia
 
 import Encoder
 
-Accion_Usuario = Accion_Usuario()
+Membresia = Membresia()
 
 def listar():
     session.rows = []
@@ -11,9 +11,9 @@ def listar():
     return dict(rows=session.rows,id="prueba")
 
 def agregar():
-    fields = ['nombre','destino','rol','contexto']
-
-    form = Accion_Usuario.form(fields)
+    fields = ['user_id','group_id']
+    db.auth_membership.user_id.requires=IS_IN_DB(db,'auth_user.id','%(first_name)s %(last_name)s - %(username)s - %(email)s')
+    form = Membresia.form(fields)
 
     if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')
@@ -26,24 +26,27 @@ def agregar():
 
 def count():
     obj = Encoder.to_dict(request.vars)
-    count = Accion_Usuario.count(obj)
+    count = Membresia.count(obj)
 
     return count
 
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = db((db.Accion_Usuario.rol==db.auth_group.id)).select()
+    rows = db((db.auth_membership.user_id==db.auth_user.id) & (db.auth_membership.group_id==db.auth_group.id)).select(orderby=db.auth_group.role)
 
-    #rows = Accion_Usuario.find(obj)
+    # rows = Rol.find(obj)
 
     rows = rows.as_json()
 
     return rows
 
 def modificar():
-    record = db.Accion_Usuario(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.Accion_Usuario, record,showid=False)
+    db.auth_membership.user_id.requires = IS_IN_DB(db, 'auth_user.id',
+                                                   '%(first_name)s %(last_name)s - %(username)s - %(email)s')
+    record = db.auth_membership(request.args(0)) or redirect(URL('agregar'))
+
+    form = SQLFORM(db.auth_membership, record,showid=False)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')
         redirect(URL('listar'))

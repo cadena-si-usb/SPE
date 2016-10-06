@@ -801,6 +801,18 @@ def load_fixtures(db,T):
             contexto='pasantias',
             rol='6'
         )
+        db.Accion_Usuario.insert(
+            nombre='Roles',
+            destino='/SPE/roles/listar',
+            contexto='coordinacion',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Asignar Roles',
+            destino='/SPE/membresias/listar',
+            contexto='coordinacion',
+            rol='6'
+        )
         db.commit()
 
     if db(db.Coordinador.id > 0).count() == 0:
