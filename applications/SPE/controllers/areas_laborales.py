@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-from Retiros import Retiro
+from Materias import Materia
 
 import Encoder
 
-Retiro = Retiro()
+Materia = Materia()
 
 def listar():
     session.rows = []
-    return dict(rows=session.rows)
+
+    return dict(rows=session.rows,id="prueba")
 
 def agregar():
-    fields = ['pasantia','nombre']
+    fields = ['codigo','sede','tipo','descripcion']
 
-    form = Retiro.form(fields)
+    form = Materia.form(fields)
 
     if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')
@@ -25,22 +26,24 @@ def agregar():
 
 def count():
     obj = Encoder.to_dict(request.vars)
-    count = Retiro.count(obj)
+    count = Materia.count(obj)
 
     return count
 
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = Retiro.find(obj)
+    rows = db((db.Materia.sede == db.Sede.id)).select()
+
+    # rows = Materia.find(obj)
 
     rows = rows.as_json()
 
     return rows
 
 def modificar():
-    record = db.Retiro(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.Retiro, record)
+    record = db.Materia(request.args(0)) or redirect(URL('agregar'))
+    form = SQLFORM(db.Materia, record,showid=False)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')
         redirect(URL('listar'))

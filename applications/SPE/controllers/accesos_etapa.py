@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from Materias import Materia
+from Acciones_Usuario import Accion_Usuario
 
 import Encoder
 
-Materia = Materia()
+Accion_Usuario = Accion_Usuario()
 
 def listar():
     session.rows = []
@@ -11,9 +11,9 @@ def listar():
     return dict(rows=session.rows,id="prueba")
 
 def agregar():
-    fields = ['codigo','sede','tipo','descripcion']
+    fields = ['nombre','destino','rol','contexto']
 
-    form = Materia.form(fields)
+    form = Accion_Usuario.form(fields)
 
     if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')
@@ -26,24 +26,24 @@ def agregar():
 
 def count():
     obj = Encoder.to_dict(request.vars)
-    count = Materia.count(obj)
+    count = Accion_Usuario.count(obj)
 
     return count
 
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = db((db.Materia.sede == db.Sede.id)).select()
+    rows = db((db.Accion_Usuario.rol==db.auth_group.id)).select()
 
-    # rows = Materia.find(obj)
+    #rows = Accion_Usuario.find(obj)
 
     rows = rows.as_json()
 
     return rows
 
 def modificar():
-    record = db.Materia(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.Materia, record,showid=False)
+    record = db.Accion_Usuario(request.args(0)) or redirect(URL('agregar'))
+    form = SQLFORM(db.Accion_Usuario, record,showid=False)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')
         redirect(URL('listar'))

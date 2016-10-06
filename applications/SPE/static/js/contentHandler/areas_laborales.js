@@ -1,9 +1,9 @@
 (function(){
 
-$('#retirosIndex').ready(function(){
+$('#materiasIndex').ready(function(){
     var ajaxHandler = AjaxHandler();
 
-    var retiros = [],
+    var materia = [],
         max, area, options = {},
         filters = {order:'id',side:'>',limit:'4',page:'0'},
         filter = {},
@@ -24,18 +24,18 @@ $('#retirosIndex').ready(function(){
 
         options.data = $.param(filters,true);
 
-        ajaxHandler.count(options).success(function(res){
+        ajaxHandler.count('materias',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getRetiros();
+            getMaterias();
         })
     }
 
-    function getRetiros(){
-        ajaxHandler.find('permisos',options).success(function(res){
-            retiros = JSON.parse(res);
-            if (retiros.length > 0){
-                $("#elBody").loadTemplate('#template', retiros);
+    function getMaterias(){
+        ajaxHandler.find('materias',options).success(function(res){
+            materia = JSON.parse(res);
+            if (materia.length > 0){
+                $("#elBody").loadTemplate('#template', materia);
             }
             else {
                 var template = '<tr><td class="text-center" colspan="42">',
@@ -45,6 +45,8 @@ $('#retirosIndex').ready(function(){
 
                 $("#elBody").html(template);
             }
+
+            disableButtonOnMax();
         });
     }
 
@@ -93,17 +95,17 @@ $('#retirosIndex').ready(function(){
         elem.append(" <i id='orderBy' class='"+ fa +"'></i>")
     }
 
-    // Funcion que trae mas retiros para paginacion
+    // Funcion que trae mas materia para paginacion
 
-    function getMoreRetiros(evt){
-        filters.page = retiros.length.toString();
+    function getMoreMaterias(evt){
+        filters.page = materia.length.toString();
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find('permisos',options).success(function(res){
+        ajaxHandler.find('materias',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
-                retiros.push(res[i]);
+                materia.push(res[i]);
             }
             disableButtonOnMax();
 
@@ -114,7 +116,7 @@ $('#retirosIndex').ready(function(){
     //Desabilitar boton de MAS
 
     function disableButtonOnMax(){
-        if ((max) && (retiros.length.toString() != max)) {
+        if ((max) && (materia.length.toString() != max)) {
             $("#next").prop('disabled',false);
         }
         else {
@@ -152,7 +154,7 @@ $('#retirosIndex').ready(function(){
 
 
     $('#search').keyup(searchTerm);
-    $('#next').click(getMoreRetiros);
+    $('#next').click(getMoreMaterias);
     $('.uai-table-header').click(changeOrder);
 });
 })();
