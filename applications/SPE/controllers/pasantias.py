@@ -7,7 +7,6 @@ Pasantia = Pasantia()
 
 def listar():
     session.rows = []
-
     return dict(rows=session.rows)
 
 def agregar():

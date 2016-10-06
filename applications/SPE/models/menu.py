@@ -28,7 +28,6 @@ opciones_estudiante = [
 
 opciones_coordinadorCCT = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
-    ((SPAN(_class='fa fa-list'), '  Administracion'), False, '/SPE/pasantias/listar'),
     ((SPAN(_class='fa fa-cog'), '  Configuración'), False, '/SPE/mi_perfil/configuracion'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
