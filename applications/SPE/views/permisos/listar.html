@@ -1,16 +1,16 @@
-{{extend 'catalogos.html'}}
+{{extend 'coordinacion_pasantia.html'}}
 {{block content}}
 
-<div class="container-fluid" id="materiasIndex">
+<div class="container-fluid" id="permisosIndex">
     <div class="row">
         <div class="col-lg-12 rounded_border" >
             <div class="row">
                 <center>
                     <div class="row">
                         <div class="col-sm-12">
-                            <h3>Materias</h3>
+                            <h3>Permisos</h3>
                             <hr WIDTH="30%" />
-                            <p>Listado de Materias</p>
+                            <p>Listado de Permisos</p>
                         </div>
                     </div>
 
@@ -19,9 +19,9 @@
                     <label>Buscar: </label>
                     <input id="search" placeholder="Buscar..." type="text">
 
-                    <!-- Add New Materials -->
+                    <!-- Add New Permisols -->
                     <div class="col-xs-4 col-xs-offset-8 col-sm-2 col-sm-offset-10 text-right">
-                        <a class="notif_link_but" title="Agregar Materia" role='button' href="{{=URL('materias', 'agregar')}}">
+                        <a class="notif_link_but" title="Agregar Permiso" role='button' href="{{=URL('permisos', 'agregar')}}">
                             <i class="fa fa-plus fa-fw fa-2x yellow"></i>
                         </a>
                     </div>
@@ -32,13 +32,13 @@
             <br/>
 
             <div class="row">
-                <table class='table table-hover borde-tabla' id="tabla_materias">
+                <table class='table table-hover borde-tabla' id="tabla_permisos">
                     <thead>
                         <tr>
-                            <th class='text-center uai-table-header' id="codigo">Codigo</th>
-                            <th class='text-center uai-table-header' id="codigo">Sede</th>
+                            <th class='text-center uai-table-header' id="codigo">USB-ID</th>
+                            <th class='text-center uai-table-header' id="codigo">Pasantia</th>
                             <th class='text-center uai-table-header' id="codigo">Tipo</th>
-                            <th class='text-center uai-table-header' id="codigo">Duracion</th>
+                            <th class='text-center uai-table-header' id="codigo">Estado</th>
                             <th class='text-center'>Editar</th>
                         </tr>
                     </thead>
@@ -56,5 +56,5 @@
     </div>
 </div>
 {{end}}
-{{include 'materias/contenido.html'}}
-<script src="{{=URL('static','js/contentHandler/materias.js')}}"></script>
+{{include 'permisos/contenido.html'}}
+<script src="{{=URL('static','js/contentHandler/permisos.js')}}"></script>

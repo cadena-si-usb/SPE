@@ -1,6 +1,6 @@
 (function(){
 
-$('#areas_laboralesIndex').ready(function(){
+$('#accesos_etapaIndex').ready(function(){
     var ajaxHandler = AjaxHandler();
 
     var area_laboral = [],
@@ -24,15 +24,15 @@ $('#areas_laboralesIndex').ready(function(){
 
         options.data = $.param(filters,true);
 
-        ajaxHandler.count('areas_laborales',options).success(function(res){
+        ajaxHandler.count('accesos_etapa',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getAreas_Laborales();
+            getAccesos_Etapa();
         })
     }
 
-    function getAreas_Laborales(){
-        ajaxHandler.find('areas_laborales',options).success(function(res){
+    function getAccesos_Etapa(){
+        ajaxHandler.find('accesos_etapa',options).success(function(res){
             area_laboral = JSON.parse(res);
             if (area_laboral.length > 0){
                 $("#elBody").loadTemplate('#template', area_laboral);
@@ -97,12 +97,12 @@ $('#areas_laboralesIndex').ready(function(){
 
     // Funcion que trae mas area_laboral para paginacion
 
-    function getMoreAreas_Laborales(evt){
+    function getMoreAccesos_Etapa(evt){
         filters.page = area_laboral.length.toString();
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find('areas_laborales',options).success(function(res){
+        ajaxHandler.find('accesos_etapa',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
                 area_laboral.push(res[i]);
@@ -154,7 +154,7 @@ $('#areas_laboralesIndex').ready(function(){
 
 
     $('#search').keyup(searchTerm);
-    $('#next').click(getMoreAreas_Laborales);
+    $('#next').click(getMoreAccesos_Etapa);
     $('.uai-table-header').click(changeOrder);
 });
 })();

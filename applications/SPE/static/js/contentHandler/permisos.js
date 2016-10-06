@@ -1,9 +1,9 @@
 (function(){
 
-$('#materiasIndex').ready(function(){
+$('#permisosIndex').ready(function(){
     var ajaxHandler = AjaxHandler();
 
-    var materia = [],
+    var permiso = [],
         max, area, options = {},
         filters = {order:'id',side:'>',limit:'4',page:'0'},
         filter = {},
@@ -24,18 +24,18 @@ $('#materiasIndex').ready(function(){
 
         options.data = $.param(filters,true);
 
-        ajaxHandler.count('materias',options).success(function(res){
+        ajaxHandler.count('permisos',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getMaterias();
+            getPermisos();
         })
     }
 
-    function getMaterias(){
-        ajaxHandler.find('materias',options).success(function(res){
-            materia = JSON.parse(res);
-            if (materia.length > 0){
-                $("#elBody").loadTemplate('#template', materia);
+    function getPermisos(){
+        ajaxHandler.find('permisos',options).success(function(res){
+            permiso = JSON.parse(res);
+            if (permiso.length > 0){
+                $("#elBody").loadTemplate('#template', permiso);
             }
             else {
                 var template = '<tr><td class="text-center" colspan="42">',
@@ -95,17 +95,17 @@ $('#materiasIndex').ready(function(){
         elem.append(" <i id='orderBy' class='"+ fa +"'></i>")
     }
 
-    // Funcion que trae mas materia para paginacion
+    // Funcion que trae mas permiso para paginacion
 
-    function getMoreMaterias(evt){
-        filters.page = materia.length.toString();
+    function getMorePermisos(evt){
+        filters.page = permiso.length.toString();
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
-        ajaxHandler.find('materias',options).success(function(res){
+        ajaxHandler.find('permisos',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
-                materia.push(res[i]);
+                permiso.push(res[i]);
             }
             disableButtonOnMax();
 
@@ -116,7 +116,7 @@ $('#materiasIndex').ready(function(){
     //Desabilitar boton de MAS
 
     function disableButtonOnMax(){
-        if ((max) && (materia.length.toString() != max)) {
+        if ((max) && (permiso.length.toString() != max)) {
             $("#next").prop('disabled',false);
         }
         else {
@@ -154,7 +154,7 @@ $('#materiasIndex').ready(function(){
 
 
     $('#search').keyup(searchTerm);
-    $('#next').click(getMoreMaterias);
+    $('#next').click(getMorePermisos);
     $('.uai-table-header').click(changeOrder);
 });
 })();

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from Acciones_Usuario import Accion_Usuario
+from Acceso_Etapa import Acceso_Etapa
 
 import Encoder
 
-Accion_Usuario = Accion_Usuario()
+Acceso_Etapa = Acceso_Etapa()
 
 def listar():
     session.rows = []
@@ -11,9 +11,9 @@ def listar():
     return dict(rows=session.rows,id="prueba")
 
 def agregar():
-    fields = ['nombre','destino','rol','contexto']
+    fields = ['rol','etapa']
 
-    form = Accion_Usuario.form(fields)
+    form = Acceso_Etapa.form(fields)
 
     if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')
@@ -26,24 +26,26 @@ def agregar():
 
 def count():
     obj = Encoder.to_dict(request.vars)
-    count = Accion_Usuario.count(obj)
+    count = Acceso_Etapa.count(obj)
 
     return count
 
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = db((db.Accion_Usuario.rol==db.auth_group.id)).select()
+    rows = db(
+        (db.Acceso_Etapa.rol == db.auth_group.id) & (db.Etapa.id == db.Acceso_Etapa.etapa)).select(
+        orderby=db.auth_group.role)
 
-    #rows = Accion_Usuario.find(obj)
+    # rows = Acceso_Etapa.find(obj)
 
     rows = rows.as_json()
 
     return rows
 
 def modificar():
-    record = db.Accion_Usuario(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.Accion_Usuario, record,showid=False)
+    record = db.Acceso_Etapa(request.args(0)) or redirect(URL('agregar'))
+    form = SQLFORM(db.Acceso_Etapa, record,showid=False)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')
         redirect(URL('listar'))

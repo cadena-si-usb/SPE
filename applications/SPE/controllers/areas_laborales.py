@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from Materias import Materia
+from Areas_Laborales import Area_Laboral
 
 import Encoder
 
-Materia = Materia()
+Area_Laboral = Area_Laboral()
 
 def listar():
     session.rows = []
@@ -11,9 +11,9 @@ def listar():
     return dict(rows=session.rows,id="prueba")
 
 def agregar():
-    fields = ['codigo','sede','tipo','descripcion']
+    fields = ['nombre','descripcion']
 
-    form = Materia.form(fields)
+    form = Area_Laboral.form(fields)
 
     if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')
@@ -26,24 +26,22 @@ def agregar():
 
 def count():
     obj = Encoder.to_dict(request.vars)
-    count = Materia.count(obj)
+    count = Area_Laboral.count(obj)
 
     return count
 
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = db((db.Materia.sede == db.Sede.id)).select()
-
-    # rows = Materia.find(obj)
+    rows = Area_Laboral.find(obj)
 
     rows = rows.as_json()
 
     return rows
 
 def modificar():
-    record = db.Materia(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.Materia, record,showid=False)
+    record = db.Area_Laboral(request.args(0)) or redirect(URL('agregar'))
+    form = SQLFORM(db.Area_Laboral, record,showid=False)
     if form.process().accepted:
         session.flash = T('El material fue modificado exitosamente!')
         redirect(URL('listar'))

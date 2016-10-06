@@ -5,7 +5,7 @@ import DBhandler
 from APIhandler import Model
 import Encoder
 
-class Division(Model):
+class Ejecucion(Model):
     #Building database object
     def __init__(self):
-    	super(Division,self).__init__(tableName="Division")
+    	super(Ejecucion,self).__init__(tableName="Ejecucion")
