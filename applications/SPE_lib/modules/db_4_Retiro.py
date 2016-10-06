@@ -10,7 +10,10 @@ from gluon import *
 def Retiro(db,T):
     db.define_table('Retiro',
         Field('nombre'),
-        Field('pasantia','reference Pasantia')
+        Field('pasantia','reference Pasantia'),
+        Field('estado', 'string', default="En Espera",
+              requires=IS_IN_SET(['En espera', 'Aprobado'], zero=None,
+                                 error_message='Opcion Invalida'))
     )
 
 #------------------------------------------------------------------------------#

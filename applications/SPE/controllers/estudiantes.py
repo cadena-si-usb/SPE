@@ -20,12 +20,12 @@ def agregar():
         'telefono',
         'direcUsuario',
         'sexo',
-        'activo'
+        'activo',
+        'carnet',
+        'carrera',
+        'sede'
     ]
 
-    fields.append('carnet')
-    fields.append('carrera')
-    fields.append('sede')
     form = SQLFORM.factory(db.UsuarioUSB, db.Estudiante, fields=fields, submit_button='Crear', showid=False)
 
     if form.process().accepted:
