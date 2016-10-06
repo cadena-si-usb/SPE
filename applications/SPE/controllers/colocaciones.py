@@ -67,6 +67,9 @@ def modificar():
     db.Pasantia.fecha_fin.default = pasantia.fecha_fin
     db.Pasantia.fecha_tope_jurado.default = pasantia.fecha_tope_jurado
     db.Pasantia.fecha_defensa.default = pasantia.fecha_defensa
+    
+    db.Colocacion.pasantia.readable = False
+    db.Colocacion.pasantia.writable = False
 
     form = SQLFORM.factory(db.Pasantia,db.Colocacion, submit_button='Actualizar', showid=False)
 

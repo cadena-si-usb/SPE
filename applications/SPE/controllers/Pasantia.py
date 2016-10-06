@@ -124,9 +124,12 @@ def verPlanDeTrabajo():
 def crudFase():
     db.Fase.plan_trabajo.readable=False
     db.Fase.plan_trabajo.writable = False
-    record = db.Fase(request.args[1])
-    if record is None:
+    if len(request.args)==1:
         db.Fase.plan_trabajo.default=request.args[0]
+        record = None
+    else:
+        record = db.Fase(request.args[1])
+
     pasantia = db(db.Pasantia.id == request.args[0]).select().first()
     db.Actividad.fase.writable = False
     form = SQLFORM(db.Fase, record,showid=False)

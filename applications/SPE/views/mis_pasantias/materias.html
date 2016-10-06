@@ -6,15 +6,15 @@
 
             <div class="col-lg-8" style="flex:5 1 auto; max-width:600px; padding-right:25px; text-align: justify;">
                 <h2>Pasantia
-        <span class='text-center' data-template-bind='[{"attribute": "content", "value": "tipo"}]'>
-        </span> (<span class='text-center' data-template-bind='[{"attribute": "content", "value": "codigo"}]'>
+        <span class='text-center' data-template-bind='[{"attribute": "content", "value": "Materia.tipo"}]'>
+        </span> (<span class='text-center' data-template-bind='[{"attribute": "content", "value": "Materia.codigo"}]'>
         </span>)</h2>
                 <p>
-                    <b>Descripcion</b>: <span class='text-center' data-template-bind='[{"attribute": "content", "value": "descripcion"}]'>
+                    <b>Descripcion</b>: <span class='text-center' data-template-bind='[{"attribute": "content", "value": "Materia.descripcion"}]'>
                     </span>
                 </p>
                 <p>
-                    <b>Duracion</b>: <span class='text-center' data-template-bind='[{"attribute": "content", "value": "duracion"}]'>
+                    <b>Duracion</b>: <span class='text-center' data-template-bind='[{"attribute": "content", "value": "Materia.duracion"}]'>
                     </span> semanas continuas.
                 </p>
                 <a class="link-spe">Programa del curso</a>
@@ -27,9 +27,9 @@
             <div class="col-lg-4" style="background-color: #bbb; border: none; padding: 20px; color: black; flex:5 1 auto; text-align: center;">
                 <h2>Cursos</h2>
                 <button class="btn btn-default">
-                    <a style="color:white;" data-template-bind='[{"attribute": "href", "value": "id","formatter":"AddPath","formatOptions":"preinscribir/"}]'>Preinscribir</a>
+                    <a style="color:white;" data-template-bind='[{"attribute": "href", "value": "Materia.id","formatter":"AddPath","formatOptions":"preinscribir/"}]'>Preinscribir</a>
                 </button>
-                <div data-template-bind='[{"attribute": "id", "value": "codigo"}]'>
+                <div data-template-bind='[{"attribute": "id", "value": "Materia.codigo"}]'>
                 </div>
             </div>
         </div>
