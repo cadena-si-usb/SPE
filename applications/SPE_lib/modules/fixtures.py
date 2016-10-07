@@ -933,6 +933,12 @@ def load_fixtures(db,T):
             contexto='catalogos',
             rol='6'
         )
+        db.Accion_Usuario.insert(
+            nombre='Personal Administrativo',
+            destino='/SPE/administrativos/listar',
+            contexto='coordinacion',
+            rol='6'
+        )
         db.commit()
 
     if db(db.Coordinador.id > 0).count() == 0:

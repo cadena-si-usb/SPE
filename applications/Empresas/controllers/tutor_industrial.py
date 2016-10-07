@@ -256,9 +256,9 @@ def editarPerfil():
             last_name=request.vars.apellido,
         )
 
-        id = db.client.update(**db.UsuarioExterno._filter_fields(form.vars))
+        id = usuarioExterno.update_record(**db.UsuarioExterno._filter_fields(form.vars))
         form.vars.client = id
-        id = db.address.update(**db.Tutor_Industrial._filter_fields(form.vars))
+        id = tutor.update_record(**db.Tutor_Industrial._filter_fields(form.vars))
         # Nos dirigimos a la pagina de exito
         redirect(URL(c='tutor_industrial', f='verPerfil'))
 

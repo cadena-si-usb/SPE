@@ -10,7 +10,6 @@ def listar():
     return dict(rows=session.rows)
 
 def agregar():
-
     fields = [
         'nombre',
         'apellido',
@@ -22,11 +21,12 @@ def agregar():
         'sexo',
         'activo',
         'carnet',
-        'carrera',
-        'sede'
+        'correo_Alternativo',
+        'coordinacion'
     ]
 
-    form = SQLFORM.factory(db.UsuarioUSB, db.Estudiante, fields=fields, submit_button='Crear', showid=False)
+    form = SQLFORM.factory(db.auth_user, db.UsuarioUSB, db.Coordinador, fields=fields, submit_button='Actualizar',
+                           showid=False)
 
     if form.process().accepted:
         authId=db.auth_user.insert(first_name=form.vars.nombre,
@@ -48,13 +48,12 @@ def agregar():
             activo=form.vars.activo,
         )
         # Actualizo los datos de usuario
-        estudianteId = db.Estudiante.insert(
+        coordinadorId = db.Coordinador.insert(
             id=authId,
             usuario=usuarioUSBId,
             carnet=form.vars.carnet,
-            carrera=form.vars.carrera,
-            sede=form.vars.sede,
-            activo=form.vars.activo,
+            correo_Alternativo=form.vars.correo_Alternativo,
+            coordinacion=form.vars.coordinacion,
         )
         # Actualizo los datos exclusivos de estudiante
         session.flash = T('Perfil actualizado exitosamente!')
@@ -75,8 +74,8 @@ def count():
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = db(((db.Estudiante.usuario == db.UsuarioUSB.id) & (db.Estudiante.carrera == db.Carrera.id) &
-               (db.Estudiante.sede == db.Sede.id))).select()
+    rows = db(((db.Coordinador.usuario == db.UsuarioUSB.id) & (db.Coordinador.coordinacion == db.Coordinacion.id) &
+               (db.Coordinacion.sede == db.Sede.id))).select()
 
     return rows.as_json()
 
@@ -90,10 +89,16 @@ def modificar():
         'telefono',
         'direcUsuario',
         'sexo',
-        'activo'
+        'activo',
+        'carnet',
+        'correo_Alternativo',
+        'coordinacion'
     ]
-    estudiante = db.Estudiante(request.args(0)) or redirect(URL('agregar'))
-    usuario = db.UsuarioUSB(estudiante.usuario) or redirect(URL('agregar'))
+
+    coordinador = db.Coordinador(request.args(0)) or redirect(URL('agregar'))
+
+    usuario = db.UsuarioUSB(coordinador.usuario) or redirect(URL('agregar'))
+
     usuarioAuth = db.auth_user(usuario.auth_User) or redirect(URL('agregar'))
 
     db.UsuarioUSB.nombre.default = usuario.nombre
@@ -106,14 +111,11 @@ def modificar():
     db.UsuarioUSB.sexo.default = usuario.sexo
     db.UsuarioUSB.activo.default = usuario.activo
 
+    db.Coordinador.carnet.default = coordinador.carnet
+    db.Coordinador.correo_Alternativo.default = coordinador.correo_Alternativo
+    db.Coordinador.coordinacion.default = coordinador.coordinacion
 
-    fields.append('carnet')
-    fields.append('carrera')
-    fields.append('sede')
-    db.Estudiante.carnet.default = estudiante.carnet
-    db.Estudiante.carrera.default = estudiante.carrera
-    db.Estudiante.sede.default = estudiante.sede
-    form = SQLFORM.factory(db.UsuarioUSB, db.Estudiante, fields=fields, submit_button='Actualizar', showid=False)
+    form = SQLFORM.factory(db.auth_user,db.UsuarioUSB, db.Coordinador, fields=fields, submit_button='Actualizar', showid=False)
 
     if form.process().accepted:
         #
@@ -123,8 +125,7 @@ def modificar():
         # Actualizo los datos de usuario
         usuario.update_record(**db.UsuarioUSB._filter_fields(form.vars))
         # Actualizo los datos exclusivos de estudiante
-        estudiante.update_record(**db.Estudiante._filter_fields(form.vars))
-        usuario.update_record(activo=True)
+        coordinador.update_record(**db.Estudiante._filter_fields(form.vars))
         session.flash = T('Perfil actualizado exitosamente!')
         redirect(URL('listar'))
     elif form.errors:

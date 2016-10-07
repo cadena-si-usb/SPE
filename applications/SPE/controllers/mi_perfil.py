@@ -76,9 +76,9 @@ def configuracion():
             fields.append('dedicacion')
             fields.append('departamento')
             fields.append('sede')
-            db.Profesor.carnet.default = profesor.categoria
-            db.Profesor.carrera.default = profesor.dedicacion
-            db.Profesor.sede.default = profesor.departamento
+            db.Profesor.categoria.default = profesor.categoria
+            db.Profesor.dedicacion.default = profesor.dedicacion
+            db.Profesor.departamento.default = profesor.departamento
             db.Profesor.sede.default = profesor.sede
             form = SQLFORM.factory(db.UsuarioUSB,db.Estudiante,fields=fields,submit_button='Actualizar', showid=False)
             response.view = 'mi_perfil/configuracion__profesor.html'
