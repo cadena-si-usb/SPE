@@ -26,9 +26,11 @@
             
             <div class="col-lg-4" style="background-color: #bbb; border: none; padding: 20px; color: black; flex:5 1 auto; text-align: center;">
                 <h2>Cursos</h2>
-                <button class="btn btn-default">
-                    <a style="color:white;" data-template-bind='[{"attribute": "href", "value": "Materia.id","formatter":"AddPath","formatOptions":"preinscribir/"}]'>Preinscribir</a>
-                </button>
+                <a style="color:white;" data-template-bind='[{"attribute": "href", "value": "Materia.id","formatter":"AddPath","formatOptions":"preinscribir/"}]'>
+                    <button class="btn btn-default">
+                        Preinscribir
+                    </button>
+                </a>
                 <div data-template-bind='[{"attribute": "id", "value": "Materia.codigo"}]'>
                 </div>
             </div>

@@ -822,7 +822,7 @@ def load_fixtures(db,T):
         db.Accion_Usuario.insert(
             nombre='Configurar Accesos',
             destino='/SPE/accesos_etapa/listar',
-            contexto='catalogos',
+            contexto='pasantias',
             rol='6'
         )
         db.Accion_Usuario.insert(
@@ -834,7 +834,7 @@ def load_fixtures(db,T):
         db.Accion_Usuario.insert(
             nombre='Curriculos',
             destino='/SPE/curriculos/listar',
-            contexto='coordinacion',
+            contexto='pasantias',
             rol='6'
         )
         db.Accion_Usuario.insert(
