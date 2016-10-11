@@ -44,6 +44,8 @@ class Usuario(Model):
 					usuario = self.db(self.db.Estudiante.usuario == usuarioUSB["id"]).select().first()
 				elif (rol["role"] == "Profesor"):
 					usuario = self.db(self.db.Profesor.usuario == usuarioUSB["id"]).select().first()
+				elif (rol["role"] == "Administrativo"):
+					usuario = self.db(self.db.Administrativo.usuario == usuarioUSB["id"]).select().first()
 
 				current.auth.add_membership(user_id=usuarioUSB["id"],role=rol["role"])
 			 
@@ -82,11 +84,30 @@ class Usuario(Model):
 										activo=False)
 				auth.add_membership(role='Estudiante', user_id=auth_User_Id)
 			elif (tipo == 'Profesor'):
+				profesor = self.db.Profesor.insert(
+					id=auth_User_Id,
+					usuario=usuario['id'],
+					activo=False)
 				auth.add_membership(role='Profesor', user_id=auth_User_Id)
 			elif (tipo == 'Coordinador'):
+				coordinador = self.db.Coordinador.insert(
+					id=auth_User_Id,
+					usuario=usuario['id'],
+					carnet=carnet,
+					activo=False)
 				auth.add_membership(role='Coordinador', user_id=auth_User_Id)
-
-			auth.login_bare(carnet,clave)
+			elif (tipo == 'Administrativo'):
+				administrativo = self.db.Administrativo.insert(
+					id=auth_User_Id,
+					usuario=usuario['id'],
+					carnet=carnet,
+					activo=False)
+				auth.add_membership(role='Administrativo', user_id=auth_User_Id)
+			# Como el usuario ya esta registrado, buscamos sus datos y lo logueamos.
+			datosAuth = self.db(self.db.auth_user.id == auth_User_Id).select().first()
+			# Iniciamos Sesion
+			auth.user = datosAuth
+			auth.login_user(datosAuth)
 			return auth_User_Id
 
 		except Exception as e:

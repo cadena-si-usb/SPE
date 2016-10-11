@@ -29,6 +29,10 @@ def load_fixtures(db,T):
             role='AdministrativoCCT',
             description='3'
         )
+        db.auth_group.insert(
+            role='Administrativo',
+            description='3'
+        )
         db.commit()
 
     if db(db.Dedicacion.id > 0).count() == 0:

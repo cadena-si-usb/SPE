@@ -19,6 +19,12 @@ else:
 
 opciones = []
 
+opciones_administrativo = [
+    ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
+    ((SPAN(_class='fa fa-cog'), '  Configuración '), False, '/SPE/mi_perfil/configuracion'),
+    ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
+]
+
 opciones_estudiante = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/mis_pasantias/listar'),
@@ -76,7 +82,9 @@ elif not auth.is_logged_in():
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
     ]
+# Si no es alguno de los roles estandares entonces es un administrativo con rol personalizado o un usuario externo a la aplicacion
 else:
+    opciones = opciones_administrativo
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
     ]

@@ -1,0 +1,69 @@
+{{extend 'mi_perfil/ver.html'}}
+{{block content}}
+
+<h2>Hola {{=usuario['apellido']}}, {{=usuario['nombre']}}.</h2>
+<h4>{{=usuario['rol']}}</h4>
+<div id="perfil_estudiante">
+    <section id="sec1" style="margin-bottom: 10%">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div id="foto-perfil">
+                        <h5 style="margin-bottom: 90%"><b>Foto del Perfil</b></h5>
+                        <button class="boton-negro">SUBIR FOTO</button>
+                        <p class="parrafos">Una vez completado todos sus datos finalice su inscripcion.</p>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <h2>
+                        <b>Coordinacion</b>
+                    </h2>
+
+                    <h3>{{=coordinacion.Coordinacion.nombre}}</h3>
+
+                    <h2>
+                        <b>USB-ID</b>
+                    </h2>
+
+                    <h3>{{=currentUser.usbid}}</h3>
+                    <h2>
+                        <b>{{=currentUser.tipo_documento.nombre}}</b>
+                    </h2>
+                    <h3>{{=currentUser.numero_documento}}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <h2>
+                        <b>Telefono</b>
+                    </h2>
+                    <h3>{{=currentUser.telefono}}</h3>
+
+
+                    <h2>
+                        <b>Direccion</b>
+                    </h2>
+                    <h3>{{=currentUser.direcUsuario}}</h3>
+
+                    <h2>
+                        <b>Sexo</b>
+                    </h2>
+                    <h3>{{=currentUser.sexo}}</h3>
+                </div>
+                <div class="col-lg-8">
+                    <h2>
+                        <b>Correo</b>
+                    </h2>
+                    <h3>{{=administrativo.UsuarioUSB.correo}}</h3>
+
+                    <h2>
+                        <b>Correo Alternativo</b>
+                    </h2>
+                    <h3>{{=administrativo.Administrativo.correo_Alternativo}}</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{{end}}
