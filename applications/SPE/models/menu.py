@@ -87,11 +87,15 @@ elif not auth.is_logged_in():
     ]
 # Si no es alguno de los roles estandares entonces es un administrativo con rol personalizado o un usuario externo a la aplicacion
 else:
+    # Cargamos el menu basico
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
     ]
+    # Obtenemos los roles del usuario
     roles=auth.user_groups
+    # Colocamos las opciones basicas
     opciones = opciones_administrativo
+    # Inicializamos el menu administrativo
     administrativeMenu=[]
     # Buscamos entre los roles del usuario si tiene acciones pertenecientes al contexto, si las tiene agregamos ese menu
     # de ese contexto

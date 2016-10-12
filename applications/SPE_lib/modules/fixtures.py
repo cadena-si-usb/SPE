@@ -734,6 +734,12 @@ def load_fixtures(db,T):
             rol='6'
         )
         db.Accion_Usuario.insert(
+            nombre='Usuarios',
+            destino='/SPE/usuarios/listar',
+            contexto='coordinacion',
+            rol='1'
+        )
+        db.Accion_Usuario.insert(
             nombre='Estudiantes',
             destino='/SPE/estudiantes/listar',
             contexto='coordinacion',
@@ -786,6 +792,12 @@ def load_fixtures(db,T):
             destino='/SPE/Coordinador/consultarPasantias',
             contexto='coordinacion',
             rol='3'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Materias',
+            destino='/SPE/materias/listar',
+            contexto='catalogos',
+            rol='1'
         )
         db.Accion_Usuario.insert(
             nombre='Materias',

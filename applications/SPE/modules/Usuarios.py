@@ -19,11 +19,19 @@ def obtenerRoles(db,tipo):
 	return str(rol)
 
 class Usuario(Model):
+	'''
+
+	'''
 	#Building database object
 	def __init__(self):
 		super(Usuario,self).__init__(tableName="UsuarioUSB")
 
 	def getByRole(self,id):
+		'''
+
+		:param id:
+		:return:
+		'''
 		usuario = None
 
 		row = self.db((self.table.id == id) & (self.db.auth_membership.user_id==self.table.id)
@@ -53,6 +61,13 @@ class Usuario(Model):
 
 
 	def registrar(self,usuario,auth):
+		'''
+		Crea un usuario a partir de datos del CAS
+
+		:param usuario: Datos de usuario retornados por el CAS
+		:param auth: Modulo de Auth usado por la aplicacion
+		:return: Id del usuario en la tabla de auth_user
+		'''
 		rol = obtenerRoles(self.db,usuario['tipo'])
 
 		nombre = usuario['first_name']
@@ -115,6 +130,12 @@ class Usuario(Model):
 			print e
 
 	def getUserActions(self,context=None):
+		'''
+		Retorna la lista de las URL's sobre las cuales tiene permiso el usuario en sesion
+
+		:param context: Filtro opcional para las acciones bajo un context especifico
+		:return: String[]
+		'''
 		roles = current.auth.user_groups
 		acciones = None
 		for rol in roles:
@@ -140,6 +161,14 @@ class Usuario(Model):
 		return destinos
 
 	def checkUserPermission(self,action):
+		'''
+		Busca si alguno de los roles del usuario logeado tiene permiso sobre el url deseado
+
+		:param action: URL a la que se quiere acceder
+		:return: True si se cumple el requerimiento
+		'''
+		if not current.auth.is_logged_in():
+			redirect(URL(c='default', f='index'))
 		acciones = self.getUserActions()
 		if action in acciones:
 			return True

@@ -82,7 +82,7 @@ def modificar():
         # Actualizo los datos de la pasantia
         pasantia.update_record(**db.Pasantia._filter_fields(form.vars))
         # Actualizo los datos exclusivos de estudiante
-        record.update_record(**db.Estudiante._filter_fields(form.vars))
+        record.update_record(**db.Colocacion._filter_fields(form.vars))
 
         if request.vars.aprobacionCCT:
             existeInscripcion = db(db.Inscripcion.pasantia == record.pasantia).select().first()

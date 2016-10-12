@@ -4,17 +4,17 @@
     <p class='title'>Pasantia - {{=formPasantia.custom.widget.titulo}}</p>
     <div class="row">
         <div class="col-md-6">
-            <div class="panel-group" id="accordion">
+            <div class="panel-group" id="accordionpasantia">
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#personal">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionpasantia" href="#pasantia">
                                 <i class="fa fa-check-square-o fa-pull-right"></i>
                                 <b>Detalle De Pasantia</b>
                             </a>
                         </h3>
                     </div>
-                    <div class="panel-collapse collapse in" id="personal">
+                    <div class="panel-collapse collapse in" id="pasantia">
                         <div class="list-group">
                             <p class="list-group-item"><b>{{=formPasantia.custom.label.titulo}}</b> : {{=formPasantia.custom.widget.titulo}} </p>
                             <p class="list-group-item"><b>{{=formPasantia.custom.label.estudiante}}</b> : {{=formPasantia.custom.widget.estudiante}} </p>
@@ -39,17 +39,17 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel-group" id="accordion">
+            <div class="panel-group" id="accordionplan">
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#personal">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionplan" href="#plan">
                                 <i class="fa fa-check-square-o fa-pull-right"></i>
                                 <b>Plan De Trabajo</b>
                             </a>
                         </h3>
                     </div>
-                    <div class="panel-collapse collapse in" id="personal">
+                    <div class="panel-collapse collapse in" id="plan">
                         {{if planTrabajo:}}
                             <div class="list-group">
                                 <p class="list-group-item"><b>{{=formPlanTrabajo.custom.label.aprobacion_tutor_academico}}</b> : {{=formPlanTrabajo.custom.widget.aprobacion_tutor_academico}} </p>
