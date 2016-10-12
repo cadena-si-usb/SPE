@@ -404,6 +404,7 @@ def generarPdfConstanciaCulminacion():
          Paragraph("IF", styles["default"]),
          Paragraph("IF", styles["default"]),
          ],
+        # hasta aqui
 
     ]
     tbl_cro =Table(tbl_cronograma, colWidths=[0.3 * inch])
