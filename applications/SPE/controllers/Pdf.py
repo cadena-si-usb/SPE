@@ -78,6 +78,8 @@ def generarPdfConstanciaCulminacion():
     carrera = db.Carrera(id=estudiante.Estudiante.carrera)
     sede = db(db.Sede.id == db.Estudiante.sede).select().first()
     pasantia = db(db.Pasantia.estudiante == estudiante.Estudiante).select().first()
+    tutor_academico = pasantia.tutor_academico
+    tutor_industrial = pasantia.tutor_industrial
 
     styles = stylesheet()
 
@@ -85,8 +87,8 @@ def generarPdfConstanciaCulminacion():
         Paragraph("ESTUDIANTE", styles['bluetitle']),
     ]
 
-    #no separar en parrafos poner tod pegado
-    tbl_data = [
+    # no separar en parrafos poner tod pegado
+    tbl_estudiante = [
         [Paragraph("Nombre y Apellido:" + str(usuario['nombre']) + str(usuario['apellido']), styles["default"]),
          Paragraph("Carnet:" + str(estudiante.Estudiante.carnet), styles["default"]),
          Paragraph("Cedula:" + str(estudiante.UsuarioUSB.numero_documento), styles["default"])
@@ -95,12 +97,69 @@ def generarPdfConstanciaCulminacion():
          Paragraph("Telefono:" + str(estudiante.UsuarioUSB.telefono), styles["default"]),
          Paragraph("Email:" + str(estudiante.UsuarioUSB.correo), styles["default"])
          ],
-        [Paragraph("Periodo de Pasantia:" + str(pasantia.titulo) + str(pasantia.periodo), styles["default"]),
+        [Paragraph("Periodo de Pasantia:" + str(pasantia.periodo.mes_inicio) + "-"
+                   + str(pasantia.periodo.mes_final), styles["default"]),
          ],
 
     ]
-    tbl = Table(tbl_data)
-    story.append(tbl)
+    tbl_estu = Table(tbl_estudiante)
+    story.append(tbl_estu)
+    Spacer(1, 0.25 * inch),
+    story.append(Paragraph("TUTOR ACADEMICO", styles['bluetitle']))
+
+    tbl_tutor_academico = [
+        [Paragraph("Nombre y Apellido:" + str(tutor_academico.usuario.nombre) +
+                   str(tutor_academico.usuario.apellido), styles["default"]),
+         Paragraph("Categoria:" + str(tutor_academico.categoria.nombre), styles["default"]),
+         Paragraph("Dedicacion:" + str(tutor_academico.dedicacion.nombre), styles["default"])
+         ],
+        [Paragraph("Departamento: " + str(tutor_academico.departamento.nombre), styles["default"]),
+         Paragraph("Telefono:" + str(tutor_academico.usuario.telefono), styles["default"]),
+         Paragraph("Email:" + str(tutor_academico.usuario.correo), styles["default"])
+         ],
+    ]
+
+    tbl_tut_ac = Table(tbl_tutor_academico)
+    story.append(tbl_tut_ac)
+    Spacer(1, 0.25 * inch),
+    story.append(Paragraph("TUTOR INDUSTRIAL", styles['bluetitle']))
+
+    tbl_tutor_industrial = [
+        [Paragraph("Empresa:" + str(tutor_industrial.Empresa.usuario.nombre) + str(usuario['apellido']), styles["default"]),
+         Paragraph("Telefono:" + str(tutor_industrial.Empresa.usuario.telefono), styles["default"]),
+         Paragraph("Email:" + str(tutor_industrial.Empresa.usuario.correo), styles["default"])
+         ],
+        [Paragraph("Pais: " + str(tutor_industrial.Empresa.usuario.pais), styles["default"]),
+         Paragraph("Estado:" + str(tutor_industrial.Empresa.usuario.estado), styles["default"]),
+         Paragraph("Direccion:" + str(tutor_industrial.Empresa.usuario.direccion), styles["default"])
+         ],
+        [Paragraph("Nombres y Apellidos: " + str(tutor_industrial.usuario.nombre), styles["default"]),
+         Paragraph("Profesion:" + str(tutor_industrial.profesion), styles["default"]),
+         Paragraph("Cedula/Pasaporte:" + str(tutor_industrial.numero_documento), styles["default"])
+         ],
+        [Paragraph("Cargo: " + str(tutor_industrial.cargo), styles["default"]),
+         Paragraph("Departamento:" + str(tutor_industrial.departamento), styles["default"]),
+         Paragraph("Contacto Recursos Humanos" + str(tutor_industrial.Empresa.contacto_RRHH), styles["default"])
+         ],
+        [Paragraph("Pagina web: " + str(tutor_industrial.Empresa.direccion_web), styles["default"]),
+         Paragraph("Breve Descripción de la empresa:" + str(tutor_industrial.Empresa.descripcion), styles["default"])
+         ],
+
+    ]
+
+    tbl_tut_ind = Table(tbl_tutor_industrial)
+    story.append(tbl_tut_ind)
+    Spacer(1, 0.25 * inch),
+    story.append(Paragraph("PASANTIA", styles['bluetitle']))
+
+    tbl_pasantia = [
+        [Paragraph("Titulo:" + str(pasantia.titulo), styles["default"]),
+         Paragraph("Area del proyecto:" + str(pasantia.area_proyecto.nombre), styles["default"])
+         ],
+    ]
+
+    tbl_pas = Table(tbl_pasantia)
+    story.append(tbl_pas)
 
     buffer = cStringIO.StringIO()
     doc = SimpleDocTemplate(buffer)
@@ -114,4 +173,4 @@ def generarPdfConstanciaCulminacion():
 
     return pdf
 
-    # Spacer(1, 0.25 * inch),
+
