@@ -3,6 +3,7 @@
 import cStringIO
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
+from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 from reportlab.platypus.doctemplate import SimpleDocTemplate
 from reportlab.platypus import Paragraph, Spacer, Table, PageBreak, TableStyle
@@ -251,14 +252,14 @@ def generarPdfConstanciaCulminacion():
 
     # FIRMAS
 
-    qr = Image("../static/images/qr.png")
+    qr = str(os.path.isfile("/static/images/qr.png"))
     story.append(Paragraph("/n", styles['space']))
     tbl_firmas = [
         [Paragraph("Firma del Tutor Industrial Sello de la Empresa", styles["firma"]),
-         Paragraph("Firma del Tutor Académico Sello del Departamento Académico:" + str(estudiante.Estudiante.carnet),
+         Paragraph("Firma del Tutor Académico Sello del Departamento Académico:",
                    styles["firma"]),
          Paragraph(
-             "Firma del Coordinador Sello de la Coordinación de Carrera" + str(estudiante.UsuarioUSB.numero_documento),
+             "Firma del Coordinador Sello de la Coordinación de Carrera",
              styles["firma"]),
          qr
          ]
