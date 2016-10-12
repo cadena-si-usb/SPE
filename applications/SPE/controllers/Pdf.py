@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import cStringIO
-from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
 from reportlab.pdfgen import canvas
 from reportlab.platypus.doctemplate import SimpleDocTemplate
-from reportlab.platypus import Paragraph, Spacer, Table
+from reportlab.platypus import Paragraph, Spacer, Table, PageBreak, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
-from reportlab.lib.colors import HexColor, purple, yellow, black, blue
+from reportlab.lib.colors import HexColor, purple, yellow, black, blue, white
 
 
 def stylesheet():
@@ -20,7 +21,7 @@ def stylesheet():
             leftIndent=0,
             rightIndent=0,
             firstLineIndent=0,
-            alignment=TA_LEFT,
+            alignment=TA_JUSTIFY,
             spaceBefore=0,
             spaceAfter=0,
             bulletFontName='Times-Roman',
@@ -47,17 +48,46 @@ def stylesheet():
         fontSize=11,
         leading=10,
         alignment=TA_LEFT,
-        textColor=blue,
+        textColor=HexColor(0x325d88),
     )
+    styles['firma'] = ParagraphStyle(
+        'firma',
+        parent=styles['default'],
+        fontName='Helvetica-Bold',
+        fontSize=9,
+        leading=10,
+        alignment=TA_CENTER,
+        textColor=black,
+    )
+
     styles['blacktitle'] = ParagraphStyle(
         'blacktitle',
         parent=styles['default'],
-        fontName='Helvetica-Bold',
+        fontName='Times-Roman',
         fontSize=9,
         leading=10,
         alignment=TA_LEFT,
         textColor=black,
     )
+    styles['space'] = ParagraphStyle(
+        'space',
+        parent=styles['default'],
+        fontName='Helvetica-Bold',
+        fontSize=9,
+        leading=10,
+        alignment=TA_LEFT,
+        textColor=white,
+    )
+    styles['default2'] = ParagraphStyle(
+        'default2',
+        parent=styles['default'],
+        fontName='Times-Roman',
+        fontSize=8,
+        leading=8,
+        textColor=black,
+        alignment=TA_JUSTIFY,
+    )
+
     return styles
 
 
@@ -83,9 +113,7 @@ def generarPdfConstanciaCulminacion():
 
     styles = stylesheet()
 
-    story = [
-        Paragraph("ESTUDIANTE", styles['bluetitle']),
-    ]
+    story = [Paragraph("ESTUDIANTE", styles['bluetitle']), Paragraph("/n", styles['space'])]
 
     # no separar en parrafos poner tod pegado
     tbl_estudiante = [
@@ -103,9 +131,11 @@ def generarPdfConstanciaCulminacion():
 
     ]
     tbl_estu = Table(tbl_estudiante)
+    tbl_estu.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black)]))
     story.append(tbl_estu)
-    Spacer(1, 0.25 * inch),
+    story.append(Paragraph("/n", styles['space']))
     story.append(Paragraph("TUTOR ACADEMICO", styles['bluetitle']))
+    story.append(Paragraph("/n", styles['space']))
 
     tbl_tutor_academico = [
         [Paragraph("Nombre y Apellido:" + str(tutor_academico.usuario.nombre) +
@@ -120,12 +150,15 @@ def generarPdfConstanciaCulminacion():
     ]
 
     tbl_tut_ac = Table(tbl_tutor_academico)
+    tbl_tut_ac.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black)]))
     story.append(tbl_tut_ac)
-    Spacer(1, 0.25 * inch),
+    story.append(Paragraph("/n", styles['space']))
     story.append(Paragraph("TUTOR INDUSTRIAL", styles['bluetitle']))
+    story.append(Paragraph("/n", styles['space']))
 
     tbl_tutor_industrial = [
-        [Paragraph("Empresa:" + str(tutor_industrial.Empresa.usuario.nombre) + str(usuario['apellido']), styles["default"]),
+        [Paragraph("Empresa:" + str(tutor_industrial.Empresa.usuario.nombre) + str(usuario['apellido']),
+                   styles["default"]),
          Paragraph("Telefono:" + str(tutor_industrial.Empresa.usuario.telefono), styles["default"]),
          Paragraph("Email:" + str(tutor_industrial.Empresa.usuario.correo), styles["default"])
          ],
@@ -148,9 +181,11 @@ def generarPdfConstanciaCulminacion():
     ]
 
     tbl_tut_ind = Table(tbl_tutor_industrial)
+    tbl_tut_ind.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black)]))
     story.append(tbl_tut_ind)
-    Spacer(1, 0.25 * inch),
+    story.append(Paragraph("/n", styles['space']))
     story.append(Paragraph("PASANTIA", styles['bluetitle']))
+    story.append(Paragraph("/n", styles['space']))
 
     tbl_pasantia = [
         [Paragraph("Titulo:" + str(pasantia.titulo), styles["default"]),
@@ -159,7 +194,50 @@ def generarPdfConstanciaCulminacion():
     ]
 
     tbl_pas = Table(tbl_pasantia)
+    tbl_pas.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black)]))
     story.append(tbl_pas)
+    story.append(Paragraph("/n", styles['space']))
+    # ACEPTACION DE LA TUTORIA
+
+    story.append(Paragraph("""ACEPTACIÓN DE TUTORÍA: Al firmar este documento, aceptamos la tutoría de esta pasantía, durante el periodo
+    señalado, y el cumplimiento de nuestras responsabilidades especificadas como Tutor Académico y Tutor Industrial
+    respectivamente, establecidas por la Universidad Simón Bolívar 1 para su Programa de cursos de cooperación.
+    CONFIDENCIALIDAD: Tanto el informe final, la presentación y defensa correspondientes a una pasantía de la
+    Universidad Simón Bolívar tienen carácter público 1 , por lo que no podrán contener información clasificada como
+    confidencial por parte de la Entidad de Trabajo en la cual se haya realizado la pasantía. En el caso de que se considere que
+    alguna información debe ser confidencial, ésta debe indicarse en forma expresa en el Plan de Trabajo y requiere la
+    suscripción de un acuerdo de confidencialidad entre la Entidad de Trabajo y la Universidad Simón Bolívar antes de dar inicio
+    a la pasantía 2,3 . Ningún estudiante está autorizado a firmar unilateralmente acuerdos de confidencialidad
+    con entidad alguna, de manera voluntaria u bajo coacción de algún tipo, sin la previa autorización de la Universidad
+    Simón Bolívar 2 .
+    PROPIEDAD INTELECTUAL: Todo lo concerniente a la propiedad intelectual y los derechos de orden moral y patrimonial
+    que se deriven de la presente pasantía, así como la comercialización y explotación de los resultados provenientes de ella,
+    serán tratados en la reglamentación interna que al efecto dicte el Consejo Directivo sobre derechos de autor y patente
+    industrial 2,3 .""", styles['default2']))
+
+    # REFERENCIAS
+
+    story.append(Paragraph("/n", styles['space']))
+    story.append(Paragraph("""Referencias:""", styles['blacktitle']))
+    story.append(Paragraph("1.Reglamento C.4 Cursos de Cooperación. Universidad Simón Bolívar", styles['default2']))
+    story.append(Paragraph("2.Norma C.20 Pregrado. Proyectos de Grado. Universidad Simón Bolívar", styles['default2']))
+    story.append(
+        Paragraph("3.Resolución G.21 Creación Intelectual, Regalías. Universidad Simón Bolívar", styles['default2']))
+
+    # FIRMAS
+
+    story.append(Paragraph("/n", styles['space']))
+    tbl_firmas = [
+        [Paragraph("Firma del Tutor Industrial Sello de la Empresa", styles["firma"]),
+         Paragraph("Firma del Tutor Académico Sello del Departamento Académico:" + str(estudiante.Estudiante.carnet),
+                   styles["firma"]),
+         Paragraph(
+             "Firma del Coordinador Sello de la Coordinación de Carrera" + str(estudiante.UsuarioUSB.numero_documento),
+             styles["firma"])
+         ],
+    ]
+    tbl_firm = Table(tbl_firmas)
+    story.append(tbl_firm)
 
     buffer = cStringIO.StringIO()
     doc = SimpleDocTemplate(buffer)
@@ -172,5 +250,3 @@ def generarPdfConstanciaCulminacion():
     response.headers.update(header)
 
     return pdf
-
-
