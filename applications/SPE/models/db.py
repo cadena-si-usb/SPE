@@ -58,6 +58,9 @@ from applications.SPE_lib.modules.db_7_Actividad import Actividad
 from applications.SPE_lib.modules.db_7_Materia_Periodo import Materia_Periodo
 
 from applications.SPE_lib.modules.fixtures import load_fixtures
+# Se importan aqui para no tener que importarlos en el resto del sistema
+from Acciones_Usuario import construirAccion as construirAccion
+from Usuarios import Usuario
 
 ## once in production, remove reload=True to gain full speed
 myconf = AppConfig(reload=True)
@@ -105,6 +108,7 @@ response.form_label_separator = myconf.take('forms.separator')
 from gluon.tools import Auth, Service, PluginManager,Mail
 
 auth = Auth(db)
+current.auth = auth
 service = Service()
 plugins = PluginManager()
 

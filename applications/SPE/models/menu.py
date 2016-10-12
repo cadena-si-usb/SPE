@@ -1,3 +1,6 @@
+from Usuarios import Usuario
+Usuario=Usuario()
+
 response.title = settings.title
 response.subtitle = settings.subtitle
 response.meta.author = '%(author)s <%(author_email)s>' % settings
@@ -84,10 +87,33 @@ elif not auth.is_logged_in():
     ]
 # Si no es alguno de los roles estandares entonces es un administrativo con rol personalizado o un usuario externo a la aplicacion
 else:
-    opciones = opciones_administrativo
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
     ]
+    roles=auth.user_groups
+    opciones = opciones_administrativo
+    administrativeMenu=[]
+    # Buscamos entre los roles del usuario si tiene acciones pertenecientes al contexto, si las tiene agregamos ese menu
+    # de ese contexto
+    for rol in roles:
+        accion = Usuario.getUserActions('catalogos')
+        if accion:
+            url=accion[0]
+            administrativeMenu.append(((SPAN(_class='fa fa-cog'), '  Catalogos'), False, url))
+    for rol in roles:
+        accion = Usuario.getUserActions('pasantias')
+        if accion:
+            url = accion[0]
+            administrativeMenu.append(((SPAN(_class='fa fa-list'), '  Pasantias'), False, url))
+    for rol in roles:
+        accion = Usuario.getUserActions('coordinacion')
+        if accion:
+            url = accion[0]
+            administrativeMenu.append(((SPAN(_class='fa fa-cog'), '  Usuarios'), False, url))
+
+    if len(administrativeMenu)>0:
+        response.menu.append((T('Administracion'), False, "#",administrativeMenu))
+
 
 menu_autenticado = [
     (texto_principal, False, '#', opciones)

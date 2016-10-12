@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 from Acceso_Etapa import Acceso_Etapa
-
+from Usuarios import Usuario
 import Encoder
 
 Acceso_Etapa = Acceso_Etapa()
+Usuario = Usuario()
 
+@auth.requires(Usuario.checkUserPermission('/'+request.application+'/'+request.controller+'/'+'listar'))
 def listar():
     session.rows = []
-
     return dict(rows=session.rows,id="prueba")
-
+@auth.requires(Usuario.checkUserPermission('/'+request.application+'/'+request.controller+'/'+'listar'))
 def agregar():
     fields = ['rol','etapa']
 
@@ -23,13 +24,13 @@ def agregar():
     else:
         response.flash = T('Por favor llene la forma.')
     return locals()
-
+@auth.requires(Usuario.checkUserPermission('/'+request.application+'/'+request.controller+'/'+'listar'))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Acceso_Etapa.count(obj)
 
     return count
-
+@auth.requires(Usuario.checkUserPermission('/'+request.application+'/'+request.controller+'/'+'listar'))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -42,7 +43,7 @@ def get():
     rows = rows.as_json()
 
     return rows
-
+@auth.requires(Usuario.checkUserPermission('/'+request.application+'/'+request.controller+'/'+'listar'))
 def modificar():
     record = db.Acceso_Etapa(request.args(0)) or redirect(URL('agregar'))
     form = SQLFORM(db.Acceso_Etapa, record,showid=False)

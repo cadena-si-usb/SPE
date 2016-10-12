@@ -114,3 +114,31 @@ class Usuario(Model):
 			print 'ERROR: ',
 			print e
 
+	def getUserActions(self,context=None):
+		roles = current.auth.user_groups
+		acciones = None
+		for rol in roles:
+			if context:
+				if acciones:
+					acciones.records.append(self.db((self.db.Accion_Usuario.rol == rol) & (self.db.Accion_Usuario.contexto == context)).select(
+						self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.nombre))
+				else:
+					acciones=(self.db(
+						(self.db.Accion_Usuario.rol == rol) & (self.db.Accion_Usuario.contexto == context)).select(
+						self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.nombre))
+			else:
+				if acciones:
+					acciones.records.append(
+						self.db((self.db.Accion_Usuario.rol == rol)).select(
+							self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.nombre))
+				else:
+					acciones= self.db((self.db.Accion_Usuario.rol == rol)).select(
+						self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.nombre)
+		destinos=[]
+		for accion in acciones:
+			destinos.append(accion.destino)
+		return destinos
+
+	def checkUserPermission(self,action):
+		acciones = self.getUserActions()
+		return (action in acciones)
