@@ -86,7 +86,7 @@ def stylesheet():
         parent=styles['default'],
         fontName='Times-Roman',
         fontSize=10,
-        leading=8,
+        leading=12,
         textColor=black,
         alignment=TA_JUSTIFY,
     )
@@ -256,7 +256,7 @@ def generarPdfConstanciaCulminacion():
     story.append(Paragraph("/n", styles['space']))
     tbl_firmas = [
         [Paragraph("Firma del Tutor Industrial Sello de la Empresa", styles["firma"]),
-         Paragraph("Firma del Tutor Académico Sello del Departamento Académico:",
+         Paragraph("Firma del Tutor Académico Sello del Departamento Académico",
                    styles["firma"]),
          Paragraph(
              "Firma del Coordinador Sello de la Coordinación de Carrera",
