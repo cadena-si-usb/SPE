@@ -48,7 +48,7 @@ def stylesheet():
         'bluetitle',
         parent=styles['default'],
         fontName='Helvetica-Bold',
-        fontSize=10,
+        fontSize=9,
         leading=10,
         alignment=TA_LEFT,
         textColor=HexColor(0x325d88),
@@ -56,7 +56,7 @@ def stylesheet():
     styles['firma'] = ParagraphStyle(
         'firma',
         parent=styles['default'],
-        fontName='Helvetica-Bold',
+        fontName='Times-Roman',
         fontSize=9,
         leading=10,
         alignment=TA_CENTER,
@@ -85,10 +85,19 @@ def stylesheet():
         'default2',
         parent=styles['default'],
         fontName='Times-Roman',
+        fontSize=8,
+        leading=10,
+        textColor=black,
+        alignment=TA_JUSTIFY,
+    )
+    styles['default3'] = ParagraphStyle(
+        'default3',
+        parent=styles['default'],
+        fontName='Times-Roman',
         fontSize=10,
         leading=12,
         textColor=black,
-        alignment=TA_JUSTIFY,
+        alignment=TA_LEFT,
     )
 
     return styles
@@ -116,24 +125,21 @@ def generarPdfConstanciaCulminacion():
 
     styles = stylesheet()
 
-
     story = []
+    logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../static/images/logo2.png')
+    logo = Image(logo_path, width=120, height=80)
 
     # ENCABEZADO
     tbl_cabeza = [
-        [Paragraph("<b>PLAN DE TRABAJO PASANTÍA</b>", styles["default"])
+        [logo,
+         Paragraph("<b>PLAN DE TRABAJO PASANTÍA</b>", styles["default3"]),
          ],
     ]
 
-    tbl_cab = Table(tbl_cabeza, colWidths=[6.0 * inch])
+    tbl_cab = Table(tbl_cabeza, colWidths=[3.0 * inch])
     story.append(tbl_cab)
-    story.append(Paragraph("/n", styles['space']))
-
-
     story.append(Paragraph("ESTUDIANTE", styles['bluetitle']))
-    story.append(Paragraph("/n", styles['space']))
 
-    # no separar en parrafos poner tod pegado
     tbl_estudiante = [
         [Paragraph("<b>Nombre y Apellido:</b>" + "  " +
                    str(usuario['nombre']) + " " + str(usuario['apellido']) + "   " +
@@ -156,7 +162,6 @@ def generarPdfConstanciaCulminacion():
     story.append(tbl_estu)
     story.append(Paragraph("/n", styles['space']))
     story.append(Paragraph("TUTOR ACADEMICO", styles['bluetitle']))
-    story.append(Paragraph("/n", styles['space']))
 
     tbl_tutor_academico = [
         [Paragraph("<b>Nombre y Apellido:</b>" + " " +
@@ -177,7 +182,6 @@ def generarPdfConstanciaCulminacion():
     story.append(tbl_tut_ac)
     story.append(Paragraph("/n", styles['space']))
     story.append(Paragraph("TUTOR INDUSTRIAL", styles['bluetitle']))
-    story.append(Paragraph("/n", styles['space']))
 
     tbl_tutor_industrial = [
         [Paragraph("<b>Empresa:</b>" + " " +
@@ -211,7 +215,6 @@ def generarPdfConstanciaCulminacion():
     story.append(tbl_tut_ind)
     story.append(Paragraph("/n", styles['space']))
     story.append(Paragraph("PASANTIA", styles['bluetitle']))
-    story.append(Paragraph("/n", styles['space']))
 
     tbl_pasantia = [
         [Paragraph("<b>Titulo:</b>" + " " + str(pasantia.titulo) + " " +
@@ -252,7 +255,8 @@ def generarPdfConstanciaCulminacion():
 
     # FIRMAS
 
-    qr = str(os.path.isfile("/static/images/qr.png"))
+    qr_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../static/images/qr.png')
+    qr = Image(qr_path, width=70, height=70)
     story.append(Paragraph("/n", styles['space']))
     tbl_firmas = [
         [Paragraph("Firma del Tutor Industrial Sello de la Empresa", styles["firma"]),
@@ -267,12 +271,12 @@ def generarPdfConstanciaCulminacion():
     tbl_firm = Table(tbl_firmas)
     story.append(tbl_firm)
     story.append(PageBreak())
+    story.append(tbl_cab)
     story.append(Paragraph("/n", styles['space']))
     story.append(Paragraph("PASANTIA", styles['bluetitle']))
-    story.append(Paragraph("/n", styles['space']))
 
 
-    # DETALLES PSANTIA
+    # DETALLES PASANTIA
 
     tbl_pasantia2 = [
         [Paragraph("<b>Titulo:</b>" + " " + str(pasantia.titulo) + " " +
@@ -313,31 +317,31 @@ def generarPdfConstanciaCulminacion():
     contador = 1
     story.append(Paragraph("/n", styles['space']))
     tbl_objetivo_titulo = [
-        [Paragraph(str(contador) +" " + "<b>Objetivo especifico:</b>" + " " +
-                   "str(pasantia.objetivoespeciico[i].titulo)",styles["default"])
+        [Paragraph(str(contador) + " " + "<b>Objetivo especifico:</b>" + " " +
+                   "str(pasantia.objetivoespeciico[i].titulo)", styles["default"])
          ]
     ]
-    tbl_objetivo=[
+    tbl_objetivo = [
         [Paragraph("<b>Actividades</b>", styles["default"]),
          Paragraph("<b>Semana Inicio</b>", styles["default"]),
          Paragraph("<b>Semana Final</b>", styles["default"]),
          ],
         [
-         # Hacer un FOR para las actividades del objetivo especifico desde aqui
-         Paragraph("str(pasantia.objetivoespecifico[i].actividad[j].id)" + " " +
-                   "str(pasantia.objetivoespecifico[i].actividad[j].nombre)", styles["default"]),
-         Paragraph("str(pasantia.objetivoespecifico[i].actividad[j].inicio", styles["default"]),
-         Paragraph("str(pasantia.objetivoespecifico[i].actividad[j].final", styles["default"]),
-         # Hasta aqui
-         ],
+            # Hacer un FOR para las actividades del objetivo especifico desde aqui
+            Paragraph("str(pasantia.objetivoespecifico[i].actividad[j].id)" + " " +
+                      "str(pasantia.objetivoespecifico[i].actividad[j].nombre)", styles["default"]),
+            Paragraph("str(pasantia.objetivoespecifico[i].actividad[j].inicio", styles["default"]),
+            Paragraph("str(pasantia.objetivoespecifico[i].actividad[j].final", styles["default"]),
+            # Hasta aqui
+        ],
     ]
-    tbl_obj_tit =Table(tbl_objetivo_titulo, colWidths=[6.0 * inch])
+    tbl_obj_tit = Table(tbl_objetivo_titulo, colWidths=[6.0 * inch])
     tbl_obj_tit.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black)]))
     story.append(tbl_obj_tit)
 
     tbl_obj = Table(tbl_objetivo, colWidths=[2.0 * inch])
     tbl_obj.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-                                 ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black)]))
+                                 ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)]))
     story.append(tbl_obj)
 
     # Hasta aqui
@@ -346,18 +350,17 @@ def generarPdfConstanciaCulminacion():
 
     story.append(Paragraph("/n", styles['space']))
     story.append(Paragraph("CRONOGRAMA DE ACTIVIDADES", styles['bluetitle']))
-    story.append(Paragraph("/n", styles['space']))
 
     tbl_titulo_semanas = [
-        [Paragraph("<b>SEMANAS DEL PERIODO DE PASANTIAS:</b>",styles["default"])
+        [Paragraph("<b>SEMANAS DEL PERIODO DE PASANTIAS:</b>", styles["default"])
          ]
     ]
 
-    tbl_tot_sem =Table(tbl_titulo_semanas , colWidths=[6.3 * inch])
+    tbl_tot_sem = Table(tbl_titulo_semanas, colWidths=[6.3 * inch])
     tbl_tot_sem.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black)]))
     story.append(tbl_tot_sem)
 
-    tbl_cronograma=[
+    tbl_cronograma = [
         [Paragraph("Act", styles["default"]),
          Paragraph("1", styles["default"]),
          Paragraph("2", styles["default"]),
@@ -408,13 +411,14 @@ def generarPdfConstanciaCulminacion():
         # hasta aqui
 
     ]
-    tbl_cro =Table(tbl_cronograma, colWidths=[0.3 * inch])
+    tbl_cro = Table(tbl_cronograma, colWidths=[0.3 * inch])
     tbl_cro.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-                                ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black)]))
+                                 ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)]))
     story.append(tbl_cro)
 
     # FIRMAS2
 
+    story.append(Paragraph("/n", styles['space']))
     story.append(Paragraph("/n", styles['space']))
     tbl_firmas2 = [
         [Paragraph("V.B del Tutor Académico", styles["firma"]),
