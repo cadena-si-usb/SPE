@@ -152,6 +152,18 @@ def load_fixtures(db,T):
         )
         db.commit()
 
+    # if db(db.P.id > 0).count() == 0:
+    #     db.Permisos.insert(
+    #         Tipo='Inscripcion Extemporanea'
+    #     )
+    #     db.Permisos.insert(
+    #         Tipo='Inscripcion Extemporanea'
+    #     )
+    #     db.Permisos.insert(
+    #     )
+    #     db.commit()
+
+
     if db(db.Area_Laboral.id > 0).count() == 0:
         db.Area_Laboral.insert(
             nombre='Tecnologia',

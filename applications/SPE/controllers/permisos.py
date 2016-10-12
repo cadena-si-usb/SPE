@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from Permisos import Permiso
+from Permisos_Evaluacion import Permiso_Evaluacion
 
 import Encoder
 
@@ -12,8 +13,9 @@ def listar():
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
-    fields = ['Tipo','pasantia','estado']
+    fields = ['Tipo','pasantia','estado','aprobacion_tutor_academico','aprobacion_coordinacion','justificacion']
 
+    # Crear tabla de Permiso_Evaluacion(hija de Permisos) y Calendario_Compromisos
     form = Permiso.form(fields)
 
     if form.process().accepted:
