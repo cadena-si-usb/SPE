@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Estado(db,T):
+def Estado_Table(db,T):
     db.define_table('Estado',
         Field('nombre','string'),
         Field('Pais', 'reference Pais'),

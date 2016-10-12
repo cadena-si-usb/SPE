@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Administrativo(db,T):
+def Administrativo_Table(db,T):
     db.define_table('Administrativo',
         Field('usuario','reference UsuarioUSB',
               label='Usuario (*)'),

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from gluon import *
 
-def Area_Proyecto(db,T):
+def Area_Proyecto_Table(db,T):
     db.define_table('Area_Proyecto',
                     Field('nombre', 'string', required=True, ondelete='CASCADE',
                           notnull=True, label='Área del Proyecto'),

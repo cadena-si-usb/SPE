@@ -13,49 +13,49 @@
 from gluon.contrib.appconfig import AppConfig
 from gluon import current
 
-from applications.SPE_lib.modules.db_0_Area_Laboral import Area_Laboral
-from applications.SPE_lib.modules.db_0_Area_Proyecto import Area_Proyecto
-from applications.SPE_lib.modules.db_0_Categoria import Categoria
-from applications.SPE_lib.modules.db_0_Dedicacion import Dedicacion
-from applications.SPE_lib.modules.db_0_Division import Division
-from applications.SPE_lib.modules.db_0_Etapa import Etapa
-from applications.SPE_lib.modules.db_0_Periodo import Periodo
-from applications.SPE_lib.modules.db_0_Sede import Sede
-from applications.SPE_lib.modules.db_0_Tipo_Documento import Tipo_Documento
-from applications.SPE_lib.modules.db_1_Acceso_Etapa import Acceso_Etapa
-from applications.SPE_lib.modules.db_1_Accion_Usuario import Accion_Usuario
-from applications.SPE_lib.modules.db_1_Coordinacion import Coordinacion
-from applications.SPE_lib.modules.db_1_correo_Por_Verificar import correo_por_verificar
-from applications.SPE_lib.modules.db_1_Departamento import Departamento
-from applications.SPE_lib.modules.db_1_Materia import Materia
-from applications.SPE_lib.modules.db_1_Pais import Pais
-from applications.SPE_lib.modules.db_1_Universidad import Universidad
-from applications.SPE_lib.modules.db_1_UsuarioUSB import UsuarioUSB
-from applications.SPE_lib.modules.db_2_Administrativo import Administrativo
-from applications.SPE_lib.modules.db_2_Carrera import Carrera
-from applications.SPE_lib.modules.db_2_Coordinador import Coordinador
-from applications.SPE_lib.modules.db_2_Estado import Estado
-from applications.SPE_lib.modules.db_2_Profesor import Profesor
-from applications.SPE_lib.modules.db_2_UsuarioExterno import UsuarioExterno
-from applications.SPE_lib.modules.db_3_Empresa import Empresa
-from applications.SPE_lib.modules.db_3_Estudiante import Estudiante
-from applications.SPE_lib.modules.db_3_Tutor_Industrial import Tutor_Industrial
+from applications.SPE_lib.modules.db_0_Area_Laboral import Area_Laboral_Table
+from applications.SPE_lib.modules.db_0_Area_Proyecto import Area_Proyecto_Table
+from applications.SPE_lib.modules.db_0_Categoria import Categoria_Table
+from applications.SPE_lib.modules.db_0_Dedicacion import Dedicacion_Table
+from applications.SPE_lib.modules.db_0_Division import Division_Table
+from applications.SPE_lib.modules.db_0_Etapa import Etapa_Table
+from applications.SPE_lib.modules.db_0_Periodo import Periodo_Table
+from applications.SPE_lib.modules.db_0_Sede import Sede_Table
+from applications.SPE_lib.modules.db_0_Tipo_Documento import Tipo_Documento_Table
+from applications.SPE_lib.modules.db_1_Acceso_Etapa import Acceso_Etapa_Table
+from applications.SPE_lib.modules.db_1_Accion_Usuario import Accion_Usuario_Table
+from applications.SPE_lib.modules.db_1_Coordinacion import Coordinacion_Table
+from applications.SPE_lib.modules.db_1_correo_Por_Verificar import correo_por_verificar_Table
+from applications.SPE_lib.modules.db_1_Departamento import Departamento_Table
+from applications.SPE_lib.modules.db_1_Materia import Materia_Table
+from applications.SPE_lib.modules.db_1_Pais import Pais_Table
+from applications.SPE_lib.modules.db_1_Universidad import Universidad_Table
+from applications.SPE_lib.modules.db_1_UsuarioUSB import UsuarioUSB_Table
+from applications.SPE_lib.modules.db_2_Administrativo import Administrativo_Table
+from applications.SPE_lib.modules.db_2_Carrera import Carrera_Table
+from applications.SPE_lib.modules.db_2_Coordinador import Coordinador_Table
+from applications.SPE_lib.modules.db_2_Estado import Estado_Table
+from applications.SPE_lib.modules.db_2_Profesor import Profesor_Table
+from applications.SPE_lib.modules.db_2_UsuarioExterno import UsuarioExterno_Table
+from applications.SPE_lib.modules.db_3_Empresa import Empresa_Table
+from applications.SPE_lib.modules.db_3_Estudiante import Estudiante_Table
+from applications.SPE_lib.modules.db_3_Tutor_Industrial import Tutor_Industrial_Table
 
-from applications.SPE_lib.modules.db_4_Curriculo import Curriculo
-from applications.SPE_lib.modules.db_4_Pasantia import Pasantia
-from applications.SPE_lib.modules.db_4_Permiso import Permiso
-from applications.SPE_lib.modules.db_4_Retiro import Retiro
+from applications.SPE_lib.modules.db_4_Curriculo import Curriculo_Table
+from applications.SPE_lib.modules.db_4_Pasantia import Pasantia_Table
+from applications.SPE_lib.modules.db_4_Permiso import Permiso_Table
+from applications.SPE_lib.modules.db_4_Retiro import Retiro_Table
 
-from applications.SPE_lib.modules.db_5_Colocacion import Colocacion
-from applications.SPE_lib.modules.db_5_Ejecucion import Ejecucion
-from applications.SPE_lib.modules.db_5_Inscripcion import Inscripcion
-from applications.SPE_lib.modules.db_5_Plan_Trabajo import Plan_Trabajo
-from applications.SPE_lib.modules.db_5_Preinscripcion import Preinscripcion
+from applications.SPE_lib.modules.db_5_Colocacion import Colocacion_Table
+from applications.SPE_lib.modules.db_5_Ejecucion import Ejecucion_Table
+from applications.SPE_lib.modules.db_5_Inscripcion import Inscripcion_Table
+from applications.SPE_lib.modules.db_5_Plan_Trabajo import Plan_Trabajo_Table
+from applications.SPE_lib.modules.db_5_Preinscripcion import Preinscripcion_Table
 
-from applications.SPE_lib.modules.db_6_Fase import Fase
+from applications.SPE_lib.modules.db_6_Fase import Fase_Table
 
-from applications.SPE_lib.modules.db_7_Actividad import Actividad
-from applications.SPE_lib.modules.db_7_Materia_Periodo import Materia_Periodo
+from applications.SPE_lib.modules.db_7_Actividad import Actividad_Table
+from applications.SPE_lib.modules.db_7_Materia_Periodo import Materia_Periodo_Table
 
 from applications.SPE_lib.modules.fixtures import load_fixtures
 # Se importan aqui para no tener que importarlos en el resto del sistema
@@ -150,44 +150,44 @@ mail.settings.server = settings.email_server
 mail.settings.sender = settings.email_sender
 mail.settings.login = settings.email_login
 # Cargamos Nuestros Modelos
-Area_Laboral(db,T)
-Area_Proyecto(db,T)
-Categoria(db,T)
-Dedicacion(db,T)
-Division(db,T)
-Etapa(db,T)
-Periodo(db,T)
-Sede(db,T)
-Tipo_Documento(db,T)
-Acceso_Etapa(db,T)
-Accion_Usuario(db,T)
-Coordinacion(db,T)
-correo_por_verificar(db,T)
-Departamento(db,T)
-Materia(db,T)
-Pais(db,T)
-Universidad(db,T)
-UsuarioUSB(db,T)
-Administrativo(db,T)
-Carrera(db,T)
-Coordinador(db,T)
-Estado(db,T)
-Profesor(db,T)
-UsuarioExterno(db,T)
-Empresa(db,T)
-Estudiante(db,T)
-Tutor_Industrial(db,T)
-Curriculo(db,T)
-Pasantia(db,T)
-Permiso(db,T)
-Retiro(db,T)
-Colocacion(db,T)
-Ejecucion(db,T)
-Inscripcion(db,T)
-Plan_Trabajo(db,T)
-Preinscripcion(db,T)
-Fase(db,T)
-Actividad(db,T)
-Materia_Periodo(db,T)
+Area_Laboral_Table(db,T)
+Area_Proyecto_Table(db,T)
+Categoria_Table(db,T)
+Dedicacion_Table(db,T)
+Division_Table(db,T)
+Etapa_Table(db,T)
+Periodo_Table(db,T)
+Sede_Table(db,T)
+Tipo_Documento_Table(db,T)
+Acceso_Etapa_Table(db,T)
+Accion_Usuario_Table(db,T)
+Coordinacion_Table(db,T)
+correo_por_verificar_Table(db,T)
+Departamento_Table(db,T)
+Materia_Table(db,T)
+Pais_Table(db,T)
+Universidad_Table(db,T)
+UsuarioUSB_Table(db,T)
+Administrativo_Table(db,T)
+Carrera_Table(db,T)
+Coordinador_Table(db,T)
+Estado_Table(db,T)
+Profesor_Table(db,T)
+UsuarioExterno_Table(db,T)
+Empresa_Table(db,T)
+Estudiante_Table(db,T)
+Tutor_Industrial_Table(db,T)
+Curriculo_Table(db,T)
+Pasantia_Table(db,T)
+Permiso_Table(db,T)
+Retiro_Table(db,T)
+Colocacion_Table(db,T)
+Ejecucion_Table(db,T)
+Inscripcion_Table(db,T)
+Plan_Trabajo_Table(db,T)
+Preinscripcion_Table(db,T)
+Fase_Table(db,T)
+Actividad_Table(db,T)
+Materia_Periodo_Table(db,T)
 # Cargamos La Data Predeterminada
 load_fixtures(db,T)

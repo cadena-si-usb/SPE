@@ -5,11 +5,12 @@ import Encoder
 
 Categoria = Categoria()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
-
     return dict(rows=session.rows,id="prueba")
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     fields = ['nombre']
 
@@ -24,12 +25,14 @@ def agregar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Categoria.count(obj)
 
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -39,6 +42,7 @@ def get():
 
     return rows
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     record = db.Categoria(request.args(0)) or redirect(URL('agregar'))
     form = SQLFORM(db.Categoria, record,showid=False)

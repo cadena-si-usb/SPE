@@ -5,11 +5,12 @@ import Encoder
 
 Tipo_Documento = Tipo_Documento()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
-
     return dict(rows=session.rows,id="prueba")
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     fields = ['nombre']
 
@@ -24,12 +25,13 @@ def agregar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Tipo_Documento.count(obj)
-
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -39,6 +41,7 @@ def get():
 
     return rows
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     record = db.Tipo_Documento(request.args(0)) or redirect(URL('agregar'))
     form = SQLFORM(db.Tipo_Documento, record,showid=False)

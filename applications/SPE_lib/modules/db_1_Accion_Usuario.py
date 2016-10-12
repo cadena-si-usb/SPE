@@ -8,7 +8,7 @@
 #                            MODULO DE INVENTARIO                              #
 #------------------------------------------------------------------------------#
 from gluon import *
-def Accion_Usuario(db,T):
+def Accion_Usuario_Table(db,T):
     db.define_table('Accion_Usuario',
         Field('nombre'),
         Field('destino'),

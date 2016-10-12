@@ -7,7 +7,7 @@ from gluon import *
 #------------------------------------------------------------------------------#
 #                            MODULO DE INVENTARIO                              #
 #------------------------------------------------------------------------------#
-def Permiso(db,T):
+def Permiso_Table(db,T):
     db.define_table('Permiso',
         Field('Tipo',requires=IS_IN_SET(['Inscripcion Extemporanea','Retiro'])),
         Field('pasantia','reference Pasantia'),

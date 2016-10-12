@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Fase(db,T):
+def Fase_Table(db,T):
     db.define_table('Fase',
         Field('numero','integer',
               requires=[IS_NOT_EMPTY

@@ -7,7 +7,7 @@ from gluon import *
 #------------------------------------------------------------------------------#
 #                            MODULO DE INVENTARIO                              #
 #------------------------------------------------------------------------------#
-def Retiro(db,T):
+def Retiro_Table(db,T):
     db.define_table('Retiro',
         Field('nombre'),
         Field('pasantia','reference Pasantia'),

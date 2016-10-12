@@ -7,7 +7,7 @@ from gluon import *
 #------------------------------------------------------------------------------#
 #                            MODULO DE INVENTARIO                              #
 #------------------------------------------------------------------------------#
-def Materia(db,T):
+def Materia_Table(db,T):
     db.define_table('Materia',
         Field('codigo'),
         Field('sede','reference Sede', label='Sede', notnull=True),

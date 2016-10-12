@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def correo_por_verificar(db,T):
+def correo_por_verificar_Table(db,T):
     db.define_table('correo_por_verificar',
                        Field('correo','string',required=True,ondelete='CASCADE',
                              notnull=True, label='Correo'),

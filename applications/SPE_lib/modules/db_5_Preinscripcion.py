@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from gluon import *
-def Preinscripcion(db,T):
+def Preinscripcion_Table(db,T):
     db.define_table('Preinscripcion',
         Field('pasantia','reference Pasantia',
                label='Pasantia'),

@@ -5,11 +5,13 @@ import Encoder
 
 Membresia = Membresia()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
 
     return dict(rows=session.rows,id="prueba")
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     fields = ['user_id','group_id']
     db.auth_membership.user_id.requires=IS_IN_DB(db,'auth_user.id','%(first_name)s %(last_name)s - %(username)s - %(email)s')
@@ -24,12 +26,14 @@ def agregar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Membresia.count(obj)
 
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -41,6 +45,7 @@ def get():
 
     return rows
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     db.auth_membership.user_id.requires = IS_IN_DB(db, 'auth_user.id',
                                                    '%(first_name)s %(last_name)s - %(username)s - %(email)s')

@@ -5,10 +5,12 @@ import Encoder
 
 Estudiante = Estudiante()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
     return dict(rows=session.rows)
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
 
     fields = [
@@ -66,12 +68,14 @@ def agregar():
 
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Estudiante.count(obj)
 
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -80,6 +84,7 @@ def get():
 
     return rows.as_json()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     fields = [
         'nombre',

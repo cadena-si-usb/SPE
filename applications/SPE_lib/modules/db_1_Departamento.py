@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Departamento(db,T):
+def Departamento_Table(db,T):
     # Departamento
     db.define_table('Departamento',
                     Field('nombre','string', requires=IS_NOT_EMPTY(), default='', label="Nombre del Departamento"),

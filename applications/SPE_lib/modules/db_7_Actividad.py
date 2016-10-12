@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Actividad(db,T):
+def Actividad_Table(db,T):
     db.define_table('Actividad',
         Field('fase','reference Fase',
             label = 'Fase'),

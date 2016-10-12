@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Universidad(db,T):
+def Universidad_Table(db,T):
     db.define_table('Universidad',
                     Field('nombre','string',required=True,ondelete='CASCADE',
                         notnull=True, label='Universidad'),

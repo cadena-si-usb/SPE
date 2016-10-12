@@ -5,11 +5,13 @@ import Encoder
 
 Area_Laboral = Area_Laboral()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
 
     return dict(rows=session.rows,id="prueba")
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     fields = ['nombre','descripcion']
 
@@ -24,12 +26,14 @@ def agregar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Area_Laboral.count(obj)
 
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -39,6 +43,7 @@ def get():
 
     return rows
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     record = db.Area_Laboral(request.args(0)) or redirect(URL('agregar'))
     form = SQLFORM(db.Area_Laboral, record,showid=False)

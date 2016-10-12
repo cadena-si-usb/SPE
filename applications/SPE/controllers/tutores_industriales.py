@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-from Estudiantes import Estudiante
+from Tutores_Industriales import Tutor_Industrial
 
 import Encoder
 
-Estudiante = Estudiante()
+Tutor_Industrial = Tutor_Industrial()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
     return dict(rows=session.rows)
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     # Agregamos los campos en el orden deseado, comenzamos con el login y el password
     fields = [
@@ -112,12 +114,14 @@ def agregar():
 
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
-    count = Estudiante.count(obj)
+    count = Tutor_Industrial.count(obj)
 
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -126,6 +130,7 @@ def get():
 
     return rows.as_json()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     prueba=request.args[0]
     tutor = db(db.Tutor_Industrial.id == request.args[0]).select().first()

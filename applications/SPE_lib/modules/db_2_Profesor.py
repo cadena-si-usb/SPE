@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Profesor(db,T):
+def Profesor_Table(db,T):
     db.define_table('Profesor',
            Field('usuario','reference UsuarioUSB',
               label='Usuario (*)'),

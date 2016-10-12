@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Coordinador(db,T):
+def Coordinador_Table(db,T):
     db.define_table('Coordinador',
         Field('usuario','reference UsuarioUSB',
               label='Usuario (*)'),

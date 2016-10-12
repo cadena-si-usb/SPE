@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def UsuarioExterno(db,T):
+def UsuarioExterno_Table(db,T):
     db.define_table('UsuarioExterno',
                     Field('auth_User', 'reference auth_user'),
                     Field('nombre',

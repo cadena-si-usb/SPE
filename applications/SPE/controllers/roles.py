@@ -5,11 +5,12 @@ import Encoder
 
 Rol = Rol()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
-
     return dict(rows=session.rows,id="prueba")
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     fields = ['role', 'description']
 
@@ -24,12 +25,14 @@ def agregar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Rol.count(obj)
 
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -41,6 +44,7 @@ def get():
 
     return rows
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     record = db.auth_group(request.args(0)) or redirect(URL('agregar'))
     # Si es uno de los roles por defecto evitamos que se puedan editar

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def UsuarioUSB(db,T):
+def UsuarioUSB_Table(db,T):
     db.define_table('UsuarioUSB',
         Field('auth_User','reference auth_user'),
         Field('usbid', 'string',

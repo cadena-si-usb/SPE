@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Carrera(db,T):
+def Carrera_Table(db,T):
     # Estudiante
     db.define_table('Carrera',
                     Field('codigo','string',required=True, ondelete='CASCADE', notnull=True, label='Código'),

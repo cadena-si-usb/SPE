@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-from Estudiantes import Estudiante
+from Empresas import Empresa
 
 import Encoder
 
-Estudiante = Estudiante()
+Empresa = Empresa()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
     return dict(rows=session.rows)
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     fields = [db.UsuarioExterno.correo, db.auth_user.password]
     fields += [
@@ -95,12 +97,14 @@ def agregar():
 
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
-    count = Estudiante.count(obj)
+    count = Empresa.count(obj)
 
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -109,6 +113,7 @@ def get():
 
     return rows.as_json()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     empresa = db(db.Empresa.id == request.args[0]).select()[0]
     usuarioExterno = db(db.UsuarioExterno.id == empresa.usuario).select()[0]

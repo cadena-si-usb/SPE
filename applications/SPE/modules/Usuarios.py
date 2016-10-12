@@ -141,4 +141,8 @@ class Usuario(Model):
 
 	def checkUserPermission(self,action):
 		acciones = self.getUserActions()
+		if action in acciones:
+			return True
+		else:
+			redirect(URL(c='default',f='index'))
 		return (action in acciones)

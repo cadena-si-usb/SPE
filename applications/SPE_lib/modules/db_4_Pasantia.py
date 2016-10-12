@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from gluon import *
 from datetime import datetime
-def Pasantia(db,T):
+def Pasantia_Table(db,T):
     db.define_table('Pasantia',
         Field('titulo',
                label='Titulo'),
