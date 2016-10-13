@@ -202,15 +202,17 @@ def generarPdfConstanciaCulminacion():
          ],
         [Paragraph("<b>Estado:</b>" + " " + str(tutor_industrial.Empresa.usuario.estado.nombre) + " " +
                    "<b>Direccion:</b>" + " " + str(tutor_industrial.Empresa.usuario.direccion) + " " +
-                   "<b>Nombres y Apellidos:</b>" + " " + str(tutor_industrial.usuario.nombre), styles["default"]),
+                   "<b>Nombres y Apellidos:</b>" + " " + str(tutor_industrial.usuario.nombre) + " " +
+                   str(tutor_industrial.apellido), styles["default"]),
          ],
         [
             Paragraph("<b>Profesion:</b>" + " " + str(tutor_industrial.profesion) + " " +
                       "<b>Cedula/Pasaporte:</b>" + " " + str(tutor_industrial.numero_documento) + " " +
                       "<b>Cargo:</b>" + " " + str(tutor_industrial.cargo), styles["default"])
         ],
-        [Paragraph("<b>Departamento:</b>" + " " + str(tutor_industrial.departamento) + " " +
-                   "<b>Contacto Recursos Humanos</b>" + " " +
+        [Paragraph("<b>Departamento:</b>" + " " + str(tutor_industrial.departamento), styles["default"])
+         ],
+        [Paragraph("<b>Contacto Recursos Humanos:</b>" + " " +
                    str(tutor_industrial.Empresa.contacto_RRHH), styles["default"])
          ],
         [Paragraph("<b>Pagina web:</b>" + " " + str(tutor_industrial.Empresa.direccion_web) + " " +
@@ -412,7 +414,7 @@ def generarPdfConstanciaCulminacion():
     for fase in fases:
         for actividad in fase.Actividad.select():
             tbl_cronograma2 = [
-                [Paragraph(str(actividad.numero), styles["default"]),
+                [Paragraph(str(fase.numero) + "." + str(actividad.numero), styles["default"]),
                  Paragraph(str(es_semana(actividad, 1)), styles["default"]),
                  Paragraph(str(es_semana(actividad, 2)), styles["default"]),
                  Paragraph(str(es_semana(actividad, 3)), styles["default"]),
