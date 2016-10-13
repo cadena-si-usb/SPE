@@ -120,6 +120,8 @@ def generarPdfConstanciaCulminacion():
     carrera = db.Carrera(id=estudiante.Estudiante.carrera)
     sede = db(db.Sede.id == db.Estudiante.sede).select().first()
     pasantia = db(db.Pasantia.estudiante == estudiante.Estudiante).select().first()
+    plan_trabajo=db(db.Plan_Trabajo.pasantia==pasantia.id).select().first()
+    fases = db(db.Fase.plan_trabajo==pasantia.id).select()
     tutor_academico = pasantia.tutor_academico
     tutor_industrial = pasantia.tutor_industrial
 
@@ -316,10 +318,18 @@ def generarPdfConstanciaCulminacion():
 
     # Desde aqui va el FOR
     contador = 1
+
+    '''
+    ASI SERIA EL FOR ROBERTO
+    '''
+    for fase in fases:
+        for actividad in fase.Actividad.select():
+            print str(actividad)
+
     story.append(Paragraph("/n", styles['space']))
     tbl_objetivo_titulo = [
         [Paragraph(str(contador) + " " + "<b>Objetivo especifico:</b>" + " " +
-                   "str(pasantia.objetivoespeciico[i].titulo)", styles["default"])
+                   "str(pasantia.fase[i].titulo)", styles["default"])
          ]
     ]
     tbl_objetivo = [
