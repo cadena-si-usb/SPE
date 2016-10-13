@@ -97,7 +97,7 @@ def stylesheet():
         fontSize=10,
         leading=12,
         textColor=black,
-        alignment=TA_LEFT,
+        alignment=TA_CENTER,
     )
 
     return styles
@@ -133,10 +133,11 @@ def generarPdfConstanciaCulminacion():
     tbl_cabeza = [
         [logo,
          Paragraph("<b>PLAN DE TRABAJO PASANTÍA</b>", styles["default3"]),
+         Paragraph("Pagina 1 de 3", styles["default3"]),
          ],
     ]
 
-    tbl_cab = Table(tbl_cabeza, colWidths=[3.0 * inch])
+    tbl_cab = Table(tbl_cabeza, colWidths=[2.5 * inch])
     story.append(tbl_cab)
     story.append(Paragraph("ESTUDIANTE", styles['bluetitle']))
 
