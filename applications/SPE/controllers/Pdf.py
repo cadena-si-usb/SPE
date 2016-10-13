@@ -227,8 +227,9 @@ def generarPdfConstanciaCulminacion():
     story.append(Paragraph("PASANTIA", styles['bluetitle']))
 
     tbl_pasantia = [
-        [Paragraph("<b>Titulo:</b>" + " " + str(pasantia.titulo) + " " +
-                   "Area del proyecto:" + str(pasantia.area_proyecto.nombre), styles["default"])
+        [Paragraph("<b>Titulo:</b>" + " " + str(pasantia.titulo), styles["default"])
+         ],
+        [Paragraph("<b>Area del proyecto:</b>" + str(pasantia.area_proyecto.nombre), styles["default"])
          ],
     ]
 
@@ -289,8 +290,9 @@ def generarPdfConstanciaCulminacion():
     # DETALLES PASANTIA
 
     tbl_pasantia2 = [
-        [Paragraph("<b>Titulo:</b>" + " " + str(pasantia.titulo) + " " +
-                   "Area del proyecto:" + str(pasantia.area_proyecto.nombre), styles["default"])
+        [Paragraph("<b>Titulo:</b>" + " " + str(pasantia.titulo), styles["default"])
+         ],
+        [Paragraph("<b>Area del proyecto:</b>" + str(pasantia.area_proyecto.nombre), styles["default"])
          ],
     ]
     tbl_pasantia3 = [
