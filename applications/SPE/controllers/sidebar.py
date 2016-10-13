@@ -16,7 +16,7 @@ def coordinacion():
 		if usuario['activo']:
 			rol= db((db.auth_membership.user_id == auth.user.id)
 						  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
-			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'coordinacion')).select()
+			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'coordinacion')).select(orderby=db.Accion_Usuario.nombre)
 
 	response.view = 'sidebar/coordinacion.load.html'
 	return dict(routes=rows,id="id")
@@ -32,7 +32,7 @@ def pasantias():
 		if usuario['activo']:
 			rol= db((db.auth_membership.user_id == auth.user.id)
 						  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
-			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'pasantias')).select()
+			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'pasantias')).select(orderby=db.Accion_Usuario.nombre)
 
 	response.view = 'sidebar/coordinacion.load.html'
 	return dict(routes=rows,id="id")
@@ -48,7 +48,7 @@ def catalogos():
 		if usuario['activo']:
 			rol= db((db.auth_membership.user_id == auth.user.id)
 						  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
-			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'catalogos')).select()
+			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'catalogos')).select(orderby=db.Accion_Usuario.nombre)
 
 	response.view = 'sidebar/catalogos.load.html'
 	return dict(routes=rows,id="id")
@@ -62,7 +62,7 @@ def configuracion():
 		usuario = session.currentUser
 		rol = db((db.auth_membership.user_id == auth.user.id)
 				 & (db.auth_membership.group_id == db.auth_group.id)).select().first()
-		rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'configuracion')).select()
+		rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'configuracion')).select(orderby=db.Accion_Usuario.nombre)
 
 	response.view = 'sidebar/configuracion.load.html'
 	return dict(routes=rows,id="id")

@@ -30,6 +30,17 @@ def ver():
         coordinador = db(((db.UsuarioUSB.id == userid) & (db.Coordinador.usuario == db.UsuarioUSB.id))).select().first()
         coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
         response.view = 'mi_perfil/ver_coordinador.html'
+    # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles personalizados)
+    # o es un usuario con rol ajeno al sistema
+    else:
+        administrativo = db(((db.UsuarioUSB.id == userid) & (db.Administrativo.usuario == db.UsuarioUSB.id))).select()
+        if administrativo:
+            administrativo = administrativo.first()
+            coordinacion = db(db.Administrativo.coordinacion == db.Coordinacion.id).select().first()
+            response.view = 'mi_perfil/ver_administrativo.html'
+        else:
+            response.view = 'mi_perfil/ver_invitado.html'
+
     return locals()
 
 @auth.requires_login()
@@ -76,9 +87,9 @@ def configuracion():
             fields.append('dedicacion')
             fields.append('departamento')
             fields.append('sede')
-            db.Profesor.carnet.default = profesor.categoria
-            db.Profesor.carrera.default = profesor.dedicacion
-            db.Profesor.sede.default = profesor.departamento
+            db.Profesor.categoria.default = profesor.categoria
+            db.Profesor.dedicacion.default = profesor.dedicacion
+            db.Profesor.departamento.default = profesor.departamento
             db.Profesor.sede.default = profesor.sede
             form = SQLFORM.factory(db.UsuarioUSB,db.Estudiante,fields=fields,submit_button='Actualizar', showid=False)
             response.view = 'mi_perfil/configuracion__profesor.html'
@@ -90,8 +101,22 @@ def configuracion():
             db.Coordinador.correo_Alternativo.default = coordinador.correo_Alternativo
             form = SQLFORM.factory(db.UsuarioUSB,db.Coordinador,fields=fields,submit_button='Actualizar', showid=False)
             response.view = 'mi_perfil/configuracion_coordinador.html'
+        # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles personalizados)
+        # o es un usuario con rol ajeno al sistema
         else:
-            form = SQLFORM(db.UsuarioUSB, record=usuario, fields=fields, submit_button='Actualizar', showid=False)
+            administrativo = db(((db.UsuarioUSB.id == auth.user.id) & (db.Administrativo.usuario == db.UsuarioUSB.id))).select()
+            if administrativo:
+                fields.append('carnet')
+                fields.append('correo_Alternativo')
+                fields.append('coordinacion')
+                administrativo = administrativo.first()
+                db.Administrativo.carnet.default = administrativo.Administrativo.carnet
+                db.Administrativo.coordinacion.default = administrativo.Administrativo.coordinacion
+                db.Administrativo.correo_Alternativo.default = administrativo.Administrativo.correo_Alternativo
+                form = SQLFORM.factory(db.UsuarioUSB, db.Administrativo, fields=fields, submit_button='Actualizar',
+                                       showid=False)
+            else:
+                form = SQLFORM(db.UsuarioUSB, record=usuario, fields=fields, submit_button='Actualizar', showid=False)
     else:
         redirect(URL(c="default",f="index"))
 

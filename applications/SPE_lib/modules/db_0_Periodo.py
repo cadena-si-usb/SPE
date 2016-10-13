@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Periodo(db,T):
+def Periodo_Table(db,T):
     db.define_table('Periodo',
         Field('mes_inicio','string'),
         Field('mes_final','string'),

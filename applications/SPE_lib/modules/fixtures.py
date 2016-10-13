@@ -29,6 +29,10 @@ def load_fixtures(db,T):
             role='AdministrativoCCT',
             description='3'
         )
+        db.auth_group.insert(
+            role='Administrativo',
+            description='3'
+        )
         db.commit()
 
     if db(db.Dedicacion.id > 0).count() == 0:
@@ -730,6 +734,12 @@ def load_fixtures(db,T):
             rol='6'
         )
         db.Accion_Usuario.insert(
+            nombre='Usuarios',
+            destino='/SPE/usuarios/listar',
+            contexto='coordinacion',
+            rol='1'
+        )
+        db.Accion_Usuario.insert(
             nombre='Estudiantes',
             destino='/SPE/estudiantes/listar',
             contexto='coordinacion',
@@ -748,7 +758,7 @@ def load_fixtures(db,T):
             rol='6'
         )
         db.Accion_Usuario.insert(
-            nombre='Coordinaciones',
+            nombre='coordinaciones',
             destino='/SPE/coordinaciones/listar',
             contexto='catalogos',
             rol='6'
@@ -787,6 +797,12 @@ def load_fixtures(db,T):
             nombre='Materias',
             destino='/SPE/materias/listar',
             contexto='catalogos',
+            rol='1'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Materias',
+            destino='/SPE/materias/listar',
+            contexto='catalogos',
             rol='6'
         )
         db.Accion_Usuario.insert(
@@ -799,6 +815,144 @@ def load_fixtures(db,T):
             nombre='Retiros',
             destino='/SPE/retiros/listar',
             contexto='pasantias',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Roles',
+            destino='/SPE/roles/listar',
+            contexto='coordinacion',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Asignar Roles',
+            destino='/SPE/membresias/listar',
+            contexto='coordinacion',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Areas Laborales',
+            destino='/SPE/areas_laborales/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Configurar Accesos',
+            destino='/SPE/accesos_etapa/listar',
+            contexto='pasantias',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Areas De Proyecto',
+            destino='/SPE/areas_proyecto/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Curriculos',
+            destino='/SPE/curriculos/listar',
+            contexto='pasantias',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Etapas',
+            destino='/SPE/etapas/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Tipos De Documentos',
+            destino='/SPE/tipos_documento/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Categorias',
+            destino='/SPE/categorias/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Coordinadores',
+            destino='/SPE/coordinadores/listar',
+            contexto='coordinacion',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Dedicaciones',
+            destino='/SPE/dedicaciones/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Departamentos',
+            destino='/SPE/departamentos/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Divisiones',
+            destino='/SPE/divisiones/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Ejecuciones',
+            destino='/SPE/ejecuciones/listar',
+            contexto='pasantias',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Empresas',
+            destino='/SPE/empresas/listar',
+            contexto='coordinacion',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Estados',
+            destino='/SPE/estados/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Materias Periodo',
+            destino='/SPE/materias_periodo/listar',
+            contexto='coordinacion',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Paises',
+            destino='/SPE/paises/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Periodos',
+            destino='/SPE/periodos/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Profesores',
+            destino='/SPE/profesores/listar',
+            contexto='coordinacion',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Tutores Industriales',
+            destino='/SPE/tutores_industriales/listar',
+            contexto='coordinacion',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Universidades',
+            destino='/SPE/universidades/listar',
+            contexto='catalogos',
+            rol='6'
+        )
+        db.Accion_Usuario.insert(
+            nombre='Personal Administrativo',
+            destino='/SPE/administrativos/listar',
+            contexto='coordinacion',
             rol='6'
         )
         db.commit()

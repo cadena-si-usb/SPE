@@ -5,11 +5,13 @@ import Encoder
 
 Preinscripcion = Preinscripcion()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
 
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     form = SQLFORM(db.Preinscripcion)
 
@@ -22,12 +24,14 @@ def agregar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Preinscripcion.count(obj)
 
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -35,6 +39,7 @@ def get():
 
     return rows.as_json()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     record = db.Preinscripcion(request.args(0)) or redirect(URL('agregar'))
     form = SQLFORM(db.Preinscripcion, fields=['aprobacionCCT','comentarioCCT'],record=record,showid=False)
@@ -56,5 +61,6 @@ def modificar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def create():
     return request.vars

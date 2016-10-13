@@ -1,3 +1,6 @@
+from Usuarios import Usuario
+Usuario=Usuario()
+
 response.title = settings.title
 response.subtitle = settings.subtitle
 response.meta.author = '%(author)s <%(author_email)s>' % settings
@@ -19,6 +22,12 @@ else:
 
 opciones = []
 
+opciones_administrativo = [
+    ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
+    ((SPAN(_class='fa fa-cog'), '  Configuración '), False, '/SPE/mi_perfil/configuracion'),
+    ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
+]
+
 opciones_estudiante = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/mis_pasantias/listar'),
@@ -28,7 +37,6 @@ opciones_estudiante = [
 
 opciones_coordinadorCCT = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
-    ((SPAN(_class='fa fa-list'), '  Administracion'), False, '/SPE/pasantias/listar'),
     ((SPAN(_class='fa fa-cog'), '  Configuración'), False, '/SPE/mi_perfil/configuracion'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
@@ -77,10 +85,39 @@ elif not auth.is_logged_in():
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
     ]
+# Si no es alguno de los roles estandares entonces es un administrativo con rol personalizado o un usuario externo a la aplicacion
 else:
+    # Cargamos el menu basico
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
     ]
+    # Obtenemos los roles del usuario
+    roles=auth.user_groups
+    # Colocamos las opciones basicas
+    opciones = opciones_administrativo
+    # Inicializamos el menu administrativo
+    administrativeMenu=[]
+    # Buscamos entre los roles del usuario si tiene acciones pertenecientes al contexto, si las tiene agregamos ese menu
+    # de ese contexto
+    for rol in roles:
+        accion = Usuario.getUserActions('catalogos')
+        if accion:
+            url=accion[0]
+            administrativeMenu.append(((SPAN(_class='fa fa-cog'), '  Catalogos'), False, url))
+    for rol in roles:
+        accion = Usuario.getUserActions('pasantias')
+        if accion:
+            url = accion[0]
+            administrativeMenu.append(((SPAN(_class='fa fa-list'), '  Pasantias'), False, url))
+    for rol in roles:
+        accion = Usuario.getUserActions('coordinacion')
+        if accion:
+            url = accion[0]
+            administrativeMenu.append(((SPAN(_class='fa fa-cog'), '  Usuarios'), False, url))
+
+    if len(administrativeMenu)>0:
+        response.menu.append((T('Administracion'), False, "#",administrativeMenu))
+
 
 menu_autenticado = [
     (texto_principal, False, '#', opciones)

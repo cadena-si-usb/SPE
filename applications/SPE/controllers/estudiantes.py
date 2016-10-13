@@ -5,10 +5,12 @@ import Encoder
 
 Estudiante = Estudiante()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
     return dict(rows=session.rows)
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
 
     fields = [
@@ -20,12 +22,12 @@ def agregar():
         'telefono',
         'direcUsuario',
         'sexo',
-        'activo'
+        'activo',
+        'carnet',
+        'carrera',
+        'sede'
     ]
 
-    fields.append('carnet')
-    fields.append('carrera')
-    fields.append('sede')
     form = SQLFORM.factory(db.UsuarioUSB, db.Estudiante, fields=fields, submit_button='Crear', showid=False)
 
     if form.process().accepted:
@@ -34,6 +36,7 @@ def agregar():
                             email=form.vars.correo)
         # Actualizo los datos de usuario
         usuarioUSBId=db.UsuarioUSB.insert(
+            id=authId,
             auth_User=authId,
             usbid=form.vars.usbid,
             nombre=form.vars.nombre,
@@ -48,6 +51,7 @@ def agregar():
         )
         # Actualizo los datos de usuario
         estudianteId = db.Estudiante.insert(
+            id=authId,
             usuario=usuarioUSBId,
             carnet=form.vars.carnet,
             carrera=form.vars.carrera,
@@ -64,19 +68,23 @@ def agregar():
 
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Estudiante.count(obj)
 
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = db(((db.Estudiante.usuario == db.UsuarioUSB.id) & (db.Estudiante.carrera == db.Carrera.id))).select()
+    rows = db(((db.Estudiante.usuario == db.UsuarioUSB.id) & (db.Estudiante.carrera == db.Carrera.id) &
+               (db.Estudiante.sede == db.Sede.id))).select()
 
     return rows.as_json()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     fields = [
         'nombre',
@@ -89,9 +97,8 @@ def modificar():
         'sexo',
         'activo'
     ]
-
-    usuario = db.UsuarioUSB(request.args(0)) or redirect(URL('agregar'))
-
+    estudiante = db.Estudiante(request.args(0)) or redirect(URL('agregar'))
+    usuario = db.UsuarioUSB(estudiante.usuario) or redirect(URL('agregar'))
     usuarioAuth = db.auth_user(usuario.auth_User) or redirect(URL('agregar'))
 
     db.UsuarioUSB.nombre.default = usuario.nombre
@@ -104,7 +111,7 @@ def modificar():
     db.UsuarioUSB.sexo.default = usuario.sexo
     db.UsuarioUSB.activo.default = usuario.activo
 
-    estudiante = db.Estudiante(request.args(0)) or redirect(URL('agregar'))
+
     fields.append('carnet')
     fields.append('carrera')
     fields.append('sede')

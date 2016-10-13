@@ -5,11 +5,12 @@ import Encoder
 
 Pasantia = Pasantia()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
-
     return dict(rows=session.rows)
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     form = Pasantia.form(['titulo','estudiante','materia'])
 
@@ -22,12 +23,14 @@ def agregar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Pasantia.count(obj)
 
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -37,6 +40,7 @@ def get():
 
     return rows
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     record = db.Pasantia(request.args(0)) or redirect(URL('agregar'))
     form = SQLFORM(db.Pasantia, fields=['etapa'],record=record,showid=False)
@@ -62,5 +66,6 @@ def modificar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def create():
     return request.vars

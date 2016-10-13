@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from gluon import *
 
-def Area_Laboral(db,T):
+def Area_Laboral_Table(db,T):
     db.define_table('Area_Laboral',
                     Field('nombre', 'string', required=True, ondelete='CASCADE',
                           notnull=True, label='Area Laboral'),

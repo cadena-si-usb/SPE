@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from gluon import *
 # Division
-def Division(db,T):
+def Division_Table(db,T):
     db.define_table('Division',
                     Field('nombre','string',required=True),
                     format='%(nombre)s'

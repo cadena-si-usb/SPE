@@ -8,12 +8,13 @@
 #                            MODULO DE INVENTARIO                              #
 #------------------------------------------------------------------------------#
 from gluon import *
-def Accion_Usuario(db,T):
+def Accion_Usuario_Table(db,T):
     db.define_table('Accion_Usuario',
         Field('nombre'),
         Field('destino'),
         Field('contexto'),
         Field('rol','reference auth_group',
+              requires=IS_IN_DB(db,'auth_group.id','%(role)s',zero=None),
               label='Roles (*)')
        )
 

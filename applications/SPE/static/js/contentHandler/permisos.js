@@ -3,7 +3,7 @@
 $('#permisosIndex').ready(function(){
     var ajaxHandler = AjaxHandler();
 
-    var permisos = [],
+    var permiso = [],
         max, area, options = {},
         filters = {order:'id',side:'>',limit:'4',page:'0'},
         filter = {},
@@ -24,7 +24,7 @@ $('#permisosIndex').ready(function(){
 
         options.data = $.param(filters,true);
 
-        ajaxHandler.count(options).success(function(res){
+        ajaxHandler.count('permisos',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
             getPermisos();
@@ -33,9 +33,9 @@ $('#permisosIndex').ready(function(){
 
     function getPermisos(){
         ajaxHandler.find('permisos',options).success(function(res){
-            permisos = JSON.parse(res);
-            if (permisos.length > 0){
-                $("#elBody").loadTemplate('#template', permisos);
+            permiso = JSON.parse(res);
+            if (permiso.length > 0){
+                $("#elBody").loadTemplate('#template', permiso);
             }
             else {
                 var template = '<tr><td class="text-center" colspan="42">',
@@ -45,6 +45,8 @@ $('#permisosIndex').ready(function(){
 
                 $("#elBody").html(template);
             }
+
+            disableButtonOnMax();
         });
     }
 
@@ -93,17 +95,17 @@ $('#permisosIndex').ready(function(){
         elem.append(" <i id='orderBy' class='"+ fa +"'></i>")
     }
 
-    // Funcion que trae mas permisos para paginacion
+    // Funcion que trae mas permiso para paginacion
 
     function getMorePermisos(evt){
-        filters.page = permisos.length.toString();
+        filters.page = permiso.length.toString();
 
         options.data = $.param(filters,true);
         //AJAX CALL TO SERVER
         ajaxHandler.find('permisos',options).success(function(res){
             res = JSON.parse(res);
             for (var i = 0; i < res.length; i++){
-                permisos.push(res[i]);
+                permiso.push(res[i]);
             }
             disableButtonOnMax();
 
@@ -114,7 +116,7 @@ $('#permisosIndex').ready(function(){
     //Desabilitar boton de MAS
 
     function disableButtonOnMax(){
-        if ((max) && (permisos.length.toString() != max)) {
+        if ((max) && (permiso.length.toString() != max)) {
             $("#next").prop('disabled',false);
         }
         else {

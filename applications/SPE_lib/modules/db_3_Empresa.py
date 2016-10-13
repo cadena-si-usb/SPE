@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Empresa(db,T):
+def Empresa_Table(db,T):
     db.define_table('Empresa',
         Field('usuario', 'reference UsuarioExterno',
               requires=[IS_NOT_EMPTY(error_message='Es necesario un email.'),IS_EMAIL

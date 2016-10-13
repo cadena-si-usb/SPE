@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Coordinacion(db,T):
+def Coordinacion_Table(db,T):
     # Actividad
     db.define_table('Coordinacion',
                     Field('nombre','string',required=True),

@@ -1,0 +1,58 @@
+{{extend 'shell.html'}}
+{{block content}}
+
+<div class="container-fluid" id="accion_usuarioIndex">
+    <div class="row">
+        <div class="col-lg-12 rounded_border" >
+            <div class="row">
+                <center>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Accesos A Etapas</h3>
+                            <hr WIDTH="30%" />
+                            <p>Listado de Accesos A Etapas De Una Pasantia</p>
+                        </div>
+                    </div>
+
+                    Cantidad = <span id="cantidad">0</span>
+
+                    <label>Buscar: </label>
+                    <input id="search" placeholder="Buscar..." type="text">
+
+                    <!-- Add New Materials -->
+                    <div class="col-xs-4 col-xs-offset-8 col-sm-2 col-sm-offset-10 text-right">
+                        <a class="notif_link_but" title="Agregar Acceso A Etapa" role='button' href="{{=URL('accesos_etapa', 'agregar')}}">
+                            <i class="fa fa-plus fa-fw fa-2x yellow"></i>
+                        </a>
+                    </div>
+                    <!-- Add new materials -->
+                </center>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <table class='table table-hover borde-tabla' id="tabla_acceso_etapa">
+                    <thead>
+                        <tr>
+                            <th class='text-center uai-table-header' id="rol">Rol</th>
+                            <th class='text-center uai-table-header' id="etapa">Etapa</th>
+                            <th class='text-center'>Editar</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="elBody">
+                    </tbody>
+
+                </table>
+                <button id="next" disabled="true">
+                    MAS
+                </button>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+{{end}}
+{{include 'accesos_etapa/contenido.html'}}
+<script src="{{=URL('static','js/contentHandler/accesos_etapa.js')}}"></script>

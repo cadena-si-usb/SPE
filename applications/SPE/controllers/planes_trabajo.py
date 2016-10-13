@@ -5,10 +5,12 @@ import Encoder
 
 PlanTrabajo = Plan_Trabajo()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
     return dict(rows=session.rows)
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     form =SQLFORM(db.Plan_Trabajo)
 
@@ -21,13 +23,14 @@ def agregar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = PlanTrabajo.count(obj)
 
     return count
 
-# plan_trabajo/listar
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -38,7 +41,8 @@ def get():
     return rows
 
 # plan_trabajo/modificar
-# Cambiar vistas para que tengan 
+# Cambiar vistas para que tengan
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     record = db.Plan_Trabajo(request.args(0)) or redirect(URL('agregar'))
     form = SQLFORM(db.Plan_Trabajo, record)
@@ -53,8 +57,7 @@ def modificar():
 # Crear endpoint mis_pasantias/plan_trabajo/:id
 # Crear Modelo de objetivos especificos
 # Modelo de actividades
-
-
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def ver():
     record = db.Plan_Trabajo(request.args(0))
 

@@ -205,7 +205,7 @@ def registrar_Tutor_Industrial():
         # Registramos al tutor
         db.Tutor_Industrial.insert(
             id=result,
-            usuario=usuarioExterno.id,
+            usuario=result,
             apellido=request.vars.apellido,
             tipo_documento=request.vars.tipo_documento,
             numero_documento=request.vars.numero_documento,

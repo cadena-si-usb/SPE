@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from gluon import *
-def Inscripcion(db,T):
+def Inscripcion_Table(db,T):
     db.define_table('Inscripcion',
         Field('pasantia', 'reference Pasantia',
               label='Pasantia'),
@@ -10,5 +10,7 @@ def Inscripcion(db,T):
         Field('comentarioCCT','text', label='Comentario De La CCT'),
 
         Field('fecha_creacion','datetime',default=datetime.now()),
-        Field('estado', 'string',default="En Espera"))
+        Field('estado', 'string',default="En Espera",
+              requires=IS_IN_SET(['En espera', 'Aprobado'], zero=None,
+                                error_message='Opcion Invalida')))
 

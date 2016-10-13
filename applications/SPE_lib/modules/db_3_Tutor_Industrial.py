@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-def Tutor_Industrial(db,T):
+def Tutor_Industrial_Table(db,T):
     # Tutor Industrial
     db.define_table('Tutor_Industrial',
                         Field('usuario','reference UsuarioExterno',label=T('Usuario'),),

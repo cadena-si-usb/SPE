@@ -30,13 +30,15 @@
 			</div>			
 
 		</div>			
-		Status del tramite: <span style="color:red;">{{=pasantia.status}}</span>
+		Status del tramite: <span style="color:red;">{{=inscripcion.estado}}</span>
 		<p>
 			<span>Comentarios CCT:</span>
-			{{=inscripcion.comentarioCCT}}
+			{{if inscripcion.comentarioCCT:}}
+			    {{=inscripcion.comentarioCCT}}
+            {{else:}}
+                N/A
+            {{pass}}
 		</p>		
 	</div>
-
 </div>
-
 <br><br><br><br><br><br>

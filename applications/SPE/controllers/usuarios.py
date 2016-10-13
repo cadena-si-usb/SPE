@@ -12,10 +12,12 @@ Carrera = Carrera()
 Sede = Sede()
 Tipo_Documento = Tipo_Documento()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
     return dict(rows=session.rows)
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
    # fields = ['id','nombre','apellido','ci']
 
@@ -30,12 +32,14 @@ def agregar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Usuario.count(obj)
 
     return count
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
@@ -44,9 +48,10 @@ def get():
     prueba=rows.as_json()
     return rows.as_json()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     record = db.UsuarioUSB(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.UsuarioUSB,fields=['rol','activo'], record=record, showid=False)
+    form = SQLFORM(db.UsuarioUSB,fields=['activo'], record=record, showid=False)
     
     if form.process().accepted:
         session.flash = T('El usuario fue modificado exitosamente!')
@@ -56,6 +61,7 @@ def modificar():
     
     return locals()
 
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def getCurrentUser():
     if not 'currentUser' in session:
         return json.dumps([])

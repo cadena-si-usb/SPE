@@ -1,6 +1,6 @@
 {{extend 'layout.html'}}
 {{block content}}
-
+{{if auth.has_membership(role='Estudiante'): redirect(URL(c='default',f='index'))}}
         <!-- Page Content -->
             <div class="container-fluid">
                 <div class="row">
@@ -30,5 +30,5 @@
                     </div>
                 </div>
             </div>
-
+<br><br><br><br><br>
 {{end}}
