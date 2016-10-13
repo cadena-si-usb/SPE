@@ -14,6 +14,13 @@ from reportlab.platypus.flowables import Image
 import os.path
 
 
+def es_semana(actividad, semana):
+    if int(actividad.semana_fin) == int(semana) or int(actividad.semana_inicio) == int(semana):
+        return str("")
+    else:
+        return str(" ")
+
+
 def stylesheet():
     styles = {
         'default': ParagraphStyle(
@@ -120,8 +127,8 @@ def generarPdfConstanciaCulminacion():
     carrera = db.Carrera(id=estudiante.Estudiante.carrera)
     sede = db(db.Sede.id == db.Estudiante.sede).select().first()
     pasantia = db(db.Pasantia.estudiante == estudiante.Estudiante).select().first()
-    plan_trabajo=db(db.Plan_Trabajo.pasantia==pasantia.id).select().first()
-    fases = db(db.Fase.plan_trabajo==pasantia.id).select()
+    plan_trabajo = db(db.Plan_Trabajo.pasantia == pasantia.id).select().first()
+    fases = db(db.Fase.plan_trabajo == pasantia.id).select()
     tutor_academico = pasantia.tutor_academico
     tutor_industrial = pasantia.tutor_industrial
 
@@ -318,42 +325,43 @@ def generarPdfConstanciaCulminacion():
 
     # Desde aqui va el FOR
     contador = 1
-
-    '''
-    ASI SERIA EL FOR ROBERTO
-    '''
     for fase in fases:
+        story.append(Paragraph("/n", styles['space']))
+        tbl_objetivo_titulo = [
+            [Paragraph(str(contador) + " " + "<b>Objetivo especifico:</b>" + " " +
+                       str(fase.objetivo_especifico), styles["default"])
+             ]
+        ]
+        tbl_objetivo1 = [
+            [Paragraph("<b>Actividades</b>", styles["default"]),
+             Paragraph("<b>Semana Inicio</b>", styles["default"]),
+             Paragraph("<b>Semana Final</b>", styles["default"]),
+             ],
+
+        ]
+        tbl_obj_tit = Table(tbl_objetivo_titulo, colWidths=[6.0 * inch])
+        tbl_obj_tit.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black)]))
+        story.append(tbl_obj_tit)
+
+        tbl_obj1 = Table(tbl_objetivo1, colWidths=[2.0 * inch])
+        tbl_obj1.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                                      ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)]))
+        story.append(tbl_obj1)
+
         for actividad in fase.Actividad.select():
-            print str(actividad)
+            tbl_objetivo = [
+                [Paragraph(str(actividad.descripcion), styles["default"]),
+                 Paragraph(str(actividad.semana_inicio), styles["default"]),
+                 Paragraph(str(actividad.semana_fin), styles["default"]),
+                 ],
+            ]
 
-    story.append(Paragraph("/n", styles['space']))
-    tbl_objetivo_titulo = [
-        [Paragraph(str(contador) + " " + "<b>Objetivo especifico:</b>" + " " +
-                   "str(pasantia.fase[i].titulo)", styles["default"])
-         ]
-    ]
-    tbl_objetivo = [
-        [Paragraph("<b>Actividades</b>", styles["default"]),
-         Paragraph("<b>Semana Inicio</b>", styles["default"]),
-         Paragraph("<b>Semana Final</b>", styles["default"]),
-         ],
-        [
-            # Hacer un FOR para las actividades del objetivo especifico desde aqui
-            Paragraph("str(pasantia.objetivoespecifico[i].actividad[j].id)" + " " +
-                      "str(pasantia.objetivoespecifico[i].actividad[j].nombre)", styles["default"]),
-            Paragraph("str(pasantia.objetivoespecifico[i].actividad[j].inicio", styles["default"]),
-            Paragraph("str(pasantia.objetivoespecifico[i].actividad[j].final", styles["default"]),
-            # Hasta aqui
-        ],
-    ]
-    tbl_obj_tit = Table(tbl_objetivo_titulo, colWidths=[6.0 * inch])
-    tbl_obj_tit.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black)]))
-    story.append(tbl_obj_tit)
+            tbl_obj = Table(tbl_objetivo, colWidths=[2.0 * inch])
+            tbl_obj.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                                         ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)]))
+            story.append(tbl_obj)
 
-    tbl_obj = Table(tbl_objetivo, colWidths=[2.0 * inch])
-    tbl_obj.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-                                 ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)]))
-    story.append(tbl_obj)
+        contador += 1
 
     # Hasta aqui
 
@@ -367,11 +375,11 @@ def generarPdfConstanciaCulminacion():
          ]
     ]
 
-    tbl_tot_sem = Table(tbl_titulo_semanas, colWidths=[6.3 * inch])
+    tbl_tot_sem = Table(tbl_titulo_semanas, colWidths=[6.0 * inch])
     tbl_tot_sem.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black)]))
     story.append(tbl_tot_sem)
 
-    tbl_cronograma = [
+    tbl_cronograma1 = [
         [Paragraph("Act", styles["default"]),
          Paragraph("1", styles["default"]),
          Paragraph("2", styles["default"]),
@@ -394,38 +402,41 @@ def generarPdfConstanciaCulminacion():
          Paragraph("19", styles["default"]),
          Paragraph("20", styles["default"]),
          ],
-        # hacer un FOR para las actividades del proyecto
-        # en ID va el id de la actividad
-        # en IF va la condicion de si la ctividad comienza o termina en esa semana coloca un *
-        [Paragraph("ID", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         Paragraph("IF", styles["default"]),
-         ],
-        # hasta aqui
-
     ]
-    tbl_cro = Table(tbl_cronograma, colWidths=[0.3 * inch])
-    tbl_cro.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-                                 ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)]))
-    story.append(tbl_cro)
+    tbl_cro1 = Table(tbl_cronograma1, colWidths=[0.285714286 * inch])
+    tbl_cro1.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                                  ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)]))
+    story.append(tbl_cro1)
+    for fase in fases:
+        for actividad in fase.Actividad.select():
+            tbl_cronograma2 = [
+                [Paragraph(str(actividad.numero), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 1)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 2)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 3)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 4)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 5)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 6)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 7)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 8)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 9)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 10)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 11)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 12)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 13)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 14)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 15)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 16)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 17)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 18)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 19)), styles["default"]),
+                 Paragraph(str(es_semana(actividad, 20)), styles["default"]),
+                 ],
+            ]
+            tbl_cro2 = Table(tbl_cronograma2, colWidths=[0.285 * inch])
+            tbl_cro2.setStyle(TableStyle([('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                                          ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)]))
+            story.append(tbl_cro2)
 
     # FIRMAS2
 

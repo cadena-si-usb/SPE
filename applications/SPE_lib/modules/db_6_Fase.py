@@ -11,10 +11,10 @@ def Fase_Table(db,T):
         Field('objetivo_especifico', 'text',
               requires=[IS_NOT_EMPTY
                         (error_message='Es necesario un objetivo')],
-              label='Descripcón'),
+              label='Descripción'),
         Field('descripcion','text',
               requires=[IS_NOT_EMPTY
                             (error_message='Es necesario una Descripcion')],
-              label = 'Descripcón'),
+              label = 'Descripción'),
         format=lambda r: 'Fase "%s" De La Pasantia "%s"' % (r.numero,r.plan_trabajo.pasantia.titulo)
     )
