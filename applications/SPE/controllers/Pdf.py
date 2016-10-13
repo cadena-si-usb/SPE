@@ -198,9 +198,9 @@ def generarPdfConstanciaCulminacion():
                    str(tutor_industrial.Empresa.usuario.nombre) + " " +
                    "<b>Telefono:</b>" + " " + str(tutor_industrial.Empresa.usuario.telefono) + " " +
                    "<b>Email:</b>" + " " + str(tutor_industrial.Empresa.usuario.correo) + " " +
-                   "<b>Pais:</b>" + " " + str(tutor_industrial.Empresa.usuario.pais), styles["default"]),
+                   "<b>Pais:</b>" + " " + str(tutor_industrial.Empresa.usuario.pais.nombre), styles["default"]),
          ],
-        [Paragraph("<b>Estado:</b>" + " " + str(tutor_industrial.Empresa.usuario.estado) + " " +
+        [Paragraph("<b>Estado:</b>" + " " + str(tutor_industrial.Empresa.usuario.estado.nombre) + " " +
                    "<b>Direccion:</b>" + " " + str(tutor_industrial.Empresa.usuario.direccion) + " " +
                    "<b>Nombres y Apellidos:</b>" + " " + str(tutor_industrial.usuario.nombre), styles["default"]),
          ],
