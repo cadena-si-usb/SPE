@@ -129,6 +129,12 @@ else:
             url = accion[0]
             administrativeMenu.append(((SPAN(_class='fa fa-cog'), '  Usuarios'), False, url))
 
+    for rol in roles:
+        accion = Usuario.getUserActions('permisos')
+        if accion:
+            url = accion[0]
+            administrativeMenu.append(((SPAN(_class='fa fa-file-text'), '  Permisos'), False, url))
+
 
     if len(administrativeMenu)>0:
         response.menu.append((T('Administracion'), False, "#",administrativeMenu))
