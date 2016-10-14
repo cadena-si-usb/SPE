@@ -9,7 +9,8 @@ from gluon import *
 #------------------------------------------------------------------------------#
 def Permiso_Table(db,T):
     db.define_table('Permiso',
-        Field('Tipo',requires=IS_IN_SET(['Inscripcion Extemporanea','Retiro Extemporaneo','Evaluacion Extemporanea'])),
+        Field('Estudiante', 'reference UsuarioUSB', label='Estudiante (*)'),
+        Field('Tipo',requires=IS_IN_SET(['Inscripcion Extemporanea','Retiro Extemporaneo'])),
         Field('pasantia','reference Pasantia', label='Pasantia (*)'),
         Field('estado', 'string', default="En Espera",
               requires=IS_IN_SET(['En espera', 'Aprobado'], zero=None,
@@ -24,7 +25,7 @@ def Permiso_Table(db,T):
                                 error_message='Opcion Invalida'),
               default='En espera', label='Aprobacion De La Coordinacion',
               represent=lambda v, r: 'N/A' if v is None else v),
-        Field('Justificacion', 'string', label='Justificacion del permiso')
+        Field('justificacion', 'string', label='Justificacion del permiso')
         #Field('calendario_compromisos', 'reference Calendario')
     )
 

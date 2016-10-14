@@ -51,7 +51,7 @@ def chequear_permisologia():
     return True
 
 
-@auth.requires(chequear_permisologia())
+#@auth.requires(chequear_permisologia())
 def ver():
     pasantia = db.Pasantia(request.args(0)) or redirect(URL('agregar'))
     etapa = db.Etapa(pasantia.etapa)
