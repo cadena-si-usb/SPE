@@ -44,6 +44,7 @@ from applications.SPE_lib.modules.db_3_Tutor_Industrial import Tutor_Industrial_
 from applications.SPE_lib.modules.db_4_Curriculo import Curriculo_Table
 from applications.SPE_lib.modules.db_4_Pasantia import Pasantia_Table
 from applications.SPE_lib.modules.db_4_Permiso import Permiso_Table
+from applications.SPE_lib.modules.db_4_Permiso_Evaluacion import Permiso_Evaluacion_Table
 from applications.SPE_lib.modules.db_4_Retiro import Retiro_Table
 
 from applications.SPE_lib.modules.db_5_Colocacion import Colocacion_Table
@@ -51,6 +52,7 @@ from applications.SPE_lib.modules.db_5_Ejecucion import Ejecucion_Table
 from applications.SPE_lib.modules.db_5_Inscripcion import Inscripcion_Table
 from applications.SPE_lib.modules.db_5_Plan_Trabajo import Plan_Trabajo_Table
 from applications.SPE_lib.modules.db_5_Preinscripcion import Preinscripcion_Table
+from applications.SPE_lib.modules.db_5_Calendario import Calendario_Table
 
 from applications.SPE_lib.modules.db_6_Fase import Fase_Table
 
@@ -180,7 +182,9 @@ Tutor_Industrial_Table(db,T)
 Curriculo_Table(db,T)
 Pasantia_Table(db,T)
 Permiso_Table(db,T)
+Permiso_Evaluacion_Table(db,T)
 Retiro_Table(db,T)
+Calendario_Table(db,T)
 Colocacion_Table(db,T)
 Ejecucion_Table(db,T)
 Inscripcion_Table(db,T)

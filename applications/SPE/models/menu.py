@@ -31,6 +31,7 @@ opciones_administrativo = [
 opciones_estudiante = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/mis_pasantias/listar'),
+    ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/permisos/listar'),
     ((SPAN(_class='fa fa-cog'), '  Configuración '), False, '/SPE/mi_perfil/configuracion'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
@@ -38,6 +39,7 @@ opciones_estudiante = [
 opciones_coordinadorCCT = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-cog'), '  Configuración'), False, '/SPE/mi_perfil/configuracion'),
+    ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/permisos/listar'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
 
@@ -45,6 +47,7 @@ opciones_coordinador = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/Coordinador/consultarPasantias'),
     ((SPAN(_class='fa fa-cog'), '  Configuración'), False, '/SPE/mi_perfil/configuracion'),
+    ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/permisos/listar'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
 
@@ -52,6 +55,7 @@ opciones_profesor = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/mis_pasantias_tutor/listar'),
     ((SPAN(_class='fa fa-cog'), '  Configuración'), False, '/SPE/mi_perfil/configuracion'),
+    ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/permisos/listar'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
 
@@ -62,7 +66,8 @@ if auth.has_membership(role='CoordinadorCCT'):
         (T('Administracion'), False, "#",[
             ((SPAN(_class='fa fa-cog'), '  Catalogos'), False, '/SPE/materias/listar'),
             ((SPAN(_class='fa fa-list'), '  Pasantias'), False, '/SPE/pasantias/listar'),
-            ((SPAN(_class='fa fa-user'), '  Usuarios'), False, '/SPE/usuarios/listar')
+            ((SPAN(_class='fa fa-user'), '  Usuarios'), False, '/SPE/usuarios/listar'),
+            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/permisos/listar')
         ]),
         (T('Reportes Y Estadisticas'), False, "#", []),
     ]
@@ -70,16 +75,25 @@ elif auth.has_membership(role='Estudiante'):
     opciones = opciones_estudiante
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
+        (T('Administracion'), False, "#",[
+            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/permisos/listar')
+        ]),
     ]
 elif auth.has_membership(role='Profesor'):
     opciones = opciones_profesor
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
+        (T('Administracion'), False, "#",[
+            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/permisos/listar')
+        ]),
     ]
 elif auth.has_membership(role='Coordinador'):
     opciones = opciones_coordinador
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
+        (T('Administracion'), False, "#",[
+            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/permisos/listar')
+        ]),
     ]
 elif not auth.is_logged_in():
     response.menu = [
@@ -114,6 +128,13 @@ else:
         if accion:
             url = accion[0]
             administrativeMenu.append(((SPAN(_class='fa fa-cog'), '  Usuarios'), False, url))
+
+    for rol in roles:
+        accion = Usuario.getUserActions('permisos')
+        if accion:
+            url = accion[0]
+            administrativeMenu.append(((SPAN(_class='fa fa-file-text'), '  Permisos'), False, url))
+
 
     if len(administrativeMenu)>0:
         response.menu.append((T('Administracion'), False, "#",administrativeMenu))
