@@ -39,6 +39,8 @@ def ver():
             coordinacion = db(db.Administrativo.coordinacion == db.Coordinacion.id).select().first()
             response.view = 'mi_perfil/ver_administrativo.html'
         else:
+            invitado = db(
+                ((db.UsuarioUSB.auth_User == userid) & (userid == db.auth_user.id))).select().first()
             response.view = 'mi_perfil/ver_invitado.html'
 
     return locals()

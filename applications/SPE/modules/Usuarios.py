@@ -98,7 +98,7 @@ class Usuario(Model):
 				self.db.Curriculo.insert(estudiante=estudiante['id'],
 										activo=False)
 				auth.add_membership(role='Estudiante', user_id=auth_User_Id)
-			elif (tipo == 'Profesor'):
+			elif (tipo == 'Docente'):
 				profesor = self.db.Profesor.insert(
 					id=auth_User_Id,
 					usuario=usuario['id'],
@@ -118,6 +118,8 @@ class Usuario(Model):
 					carnet=carnet,
 					activo=False)
 				auth.add_membership(role='Administrativo', user_id=auth_User_Id)
+			else:
+				auth.add_membership(role='Invitado', user_id=auth_User_Id)
 			# Como el usuario ya esta registrado, buscamos sus datos y lo logueamos.
 			datosAuth = self.db(self.db.auth_user.id == auth_User_Id).select().first()
 			# Iniciamos Sesion

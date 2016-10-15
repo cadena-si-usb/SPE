@@ -1,0 +1,55 @@
+{{extend 'mi_perfil/ver.html'}}
+{{block content}}
+
+<h2>Hola {{=invitado.auth_user['last_name']}}, {{=invitado.auth_user['first_name']}}.</h2>
+<h4>{{=usuario['rol']}}</h4>
+<div id="perfil_estudiante">
+    <section id="sec1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="row">
+                        <h5><b>Foto del Perfil</b></h5><br>
+                    </div>
+                    <div class="row" id="foto-perfil">
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <h3>
+                        <b>Correo</b>
+                    </h3>
+                    <div>
+                        <h4>{{=invitado.UsuarioUSB.correo}}</h4>
+                    </div>
+                    <h2>
+                        <b>USB-ID</b>
+                    </h2>
+
+                    <h3>{{=invitado.UsuarioUSB.usbid}}</h3>
+                    <h2>
+                        <b>{{=invitado.UsuarioUSB.tipo_documento.nombre}}</b>
+                    </h2>
+                    <h3>{{=invitado.UsuarioUSB.numero_documento}}</h3>
+                    <h2>
+                        <b>Telefono</b>
+                    </h2>
+
+                    <h3>{{=invitado.UsuarioUSB.telefono}}</h3>
+                    <h2>
+                        <b>Direccion</b>
+                    </h2>
+
+                    <h3>{{=invitado.UsuarioUSB.direcUsuario}}</h3>
+                    <h2>
+                        <b>Sexo</b>
+                    </h2>
+
+                    <h3>{{=invitado.UsuarioUSB.sexo}}</h3>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{{end}}
+</div>

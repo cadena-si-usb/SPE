@@ -33,6 +33,10 @@ def load_fixtures(db,T):
             role='Administrativo',
             description='3'
         )
+        db.auth_group.insert(
+            role='Invitado',
+            description='3'
+        )
         db.commit()
 
     if db(db.Dedicacion.id > 0).count() == 0:
@@ -687,7 +691,10 @@ def load_fixtures(db,T):
             user_id='9',
             group_id='6'
         )
-
+        db.auth_membership.insert(
+            user_id='11',
+            group_id='8'
+        )
         db.commit()
 
     if db(db.Accion_Usuario.id > 0).count() == 0:
@@ -736,7 +743,7 @@ def load_fixtures(db,T):
         db.Accion_Usuario.insert(
             nombre='Usuarios',
             destino='/SPE/usuarios/listar',
-            contexto='coordinacion',
+            contexto='',
             rol='1'
         )
         db.Accion_Usuario.insert(
@@ -796,7 +803,7 @@ def load_fixtures(db,T):
         db.Accion_Usuario.insert(
             nombre='Materias',
             destino='/SPE/materias/listar',
-            contexto='catalogos',
+            contexto='',
             rol='1'
         )
         db.Accion_Usuario.insert(
