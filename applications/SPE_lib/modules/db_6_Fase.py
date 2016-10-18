@@ -11,7 +11,7 @@ def Fase_Table(db,T):
         Field('objetivo_especifico', 'text',
               requires=[IS_NOT_EMPTY
                         (error_message='Es necesario un objetivo')],
-              label='Descripción'),
+              label='Objetivo Específico'),
         Field('descripcion','text',
               requires=[IS_NOT_EMPTY
                             (error_message='Es necesario una Descripcion')],
