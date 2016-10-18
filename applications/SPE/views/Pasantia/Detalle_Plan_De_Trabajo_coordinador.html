@@ -45,7 +45,7 @@
                                 <p class="list-group-item"><b>Descripcion</b> : {{=fase.descripcion}}</p>
                             </div>
                             <div>
-                                {{ for actividad in fase.Actividad.select(): }}
+                                {{ for actividad in fase.Actividad.select(orderby=db.Actividad.numero): }}
                                     <div id="act_{{=actividad.numero}}">
                                         <div class="list-group-item"><b>Actividad</b> : {{=actividad.numero}}</div>
                                         <div class="list-group-item">
