@@ -15,7 +15,8 @@ import os.path
 
 
 def es_semana(actividad, semana):
-    if int(actividad.semana_fin) == int(semana) or int(actividad.semana_inicio) == int(semana):
+    if int(actividad.semana_fin) == int(semana) or int(actividad.semana_inicio) == int(semana) or (
+                (semana < int(actividad.semana_fin)) and (semana > int(actividad.semana_inicio))):
         return str("")
     else:
         return str(" ")
