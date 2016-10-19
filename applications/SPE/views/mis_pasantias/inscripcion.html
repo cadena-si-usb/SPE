@@ -2,43 +2,37 @@
 {{include 'mis_pasantias/pasantia_etapas.html'}}
 
 <h2>Etapa actual de su pasantia: {{=etapa.nombre}}</h2>
+<div style="font-size: 20px !important;">
+    <p>
+        <span>Descripcion:</span>
+    {{=etapa.descripcion}}
+    </p>
+</div>
 
-<div style="display: flex;">
-	<div style="flex:5 1 auto; max-width:386px; padding-right:25px;">
-		<p>
-		<span>Descripcion:</span>
-		{{=etapa.descripcion}}
-		</p>
-		<a href="{{=etapa.procedimientos}} " style="text-decoration: none"><span class="fa fa-tasks"></span> Procedimientos </a>
-		<br>
-		<a href="#" style="text-decoration: none"><span class="fa fa-question-circle"></span> Realizar consulta a la CCT</a>
-	</div>
+<div style="display: flex; font-size: 17px !important;">
+    <div style="flex:5 1 auto; max-width:386px; padding-right:25px;">
 
-	<div style="flex:5 1 auto; max-width:300px;">
+        <a href="{{=etapa.procedimientos}} " style="text-decoration: none; color: #3e3f3a;cursor: pointer;"><span class="fa fa-tasks"></span> Procedimientos </a>
+        <br>
+        <a href="#" style="text-decoration: none;color: #3e3f3a;cursor: pointer;"><span class="fa fa-question-circle"></span> Realizar consulta a la CCT</a>
+        <br>
+        <a href="#" style="text-decoration: none;color: #3e3f3a;cursor: pointer;"><span class="fa fa-check-square"></span> Status del tramite: <span style="color:red;">{{=inscripcion.estado}}</span></a>
 
-		<div style="display:flex; flex-align:row">
-			<p>Plan de trabajo</p> 
-			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
-				<a style="text-decoration: none" href="{{=URL(c='Pasantia',f='verDetallePasantia',args=[plan_trabajo.id])}}"><span class="fa fa-pencil-square-o"></span></a>
-			</div>			
 
-		</div>	
-		<div style="display:flex; flex-align:row">
-			<p>Formulario DACE</p>
-			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
-				<span class="fa fa-search"></span>
-			</div>			
+    </div>
 
-		</div>			
-		Status del tramite: <span style="color:red;">{{=inscripcion.estado}}</span>
-		<p>
-			<span>Comentarios CCT:</span>
-			{{if inscripcion.comentarioCCT:}}
-			    {{=inscripcion.comentarioCCT}}
-            {{else:}}
-                N/A
-            {{pass}}
-		</p>		
-	</div>
+    <div style="flex:5 1 auto; max-width:300px;">
+        <a style="text-decoration: none;color: #3e3f3a;cursor: pointer;" href="{{=URL(c='Pasantia',f='verDetallePasantia',args=[plan_trabajo.id])}}"><span class="fa fa-pencil-square"></span> Plan de trabajo</a>
+        <br>
+        <a style="text-decoration: none;color: #3e3f3a;cursor: pointer;" href="#"><span class="fa fa-file"> </span> Formulario DACE</a>
+        <br>
+            <span class="fa fa-comments"> </span> Comentarios CCT:
+        {{if inscripcion.comentarioCCT:}}
+        {{=inscripcion.comentarioCCT}}
+        {{else:}}
+            N/A
+        {{pass}}
+        </p>
+    </div>
 </div>
 <br><br><br><br><br><br>
