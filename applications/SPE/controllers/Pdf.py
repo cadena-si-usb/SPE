@@ -111,7 +111,7 @@ def stylesheet():
     return styles
 
 
-def generarPdfConstanciaCulminacion():
+def generarPdfPlanTrabajo():
     # Datos del estudiante
 
     userid = session.currentUser.id
