@@ -22,8 +22,11 @@ def ver():
         response.view = 'mi_perfil/ver_estudiante.html'
 
     elif (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
-        profesor = db(((db.UsuarioUSB.id == userid) & (db.Profesor.usuario == db.UsuarioUSB.id) & (db.Profesor.departamento == db.Departamento.id) & (db.Profesor.categoria == db.Categoria.id) & (db.Profesor.dedicacion == db.Dedicacion.id) & (db.Profesor.sede == db.Sede.id))).select().first()
-        sede = db(db.Sede.id == db.Profesor.sede).select().first()
+        profesor = db(((db.UsuarioUSB.id == userid) & (db.Profesor.usuario == db.UsuarioUSB.id))).select().first()
+        departamento = db.Departamento(id=profesor.Profesor.departamento)
+        categoria = db.Categoria(id=profesor.Profesor.categoria)
+        dedicacion= db.Dedicacion(id=profesor.Profesor.dedicacion)
+        sede = db.Sede(id= profesor.Profesor.sede)
         response.view = 'mi_perfil/ver_profesor.html'
 
     elif (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
@@ -93,7 +96,7 @@ def configuracion():
             db.Profesor.dedicacion.default = profesor.dedicacion
             db.Profesor.departamento.default = profesor.departamento
             db.Profesor.sede.default = profesor.sede
-            form = SQLFORM.factory(db.UsuarioUSB,db.Estudiante,fields=fields,submit_button='Actualizar', showid=False)
+            form = SQLFORM.factory(db.UsuarioUSB,db.Profesor,fields=fields,submit_button='Actualizar', showid=False)
             response.view = 'mi_perfil/configuracion__profesor.html'
         elif (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
             coordinador = db.Coordinador(db.Coordinador.id == usuario.id)
