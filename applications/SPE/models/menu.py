@@ -31,7 +31,7 @@ opciones_administrativo = [
 opciones_estudiante = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/mis_pasantias/listar'),
-    ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/mis_permisos/listar'),
+    ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/permisos/listar'),
     ((SPAN(_class='fa fa-cog'), '  Configuración '), False, '/SPE/mi_perfil/configuracion'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
@@ -47,7 +47,7 @@ opciones_coordinador = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/Coordinador/consultarPasantias'),
     ((SPAN(_class='fa fa-cog'), '  Configuración'), False, '/SPE/mi_perfil/configuracion'),
-    ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/mis_permisos/listar'),
+    ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/permisos/listar'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
 
@@ -55,7 +55,7 @@ opciones_profesor = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/mis_pasantias_tutor/listar'),
     ((SPAN(_class='fa fa-cog'), '  Configuración'), False, '/SPE/mi_perfil/configuracion'),
-    ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/mis_permisos/listar'),
+    ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/permisos/listar'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
 
@@ -76,7 +76,7 @@ elif auth.has_membership(role='Estudiante'):
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
         (T('Administracion'), False, "#",[
-            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/mis_permisos/listar')
+            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/permisos/listar')
         ]),
     ]
 elif auth.has_membership(role='Profesor'):
@@ -84,7 +84,7 @@ elif auth.has_membership(role='Profesor'):
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
         (T('Administracion'), False, "#",[
-            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/mis_permisos/listar')
+            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/permisos/listar')
         ]),
     ]
 elif auth.has_membership(role='Coordinador'):
@@ -92,7 +92,7 @@ elif auth.has_membership(role='Coordinador'):
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
         (T('Administracion'), False, "#",[
-            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/mis_permisos/listar')
+            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/permisos/listar')
         ]),
     ]
 elif not auth.is_logged_in():

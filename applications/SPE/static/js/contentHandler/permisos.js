@@ -27,11 +27,11 @@ $('#permisosIndex').ready(function(){
         ajaxHandler.count('permisos',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getPermisos();
+            getPermissions();
         })
     }
 
-    function getPermisos(){
+    function getPermissions(){
         ajaxHandler.find('permisos',options).success(function(res){
             permiso = JSON.parse(res);
             if (permiso.length > 0){
@@ -97,7 +97,7 @@ $('#permisosIndex').ready(function(){
 
     // Funcion que trae mas permiso para paginacion
 
-    function getMorePermisos(evt){
+    function getMorePermissions(evt){
         filters.page = permiso.length.toString();
 
         options.data = $.param(filters,true);
@@ -154,7 +154,7 @@ $('#permisosIndex').ready(function(){
 
 
     $('#search').keyup(searchTerm);
-    $('#next').click(getMorePermisos);
+    $('#next').click(getMorePermissions);
     $('.uai-table-header').click(changeOrder);
 });
 })();
