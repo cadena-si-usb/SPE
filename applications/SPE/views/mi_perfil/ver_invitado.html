@@ -27,9 +27,18 @@
 
                     <h3>{{=invitado.UsuarioUSB.usbid}}</h3>
                     <h2>
-                        <b>{{=invitado.UsuarioUSB.tipo_documento.nombre}}</b>
+						{{if invitado.UsuarioUSB.tipo_documento:}}
+							<b>{{=invitado.UsuarioUSB.tipo_documento.nombre}}</b>
+						{{else:}}
+							N/A
+						{{pass}}
                     </h2>
-                    <h3>{{=invitado.UsuarioUSB.numero_documento}}</h3>
+                    {{if invitado.UsuarioUSB.tipo_documento:}}
+							<h3>{{=invitado.UsuarioUSB.numero_documento}}</h3>
+					{{else:}}
+							N/A
+					{{pass}}
+                    
                     <h2>
                         <b>Telefono</b>
                     </h2>
