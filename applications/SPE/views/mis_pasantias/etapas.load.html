@@ -1,9 +1,16 @@
-<ul style="margin-top: 60px; padding:0; display: flex; flex-direction: row; font-family: 'DejaVu Sans' !important;">
-    {{for etapa in etapas:}}
-    <li style="padding: 10px 10px; text-align: left;font-size: 16px; cursor: pointer; list-style-type: none">
-        <button style="background-color:#1165ff; border-radius:0px">
-        	{{=etapa['nombre']}}
+<ul style="margin-top: 60px; padding:0; display: flex; flex-direction: row; font-family: 'DejaVu Sans' !important;cursor: auto;">
+{{for etapa in etapas:}}
+    <li style="padding: 10px 10px; text-align: left;font-size: 16px;list-style-type: none;cursor: auto;">
+    {{if etapa['nombre'] == pasantia.etapa.nombre : }}
+        <button style="background: #79a736; border-color: #79a736; width: 125px !important;cursor: auto;">
+            {{=etapa['nombre']}}
         </button>
-    </li>
+    {{else:}}
+        <button style="width: 125px !important; cursor: auto;">
+            {{=etapa['nombre']}}
+        </button>
     {{pass}}
-</ul65
+
+    </li>
+{{pass}}
+</ul>

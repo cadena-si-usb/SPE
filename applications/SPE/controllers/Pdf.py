@@ -15,7 +15,8 @@ import os.path
 
 
 def es_semana(actividad, semana):
-    if int(actividad.semana_fin) == int(semana) or int(actividad.semana_inicio) == int(semana):
+    if int(actividad.semana_fin) == int(semana) or int(actividad.semana_inicio) == int(semana) or (
+                (semana < int(actividad.semana_fin)) and (semana > int(actividad.semana_inicio))):
         return str("")
     else:
         return str(" ")
@@ -110,7 +111,7 @@ def stylesheet():
     return styles
 
 
-def generarPdfConstanciaCulminacion():
+def generarPdfPlanTrabajo():
     # Datos del estudiante
 
     userid = session.currentUser.id
@@ -128,7 +129,7 @@ def generarPdfConstanciaCulminacion():
     sede = db(db.Sede.id == db.Estudiante.sede).select().first()
     pasantia = db(db.Pasantia.estudiante == estudiante.Estudiante).select().first()
     plan_trabajo = db(db.Plan_Trabajo.pasantia == pasantia.id).select().first()
-    fases = db(db.Fase.plan_trabajo == pasantia.id).select()
+    fases = db(db.Fase.plan_trabajo == pasantia.id).select(orderby=db.Fase.numero)
     tutor_academico = pasantia.tutor_academico
     tutor_industrial = pasantia.tutor_industrial
 
@@ -352,7 +353,7 @@ def generarPdfConstanciaCulminacion():
                                       ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)]))
         story.append(tbl_obj1)
 
-        for actividad in fase.Actividad.select():
+        for actividad in fase.Actividad.select(orderby=db.Actividad.numero):
             tbl_objetivo = [
                 [Paragraph(str(actividad.descripcion), styles["default"]),
                  Paragraph(str(actividad.semana_inicio), styles["default"]),

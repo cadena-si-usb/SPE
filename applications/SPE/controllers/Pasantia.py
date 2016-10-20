@@ -103,7 +103,7 @@ def verPlanDeTrabajo():
     # Obtenemos el plan de trabajo
     planTrabajo = pasantia.Plan_Trabajo.select().first()
     # Obtenemos las fases del plan de trabajo
-    fases=planTrabajo.Fase.select()
+    fases=planTrabajo.Fase.select(orderby=db.Fase.numero)
     # Verificamos si el plan ya fue aprobado, si no es asi entonces puede ser editado por el tutor industrial
     editable=(planTrabajo.aprobacion_coordinacion=='Aprobado'
               and planTrabajo.aprobacion_tutor_academico=='Aprobado'

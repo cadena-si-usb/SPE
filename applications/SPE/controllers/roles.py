@@ -49,7 +49,8 @@ def modificar():
     record = db.auth_group(request.args(0)) or redirect(URL('agregar'))
     # Si es uno de los roles por defecto evitamos que se puedan editar
     if ((record.role=='Estudiante') or (record.role=='Profesor') or (record.role=='Coordinador') or
-        (record.role == 'Empresa') or (record.role=='Tutor Industrial') or (record.role=='CoordinadorCCT')):
+        (record.role == 'Empresa') or (record.role=='Tutor Industrial') or (record.role=='CoordinadorCCT')
+        or record.role == 'Invitado'):
         db.auth_group.role.writable=False
 
     form = SQLFORM(db.auth_group, record,showid=False)

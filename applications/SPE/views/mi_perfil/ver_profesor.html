@@ -24,8 +24,13 @@
        <h2>
            <b>Departamento</b>
        </h2>
+       
        <div>
-           <h3>{{=profesor.Departamento.nombre}}</h3>
+           {{if departamento:}}
+				<h3>{{=departamento.nombre}}</h3>
+			{{else:}}
+				<h3>N/A</h3>
+			{{pass}}
        </div>
 </div>
 
@@ -34,15 +39,24 @@
            <b>Categoría</b>
        </h2>
        <div>
-           <h3>{{=profesor.Categoria.nombre}}</h3>
+			{{if categoria:}}
+				<h3>{{=categoria.nombre}}</h3>
+			{{else:}}
+				<h3>N/A</h3>
+			{{pass}}
        </div>
 </div>
 <div>
        <h2>
            <b>Dedicación</b>
        </h2>
+       
        <div>
-          <h3>{{=profesor.Dedicacion.nombre}}</h3>
+          {{if dedicacion:}}
+				<h3>{{=dedicacion.nombre}}</h3>
+			{{else:}}
+				<h3>N/A</h3>
+			{{pass}}
        </div>
 </div>
 
@@ -50,8 +64,12 @@
        <h2>
            <b>Sede</b>
        </h2>
-       <div>
-          <h3>{{=profesor.Sede.nombre}}</h3>
+       <div>   
+          {{if sede:}}
+				<h3>{{=sede.nombre}}</h3>
+			{{else:}}
+				<h3>N/A</h3>
+			{{pass}}
        </div>
 </div>
 
@@ -59,8 +77,12 @@
        <h2>
            <b>Correo</b>
        </h2>
-       <div>
-           <h3>{{=profesor.UsuarioUSB.correo}}</h3>
+       <div>   
+          {{if profesor.UsuarioUSB.correo:}}
+				<h3>{{=profesor.UsuarioUSB.correo}}</h3>
+			{{else:}}
+				<h3>N/A</h3>
+			{{pass}}
        </div>
 </div>
 
