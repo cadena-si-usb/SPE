@@ -27,7 +27,6 @@ def agregar():
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Pasantia.count(obj)
-
     return count
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))

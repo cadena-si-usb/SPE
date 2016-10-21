@@ -17,23 +17,24 @@ def listar():
 def agregar():
     currentRoles = current.auth.user_groups.values()
     permisoBD = db.Permiso
-    fields = ['Tipo','pasantia','justificacion']
+    fieldsEstudiante = ['Tipo','pasantia','justificacion']
+    fieldsCoordinadorCCT = ['Estudiante', 'Tipo', 'pasantia', 'justificacion']
     
     
     if 'Estudiante' in currentRoles:
         permisoBD.Estudiante.writable = False
         permisoBD.Estudiante.default = current.auth.user_id
-        formPermiso = SQLFORM.factory(permisoBD,fields=fields,showid=False)
+        form = Permiso.form(fieldsEstudiante)
     elif 'CoordinadorCCT' in currentRoles:
-        formPermiso = SQLFORM.factory(permisoBD,fields=None,showid=False)
+        form = Permiso.form(fieldsCoordinadorCCT)
     else:
         redirect(URL(c='default', f='index'))
 
 
-    if formPermiso.process().accepted:
+    if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')
         redirect(URL('listar'))
-    elif formPermiso.errors:
+    elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')
@@ -46,7 +47,8 @@ def agregar():
 def agregar_evaluacion():
     currentRoles = current.auth.user_groups.values()
     permisoBD = db.Permiso_Evaluacion
-    fields = ['pasantia','justificacion','calendario_compromisos']
+    fieldsEstudiante = ['pasantia','justificacion','calendario_compromisos']
+    fieldsCoordinadorCCT = ['Estudiante', 'Tipo', 'pasantia', 'justificacion', 'calendario_compromisos']
 
     permisoBD.Tipo.writable = False
     permisoBD.Tipo.default = 'Evaluacion Extemporanea'
@@ -54,16 +56,18 @@ def agregar_evaluacion():
     if 'Estudiante' in currentRoles:
         permisoBD.Estudiante.writable = False
         permisoBD.Estudiante.default = current.auth.user_id
-        formPermiso = SQLFORM.factory(permisoBD,fields=fields,showid=False)
+        #form = SQLFORM.factory(permisoBD,fields=fields,showid=False)
+        form = Permiso_Evaluacion.form(fieldsEstudiante)
     elif 'CoordinadorCCT' in currentRoles:
-        formPermiso = SQLFORM.factory(permisoBD,fields=None,showid=False)
+        #form = SQLFORM.factory(permisoBD,fields=None,showid=False)
+        form = Permiso_Evaluacion.form(fieldsCoordinadorCCT)
     else:
         redirect(URL(c='default',f='index'))
 
-    if formPermiso.process().accepted:
+    if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')
         redirect(URL('listar'))
-    elif formPermiso.errors:
+    elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')
@@ -99,23 +103,23 @@ def modificar():
     # Agregar caso en el que el permiso es de evaluacion
     if 'Estudiante' in currentRoles:
         fields = ['justificacion']
-        formPermiso = SQLFORM(db.Permiso,record,fields=fields,showid=False)
+        form = SQLFORM(db.Permiso,record,fields=fields,showid=False)
     if 'Profesor' in currentRoles:
         fields = ['aprobacion_tutor_academico']
-        formPermiso = SQLFORM(db.Permiso,record,fields=fields,showid=False)
+        form = SQLFORM(db.Permiso,record,fields=fields,showid=False)
     elif 'Coordinador' in currentRoles:
         fields = ['aprobacion_coordinacion']
-        formPermiso = SQLFORM(db.Permiso,record,fields=fields,showid=False)
+        form = SQLFORM(db.Permiso,record,fields=fields,showid=False)
     elif 'CoordinadorCCT' in currentRoles:
-        formPermiso = SQLFORM(db.Permiso,record,fields=None,showid=False)
+        form = SQLFORM(db.Permiso,record,fields=None,showid=False)
     else:
         redirect(URL(c='default', f='index'))
 
 
-    if formPermiso.process().accepted:
+    if form.process().accepted:
         session.flash = T('El material fue agregado exitosamente!')
         redirect(URL('listar'))
-    elif formPermiso.errors:
+    elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')

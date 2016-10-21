@@ -32,9 +32,7 @@ def count():
 
 def get():
     obj = Encoder.to_dict(request.vars)
-
     rows = Pasantia.JMaterias(obj)
-
     rows = rows.as_json()
 
     return rows
