@@ -2,7 +2,6 @@
 from Permisos import Permiso
 from Permisos_Evaluacion import Permiso_Evaluacion
 from gluon import current
-
 import Encoder
 
 Permiso = Permiso()
@@ -86,12 +85,15 @@ def count():
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = db(
-        (db.Permiso.pasantia == db.Pasantia.id) & (db.Pasantia.estudiante == db.Estudiante.id) &
-        (db.UsuarioUSB.id == db.Estudiante.usuario) & (db.auth_user.id == db.UsuarioUSB.auth_User)).select(
-        orderby=db.auth_group.role)
-    rows = rows.as_json()
-    return rows
+    # rows = db(
+    #     (db.Permiso.pasantia == db.Pasantia.id) & (db.Pasantia.estudiante == db.Estudiante.id) &
+    #     (db.UsuarioUSB.id == db.Estudiante.usuario) & (db.auth_user.id == db.UsuarioUSB.auth_User)).select(
+    #     orderby=db.auth_group.role)
+
+
+    rows_p = Permiso.find(obj).as_json()
+    rows_e = Permiso_Evaluacion.find(obj).as_json()
+    return rows_p
 
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
@@ -128,16 +130,6 @@ def modificar():
 
 
 
-    # record = db.Permiso(request.args(0)) or redirect(URL('agregar'))
-    # form = SQLFORM(db.Permiso, record,showid=False)
-    # if form.process().accepted:
-    #     session.flash = T('El material fue modificado exitosamente!')
-    #     redirect(URL('listar'))
-    # else:
-    #     response.flash = T('Por favor llene la forma.')
-    # return locals()
-
-
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def ver():
     # Hacer try/catch y que saque el permiso de la tabla de permisos o permiso_evaluacion
@@ -148,3 +140,4 @@ def ver():
 def ver_evaluacion():
     record = db.Permiso_Evaluacion(request.args(0))
     return locals()
+

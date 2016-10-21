@@ -27,11 +27,11 @@ $('#permisoIndex').ready(function(){
         ajaxHandler.count('permisos',options).success(function(res){
             max = res;
             $('#cantidad').html(max.toString());
-            getpermisos();
+            getPermisos();
         })
     }
 
-    function getpermisos(){
+    function getPermisos(){
         ajaxHandler.find('permisos',options).success(function(res){
             permiso = JSON.parse(res);
             if (permiso.length > 0){
@@ -45,6 +45,7 @@ $('#permisoIndex').ready(function(){
 
                 $("#elBody").html(template);
             }
+            disableButtonOnMax();
         });
     }
 
