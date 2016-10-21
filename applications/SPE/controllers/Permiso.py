@@ -34,13 +34,14 @@ def consultarPermisos():
     elif 'Coordinador' in currentRoles:
     '''
 
+    # Colocar solicitante tambien en la tablita
     fields = (db.Permiso.Tipo, db.Permiso.aprobacion_coordinacion, db.Permiso.aprobacion_tutor_academico, db.Permiso.pasantia)    
     headers = {
         ''
         'Permiso.Tipo': 'Tipo',
-        'Permiso.aprobacion_coordinacion': 'aprobacion_coordinacion',
-        'Permiso.aprobacion_tutor_academico': 'aprobacion_tutor_academico',
-        'Permiso.pasantia': 'pasantia'
+        'Permiso.aprobacion_coordinacion': 'Aprobación de Coordinación',
+        'Permiso.aprobacion_tutor_academico': 'Aprobación de Tutor Académico',
+        'Permiso.pasantia': 'Pasantia'
     }
     default_sort_order=[db.Permiso.Tipo]
     links = [lambda row: A('Detalle', _href=URL(c='Permiso',f='verDetallePermiso',args=[row.id]))]
