@@ -9,7 +9,7 @@ from gluon import *
 #------------------------------------------------------------------------------#
 def Permiso_Table(db,T):
     db.define_table('Permiso',
-        Field('Estudiante', 'reference UsuarioUSB', label='Estudiante (*)'),
+        Field('Estudiante', 'reference Estudiante', label='Estudiante (*)'),
         Field('Tipo',requires=IS_IN_SET(['Inscripcion Extemporanea','Retiro Extemporaneo'])),
         Field('pasantia','reference Pasantia', label='Pasantia (*)'),
         Field('estado', 'string', default="En Espera",

@@ -25,7 +25,7 @@ def Permiso_Evaluacion_Table(db,T):
                                 error_message='Opcion Invalida'),
               default='En espera', label='Aprobacion De La Coordinacion',
               represent=lambda v, r: 'N/A' if v is None else v),
-        Field('justificacion', 'string', label='Justificacion del permiso'),
+        Field('justificacion', 'text', label='Justificacion del permiso'),
         Field('calendario_compromisos', 'string', label='Calendario de compromisos')
         #,Field('calendario_compromisos', 'reference Calendario')
     )
