@@ -12,19 +12,19 @@
 <div style="display: flex; font-size: 17px !important;">
     <div style="flex:5 1 auto; max-width:386px; padding-right:25px;">
 
-        <a href="{{=etapa.procedimientos}} " style="text-decoration: none; color: #3e3f3a;cursor: pointer;"><span class="fa fa-tasks"></span> Procedimientos </a>
+        <a class="links" href="{{=etapa.procedimientos}} "><span class="fa fa-tasks"></span> Procedimientos </a>
         <br>
-        <a href="#" style="text-decoration: none;color: #3e3f3a;cursor: pointer;"><span class="fa fa-question-circle"></span> Realizar consulta a la CCT</a>
+        <a class="links" href="#" ><span class="fa fa-question-circle"></span> Realizar consulta a la CCT</a>
         <br>
-        <a href="#" style="text-decoration: none;color: #3e3f3a;cursor: pointer;"><span class="fa fa-check-square"></span> Status del tramite: <span style="color:red;">{{=inscripcion.estado}}</span></a>
+        <span class="fa fa-check-square"></span> Status del tramite: <span style="color:red;">{{=inscripcion.estado}}</span>
 
 
     </div>
 
     <div style="flex:5 1 auto; max-width:300px;">
-        <a style="text-decoration: none;color: #3e3f3a;cursor: pointer;" href="{{=URL(c='Pasantia',f='verDetallePasantia',args=[plan_trabajo.id])}}"><span class="fa fa-pencil-square"></span> Plan de trabajo</a>
+        <a class="links" href="{{=URL(c='Pasantia',f='verDetallePasantia',args=[plan_trabajo.id])}}"><span class="fa fa-pencil-square"></span> Plan de trabajo</a>
         <br>
-        <a style="text-decoration: none;color: #3e3f3a;cursor: pointer;" href="#"><span class="fa fa-file"> </span> Formulario DACE</a>
+        <a class="links" href="#"><span class="fa fa-file"> </span> Formulario DACE</a>
         <br>
             <span class="fa fa-comments"> </span> Comentarios CCT:
         {{if inscripcion.comentarioCCT:}}

@@ -46,3 +46,13 @@
 .link-btn{
     text-decoration: none;
 }
+
+.links:hover{
+    color: #79a736 !important;
+}
+
+.links{
+    text-decoration: none !important;
+    color: #3e3f3a;
+    cursor: pointer;
+}

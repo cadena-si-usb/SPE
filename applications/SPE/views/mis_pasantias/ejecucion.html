@@ -1,93 +1,58 @@
 {{extend 'shell.html'}}
 {{include 'mis_pasantias/pasantia_etapas.html'}}
 
-<h1>{{=etapa.nombre}}</h1>
+<h1>Etapa actual de su pasantia: {{=etapa.nombre}}</h1>
+<div style="font-size: 20px !important;">
+    <p>
+        <span>Descripcion:</span>
+    {{=etapa.descripcion}}
+    </p>
+</div>
 
-<div style="display: flex;">
-	<div style="flex:5 1 auto; max-width:386px; padding-right:25px;">
-		<p>
-			<span>Descripcion:</span>
-			{{=etapa.descripcion}}
-		</p>
-		<a href="{{=etapa.procedimientos}}">Procedimientos</a>
-		<br>
-		<a href="#">Realizar consulta a la CCT</a>
-		<br>
-		<a href="{{=URL(c='permisos',f='agregar')}}">Solicitar Permiso de Inscripción/Retiro Extemporáneo</a>
-		<br>
-		<a href="{{=URL(c='permisos',f='agregar_evaluacion')}}">Solicitar Permiso de Evaluación Extemporánea</a>
-		
-	</div>
+<div style="display: flex;font-size: 17px !important;">
+    <div style="flex:5 1 auto; max-width:386px; padding-right:25px;">
+        <a class="links" href="{{=etapa.procedimientos}}"  ><span class="fa fa-tasks"></span> Procedimientos</a>
+        <br>
+        <a class="links" href="#" ><span class="fa fa-question-circle"></span> Realizar consulta a la CCT</a>
+        <br>
+        <a class="links" href="{{=URL(c='permisos',f='agregar')}}"  ><span class="fa fa-trash"></span> Solicitar permiso – Eliminar Pasantía</a>
+        <br>
+        <a class="links" href="{{=URL(c='permisos',f='agregar_evaluacion')}}"  ><span class="fa fa-calendar"></span> Solicitar permiso – Evaluación Extemporánea</a>
+        <br>
+        <a class="links" href="#"  ><span class="fa fa-tasks"></span> Cronograma de actividades</a>
+        <br>
+        <a class="links" href="#"  ><span class="fa fa-trash"></span> Permiso – Eliminar Pasantía </a>
+        <br>
+        <a class="links" href="{{=URL(c='permisos',f='agregar_evaluacion')}}"  ><span class="fa fa-calendar"></span> Permiso – Evaluación Extemporánea  </a>
+        <br>
+        <a class="links" href="#"  ><span class="fa fa-check-square"></span> Resultados Evaluación Entidad de Trabajo  </a>
 
-	<div style="flex:5 1 auto; max-width:300px;">
-		Fecha de inicio: <span style="color:red;">{{=pasantia.fecha_inicio}}</span>
-		<br>
-		Fecha de culminacion: <span style="color:red;">{{=pasantia.fecha_fin}}</span>
-		<br>
-		Fecha tope para designar jurado: <span style="color:red;">{{=pasantia.fecha_tope_jurado}}</span>
-		<br>
-		Fecha de la defensa: <span style="color:red;">{{=pasantia.fecha_defensa}}</span>
-		<br>
+    </div>
 
-		<div style="display:flex; flex-align:row">
-			<p>Cronograma de actividades </p> 
-			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
-				<img style="position: absolute; width:100%;" src="../../static/images/search.png">
-			</div>			
+    <div style="flex:5 1 auto; max-width:300px;">
+        <a class="links" href="#"  ><span class="fa fa-file"></span> Acta Defensa (sin firmas) </a>
+        <br>
+        <a class="links" href="#"  ><span class="fa fa-file"></span> Acta Defensa (firmada </a>
+        <br>
+        <span class="fa fa-calendar"></span> Fecha de inicio: <span style="color:red;">{{=pasantia.fecha_inicio}}</span>
+        <br>
+        <span class="fa fa-calendar"></span> Fecha de culminacion: <span style="color:red;">{{=pasantia.fecha_fin}}</span>
+        <br>
+        <span class="fa fa-calendar"></span> Fecha tope para designar jurado: <span style="color:red;">{{=pasantia.fecha_tope_jurado}}</span>
+        <br>
+        <span class="fa fa-calendar"></span> Fecha de la defensa: <span style="color:red;">{{=pasantia.fecha_defensa}}</span>
+        <br>
 
-		</div>
-		<div style="display:flex; flex-align:row">
-			<p>Permiso – Eliminar Pasantía </p> 
-			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
-				<img style="position: absolute; width:100%;" src="../../static/images/search.png">
-			</div>			
+        <p>
+            <span class="fa fa-comments"> </span> Comentarios CCT:
+        {{if ejecucion:}}
+        {{=ejecucion.comentarioCCT}}
+        {{else:}}
+            N/A
+        {{pass}}
+        </p>
 
-		</div>
-		<p>
-			<span>Comentarios CCT:</span>
-            {{if ejecucion.comentarioCCT:}}
-			    {{=ejecucion.comentarioCCT}}
-            {{else:}}
-                N/A
-            {{pass}}
-		</p>
-
-		<div style="display:flex; flex-align:row">
-			<p>Permiso – Evaluación Extemporánea </p> 
-			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
-				<img style="position: absolute; width:100%;" src="../../static/images/search.png">
-			</div>			
-
-		</div>
-
-
-		<div style="display:flex; flex-align:row">
-			<p>Resultados Evaluación Entidad de Trabajo </p> 
-			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
-				<img style="position: absolute; width:100%;" src="../../static/images/search.png">
-			</div>			
-
-		</div>
-		<div style="display:flex; flex-align:row">
-			<p>Acta Defensa (sin firmas)</p> 
-			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
-				<img style="position: absolute; width:100%;" src="../../static/images/search.png">
-			</div>			
-
-		</div>
-		<div style="display:flex; flex-align:row">
-			<p>Acta Defensa (firmada)</p> 
-			<div style="padding-left:15px; width:30px; height:30px; position:relative;" >
-				<img style="position: absolute; width:100%;" src="../../static/images/search.png">
-			</div>			
-
-		</div>
-
-		
-		
-		
-		
-	</div>	
+    </div>
 </div>
 
 <br><br><br><br><br><br>
