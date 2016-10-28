@@ -7,8 +7,14 @@ from shlex import shlex
 @auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
 def verDetallePermiso():
     permisoId = request.args[0]
+    permiso = db(db.Permiso.id == permisoId).select().first()
+    formPermiso = SQLFORM.factory(db.Permiso, fields=None, showid=False)
     response.view = 'Permiso/Detalle_Permiso.html'
     return locals()
+
+def generarLinks(row):
+    print(row.Permiso.id)
+    return A('Detalle', _href=URL(c='Permiso',f='verDetallePermiso',args=[row.Permiso.id]))
 
 
 # Pulir permisologia y agregar verDetallePermiso
@@ -16,9 +22,14 @@ def verDetallePermiso():
 def consultarPermisos():
     userId=auth.user.id
     currentRoles = auth.user_groups.values()
-    permisos_pasantias = ""
 
     # Obtenemos todas las pasantias en los que este usuario interviene
+    ''' Generar SQLFORM.grid con campos en selectable puestos en writable
+        dependiendo del rol del actor, ademas de algun hover que despliegue
+        el texto de la justificacion y que el nombre de la pasantía sea un link
+        a ver en detalle esa pasantia. Cambiar aprobaciones a booleanos en el modelo
+    '''
+
     if 'Profesor' in currentRoles:
         tutor_academico = db.Profesor(id=userId).usuario
         permisos = db((db.Pasantia.tutor_academico == tutor_academico) & (db.Permiso.pasantia == db.Pasantia.id))
@@ -35,18 +46,21 @@ def consultarPermisos():
     '''
 
     # Colocar solicitante tambien en la tablita
-    fields = (db.Permiso.Tipo, db.Permiso.aprobacion_coordinacion, db.Permiso.aprobacion_tutor_academico, db.Permiso.pasantia)    
+    fields = (db.Permiso._id,db.Permiso.Tipo, db.Permiso.aprobacion_coordinacion, db.Permiso.aprobacion_tutor_academico, db.Permiso.pasantia, db.Permiso.estado, db.Permiso.justificacion)    
     headers = {
         ''
         'Permiso.Tipo': 'Tipo',
+        'Permiso.pasantia.Nombre': 'Pasantía',
         'Permiso.aprobacion_coordinacion': 'Aprobación de Coordinación',
-        'Permiso.aprobacion_tutor_academico': 'Aprobación de Tutor Académico',
-        'Permiso.pasantia': 'Pasantia'
+        'Permiso.aprobacion_tutor_academico': 'Aprobación de Tutor Académico'
     }
     default_sort_order=[db.Permiso.Tipo]
-    links = [lambda row: A('Detalle', _href=URL(c='Permiso',f='verDetallePermiso',args=[row.id]))]
-    form = SQLFORM.grid(query=permisos, fields=fields, headers=headers, orderby=default_sort_order,create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,csv=False,user_signature=False)
-    
-    
+    links = [lambda row: generarLinks(row)]
+    checkboxes = 
+    form = SQLFORM.grid(query=permisos, fields=fields, headers=headers, orderby=default_sort_order,create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,csv=False,user_signature=False,links=links)
+        
     response.view = 'Permiso/Consultar_Permisos.html'
     return locals()
+
+
+    

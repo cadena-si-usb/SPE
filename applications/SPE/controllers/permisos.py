@@ -10,7 +10,7 @@ Permiso_Evaluacion = Permiso_Evaluacion()
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
-    return dict(rows=session.rows,id="prueba")
+    return dict(rows=session.rows)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
@@ -81,15 +81,10 @@ def count():
     return count
 
 
+''' Hacer que devuelva ambos tipos de pasantía'''
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
-
-    # rows = db(
-    #     (db.Permiso.pasantia == db.Pasantia.id) & (db.Pasantia.estudiante == db.Estudiante.id) &
-    #     (db.UsuarioUSB.id == db.Estudiante.usuario) & (db.auth_user.id == db.UsuarioUSB.auth_User)).select(
-    #     orderby=db.auth_group.role)
-
 
     rows_p = Permiso.find(obj).as_json()
     rows_e = Permiso_Evaluacion.find(obj).as_json()
