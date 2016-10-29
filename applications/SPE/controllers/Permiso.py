@@ -6,14 +6,28 @@ from shlex import shlex
 # Completar
 @auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
 def verDetallePermiso():
+    # Buscamos los datos necesarios
     permisoId = request.args[0]
     permiso = db(db.Permiso.id == permisoId).select().first()
+
+    # Definimos que no se pueden editar los datos
+    for field in db.Permiso:
+        field.writable=False
+
+    # Llenamos Los Campos con los datos encontrados
+    db.Permiso.Tipo.default = permiso.Tipo
+    db.Permiso.pasantia.default = permiso.pasantia
+    db.Permiso.aprobacion_coordinacion.default = permiso.aprobacion_coordinacion
+    db.Permiso.aprobacion_tutor_academico.default = permiso.aprobacion_tutor_academico
+    db.Permiso.estado.default = permiso.estado
+    db.Permiso.justificacion.default = permiso.justificacion
+
     formPermiso = SQLFORM.factory(db.Permiso, fields=None, showid=False)
     response.view = 'Permiso/Detalle_Permiso.html'
     return locals()
 
+
 def generarLinks(row):
-    print(row.Permiso.id)
     return A('Detalle', _href=URL(c='Permiso',f='verDetallePermiso',args=[row.Permiso.id]))
 
 
@@ -56,7 +70,7 @@ def consultarPermisos():
     }
     default_sort_order=[db.Permiso.Tipo]
     links = [lambda row: generarLinks(row)]
-    checkboxes = 
+    #checkboxes = 
     form = SQLFORM.grid(query=permisos, fields=fields, headers=headers, orderby=default_sort_order,create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,csv=False,user_signature=False,links=links)
         
     response.view = 'Permiso/Consultar_Permisos.html'
