@@ -394,17 +394,6 @@ def load_fixtures(db,T):
             registration_id=''
         )
         db.auth_user.insert(
-            id=10,
-            first_name='Roberto',
-            last_name='Romero',
-            email='',
-            username='10-10642',
-            password=db.auth_user.password.validate('Ecorp.2016')[0],
-            registration_key='',
-            reset_password_key='',
-            registration_id=''
-        )
-        db.auth_user.insert(
             id=11,
             first_name='Gabriel',
             last_name='Austin',
@@ -540,21 +529,6 @@ def load_fixtures(db,T):
             nombre='Andres Rafael',
             apellido='Hernandez Monterola',
             correo='queso976@gmail.com',
-            clave=db.auth_user.password.validate('Ecorp.2016')[0],
-            tipo_documento='1',
-            numero_documento='20101324',
-            telefono='04129767576',
-            direcUsuario='Prados Del Este',
-            sexo='M',
-            activo='True'
-        )
-        db.UsuarioUSB.insert(
-            id=10,
-            auth_User=10,
-            usbid='10-10642',
-            nombre='Roberto',
-            apellido='Romero',
-            correo='robert@gmail.com',
             clave=db.auth_user.password.validate('Ecorp.2016')[0],
             tipo_documento='1',
             numero_documento='20101324',
