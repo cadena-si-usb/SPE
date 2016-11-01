@@ -1,0 +1,47 @@
+{{extend 'layout.html'}}
+
+<div class='content'>
+    <p class='title'>Permiso - {{=formPermiso.custom.widget.Tipo}}</p>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel-group" id="accordionpermiso">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionpermiso" href="#permiso">
+                                <i class="fa fa-check-square-o fa-pull-right"></i>
+                                <b>Detalle De Permiso</b>
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="panel-collapse collapse in" id="permiso">
+                        <div class="list-group">
+                            <p class="list-group-item"><b>{{=formPermiso.custom.label.Tipo}}</b> : {{=formPermiso.custom.widget.Tipo}} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel-group" id="accordionplan">
+                <div class="row center">
+                    <br>
+                    <!-- {{if (auth.has_membership(role='Estudiante') and planTrabajo.estado!="Enviado"):}}
+                        {{=A(T('Editar Datos De La Permiso'), _class='btn btn-default',_href=URL  (c='Permiso',f='crudPermiso',args=[permiso.id]))}}
+                    {{pass}}
+                    {{if planTrabajo:}}
+                        {{=A(T('Ver Detalle De Plan De Trabajo'), _class='btn btn-default',_href=URL  (c='Permiso',f='verPlanDeTrabajo',args=[permiso.id]))}}
+                        {{=A(T('Descargar Plan De Trabajo'), _class='btn btn-default',_href=URL  (c='Pdf',f='generarPdfPlanTrabajo',args=[permiso.id]))}}
+                        {{pass}} -->
+                    Aqui haremos la logica de de aprobar o ver el permiso dependiendo del actor
+                        
+                    </br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <br><br>
+    </div>
+
+</div>
