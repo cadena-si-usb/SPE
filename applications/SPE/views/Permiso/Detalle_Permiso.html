@@ -29,7 +29,15 @@
         <div class="col-md-6">
             <div class="row center">
                 <br>
-                Aqui ira la logica de los botones y su aprobacion
+                {{if (auth.has_membership(role='Estudiante')):}}
+                    {{=A(T('Descargar Planilla'), _class='btn btn-default',_href=URL  (c='Pdf',f='generarPdfPermiso',args=[permiso.id]))}}
+                    {{=A(T('Volver a Mis Permisos'), _class='btn btn-default',_href=URL  (c='Permiso',f='consultarPermisos'))}}
+                {{pass}}
+                {{if ((auth.has_membership(role='Profesor')) or (auth.has_membership(role='Coordinador')) or (auth.has_membership(role='CoordinadorCCT')) or (auth.has_membership(role='Administrativo'))):}}
+                    {{=A(T('Aprobar'), _class='btn btn-default',_href=URL  (c='Permiso',f='aprobarPermiso',args=[permiso.id]))}}
+                    {{=A(T('Volver a Mis Permisos'), _class='btn btn-default',_href=URL  (c='Permiso',f='consultarPermisos'))}}
+                    {{=A(T('Imprimir Planilla'), _class='btn btn-default',_href=URL  (c='Permiso',f='consultarPermisos'))}}
+                    {{pass}}
                 </br>
             </div>
         </div>

@@ -12,6 +12,10 @@ def listar():
     session.rows = []
     return dict(rows=session.rows)
 
+
+''' Refactorizar: Separar en dos funciones, una que sea agregar y agregarPorRol 
+    para evitar el try
+'''
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     try:
@@ -26,11 +30,11 @@ def agregar():
     fieldsEstudianteEval = ['Tipo','pasantia', 'justificacion', 'calendario_compromisos']
     fieldsCoordinadorCCTEval = ['Estudiante', 'Tipo', 'pasantia', 'justificacion', 'calendario_compromisos']
     
-    
+
     if 'Estudiante' in currentRoles:
         permisoBD.Estudiante.writable = False
         permisoBD.Estudiante.default = current.auth.user_id
-
+        
         permisoBD.Tipo.writable = False
         if tipo == 'Inscripcion Extemporanea':
             permisoBD.Tipo.default = 'Inscripcion Extemporanea'
@@ -98,7 +102,6 @@ def modificar():
     currentRoles = current.auth.user_groups.values()
     record = (db.Permiso(request.args(0)) or db.Permiso_Evaluacion(request.args(0))) or redirect(URL('agregar'))
 
-    # Agregar caso en el que el permiso es de evaluacion
     if 'Estudiante' in currentRoles:
         fields = ['justificacion']
         form = SQLFORM(db.Permiso,record,fields=fields,showid=False)

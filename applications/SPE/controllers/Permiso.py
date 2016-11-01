@@ -30,10 +30,13 @@ def verDetallePermiso():
 def generarLinks(row):
     return A('Detalle', _href=URL(c='Permiso',f='verDetallePermiso',args=[row.Permiso.id]))
 
+def generarLinksCoordinador(row):
+    return A('Detalle', _href=URL(c='Permiso',f='verDetallePermiso',args=[row.id]))
 
 @auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
 def consultarPermisos():
     userId=auth.user.id
+    usuario=db(db.UsuarioUSB.auth_User == userId).select().first()
     currentRoles = auth.user_groups.values()
 
     fields = (db.Permiso._id,db.Permiso.Tipo, db.Permiso.aprobacion_coordinacion, db.Permiso.aprobacion_tutor_academico, db.Permiso.pasantia, db.Permiso.estado, db.Permiso.justificacion)    
@@ -55,7 +58,7 @@ def consultarPermisos():
 
     elif 'Estudiante' in currentRoles:
         estudiante = db.Estudiante(id=userId).usuario
-        permisos = db((db.Pasantia.estudiante == estudiante) & (db.Permiso.pasantia == db.Pasantia.id))
+        permisos = db((db.Permiso.Estudiante == estudiante) & (db.Permiso.pasantia == db.Pasantia.id))
         form = SQLFORM.grid(query=permisos, fields=fields, headers=headers, orderby=default_sort_order,create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,csv=False,user_signature=False,links=links)
 
     elif ('CoordinadorCCT' in currentRoles) or ('Administrativo' in currentRoles):
@@ -73,32 +76,49 @@ def consultarPermisos():
         
         # Permisos solicitados por estudiantes de la carrera carreraCoordinacion
         permisos = db(db.Permiso.Estudiante.belongs(estudiantes))
-        ''' Deuda tecnica:
-            Resolver el error que da links en este formulario, 
-            por eso los separe asi, para poder mostrar funcionalidad 
-            en la entrega del 100% 
-        '''  
-        form = SQLFORM.grid(query=permisos, fields=fields, headers=headers, orderby=default_sort_order,create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,csv=False,user_signature=False)
+        links = [lambda row: generarLinksCoordinador(row)]
+        form = SQLFORM.grid(query=permisos, fields=fields, headers=headers, orderby=default_sort_order,create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,csv=False,user_signature=False,links=links)
     
         
     response.view = 'Permiso/Consultar_Permisos.html'
     return locals()
 
 
+# Colocar algun tipo de notificacion cuando se procesa el permiso
 @auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
 def aprobarPermiso():
     currentRoles = auth.user_groups.values()    
     permiso = db.Permiso(id=request.args[0])
+    
 
     if 'Profesor' in currentRoles:
         permiso.update_record(aprobacion_tutor_academico="Aprobado")
-        redirect(URL(c='Pasantia',f='/SPE/Permiso/consultarPermisos'))
+        redirect(URL(c='Permiso',f='consultarPermisos'))
     elif ('CoordinadorCCT' in currentRoles) or ('Administrativo' in currentRoles):
+        pasantia = db.Pasantia(id=permiso.pasantia)
         permiso.update_record(estado="Aprobado")
+
+        ''' Chequeamos que las otras aprobaciones hayan sido hechas
+            y pasamos la pasantia de preinscripcion a Inscripcion
+        ''' 
+        # Caso en el que el permiso es de inscripcion
+        if (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Inscripcion Extemporanea'):
+            etapa = db(db.Etapa.nombre == 'Inscripcion').select().first()
+            pasantia.update_record(etapa=etapa.id)
+            redirect(URL(c='Permiso',f='consultarPermisos'))
+        # Caso en el que el permiso es de retiro
+        elif (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Retiro Extemporaneo'):
+            # Buscamos al usuario que tiene la pasantia inscrita y quitamos la referencia hacia la pasantia
+            currentUser = auth.user_id
+            print("Completar caso de uso de aprobacion de permiso de retiro extemporaneo")
+            redirect(URL(c='Permiso',f='consultarPermisos'))
+
+        elif (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Evaluacion Extemporanea'):
+            print("Completar caso de uso de aprobacion de permiso de evaluacion extemporanea")
+            redirect(URL(c='Permiso',f='consultarPermisos'))
+
 
     elif 'Coordinador' in currentRoles:
         permiso.update_record(aprobacion_coordinacion="Aprobado")
-        redirect(URL(c='Pasantia',f='/SPE/Permiso/consultarPermisos'))
-    #
+        redirect(URL(c='Permiso',f='consultarPermisos'))
 
-    redirect(URL(c='Pasantia',f='verPlanDeTrabajo', args=[request.args[0]]))

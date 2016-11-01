@@ -66,7 +66,7 @@ if auth.has_membership(role='CoordinadorCCT'):
             ((SPAN(_class='fa fa-cog'), '  Catalogos'), False, '/SPE/materias/listar'),
             ((SPAN(_class='fa fa-list'), '  Pasantias'), False, '/SPE/pasantias/listar'),
             ((SPAN(_class='fa fa-user'), '  Usuarios'), False, '/SPE/usuarios/listar'),
-            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/permisos/listar')
+            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/Permiso/consultarPermisos')
         ]),
         (T('Reportes Y Estadisticas'), False, "#", []),
     ]

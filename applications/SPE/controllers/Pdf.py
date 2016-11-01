@@ -467,3 +467,7 @@ def generarPdfPlanTrabajo():
     response.headers.update(header)
 
     return pdf
+
+# Completar
+def generarPdfPermiso():
+    redirect(URL(c='Permiso', f='consultarPermisos'))
