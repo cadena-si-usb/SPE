@@ -394,6 +394,17 @@ def load_fixtures(db,T):
             registration_id=''
         )
         db.auth_user.insert(
+            id=10,
+            first_name= 'Alfredo',
+            last_name='Delgado',
+            email='',
+            username='10-10195',
+            password=db.auth_user.password.validate('Ecorp.2016')[0],
+            registration_key='',
+            reset_password_key='',
+            registration_id=''
+        )
+        db.auth_user.insert(
             id=11,
             first_name='Gabriel',
             last_name='Austin',
@@ -538,6 +549,21 @@ def load_fixtures(db,T):
             activo='True'
         )
         db.UsuarioUSB.insert(
+            id=10,
+            auth_User=10,
+            usbid='10-10195',
+            nombre='Alfredo',
+            apellido='Delgado',
+            correo='adelgado@gmail.com',
+            clave=db.auth_user.password.validate('Ecorp.2016')[0],
+            tipo_documento='1',
+            numero_documento='20101324',
+            telefono='04129767576',
+            direcUsuario='Prados Del Este',
+            sexo='M',
+            activo='True'
+        )
+        db.UsuarioUSB.insert(
             id=11,
             auth_User=11,
             usbid='09-10066',
@@ -586,6 +612,15 @@ def load_fixtures(db,T):
         db.Profesor.insert(
             id='5',
             usuario='5',
+            categoria='1',
+            dedicacion='1',
+            departamento='1',
+            sede='1',
+            activo='True'
+        )
+        db.Profesor.insert(
+            id='9',
+            usuario='9',
             categoria='1',
             dedicacion='1',
             departamento='1',
