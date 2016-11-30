@@ -39,13 +39,13 @@ def consultarPermisos():
     usuario=db(db.UsuarioUSB.auth_User == userId).select().first()
     currentRoles = auth.user_groups.values()
 
-    fields = (db.Permiso._id,db.Permiso.Tipo, db.Permiso.aprobacion_coordinacion, db.Permiso.aprobacion_tutor_academico, db.Permiso.pasantia, db.Permiso.estado, db.Permiso.justificacion)    
+    fields = (db.Permiso._id,db.Permiso.Tipo, db.Permiso.aprobacion_tutor_academico, db.Permiso.aprobacion_coordinacion, db.Permiso.pasantia, db.Permiso.estado, db.Permiso.justificacion)    
     headers = {
         ''
         'Permiso.Tipo': 'Tipo',
         'Permiso.pasantia.Nombre': 'Pasantía',
-        'Permiso.aprobacion_coordinacion': 'Aprobación de Coordinación',
-        'Permiso.aprobacion_tutor_academico': 'Aprobación de Tutor Académico'
+        'Permiso.aprobacion_tutor_academico': 'Aprobación de Tutor Académico',
+        'Permiso.aprobacion_coordinacion': 'Aprobación de Coordinación'
     }
     default_sort_order=[db.Permiso.Tipo]
     links = [lambda row: generarLinks(row)]
@@ -89,36 +89,63 @@ def consultarPermisos():
 def aprobarPermiso():
     currentRoles = auth.user_groups.values()    
     permiso = db.Permiso(id=request.args[0])
-    
+    pasantia = db.Pasantia(id=permiso.pasantia)
 
     if 'Profesor' in currentRoles:
         permiso.update_record(aprobacion_tutor_academico="Aprobado")
+        efectuarModificacionPasantia(currentRoles,permiso,pasantia)
         redirect(URL(c='Permiso',f='consultarPermisos'))
     elif ('CoordinadorCCT' in currentRoles) or ('Administrativo' in currentRoles):
-        pasantia = db.Pasantia(id=permiso.pasantia)
         permiso.update_record(estado="Aprobado")
-
-        ''' Chequeamos que las otras aprobaciones hayan sido hechas
-            y pasamos la pasantia de preinscripcion a Inscripcion
-        ''' 
-        # Caso en el que el permiso es de inscripcion
-        if (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Inscripcion Extemporanea'):
-            etapa = db(db.Etapa.nombre == 'Inscripcion').select().first()
-            pasantia.update_record(etapa=etapa.id)
-            redirect(URL(c='Permiso',f='consultarPermisos'))
-        # Caso en el que el permiso es de retiro
-        elif (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Retiro Extemporaneo'):
-            # Buscamos al usuario que tiene la pasantia inscrita y quitamos la referencia hacia la pasantia
-            currentUser = auth.user_id
-            print("Completar caso de uso de aprobacion de permiso de retiro extemporaneo")
-            redirect(URL(c='Permiso',f='consultarPermisos'))
-
-        elif (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Evaluacion Extemporanea'):
-            print("Completar caso de uso de aprobacion de permiso de evaluacion extemporanea")
-            redirect(URL(c='Permiso',f='consultarPermisos'))
-
-
+        efectuarModificacionPasantia(currentRoles,permiso,pasantia)
     elif 'Coordinador' in currentRoles:
+        print("Entra aqui")
         permiso.update_record(aprobacion_coordinacion="Aprobado")
+        efectuarModificacionPasantia(currentRoles,permiso,pasantia)
         redirect(URL(c='Permiso',f='consultarPermisos'))
 
+
+
+''' Chequeamos que las otras aprobaciones hayan sido hechas
+    y pasamos la pasantia a su nuevo estado si aplica
+    Deuda Tecnica:  Notificar en caso de que el permiso se apruebe y se
+                    haga la modificacion a la pasantia
+''' 
+@auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
+def efectuarModificacionPasantia(currentRoles,permiso,pasantia):
+    # Caso en el que el permiso es de inscripcion
+    if (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Inscripcion Extemporanea'):
+        etapa = db(db.Etapa.nombre == 'Ejecucion').select().first()
+        pasantia.update_record(etapa=etapa.id)
+        redirect(URL(c='Permiso',f='consultarPermisos'))
+    # Caso en el que el permiso es de retiro
+    elif (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Retiro Extemporaneo'):
+        currentUser = auth.user_id
+        retirarPasantia(currentUser,pasantia)
+        redirect(URL(c='Permiso',f='consultarPermisos'))
+    # Caso en el que el permiso es de evaluacion extemporanea
+    elif (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Evaluacion Extemporanea'):
+        generarEvalExtemporanea(currentUser,pasantia)
+        redirect(URL(c='Permiso',f='consultarPermisos'))
+
+    else:
+        pass
+
+
+'''
+     Buscamos al usuario que tiene la pasantia inscrita y quitamos la 
+     referencia hacia la pasantia
+'''
+@auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
+def retirarPasantia(user,pasantia):
+    print("Completar caso de uso de retirarPasantia")
+    
+
+'''
+     Genera la planilla y los campos adicionales correspondientes a 
+     la evaluacion extemporánea
+'''
+@auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
+def generarEvalExtemporanea(user,pasantia):
+    print("Completar caso de uso de Evaluacion Extemporanea")
+    

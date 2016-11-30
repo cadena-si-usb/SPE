@@ -5,6 +5,7 @@ def Coordinacion_Table(db,T):
     db.define_table('Coordinacion',
                     Field('nombre','string',required=True),
                     Field('usbid','string',required=True),
+                    #Field('carrera', 'reference Carrera', label="Carrera", required=True),
                     Field('sede','reference Sede', label='Sedes (*)'),
                     format='%(nombre)s'
                    )

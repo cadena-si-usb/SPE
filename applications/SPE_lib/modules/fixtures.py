@@ -697,6 +697,12 @@ def load_fixtures(db,T):
             rol='1'
         )
         db.Accion_Usuario.insert(
+            nombre='Mis Permisos',
+            destino='/SPE/mis_permisos/listar',
+            contexto='coordinacion',
+            rol='1'
+        )
+        db.Accion_Usuario.insert(
             nombre='Pasantias',
             destino='/SPE/pasantias/listar',
             contexto='pasantias',

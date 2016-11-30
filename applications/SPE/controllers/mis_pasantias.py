@@ -5,6 +5,7 @@ import Encoder
 
 Pasantia = Pasantia()
 
+# Hacer para el caso en el que el actor sea tutor academico
 def listar():
     session.rows = []
 

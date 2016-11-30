@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from Permisos import Permiso
-from Permisos_Evaluacion import Permiso_Evaluacion
 from gluon import current
 import Encoder
 
 Permiso = Permiso()
-Permiso_Evaluacion = Permiso_Evaluacion()
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
@@ -87,7 +85,6 @@ def count():
     return count
 
 
-''' Hacer que devuelva ambos tipos de pasantía'''
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
@@ -100,7 +97,7 @@ def get():
 def modificar():
 
     currentRoles = current.auth.user_groups.values()
-    record = (db.Permiso(request.args(0)) or db.Permiso_Evaluacion(request.args(0))) or redirect(URL('agregar'))
+    record = (db.Permiso(request.args(0)) or redirect(URL('agregar')))
 
     if 'Estudiante' in currentRoles:
         fields = ['justificacion']

@@ -4,7 +4,7 @@
 <h2>Etapa actual de su pasantia: {{=etapa.nombre}}</h2>
 <div style="font-size: 20px !important;">
     <p>
-        <span>Descripcion:</span>
+    <span>Descripcion:</span>
     {{=etapa.descripcion}}
     </p>
 </div>
@@ -17,6 +17,13 @@
         <a class="links" href="#" ><span class="fa fa-question-circle"></span> Realizar consulta a la CCT</a>
         <br>
         <span class="fa fa-check-square"></span> Status del tramite: <span style="color:red;">{{=inscripcion.estado}}</span>
+        <br>
+        <a class="links" href="{{=URL(c='permisos',f='agregar',args=['Inscripcion Extemporanea'])}}"  ><span class="fa fa-calendar"></span> Solicitar permiso – Inscripción Extemporánea</a>
+        <br>
+        <a class="links" href="{{=URL(c='permisos',f='agregar',args=['Retiro Extemporaneo'])}}"  ><span class="fa fa-trash"></span> Solicitar permiso – Eliminar Pasantía</a>
+        <br>
+        <a class="links" href="{{=URL(c='permisos',f='agregar',args=['Evaluacion Extemporanea'])}}"  ><span class="fa fa-calendar"></span> Solicitar permiso – Evaluación Extemporánea</a>
+        <br>
 
 
     </div>
@@ -27,8 +34,9 @@
         <a class="links" href="#"><span class="fa fa-file"> </span> Formulario DACE</a>
         <br>
             <span class="fa fa-comments"> </span> Comentarios CCT:
+        <p>
         {{if inscripcion.comentarioCCT:}}
-        {{=inscripcion.comentarioCCT}}
+            {{=inscripcion.comentarioCCT}}
         {{else:}}
             N/A
         {{pass}}
@@ -36,3 +44,5 @@
     </div>
 </div>
 <br><br><br><br><br><br>
+
+    
