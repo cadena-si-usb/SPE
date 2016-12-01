@@ -23,8 +23,8 @@ $('#pasantiaIndex').ready(function(){
         }
 
         options.data = $.param(filters,true);
-
         ajaxHandler.count('pasantias',options).success(function(res){
+            console.log(res)
             max = res;
             $('#cantidad').html(max.toString());
             getPasantias();

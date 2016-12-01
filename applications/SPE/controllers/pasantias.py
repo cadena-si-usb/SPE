@@ -2,7 +2,7 @@
 from Pasantias import Pasantia
 
 import Encoder
-
+import ast
 Pasantia = Pasantia()
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
@@ -23,21 +23,49 @@ def agregar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
-    count = Pasantia.count(obj)
+    query = "db.Estudiante"
+    if 'searchTerm' in obj and obj['searchTerm'] != '{}':
+        query = dict()
+        search = ast.literal_eval(obj['searchTerm'])
+        query = "db.Estudiante.carnet.startswith('" + search["value"] + "')"
+
+    count = db(eval(query) & (db.Pasantia.estudiante == db.Estudiante.id)).count()
     return count
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
+    query = "db.Estudiante"
+    if 'searchTerm' in obj and obj['searchTerm'] != '{}':
+        query = dict()
+        search = ast.literal_eval(obj['searchTerm'])
+        #query = "db.Estudiante." + search["key"] + ".startswith('" + search["value"] + "')"
+        query = "db.Estudiante.carnet.startswith('" + search["value"] + "')"
 
-    rows = Pasantia.find(obj)
-
+    rows = db(eval(query) & (db.Pasantia.estudiante == db.Estudiante.id)).select()
     rows = rows.as_json()
-
     return rows
+
+#@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
+
+# def count():
+#     obj = Encoder.to_dict(request.vars)
+#     count = Pasantia.count(obj)
+#     return count
+
+# @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
+# def get():
+#     obj = Encoder.to_dict(request.vars)
+
+#     rows = Pasantia.find(obj)
+
+#     rows = rows.as_json()
+
+#     return rows
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():

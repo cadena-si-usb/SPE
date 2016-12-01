@@ -2,6 +2,7 @@
 from Permisos import Permiso
 from gluon import current
 import Encoder
+import ast
 
 Permiso = Permiso()
 
@@ -78,19 +79,49 @@ def agregar():
 
 
 
+# @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
+# def count():
+#     obj = Encoder.to_dict(request.vars)
+#     count = Permiso.count(obj)
+#     return count
+
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
-    count = Permiso.count(obj)
+    query = "db.Estudiante"
+    if 'searchTerm' in obj and obj['searchTerm'] != '{}':
+        query = dict()
+        search = ast.literal_eval(obj['searchTerm'])
+        query = "db.Estudiante.carnet.startswith('" + search["value"] + "')"
+
+    count = db(eval(query) & (db.Pasantia.estudiante == db.Estudiante.id)).count()
     return count
 
+
+''' Hacer que devuelva ambos tipos de pasantía'''
+# @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
+# def get():
+#     obj = Encoder.to_dict(request.vars)
+#     rows = db.Permiso((db.Permiso.pasatia == db.Pasantia.id) & (db.Permiso.estudiante == db.Estudiante.id)).select()
+#     rows_p = Permiso.find(obj).as_json()
+#     print(rows)
+#     return rows.as_json()
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
+    query = "db.Estudiante"
+    if 'searchTerm' in obj and obj['searchTerm'] != '{}':
+        query = dict()
+        search = ast.literal_eval(obj['searchTerm'])
+        #query = "db.Estudiante." + search["key"] + ".startswith('" + search["value"] + "')"
+        query = "db.Estudiante.carnet.startswith('" + search["value"] + "')"
 
-    rows = Permiso.find(obj).as_json()
+    print(query)
+    rows = db(eval(query) & (db.Pasantia.estudiante == db.Estudiante.id) & (db.Pasantia.id == db.Permiso.pasantia)).select()
+    rows = rows.as_json()
     return rows
+
 
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
