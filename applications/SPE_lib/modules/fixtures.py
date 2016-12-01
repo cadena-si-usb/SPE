@@ -713,6 +713,10 @@ def load_fixtures(db,T):
             group_id='6'
         )
         db.auth_membership.insert(
+            user_id='10',
+            group_id='2'
+        )
+        db.auth_membership.insert(
             user_id='11',
             group_id='8'
         )
