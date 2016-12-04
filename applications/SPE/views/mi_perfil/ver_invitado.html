@@ -19,7 +19,7 @@
                         <b>Correo</b>
                     </h3>
                     <div>
-                        <h4>{{=invitado.UsuarioUSB.correo}}</h4>
+                        <h4>{{=invitado.UsuarioUSB.email}}</h4>
                     </div>
                     <h2>
                         <b>USB-ID</b>
@@ -28,7 +28,7 @@
                     <h3>{{=invitado.UsuarioUSB.usbid}}</h3>
                     <h2>
 						{{if invitado.UsuarioUSB.tipo_documento:}}
-							<b>{{=invitado.UsuarioUSB.tipo_documento.nombre}}</b>
+							<b>{{=invitado.UsuarioUSB.tipo_documento.first_name}}</b>
 						{{else:}}
 							N/A
 						{{pass}}

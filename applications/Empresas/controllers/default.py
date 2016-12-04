@@ -36,8 +36,8 @@ def user():
 
 def login():
     formulario_login = SQLFORM.factory(
-        Field('correo', label=T('Usuario o Correo Electronico'), required=True,
-                requires=[IS_MATCH('^[a-zA-Z0-9.@_\\-]',error_message=T('Usuario o correo invalido.'))]),
+        Field('email', label=T('Usuario o Correo Electronico'), required=True,
+                requires=[IS_MATCH('^[a-zA-Z0-9.@_\\-]',error_message=T('Usuario o email invalido.'))]),
         Field('clave', 'password',required=True,label=T('Contraseña')),
         captcha_field(),
         formstyle='bootstrap3_stacked'
@@ -45,17 +45,17 @@ def login():
 
     if formulario_login.process(onvalidation=validar_credenciales).accepted:
         # Buscamos el usuario de web2py
-        usuarioAuthSet = db(db.auth_user.email == request.vars.correo).select()
+        usuarioAuthSet = db(db.auth_user.email == request.vars.email).select()
         usuarioBuscadoSet = None
         # Si se encontro el usuario por cualquiera de los dos casos, proseguimos con el proceso de inicio de sesion
         if usuarioAuthSet or usuarioBuscadoSet:
             # Buscamos el id de la Empresa
-            correoVerificarSet = db(db.correo_por_verificar.correo == request.vars.correo).select()
+            correoVerificarSet = db(db.correo_por_verificar.email == request.vars.email).select()
             if correoVerificarSet:
-                redirect(URL(c='default', f='verifyEmail', vars=dict(correo=request.vars.correo)))
+                redirect(URL(c='default', f='verifyEmail', vars=dict(email=request.vars.email)))
             else:
-                tutor=db((db.UsuarioExterno.correo==request.vars.correo)
-                         & (db.Tutor_Industrial.usuario==db.UsuarioExterno.id)).select()
+                tutor=db((db.auth_user.email==request.vars.email)
+                         & (db.Tutor_Industrial.usuario==db.auth_user.id)).select()
                 if (tutor.first() and tutor.first().Tutor_Industrial.comfirmado_Por_Empresa==0):
                     message = T(
                         'Usted Aun No Ha Sido Comfirmado Como Tutor Industrial Por Su Empresa, Por Lo Que Aun No Puede' \
@@ -63,7 +63,7 @@ def login():
                     redirect(URL(c='tutor_industrial', f='tutorNoComfirmado'))
 
                 else:
-                    auth.login_bare(request.vars.correo, request.vars.clave)
+                    auth.login_bare(request.vars.email, request.vars.clave)
                     redirect(URL(c='default', f='home'))
                     response.flash = T("Inicio Exitoso")
         else:
@@ -72,12 +72,12 @@ def login():
 
 def resendVerificationEmail():
 
-    correoVerificarSet = db(db.correo_por_verificar.correo == request.vars.correo).select()
+    correoVerificarSet = db(db.correo_por_verificar.email == request.vars.email).select()
 
-    reenviar_Correo_Verificacion(request.vars.correo)
+    reenviar_Correo_Verificacion(request.vars.email)
 
     redirect(URL(c='default',f='verifyEmail',
-        vars=dict(correo=request.vars.correo,resend= T("El Correo ha sido reenviado"),
+        vars=dict(email=request.vars.email,resend= T("El Correo ha sido reenviado"),
         message=T("Verificacion de Correo"))))
 
 def verifyEmail():
@@ -85,37 +85,37 @@ def verifyEmail():
                            )
 
     form.add_button(T('Send Email Again'), URL(c='default',f='resendVerificationEmail'
-        ,vars=dict(correo=request.vars.correo)))
+        ,vars=dict(email=request.vars.email)))
 
-    usuario = db(db.auth_user.email == request.vars.correo).select().first()
+    usuario = db(db.auth_user.email == request.vars.email).select().first()
     contrasena = usuario.password
 
     if form.process().accepted:
         # Buscamos el id de la Empresa
-        correoVerificarSet = db(db.correo_por_verificar.correo == request.vars.correo).select()
+        correoVerificarSet = db(db.correo_por_verificar.email == request.vars.email).select()
         if correoVerificarSet[0].codigo != request.vars.codigo:
             response.flash = T("Codigo incorrecto")
         else:
-            db(db.correo_por_verificar.correo == request.vars.correo).delete()
+            db(db.correo_por_verificar.email == request.vars.email).delete()
             # Verificamos si es un tutor industrial y si ya fue comfirmado
-            tutor = db((db.UsuarioExterno.correo == request.vars.correo)
-                       & (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select()
+            tutor = db((db.auth_user.email == request.vars.email)
+                       & (db.Tutor_Industrial.usuario == db.auth_user.id)).select()
             if (tutor.first() and tutor.first().Tutor_Industrial.comfirmado_Por_Empresa == 0):
                 message = T(
                     'Usted Aun No Ha Sido Comfirmado Como Tutor Industrial Por Su Empresa, Por Lo Que Aun No Puede' \
                     'Iniciar Sesion')
                 redirect(URL(c='tutor_industrial', f='tutorNoComfirmado'))
             else:
-                auth.login_bare(request.vars.correo,contrasena)
+                auth.login_bare(request.vars.email,contrasena)
                 redirect(URL(c='default',f='home'))
     return response.render('default/codigoVerificacion.html',
         message=T("Verificacion de Correo"),resend= request.vars.resend,
-        form=form,vars=dict(correo=request.vars.correo))
+        form=form,vars=dict(email=request.vars.email))
 
 
 def validar_credenciales(form):
     # Buscamos al usuario
-    login_Usuario  = db(db.auth_user.email==form.vars.correo)
+    login_Usuario  = db(db.auth_user.email==form.vars.email)
 
     #Solo puedo encontrar alguno de los dos, verifico el clave
     if not login_Usuario.isempty():

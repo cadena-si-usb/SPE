@@ -139,7 +139,7 @@ $('#permisoIndex').ready(function(){
 
         delay(function(){
             if (val){
-                search["key"] = "nombre"
+                search["key"] = "first_name"
                 search["value"] = val;
             } else {
                 search = {}

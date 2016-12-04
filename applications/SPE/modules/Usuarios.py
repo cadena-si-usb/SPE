@@ -70,21 +70,21 @@ class Usuario(Model):
 		'''
 		rol = obtenerRoles(self.db,usuario['tipo'])
 
-		nombre = usuario['first_name']
-		apellido = usuario['last_name']
+		first_name = usuario['first_name']
+		last_name = usuario['last_name']
 		tipo = usuario['tipo']
 		carnet = usuario['email'].split('@')[0]
 		clave = random_key()
 
 		try:
-			auth_User_Id=self.db.auth_user.insert(first_name=nombre,
-									 last_name=apellido,
+			auth_User_Id=self.db.auth_user.insert(first_name=first_name,
+									 last_name=last_name,
 									 username=carnet,
 									 password=self.db.auth_user.password.validate(clave)[0])
 			usuario = self.table.insert(id=auth_User_Id,
 										auth_User=auth_User_Id,
-										nombre=nombre,
-										apellido=apellido,
+										first_name=first_name,
+										last_name=last_name,
 										usbid=carnet,
 										clave=clave,
 										activo=False)
@@ -144,19 +144,19 @@ class Usuario(Model):
 			if context:
 				if acciones:
 					acciones.records.append(self.db((self.db.Accion_Usuario.rol == rol) & (self.db.Accion_Usuario.contexto == context)).select(
-						self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.nombre))
+						self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.first_name))
 				else:
 					acciones=(self.db(
 						(self.db.Accion_Usuario.rol == rol) & (self.db.Accion_Usuario.contexto == context)).select(
-						self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.nombre))
+						self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.first_name))
 			else:
 				if acciones:
 					acciones.records.append(
 						self.db((self.db.Accion_Usuario.rol == rol)).select(
-							self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.nombre))
+							self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.first_name))
 				else:
 					acciones= self.db((self.db.Accion_Usuario.rol == rol)).select(
-						self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.nombre)
+						self.db.Accion_Usuario.destino,orderby=self.db.Accion_Usuario.first_name)
 		destinos=[]
 		for accion in acciones:
 			destinos.append(accion.destino)

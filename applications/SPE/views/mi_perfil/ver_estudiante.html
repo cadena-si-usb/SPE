@@ -1,7 +1,7 @@
 {{extend 'mi_perfil/ver.html'}}
 {{block content}}
 
-<h2>Hola {{=usuario['apellido']}}, {{=usuario['nombre']}}.</h2>
+<h2>Hola {{=usuario['last_name']}}, {{=usuario['first_name']}}.</h2>
 <h4>{{=usuario['rol']}}</h4>
 <div id="perfil_estudiante">
     <section id="sec1">
@@ -19,7 +19,7 @@
                         <b>Carrera</b>
                     </h3>
                     {{if carrera:}}
-                        <h4>{{=carrera.nombre}}</h4>
+                        <h4>{{=carrera.first_name}}</h4>
                     {{else:}}
                         <h4>N/A</h4>
                     {{pass}}
@@ -28,14 +28,14 @@
                         <b>Sede</b>
                     </h3>
                     <div>
-                        <h4>{{=sede.Sede.nombre}}</h4>
+                        <h4>{{=sede.Sede.first_name}}</h4>
                     </div>
 
                     <h3>
                         <b>Correo</b>
                     </h3>
                     <div>
-                        <h4>{{=estudiante.UsuarioUSB.correo}}</h4>
+                        <h4>{{=estudiante.UsuarioUSB.email}}</h4>
                     </div>
                 </div>
             </div>

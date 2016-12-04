@@ -2,7 +2,7 @@
 from gluon import *
 def Tipo_Documento_Table(db,T):
     db.define_table('Tipo_Documento',
-        Field('nombre','string',
+        Field('first_name','string',
                label = 'Nombre'),
-        format='%(nombre)s'
+        format='%(first_name)s'
     )

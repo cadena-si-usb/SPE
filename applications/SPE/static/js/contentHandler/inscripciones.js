@@ -138,7 +138,7 @@ $('#inscripcionesIndex').ready(function(){
 
         delay(function(){
             if (val){
-                search["key"] = "nombre"
+                search["key"] = "first_name"
                 search["value"] = val;
             } else {
                 search = {}
@@ -153,7 +153,7 @@ $('#inscripcionesIndex').ready(function(){
     function updateInscripcion(item, changes){
         changes = {
             id: 1,
-            nombre: "prueba"
+            first_name: "prueba"
         };
 
         options.data = changes;

@@ -13,9 +13,9 @@ def tutorNoComfirmado():
 def solicitar_registro_tutor():
     # Agregamos los campos en el orden deseado, comenzamos con el login y el password
     fields =[
-        db.UsuarioExterno.correo,
-        db.UsuarioExterno.nombre,
-        db.Tutor_Industrial.apellido,
+        db.auth_user.email,
+        db.auth_user.first_name,
+        db.Tutor_Industrial.last_name,
         db.Tutor_Industrial.tipo_documento,
         db.Tutor_Industrial.numero_documento,
         db.auth_user.password
@@ -26,16 +26,16 @@ def solicitar_registro_tutor():
     # Agregamos el resto de los campos
     fields +=[
         db.Tutor_Industrial.Empresa,
-        db.UsuarioExterno.pregunta_secreta,
-        db.UsuarioExterno.respuesta_secreta,
+        db.auth_user.pregunta_secreta,
+        db.auth_user.respuesta_secreta,
         db.Tutor_Industrial.profesion,
         db.Tutor_Industrial.cargo,
         db.Tutor_Industrial.departamento,
-        db.UsuarioExterno.pais,
-        db.UsuarioExterno.estado,
+        db.auth_user.pais,
+        db.auth_user.estado,
         db.Tutor_Industrial.universidad,
-        db.UsuarioExterno.direccion,
-        db.UsuarioExterno.telefono
+        db.auth_user.direccion,
+        db.auth_user.telefono
     ]
     # Generamos el SQLFORM utilizando los campos
     form = SQLFORM.factory(
@@ -45,9 +45,9 @@ def solicitar_registro_tutor():
     separator=': ',
     buttons=['submit'],
     col3 = {
-        'correo':T('Identificación de acceso unica asignada a la Empresa'),
-        'nombre':T('Nombre comercial de la Empresa'),
-        'apellido':T('Nombre comercial de la Empresa'),
+        'email':T('Identificación de acceso unica asignada a la Empresa'),
+        'first_name':T('Nombre comercial de la Empresa'),
+        'last_name':T('Nombre comercial de la Empresa'),
         'tipo_documento': T('Tipo De Documento'),
         'numero_documento':T('Numero De Documento'),
         'password':T('Contraseña para acceder al sistema'),
@@ -69,27 +69,27 @@ def solicitar_registro_tutor():
 
         # Insertamos en la tabla user de Web2py
         result = db.auth_user.insert(
-            first_name=request.vars.nombre,
-            last_name=request.vars.apellido,
+            first_name=request.vars.first_name,
+            last_name=request.vars.last_name,
             password=db.auth_user.password.validate(request.vars.password)[0],
-            email=request.vars.correo,
+            email=request.vars.email,
         )
 
         # Registramos el usuario externo
-        db.UsuarioExterno.insert(
+        db.auth_user.insert(
             id=result,
             auth_User=result,
-            correo=request.vars.correo,
+            email=request.vars.email,
             pregunta_secreta=request.vars.pregunta_secreta,
             respuesta_secreta=request.vars.respuesta_secreta,
-            nombre=request.vars.nombre,
+            first_name=request.vars.first_name,
             pais=request.vars.pais,
             estado=request.vars.estado,
             telefono=request.vars.telefono,
             direccion=request.vars.direccion,
         )
 
-        usuarioExternoSet = db(db.UsuarioExterno.correo == request.vars.correo).select()
+        usuarioExternoSet = db(db.auth_user.email == request.vars.email).select()
         usuarioExterno = usuarioExternoSet[0]
 
 
@@ -97,7 +97,7 @@ def solicitar_registro_tutor():
         db.Tutor_Industrial.insert(
             id=result,
             usuario=usuarioExterno.id,
-            apellido=request.vars.apellido,
+            last_name=request.vars.last_name,
             tipo_documento=request.vars.tipo_documento,
             numero_documento=request.vars.numero_documento,
             Empresa=request.vars.Empresa,
@@ -113,28 +113,28 @@ def solicitar_registro_tutor():
         group_id = auth.id_group(role='Tutor_Industrial')
         auth.add_membership(group_id, result)
 
-        generar_Correo_Verificacion(request.vars.correo)
+        generar_Correo_Verificacion(request.vars.email)
 
-        EmpresaSet = db(db.UsuarioExterno.id == request.vars.Empresa).select()
-        Empresa = EmpresaSet[0].nombre
+        EmpresaSet = db(db.auth_user.id == request.vars.Empresa).select()
+        Empresa = EmpresaSet[0].first_name
 
         paisSet = db(db.Pais.id == request.vars.pais).select()
-        pais = paisSet[0].nombre
+        pais = paisSet[0].first_name
 
         estadoSet = db(db.Estado.id == request.vars.estado).select()
-        estado = estadoSet[0].nombre
+        estado = estadoSet[0].first_name
 
         universidadSet = db(db.Universidad.id == request.vars.universidad).select()
-        universidad = universidadSet[0].nombre
+        universidad = universidadSet[0].first_name
 
         # Mensaje de exito
         response.flash = T("Registro Exitoso")
         # Nos dirigimos a la pagina de exito
         return response.render('Tutor_Industrial/registrarTutorIndustrial/registro_Tutor_Industrial_exitoso.html',message=T("Registrarse como Tutor Industrial"),
                                result=T("El registro de su tutor ha sido exitoso!"),
-                               correo = request.vars.correo,
-                               nombre = request.vars.nombre,
-                               apellido = request.vars.apellido,
+                               email = request.vars.email,
+                               first_name = request.vars.first_name,
+                               last_name = request.vars.last_name,
                                tipo_documento=request.vars.tipo_documento,
                                numero_documento=request.vars.numero_documento,
                                Empresa = Empresa, # Cableado mientras se resuelven problemas
@@ -153,18 +153,18 @@ def solicitar_registro_tutor():
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Tutor Industrial'))
 def verPerfil():
     # Buscamos la informacion general del usuario
-    usuarioExterno = db(db.UsuarioExterno, (auth.user.id == db.UsuarioExterno.auth_User)).select().first()
+    usuarioExterno = db(db.UsuarioExterno, (auth.user.id == db.auth_user.auth_User)).select().first()
     # Buscamos la informacion de tutor
-    tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
+    tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.auth_user.id)).select().first()
     # Llenamos el valor de los campos
-    db.UsuarioExterno.correo.default = usuarioExterno.correo
-    db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
-    db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
-    db.UsuarioExterno.nombre.default = usuarioExterno.nombre
-    db.UsuarioExterno.pais.default = usuarioExterno.pais
-    db.UsuarioExterno.estado.default = usuarioExterno.estado
+    db.auth_user.email.default = usuarioExterno.email
+    db.auth_user.pregunta_secreta.default = usuarioExterno.pregunta_secreta
+    db.auth_user.respuesta_secreta.default = usuarioExterno.respuesta_secreta
+    db.auth_user.first_name.default = usuarioExterno.first_name
+    db.auth_user.pais.default = usuarioExterno.pais
+    db.auth_user.estado.default = usuarioExterno.estado
     # Llenamos el valor de los campos
-    db.Tutor_Industrial.apellido.default = tutor.apellido
+    db.Tutor_Industrial.last_name.default = tutor.last_name
     db.Tutor_Industrial.Empresa.default = tutor.Empresa
     db.Tutor_Industrial.profesion.default = tutor.profesion
     db.Tutor_Industrial.tipo_documento.default = tutor.tipo_documento
@@ -172,8 +172,8 @@ def verPerfil():
     db.Tutor_Industrial.cargo.default = tutor.cargo
     db.Tutor_Industrial.departamento.default = tutor.departamento
     db.Tutor_Industrial.universidad.default = tutor.universidad
-    db.UsuarioExterno.direccion.default = usuarioExterno.direccion
-    db.UsuarioExterno.telefono.default = usuarioExterno.telefono
+    db.auth_user.direccion.default = usuarioExterno.direccion
+    db.auth_user.telefono.default = usuarioExterno.telefono
     # Marcamos los campos como no modificables
     for field in db.UsuarioExterno:
         field.writable=False
@@ -181,9 +181,9 @@ def verPerfil():
         field.writable=False
     # Seleccionamos los campos a mostrar
     fields = [
-        'correo',
-        'nombre',
-        'apellido',
+        'email',
+        'first_name',
+        'last_name',
         'tipo_documento',
         'numero_documento',
         'Empresa',
@@ -207,17 +207,17 @@ def verPerfil():
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Tutor Industrial'))
 def editarPerfil():
     message = T("Editar Perfil")
-    usuarioExterno = db(db.UsuarioExterno, (auth.user.id == db.UsuarioExterno.auth_User)).select().first()
-    tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.UsuarioExterno.id)).select().first()
+    usuarioExterno = db(db.auth_user, (auth.user.id == auth.user_id)).select().first()
+    tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == auth.user_id)).select().first()
 
-    db.UsuarioExterno.correo.default = usuarioExterno.correo
-    db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
-    db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
-    db.UsuarioExterno.nombre.default = usuarioExterno.nombre
-    db.UsuarioExterno.pais.default = usuarioExterno.pais
-    db.UsuarioExterno.estado.default = usuarioExterno.estado
+    db.auth_user.email.default = usuarioExterno.email
+    db.auth_user.pregunta_secreta.default = usuarioExterno.pregunta_secreta
+    db.auth_user.respuesta_secreta.default = usuarioExterno.respuesta_secreta
+    db.auth_user.first_name.default = usuarioExterno.first_name
+    db.auth_user.pais.default = usuarioExterno.pais
+    db.auth_user.estado.default = usuarioExterno.estado
 
-    db.Tutor_Industrial.apellido.default = tutor.apellido
+    db.Tutor_Industrial.last_name.default = tutor.last_name
     db.Tutor_Industrial.Empresa.default = tutor.Empresa
     db.Tutor_Industrial.profesion.default = tutor.profesion
     db.Tutor_Industrial.tipo_documento.default = tutor.tipo_documento
@@ -225,15 +225,15 @@ def editarPerfil():
     db.Tutor_Industrial.cargo.default = tutor.cargo
     db.Tutor_Industrial.departamento.default = tutor.departamento
     db.Tutor_Industrial.universidad.default = tutor.universidad
-    db.UsuarioExterno.direccion.default = usuarioExterno.direccion
-    db.UsuarioExterno.telefono.default = usuarioExterno.telefono
+    db.auth_user.direccion.default = usuarioExterno.direccion
+    db.auth_user.telefono.default = usuarioExterno.telefono
 
     db.Tutor_Industrial.Empresa.writable=False
 
     fields = [
-        'correo',
-        'nombre',
-        'apellido',
+        'email',
+        'first_name',
+        'last_name',
         'tipo_documento',
         'numero_documento',
         'Empresa',
@@ -252,11 +252,11 @@ def editarPerfil():
 
     if form.accepts(request.vars):
         db(db.auth_user.id == auth.user.id).update(
-            first_name=request.vars.nombre,
-            last_name=request.vars.apellido,
+            first_name=request.vars.first_name,
+            last_name=request.vars.last_name,
         )
 
-        id = usuarioExterno.update_record(**db.UsuarioExterno._filter_fields(form.vars))
+        id = usuarioExterno.update_record(**db.auth_user._filter_fields(form.vars))
         form.vars.client = id
         id = tutor.update_record(**db.Tutor_Industrial._filter_fields(form.vars))
         # Nos dirigimos a la pagina de exito
@@ -267,13 +267,13 @@ def editarPerfil():
 
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Tutor Industrial'))
 def consultarPasantias():
-    correo = auth.user.email
-    pasantias=db((db.UsuarioExterno.correo==correo) & (db.Tutor_Industrial.usuario==db.UsuarioExterno.id)
+    email = auth.user.email
+    pasantias=db((db.auth_user.email==email) & (db.Tutor_Industrial.usuario==db.auth_user.id)
                  & (db.Pasantia.tutor_industrial == db.Tutor_Industrial.id) & (db.Etapa.id == db.Pasantia.etapa))
 
     #Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
     # this is not required in later versions)
-    fields = (db.Pasantia.titulo, db.Pasantia.estudiante,db.Etapa.nombre, db.Pasantia.status)
+    fields = (db.Pasantia.titulo, db.Pasantia.estudiante,db.Etapa.first_name, db.Pasantia.status)
 
     #Define headers as tuples/dictionaries
     headers = {

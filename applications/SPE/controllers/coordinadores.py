@@ -13,9 +13,9 @@ def listar():
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
     fields = [
-        'nombre',
-        'apellido',
-        'correo',
+        'first_name',
+        'last_name',
+        'email',
         'tipo_documento',
         'numero_documento',
         'telefono',
@@ -31,17 +31,17 @@ def agregar():
                            showid=False)
 
     if form.process().accepted:
-        authId=db.auth_user.insert(first_name=form.vars.nombre,
-                            last_name=form.vars.apellido,
-                            email=form.vars.correo)
+        authId=db.auth_user.insert(first_name=form.vars.first_name,
+                            last_name=form.vars.last_name,
+                            email=form.vars.email)
         # Actualizo los datos de usuario
         usuarioUSBId=db.UsuarioUSB.insert(
             id=authId,
             auth_User=authId,
             usbid=form.vars.usbid,
-            nombre=form.vars.nombre,
-            apellido=form.vars.apellido,
-            correo=form.vars.correo,
+            first_name=form.vars.first_name,
+            last_name=form.vars.last_name,
+            email=form.vars.email,
             tipo_documento=form.vars.tipo_documento,
             numero_documento=form.vars.numero_documento,
             telefono=form.vars.telefono,
@@ -85,9 +85,9 @@ def get():
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
     fields = [
-        'nombre',
-        'apellido',
-        'correo',
+        'first_name',
+        'last_name',
+        'email',
         'tipo_documento',
         'numero_documento',
         'telefono',
@@ -105,9 +105,9 @@ def modificar():
 
     usuarioAuth = db.auth_user(usuario.auth_User) or redirect(URL('agregar'))
 
-    db.UsuarioUSB.nombre.default = usuario.nombre
-    db.UsuarioUSB.apellido.default = usuario.apellido
-    db.UsuarioUSB.correo.default = usuario.correo
+    db.UsuarioUSB.first_name.default = usuario.first_name
+    db.UsuarioUSB.last_name.default = usuario.last_name
+    db.UsuarioUSB.email.default = usuario.email
     db.UsuarioUSB.tipo_documento.default = usuario.tipo_documento
     db.UsuarioUSB.numero_documento.default = usuario.numero_documento
     db.UsuarioUSB.telefono.default = usuario.telefono
@@ -123,9 +123,9 @@ def modificar():
 
     if form.process().accepted:
         #
-        usuarioAuth.update_record(first_name=form.vars.nombre,
-                                  last_name=form.vars.apellido,
-                                  email=form.vars.correo)
+        usuarioAuth.update_record(first_name=form.vars.first_name,
+                                  last_name=form.vars.last_name,
+                                  email=form.vars.email)
         # Actualizo los datos de usuario
         usuario.update_record(**db.UsuarioUSB._filter_fields(form.vars))
         # Actualizo los datos exclusivos de estudiante

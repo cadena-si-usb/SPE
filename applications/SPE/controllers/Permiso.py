@@ -115,7 +115,7 @@ def aprobarPermiso():
 def efectuarModificacionPasantia(currentRoles,permiso,pasantia):
     # Caso en el que el permiso es de inscripcion
     if (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Inscripcion Extemporanea'):
-        etapa = db(db.Etapa.nombre == 'Ejecucion').select().first()
+        etapa = db(db.Etapa.first_name == 'Ejecucion').select().first()
         pasantia.update_record(etapa=etapa.id)
         redirect(URL(c='Permiso',f='consultarPermisos'))
     # Caso en el que el permiso es de retiro

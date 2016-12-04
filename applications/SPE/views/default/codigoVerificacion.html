@@ -22,7 +22,7 @@
                         {{=form.custom.widget.codigo.update(_placeholder="código de verificación")}}
                     </div>
                     <div class="col-md-4">
-                        <a data-toggle="popover" title={{=T('Help')}} data-content="Por su seguridad se le ha enviado una clave de verificación que debe ingresar para activar su cuenta. Si no ha recibido el correo pulse pulse 'Reenviar Correo'.">
+                        <a data-toggle="popover" title={{=T('Help')}} data-content="Por su seguridad se le ha enviado una clave de verificación que debe ingresar para activar su cuenta. Si no ha recibido el email pulse pulse 'Reenviar Correo'.">
                         <i class="fa fa-question-circle fa-2x" style="color:#3e3f3a"></i>
                         </a>
                     </div>
@@ -32,7 +32,7 @@
                     <div class="row col-md-8">
                         {{=form.custom.submit}}
                         <div class="right">
-                            {{=A(T('Send Email Again'), _class='btn btn-default',_href=URL  (c='default',f='resendVerificationEmail',vars=dict(correo=request.vars.correo,usbid=request.vars.usbid)))}}
+                            {{=A(T('Send Email Again'), _class='btn btn-default',_href=URL  (c='default',f='resendVerificationEmail',vars=dict(email=request.vars.email,usbid=request.vars.usbid)))}}
                         </div>
                     </div>
 

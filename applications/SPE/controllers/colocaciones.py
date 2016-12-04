@@ -44,7 +44,7 @@ def modificar():
     record = db.Colocacion(request.args(0)) or redirect(URL('agregar'))
 
     pasantia = db.Pasantia(record.pasantia)
-    etapaInsc = db(db.Etapa.nombre == 'Inscripcion').select().first()
+    etapaInsc = db(db.Etapa.first_name == 'Inscripcion').select().first()
 
     db.Colocacion.id.default = record.id
     db.Colocacion.pasantia.default = record.pasantia
@@ -91,7 +91,7 @@ def modificar():
                 plan_trabajo = db.Plan_Trabajo.insert(pasantia=record.pasantia)
 
                 pasantia = db.Pasantia(record.pasantia)
-                etapaInsc = db(db.Etapa.nombre == 'Inscripcion').select().first()
+                etapaInsc = db(db.Etapa.first_name == 'Inscripcion').select().first()
                 pasantia.update_record(etapa=etapaInsc.id)
 
                 record.update_record(estado='Aprobado')

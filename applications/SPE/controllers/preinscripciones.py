@@ -50,7 +50,7 @@ def modificar():
                 colocacion = db.Colocacion.insert(pasantia=record.pasantia)
 
                 pasantia = db.Pasantia(record.pasantia)
-                etapaCol = db(db.Etapa.nombre == 'Colocacion').select().first()
+                etapaCol = db(db.Etapa.first_name == 'Colocacion').select().first()
                 pasantia.update_record(etapa=etapaCol.id)
 
                 record.update_record(estado='Aprobado')

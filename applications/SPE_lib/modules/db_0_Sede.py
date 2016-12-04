@@ -2,7 +2,7 @@
 from gluon import *
 def Sede_Table(db,T):
     db.define_table('Sede',
-        Field('nombre','string',
+        Field('first_name','string',
                label = 'Nombre'),
-        format='%(nombre)s'
+        format='%(first_name)s'
     )

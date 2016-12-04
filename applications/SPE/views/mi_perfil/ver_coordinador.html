@@ -1,7 +1,7 @@
 {{extend 'mi_perfil/ver.html'}}
 {{block content}}
 
-<h2>Hola {{=usuario['apellido']}}, {{=usuario['nombre']}}.</h2>
+<h2>Hola {{=usuario['last_name']}}, {{=usuario['first_name']}}.</h2>
 <h4>{{=usuario['rol']}}</h4>
 <div id="perfil_estudiante">
     <section id="sec1" style="margin-bottom: 10%">
@@ -19,7 +19,7 @@
                         <b>Coordinacion</b>
                     </h2>
 
-                    <h3>{{=coordinacion.Coordinacion.nombre}}</h3>
+                    <h3>{{=coordinacion.Coordinacion.first_name}}</h3>
 
                     <h2>
                         <b>USB-ID</b>
@@ -27,7 +27,7 @@
 
                     <h3>{{=currentUser.usbid}}</h3>
                     <h2>
-                        <b>{{=currentUser.tipo_documento.nombre}}</b>
+                        <b>{{=currentUser.tipo_documento.first_name}}</b>
                     </h2>
                     <h3>{{=currentUser.numero_documento}}</h3>
                 </div>
@@ -54,7 +54,7 @@
                     <h2>
                         <b>Correo</b>
                     </h2>
-                    <h3>{{=coordinador.UsuarioUSB.correo}}</h3>
+                    <h3>{{=coordinador.UsuarioUSB.email}}</h3>
 
                     <h2>
                         <b>Correo Alternativo</b>

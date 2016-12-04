@@ -10,7 +10,7 @@
 from gluon import *
 def Accion_Usuario_Table(db,T):
     db.define_table('Accion_Usuario',
-        Field('nombre'),
+        Field('first_name'),
         Field('destino'),
         Field('contexto'),
         Field('rol','reference auth_group',

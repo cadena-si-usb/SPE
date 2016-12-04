@@ -121,11 +121,11 @@ def login_cas():
             # Caso 1: El usuario no ha registrado sus datos
             if respuesta == None:
                 redirect(URL(c='usuarios',f='perfil'))
-            # Caso 2: El usuario no ha verificado su correo
+            # Caso 2: El usuario no ha verificado su email
             elif correo_no_verificado(usbid):
                 obtener_correo(usbid)
                 correo_sec = obtener_correo(usbid)
-                redirect(URL(c='default',f='verifyEmail',vars=dict(usbid=usbid,correo=correo_sec)))
+                redirect(URL(c='default',f='verifyEmail',vars=dict(usbid=usbid,email=correo_sec)))
             # Caso 3: El usuario ha cumplido con los pasos necesarios por lo que
             # puede iniciar sesion
             else:
@@ -175,27 +175,27 @@ def registrar():
 
     return dict(message=usuario)
 
-#Comprueba si el usuario no ha verificado su correo
+#Comprueba si el usuario no ha verificado su email
 def correo_no_verificado(usbid):
 
     correoUsuario = obtener_correo(usbid)
-    buscarCorreo  = db(db.correo_por_verificar.correo==correoUsuario)
+    buscarCorreo  = db(db.correo_por_verificar.email==correoUsuario)
 
     return not(buscarCorreo.isempty())
 
-#Reenvia la verificacion del correo
+#Reenvia la verificacion del email
 def resendVerificationEmail():
 
-    correoVerificarSet = db(db.correo_por_verificar.correo == request.vars.correo).select()
+    correoVerificarSet = db(db.correo_por_verificar.email == request.vars.email).select()
 
-    reenviar_Correo_Verificacion(request.vars.correo)
+    reenviar_Correo_Verificacion(request.vars.email)
 
     redirect(URL(c='default',f='verifyEmail',
-        vars=dict(usbid=request.vars.usbid,correo=request.vars.correo,
+        vars=dict(usbid=request.vars.usbid,email=request.vars.email,
             resend= T("El Correo ha sido reenviado"),
             message=T("Verificacion de Correo"))))
 
-#Verifica el correo
+#Verifica el email
 def verifyEmail():
     form = SQLFORM.factory(
         Field('codigo', label=T('Codigo De Verificacion'), required=True,
@@ -203,17 +203,17 @@ def verifyEmail():
                 formstyle='bootstrap3_stacked'
                            )
     form.add_button(T('Send Email Again'), URL(c='default',f='resendVerificationEmail',
-        vars=dict(usbid=request.vars.usbid,correo=request.vars.correo)))
+        vars=dict(usbid=request.vars.usbid,email=request.vars.email)))
 
-    correo_usuario = request.vars.correo
+    correo_usuario = request.vars.email
 
     if form.process().accepted:
         # Buscamos el id de la empresa
-        correoVerificarSet = db(db.correo_por_verificar.correo == correo_usuario).select()[0]
+        correoVerificarSet = db(db.correo_por_verificar.email == correo_usuario).select()[0]
         if correoVerificarSet.codigo != request.vars.codigo:
             response.flash = T("Codigo incorrecto")
         else:
-            db(db.correo_por_verificar.correo == correo_usuario).delete()
+            db(db.correo_por_verificar.email == correo_usuario).delete()
             usuarioUSB = db(db.UsuarioUSB.usbid==request.vars.usbid).select()[0]
             auth.login_bare(request.vars.usbid,usuarioUSB.clave)
             redirect(URL(c='default',f='index'))
@@ -221,7 +221,7 @@ def verifyEmail():
     return response.render('default/codigoVerificacion.html',
     message=T("Verificacion de Correo"),
     resend= request.vars.resend,
-    form=form,vars=dict(usbid=request.vars.usbid,correo=correo_usuario))
+    form=form,vars=dict(usbid=request.vars.usbid,email=correo_usuario))
 
 
 @cache.action()

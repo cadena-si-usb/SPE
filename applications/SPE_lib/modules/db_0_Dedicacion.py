@@ -3,5 +3,5 @@ from gluon import *
 
 def Dedicacion_Table(db,T):
     db.define_table('Dedicacion',
-        Field('nombre','string'),
-        format='%(nombre)s')
+        Field('first_name','string'),
+        format='%(first_name)s')

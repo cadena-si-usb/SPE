@@ -12,4 +12,4 @@ def Coordinador_Table(db,T):
               label='Coordinacion (*)'),
         Field('correo_Alternativo',  requires=IS_EMAIL(error_message='Introduzca un email valido.'),
               label='Correo Alternativo'),
-        format = lambda r: '%s - %s %s' % (r.usuario.usbid, r.usuario.nombre, r.usuario.apellido))
+        format = lambda r: '%s - %s %s' % (r.usuario.usbid, r.usuario.first_name, r.usuario.last_name))

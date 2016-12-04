@@ -9,8 +9,8 @@ def ver():
     currentUser = db.UsuarioUSB(db.UsuarioUSB.id == userid)
     rol=db((db.auth_membership.user_id==userid) & (db.auth_membership.group_id==db.auth_group.id)).select().first()
     usuario = {
-        "apellido": currentUser.apellido,
-        "nombre": currentUser.nombre,
+        "last_name": currentUser.last_name,
+        "first_name": currentUser.first_name,
         "rol":  rol.auth_group.role,
     }
 
@@ -52,9 +52,9 @@ def ver():
 def configuracion():
     global estudiante
     fields = [
-        'nombre',
-        'apellido',
-        'correo',
+        'first_name',
+        'last_name',
+        'email',
         'tipo_documento',
         'numero_documento',
         'telefono',
@@ -67,9 +67,9 @@ def configuracion():
         usuarioAuth = db.auth_user(auth.user.id)
         usuario = db.UsuarioUSB(db.UsuarioUSB.usbid == userid)
 
-        db.UsuarioUSB.nombre.default=usuario.nombre
-        db.UsuarioUSB.apellido.default = usuario.apellido
-        db.UsuarioUSB.correo.default = usuario.correo
+        db.UsuarioUSB.first_name.default=usuario.first_name
+        db.UsuarioUSB.last_name.default = usuario.last_name
+        db.UsuarioUSB.email.default = usuario.email
         db.UsuarioUSB.tipo_documento.default = usuario.tipo_documento
         db.UsuarioUSB.numero_documento.default = usuario.numero_documento
         db.UsuarioUSB.telefono.default = usuario.telefono
@@ -126,9 +126,9 @@ def configuracion():
         redirect(URL(c="default",f="index"))
 
     if form.process().accepted:
-        usuarioAuth.update_record(first_name=form.vars.nombre,
-                                  last_name=form.vars.apellido,
-                                  email=form.vars.correo)
+        usuarioAuth.update_record(first_name=form.vars.first_name,
+                                  last_name=form.vars.last_name,
+                                  email=form.vars.email)
         # Actualizo los datos de usuario
         usuario.update_record(**db.UsuarioUSB._filter_fields(form.vars))
         if (auth.has_membership(role='Estudiante')):

@@ -11,9 +11,9 @@ def Estudiante_Table(db,T):
         Field('carrera', 'reference Carrera',
               label='Carrera'),
         Field('sede','reference Sede',
-              requires=IS_IN_DB(db, db.Sede, '%(nombre)s',
+              requires=IS_IN_DB(db, db.Sede, '%(first_name)s',
               error_message='Elija una de las sedes.'),
               label='Sede (*)'),
         Field('activo','boolean'),
-        format=lambda r: '%s - %s %s' % (r.usuario.usbid, r.usuario.nombre,r.usuario.apellido)
+        format=lambda r: '%s - %s %s' % (r.usuario.usbid, r.usuario.first_name,r.usuario.last_name)
         )

@@ -2,7 +2,7 @@
 from gluon import *
 def Empresa_Table(db,T):
     db.define_table('Empresa',
-        Field('usuario', 'reference UsuarioExterno',
+        Field('usuario', 'reference auth_user',
               requires=[IS_NOT_EMPTY(error_message='Es necesario un email.'),IS_EMAIL
                                    (error_message='Introduzca un email valido.') ],
               label='Email(*)'),
@@ -15,4 +15,4 @@ def Empresa_Table(db,T):
         Field('contacto_RRHH',
               label='Contactos De Recursos Humanos',requires=[IS_NOT_EMPTY(error_message='Es necesario un email.'),IS_EMAIL
                                    (error_message='Introduzca un email valido.')]),
-        format=lambda r: '%s %s' % (r.usuario.nombre, r.usuario.correo))
+        format=lambda r: '%s %s' % (r.usuario.first_name, r.usuario.email))

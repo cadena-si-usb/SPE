@@ -12,7 +12,7 @@ def listar():
     return dict(rows=session.rows)
 
 def agregar():
-    fields = ['nombre','empresa','tutor_industrial','tutor_academico','plan_trabajo','id_estudiante','materia']
+    fields = ['first_name','empresa','tutor_industrial','tutor_academico','plan_trabajo','id_estudiante','materia']
 
     form = Pasantia.form(fields)
 
@@ -55,26 +55,26 @@ def ver():
     pasantia = db.Pasantia(request.args(0)) or redirect(URL('agregar'))
     etapa = db.Etapa(pasantia.etapa)
 
-    if etapa.nombre == 'Inscripcion':
+    if etapa.first_name == 'Inscripcion':
         inscripcion=db(db.Inscripcion.pasantia == pasantia.id).select().first()
         plan_trabajo = db(db.Plan_Trabajo.pasantia == pasantia.id).select().first()
-    elif etapa.nombre == 'Colocacion':
+    elif etapa.first_name == 'Colocacion':
         try:
             colocacion=db(db.Colocacion.pasantia == pasantia.id).select().first()
         except:
             colocacion=None
-    elif etapa.nombre == 'Preinscripcion':
+    elif etapa.first_name == 'Preinscripcion':
         try:
             preinscripcion=db(db.Preinscripcion.pasantia == pasantia.id).select().first()
         except:
             inscripcion=None
-    elif etapa.nombre == 'Ejecucion':
+    elif etapa.first_name == 'Ejecucion':
         try:
             ejecucion=db(db.Ejecucion.pasantia == pasantia.id).select().first()
         except:
             ejecucion=None
 
-    response.view = 'mis_pasantias/' + etapa.nombre.lower() + '.html'
+    response.view = 'mis_pasantias/' + etapa.first_name.lower() + '.html'
     
     return locals()
 
@@ -120,7 +120,7 @@ def preinscribir():
     idMateria = request.args(0)
     currentUser = session.currentUser
     estudiante = db(db.Estudiante.usuario == currentUser.id).select().first()
-    etapa = db(db.Etapa.nombre == 'Preinscripcion').select().first()
+    etapa = db(db.Etapa.first_name == 'Preinscripcion').select().first()
     periodo = db(db.Periodo).select().first()
 
     if not estudiante:

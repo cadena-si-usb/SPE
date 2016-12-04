@@ -18,9 +18,9 @@
                     </div>
                     <div class="panel-collapse collapse in" id="personal">
                         <div class="list-group">
-                            <p class="list-group-item">E-mail : {{=correo}} </p>
-                            <p class="list-group-item">Nombre : {{=nombre}} </p>
-                            <p class="list-group-item">Apellido : {{=apellido}} </p>
+                            <p class="list-group-item">E-mail : {{=email}} </p>
+                            <p class="list-group-item">Nombre : {{=first_name}} </p>
+                            <p class="list-group-item">Apellido : {{=last_name}} </p>
                             <p class="list-group-item">Tipo De Documento : {{=tipo_documento}} </p>
                             <p class="list-group-item">Número : {{=numero_documento}} </p>
                             {{if 'telefono':}}
@@ -36,7 +36,7 @@
             <h3 align="center">{{=result}} <i class="fa fa-thumbs-o-up"></i></h3>
             <br></br>
             <p align="center">
-                Se le enviará un correo de confirmación.
+                Se le enviará un email de confirmación.
                 <br></br>
                 <i class="fa fa-envelope-o fa-5x"></i>
             </p>

@@ -19,7 +19,7 @@ def listar():
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
-   # fields = ['id','nombre','apellido','ci']
+   # fields = ['id','first_name','last_name','ci']
 
     form = SQLFORM(db.UsuarioUSB)
 

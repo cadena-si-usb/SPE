@@ -73,7 +73,7 @@ def modificar():
     form = SQLFORM(db.Pasantia, fields=['etapa'],record=record,showid=False)
     if form.process().accepted:
         etapa=db.Etapa(id=record.etapa)
-        if etapa.nombre=='Inscripcion':
+        if etapa.first_name=='Inscripcion':
             planes=db.Plan_Trabajo(pasantia=request.args(0))
             if not planes:
                 db.Plan_Trabajo.insert(

@@ -14,25 +14,25 @@ def listar():
 def agregar():
     # Agregamos los campos en el orden deseado, comenzamos con el login y el password
     fields = [
-        db.UsuarioExterno.correo,
-        db.UsuarioExterno.nombre,
-        db.Tutor_Industrial.apellido,
+        db.auth_user.email,
+        db.auth_user.first_name,
+        db.Tutor_Industrial.last_name,
         db.Tutor_Industrial.tipo_documento,
         db.Tutor_Industrial.numero_documento,
         db.auth_user.password
     ]
     # Agregamos el resto de los campos
     fields += [
-        db.UsuarioExterno.pregunta_secreta,
-        db.UsuarioExterno.respuesta_secreta,
+        db.auth_user.pregunta_secreta,
+        db.auth_user.respuesta_secreta,
         db.Tutor_Industrial.profesion,
         db.Tutor_Industrial.cargo,
         db.Tutor_Industrial.departamento,
-        db.UsuarioExterno.pais,
-        db.UsuarioExterno.estado,
+        db.auth_user.pais,
+        db.auth_user.estado,
         db.Tutor_Industrial.universidad,
-        db.UsuarioExterno.direccion,
-        db.UsuarioExterno.telefono
+        db.auth_user.direccion,
+        db.auth_user.telefono
     ]
     # Generamos el SQLFORM utilizando los campos
     form = SQLFORM.factory(
@@ -41,9 +41,9 @@ def agregar():
         separator=': ',
         buttons=['submit'],
         col3={
-            'correo': T('Identificación de acceso unica asignada a la Empresa'),
-            'nombre': T('Nombre comercial de la Empresa'),
-            'apellido': T('Nombre comercial de la Empresa'),
+            'email': T('Identificación de acceso unica asignada a la Empresa'),
+            'first_name': T('Nombre comercial de la Empresa'),
+            'last_name': T('Nombre comercial de la Empresa'),
             'tipo_documento': T('Tipo De Documento'),
             'numero_documento': T('Numero De Documento'),
             'password': T('Contraseña para acceder al sistema'),
@@ -64,27 +64,27 @@ def agregar():
 
         # Insertamos en la tabla user de Web2py
         result = db.auth_user.insert(
-            first_name=request.vars.nombre,
-            last_name=request.vars.apellido,
+            first_name=request.vars.first_name,
+            last_name=request.vars.last_name,
             password=db.auth_user.password.validate(request.vars.password)[0],
-            email=request.vars.correo,
+            email=request.vars.email,
         )
 
         # Registramos el usuario externo
-        db.UsuarioExterno.insert(
+        db.auth_user.insert(
             id=result,
             auth_User=result,
-            correo=request.vars.correo,
+            email=request.vars.email,
             pregunta_secreta=request.vars.pregunta_secreta,
             respuesta_secreta=request.vars.respuesta_secreta,
-            nombre=request.vars.nombre,
+            first_name=request.vars.first_name,
             pais=request.vars.pais,
             estado=request.vars.estado,
             telefono=request.vars.telefono,
             direccion=request.vars.direccion,
         )
 
-        usuarioExternoSet = db(db.UsuarioExterno,db.UsuarioExterno.correo == request.vars.correo).select()
+        usuarioExternoSet = db(db.UsuarioExterno,db.auth_user.email == request.vars.email).select()
         usuarioExterno = usuarioExternoSet[0]
 
         empresa = \
@@ -94,7 +94,7 @@ def agregar():
         db.Tutor_Industrial.insert(
             id=result,
             usuario=result,
-            apellido=request.vars.apellido,
+            last_name=request.vars.last_name,
             tipo_documento=request.vars.tipo_documento,
             numero_documento=request.vars.numero_documento,
             Empresa=empresa.id,
@@ -126,7 +126,7 @@ def get():
     obj = Encoder.to_dict(request.vars)
 
     rows = db((db.Tutor_Industrial.usuario == db.auth_user.id) &
-              (db.Tutor_Industrial.Empresa == db.Empresa.id) & (db.Empresa.usuario == db.UsuarioExterno.id)).select()
+              (db.Tutor_Industrial.Empresa == db.Empresa.id) & (db.Empresa.usuario == db.auth_user.id)).select()
 
     return rows.as_json()
 
@@ -134,17 +134,17 @@ def get():
 def modificar():
     prueba=request.args[0]
     tutor = db(db.Tutor_Industrial.id == request.args[0]).select().first()
-    usuarioExterno = db(tutor.usuario == db.UsuarioExterno.id).select().first()
+    usuarioExterno = db(tutor.usuario == db.auth_user.id).select().first()
 
-    db.UsuarioExterno.correo.requires = []
-    db.UsuarioExterno.correo.default = usuarioExterno.correo
-    db.UsuarioExterno.pregunta_secreta.default = usuarioExterno.pregunta_secreta
-    db.UsuarioExterno.respuesta_secreta.default = usuarioExterno.respuesta_secreta
-    db.UsuarioExterno.nombre.default = usuarioExterno.nombre
-    db.UsuarioExterno.pais.default = usuarioExterno.pais
-    db.UsuarioExterno.estado.default = usuarioExterno.estado
+    db.auth_user.email.requires = []
+    db.auth_user.email.default = usuarioExterno.email
+    db.auth_user.pregunta_secreta.default = usuarioExterno.pregunta_secreta
+    db.auth_user.respuesta_secreta.default = usuarioExterno.respuesta_secreta
+    db.auth_user.first_name.default = usuarioExterno.first_name
+    db.auth_user.pais.default = usuarioExterno.pais
+    db.auth_user.estado.default = usuarioExterno.estado
 
-    db.Tutor_Industrial.apellido.default = tutor.apellido
+    db.Tutor_Industrial.last_name.default = tutor.last_name
     db.Tutor_Industrial.Empresa.default = tutor.Empresa
     db.Tutor_Industrial.profesion.default = tutor.profesion
     db.Tutor_Industrial.tipo_documento.default = tutor.tipo_documento
@@ -152,15 +152,15 @@ def modificar():
     db.Tutor_Industrial.cargo.default = tutor.cargo
     db.Tutor_Industrial.departamento.default = tutor.departamento
     db.Tutor_Industrial.universidad.default = tutor.universidad
-    db.UsuarioExterno.direccion.default = usuarioExterno.direccion
-    db.UsuarioExterno.telefono.default = usuarioExterno.telefono
+    db.auth_user.direccion.default = usuarioExterno.direccion
+    db.auth_user.telefono.default = usuarioExterno.telefono
 
     db.Tutor_Industrial.Empresa.writable = False
 
     fields = [
-        'correo',
-        'nombre',
-        'apellido',
+        'email',
+        'first_name',
+        'last_name',
         'tipo_documento',
         'numero_documento',
         'Empresa',
@@ -180,12 +180,12 @@ def modificar():
 
     if form.accepts(request.vars):
         db(db.auth_user.id == auth.user.id).update(
-            email=request.vars.correo,
-            first_name=request.vars.nombre,
-            last_name=request.vars.apellido,
+            email=request.vars.email,
+            first_name=request.vars.first_name,
+            last_name=request.vars.last_name,
         )
 
-        id = usuarioExterno.update_record(**db.UsuarioExterno._filter_fields(form.vars))
+        id = usuarioExterno.update_record(**db.auth_user._filter_fields(form.vars))
         form.vars.client = id
         id = tutor.update_record(**db.Tutor_Industrial._filter_fields(form.vars))
         session.flash = T('Perfil actualizado exitosamente!')

@@ -39,22 +39,22 @@ def guardar_imagen(image, imagename=None, path=None):
     return imagename
 
 
-def enviar_Correo_Verificacion(correo, codigoGenerado):
+def enviar_Correo_Verificacion(email, codigoGenerado):
 
     if mail:
         mensaje1 = T("Su registro en el SPE ha sido exitoso, pero para " +
         "poder utilizar las funcionalidades del sistema debemos verificar " +
-        "su dirección de correo electrónico suministrada es la correcta\n\n")
+        "su dirección de email electrónico suministrada es la correcta\n\n")
         mensaje2 = T("Cuando intente iniciar sesion en el sistema se le " +
         "solicitara  el siguiente codigo:\n\n")
         mensaje3 = (T('  Codigo De Activación ') + "'" + codigoGenerado +
         "'\n\n")
         mensaje4 = T("Una vez introducido el codigo su cuenta sera activada " +
         "y podra disfrutar nuestros servicios\n\n")
-        mensaje5 = T("Este correo se ha enviado de manera automatica por el " +
+        mensaje5 = T("Este email se ha enviado de manera automatica por el " +
         "Sistema Empresarial de Pasantias de la Universidad Simón " +
         "Bolívar.\n\n")
-        if mail.send(to=[correo],
+        if mail.send(to=[email],
             subject=T('Activacion'),
             message=(mensaje1 + mensaje2 + mensaje3 + mensaje4 + mensaje5)):
                 response.flash = T('email sent sucessfully.')
@@ -67,7 +67,7 @@ def enviar_Correo_Verificacion(correo, codigoGenerado):
     return resultado
 
 
-def generar_Correo_Verificacion(correo):
+def generar_Correo_Verificacion(email):
     import string
     import random
     from random import randint
@@ -80,20 +80,20 @@ def generar_Correo_Verificacion(correo):
                 codigoGenerado += random.choice(string.lowercase +
                     string.uppercase + string.digits)
 
-    db.correo_por_verificar.insert(correo=correo, codigo=codigoGenerado)
+    db.correo_por_verificar.insert(email=email, codigo=codigoGenerado)
 
-    enviar_Correo_Verificacion(correo, codigoGenerado)
+    enviar_Correo_Verificacion(email, codigoGenerado)
 
 
-def reenviar_Correo_Verificacion(correo):
+def reenviar_Correo_Verificacion(email):
 
-    correoVerificarSet = db(db.correo_por_verificar.correo ==
-        request.vars.correo).select()
+    correoVerificarSet = db(db.correo_por_verificar.email ==
+        request.vars.email).select()
 
     codigoGenerado = correoVerificarSet[0].codigo
 
-    enviar_Correo_Verificacion(correo, codigoGenerado)
+    enviar_Correo_Verificacion(email, codigoGenerado)
 
 def obtener_correo(usbid):
     usuario = db(db.UsuarioUSB.usbid == usbid).select()[0]
-    return usuario.correo
+    return usuario.email

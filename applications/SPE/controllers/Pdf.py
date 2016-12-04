@@ -119,8 +119,8 @@ def generarPdfPlanTrabajo():
     rol = db(
         (db.auth_membership.user_id == userid) & (db.auth_membership.group_id == db.auth_group.id)).select().first()
     usuario = {
-        "apellido": currentUser.apellido,
-        "nombre": currentUser.nombre,
+        "last_name": currentUser.last_name,
+        "first_name": currentUser.first_name,
         "rol": rol.auth_group.role,
     }
 
@@ -153,14 +153,14 @@ def generarPdfPlanTrabajo():
 
     tbl_estudiante = [
         [Paragraph("<b>Nombre y Apellido:</b>" + "  " +
-                   str(usuario['nombre']) + " " + str(usuario['apellido']) + "   " +
+                   str(usuario['first_name']) + " " + str(usuario['last_name']) + "   " +
                    "<b>Carnet:</b>" + " " + str(estudiante.Estudiante.carnet) + "   " +
                    "<b>Cedula:</b>" + " " + str(estudiante.UsuarioUSB.numero_documento), styles["default"])
          ],
         [Paragraph("<b>Carrera:</b>" + " " +
-                   str(carrera.nombre) + " " +
+                   str(carrera.first_name) + " " +
                    "<b>Telefono:</b>" + " " + str(estudiante.UsuarioUSB.telefono) + " " +
-                   "<b>Email:</b>" + " " + str(estudiante.UsuarioUSB.correo), styles["default"])
+                   "<b>Email:</b>" + " " + str(estudiante.UsuarioUSB.email), styles["default"])
          ],
         [Paragraph("<b>Periodo de Pasantia:</b>" + " " +
                    str(pasantia.periodo.mes_inicio) + "-" +
@@ -176,15 +176,15 @@ def generarPdfPlanTrabajo():
 
     tbl_tutor_academico = [
         [Paragraph("<b>Nombre y Apellido:</b>" + " " +
-                   str(tutor_academico.usuario.nombre) + " " +
-                   str(tutor_academico.usuario.apellido) + " " +
-                   "<b>Categoria:</b>" + " " + str(tutor_academico.categoria.nombre) + " " +
-                   "<b>Dedicacion:</b>" + " " + str(tutor_academico.dedicacion.nombre), styles["default"])
+                   str(tutor_academico.usuario.first_name) + " " +
+                   str(tutor_academico.usuario.last_name) + " " +
+                   "<b>Categoria:</b>" + " " + str(tutor_academico.categoria.first_name) + " " +
+                   "<b>Dedicacion:</b>" + " " + str(tutor_academico.dedicacion.first_name), styles["default"])
          ],
         [Paragraph("<b>Departamento:</b>" + " " +
-                   str(tutor_academico.departamento.nombre) + " " +
+                   str(tutor_academico.departamento.first_name) + " " +
                    "<b>Telefono:</b>" + " " + str(tutor_academico.usuario.telefono) + " " +
-                   "<b>Email:</b>" + " " + str(tutor_academico.usuario.correo), styles["default"])
+                   "<b>Email:</b>" + " " + str(tutor_academico.usuario.email), styles["default"])
          ],
     ]
 
@@ -196,15 +196,15 @@ def generarPdfPlanTrabajo():
 
     tbl_tutor_industrial = [
         [Paragraph("<b>Empresa:</b>" + " " +
-                   str(tutor_industrial.Empresa.usuario.nombre) + " " +
+                   str(tutor_industrial.Empresa.usuario.first_name) + " " +
                    "<b>Telefono:</b>" + " " + str(tutor_industrial.Empresa.usuario.telefono) + " " +
-                   "<b>Email:</b>" + " " + str(tutor_industrial.Empresa.usuario.correo) + " " +
-                   "<b>Pais:</b>" + " " + str(tutor_industrial.Empresa.usuario.pais.nombre), styles["default"]),
+                   "<b>Email:</b>" + " " + str(tutor_industrial.Empresa.usuario.email) + " " +
+                   "<b>Pais:</b>" + " " + str(tutor_industrial.Empresa.usuario.pais.first_name), styles["default"]),
          ],
-        [Paragraph("<b>Estado:</b>" + " " + str(tutor_industrial.Empresa.usuario.estado.nombre) + " " +
+        [Paragraph("<b>Estado:</b>" + " " + str(tutor_industrial.Empresa.usuario.estado.first_name) + " " +
                    "<b>Direccion:</b>" + " " + str(tutor_industrial.Empresa.usuario.direccion) + " " +
-                   "<b>Nombres y Apellidos:</b>" + " " + str(tutor_industrial.usuario.nombre) + " " +
-                   str(tutor_industrial.apellido), styles["default"]),
+                   "<b>Nombres y Apellidos:</b>" + " " + str(tutor_industrial.usuario.first_name) + " " +
+                   str(tutor_industrial.last_name), styles["default"]),
          ],
         [
             Paragraph("<b>Profesion:</b>" + " " + str(tutor_industrial.profesion) + " " +
@@ -232,7 +232,7 @@ def generarPdfPlanTrabajo():
     tbl_pasantia = [
         [Paragraph("<b>Titulo:</b>" + " " + str(pasantia.titulo), styles["default"])
          ],
-        [Paragraph("<b>Area del proyecto:</b>" + str(pasantia.area_proyecto.nombre), styles["default"])
+        [Paragraph("<b>Area del proyecto:</b>" + str(pasantia.area_proyecto.first_name), styles["default"])
          ],
     ]
 
@@ -295,7 +295,7 @@ def generarPdfPlanTrabajo():
     tbl_pasantia2 = [
         [Paragraph("<b>Titulo:</b>" + " " + str(pasantia.titulo), styles["default"])
          ],
-        [Paragraph("<b>Area del proyecto:</b>" + str(pasantia.area_proyecto.nombre), styles["default"])
+        [Paragraph("<b>Area del proyecto:</b>" + str(pasantia.area_proyecto.first_name), styles["default"])
          ],
     ]
     tbl_pasantia3 = [

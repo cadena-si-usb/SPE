@@ -17,8 +17,8 @@
                     </div>
                     <div class="panel-collapse collapse in" id="collapseFour">
                         <div class="list-group">
-                            <p class="list-group-item">Nombre : {{=nombre}} </p>
-                            <p class="list-group-item">Login : {{=correo}} </p>
+                            <p class="list-group-item">Nombre : {{=first_name}} </p>
+                            <p class="list-group-item">Login : {{=email}} </p>
                             {{if 'area_laboral':}}
                                 <p class="list-group-item">Area Laboral : {{=area_laboral}} </p>
                             {{pass}}
@@ -51,7 +51,7 @@
             <h3 align="center">{{=result}} <i class="fa fa-thumbs-o-up"></i></h3>
             <br></br>
             <p align="center">
-                Se le enviará un correo de confirmación.
+                Se le enviará un email de confirmación.
                 <br></br>
                 <i class="fa fa-envelope-o fa-5x"></i>
             </p>
@@ -68,7 +68,7 @@
                     </div>
                     <div class="panel-collapse collapse in" id="collapseFour2">
                         <div class="list-group">
-                            <p class="list-group-item">Login : {{=correo}} </p>
+                            <p class="list-group-item">Login : {{=email}} </p>
                             {{if 'pregunta_secreta':}}
                                 <p class="list-group-item">Pregunta Secreta : {{=pregunta_secreta}} </p>
                             {{pass}}

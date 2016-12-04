@@ -3,9 +3,9 @@ from gluon import *
 # Division
 def Division_Table(db,T):
     db.define_table('Division',
-                    Field('nombre','string',required=True),
-                    format='%(nombre)s'
+                    Field('first_name','string',required=True),
+                    format='%(first_name)s'
                    )
 
-    db.Division.nombre.requires+=[IS_LENGTH(100)]
-    db.Division.nombre.requires+=[IS_NOT_EMPTY(error_message='Campo Obligatorio')]
+    db.Division.first_name.requires+=[IS_LENGTH(100)]
+    db.Division.first_name.requires+=[IS_NOT_EMPTY(error_message='Campo Obligatorio')]

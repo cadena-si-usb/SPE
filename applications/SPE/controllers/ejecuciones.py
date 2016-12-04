@@ -57,8 +57,8 @@ def modificar():
             pasantia = db.Pasantia(record.pasantia)
             etapa = db.Etapa(pasantia.etapa)
 
-            if not etapa.nombre == 'Ejecucion':
-                etapaEjec = db(db.Etapa.nombre == 'Ejecucion').select().first()
+            if not etapa.first_name == 'Ejecucion':
+                etapaEjec = db(db.Etapa.first_name == 'Ejecucion').select().first()
                 pasantia.update_record(etapa=etapaEjec.id)
 
                 record.update_record(estado='Aprobado')          

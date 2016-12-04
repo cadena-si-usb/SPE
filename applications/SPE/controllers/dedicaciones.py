@@ -11,7 +11,7 @@ def listar():
     return dict(rows=session.rows,id="prueba")
 
 def agregar():
-    fields = ['nombre']
+    fields = ['first_name']
 
     form = Dedicacion.form(fields)
 

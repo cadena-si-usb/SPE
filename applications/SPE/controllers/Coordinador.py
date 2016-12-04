@@ -9,7 +9,7 @@ def consultarPasantias():
     coordinador=db.Coordinador(id=userId)
     coordinacion=db.Coordinacion(id=coordinador.coordinacion)
     carrera=db.Carrera(coordinacion=coordinacion.id)
-    correo = auth.user.email
+    email = auth.user.email
     pasantias=db((db.Estudiante.id==db.Pasantia.estudiante) & (db.Estudiante.carrera==carrera.id))
 
     prueba=pasantias.select().first()

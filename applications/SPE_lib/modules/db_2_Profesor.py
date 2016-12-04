@@ -13,5 +13,5 @@ def Profesor_Table(db,T):
         Field('sede','reference Sede',
               label='Sede (*)'),
         Field('activo','boolean'),
-        format=lambda r: '%s - %s %s' % (r.usuario.usbid, r.usuario.nombre,r.usuario.apellido)
+        format=lambda r: '%s - %s %s' % (r.usuario.usbid, r.usuario.first_name,r.usuario.last_name)
     )

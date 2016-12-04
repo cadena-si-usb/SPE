@@ -1,7 +1,7 @@
 {{extend 'layout.html'}}
 
 <div class='content'>
-    <p class='title'>Perfil De '{{=usuarioExterno.nombre}} {{=tutor.apellido}}'</p>
+    <p class='title'>Perfil De '{{=usuarioExterno.first_name}} {{=tutor.last_name}}'</p>
     <div class="row">
         <div class="col-md-4">
             <div class="panel-group" id="accordion">
@@ -16,9 +16,9 @@
                     </div>
                     <div class="panel-collapse collapse in" id="personal">
                         <div class="list-group">
-                            <p class="list-group-item">{{=form.custom.label.correo}} : {{=form.custom.widget.correo}} </p>
-                            <p class="list-group-item">{{=form.custom.label.nombre}} : {{=form.custom.widget.nombre}} </p>
-                            <p class="list-group-item">{{=form.custom.label.apellido}} : {{=form.custom.widget.apellido}} </p>
+                            <p class="list-group-item">{{=form.custom.label.email}} : {{=form.custom.widget.email}} </p>
+                            <p class="list-group-item">{{=form.custom.label.first_name}} : {{=form.custom.widget.first_name}} </p>
+                            <p class="list-group-item">{{=form.custom.label.last_name}} : {{=form.custom.widget.last_name}} </p>
                             <p class="list-group-item">{{=form.custom.label.tipo_documento}} : {{=form.custom.widget.tipo_documento}} </p>
                             <p class="list-group-item">{{=form.custom.label.numero_documento}} : {{=form.custom.widget.numero_documento}} </p>
                             {{if usuarioExterno.telefono:}}

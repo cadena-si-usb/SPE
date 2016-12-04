@@ -3,11 +3,11 @@ from gluon import *
 def UsuarioExterno_Table(db,T):
     db.define_table('UsuarioExterno',
                     Field('auth_User', 'reference auth_user'),
-                    Field('nombre',
+                    Field('first_name',
                            requires=[IS_NOT_EMPTY
-                                        (error_message='Es necesario un nombre.') ],
+                                        (error_message='Es necesario un first_name.') ],
                            label='Nombre'),
-                    Field('correo',
+                    Field('email',
                            requires=[IS_EMPTY_OR(IS_EMAIL
                                                 (error_message='Introduzca un email valido.'))],
                            label='Correo'),
@@ -30,8 +30,8 @@ def UsuarioExterno_Table(db,T):
                            requires=[IS_NOT_EMPTY
                                         (error_message='Direccion necesaria')],
                            label='Direccion'),
-                    format='%(nombre)s - %(correo)s'
+                    format='%(first_name)s - %(email)s'
     )
 
 
-    db.UsuarioExterno.correo.requires+=[IS_NOT_IN_DB(db, 'UsuarioExterno.correo',error_message=T('Correo No Disponible'))]
+    db.auth_user.email.requires+=[IS_NOT_IN_DB(db, 'auth_user.email',error_message=T('Correo No Disponible'))]
