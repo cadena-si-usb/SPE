@@ -21,7 +21,7 @@ def listar():
 def agregar():
    # fields = ['id','first_name','last_name','ci']
 
-    form = SQLFORM(db.UsuarioUSB)
+    form = SQLFORM(db.auth_user)
 
     if form.process().accepted:
         session.flash = T('El usuario fue agregado exitosamente!')
@@ -44,14 +44,14 @@ def get():
     obj = Encoder.to_dict(request.vars)
 
     rows = db(
-        (db.auth_membership.user_id == db.UsuarioUSB.id) & (db.auth_membership.group_id == db.auth_group.id)).select()
+        (db.auth_membership.user_id == db.auth_user.id) & (db.auth_membership.group_id == db.auth_group.id)).select()
     prueba=rows.as_json()
     return rows.as_json()
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
-    record = db.UsuarioUSB(request.args(0)) or redirect(URL('agregar'))
-    form = SQLFORM(db.UsuarioUSB,fields=['activo'], record=record, showid=False)
+    record = db.auth_user(request.args(0)) or redirect(URL('agregar'))
+    form = SQLFORM(db.auth_user,fields=['activo'], record=record, showid=False)
     
     if form.process().accepted:
         session.flash = T('El usuario fue modificado exitosamente!')

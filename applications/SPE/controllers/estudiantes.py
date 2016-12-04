@@ -20,7 +20,7 @@ def agregar():
         'tipo_documento',
         'numero_documento',
         'telefono',
-        'direcUsuario',
+        'direccion',
         'sexo',
         'activo',
         'carnet',
@@ -28,31 +28,25 @@ def agregar():
         'sede'
     ]
 
-    form = SQLFORM.factory(db.UsuarioUSB, db.Estudiante, fields=fields, submit_button='Crear', showid=False)
+    form = SQLFORM.factory(db.auth_user, db.Estudiante, fields=fields, submit_button='Crear', showid=False)
 
     if form.process().accepted:
-        authId=db.auth_user.insert(first_name=form.vars.first_name,
+        authId=db.auth_user.insert(
+                            username=form.vars.username,
+                            first_name=form.vars.first_name,
                             last_name=form.vars.last_name,
-                            email=form.vars.email)
-        # Actualizo los datos de usuario
-        usuarioUSBId=db.UsuarioUSB.insert(
-            id=authId,
-            auth_User=authId,
-            usbid=form.vars.usbid,
-            first_name=form.vars.first_name,
-            last_name=form.vars.last_name,
-            email=form.vars.email,
-            tipo_documento=form.vars.tipo_documento,
-            numero_documento=form.vars.numero_documento,
-            telefono=form.vars.telefono,
-            direcUsuario=form.vars.direcUsuario,
-            sexo=form.vars.sexo,
-            activo=form.vars.activo,
+                            email=form.vars.email,
+                            tipo_documento=form.vars.tipo_documento,
+                            numero_documento=form.vars.numero_documento,
+                            telefono=form.vars.telefono,
+                            direccion=form.vars.direccion,
+                            sexo=form.vars.sexo,
+                            activo=form.vars.activo,
         )
         # Actualizo los datos de usuario
         estudianteId = db.Estudiante.insert(
             id=authId,
-            usuario=usuarioUSBId,
+            usuario=authId,
             carnet=form.vars.carnet,
             carrera=form.vars.carrera,
             sede=form.vars.sede,
@@ -79,7 +73,7 @@ def count():
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = db(((db.Estudiante.usuario == db.UsuarioUSB.id) & (db.Estudiante.carrera == db.Carrera.id) &
+    rows = db(((db.Estudiante.usuario == db.auth_user.id) & (db.Estudiante.carrera == db.Carrera.id) &
                (db.Estudiante.sede == db.Sede.id))).select()
 
     return rows.as_json()
@@ -93,23 +87,23 @@ def modificar():
         'tipo_documento',
         'numero_documento',
         'telefono',
-        'direcUsuario',
+        'direccion',
         'sexo',
         'activo'
     ]
     estudiante = db.Estudiante(request.args(0)) or redirect(URL('agregar'))
-    usuario = db.UsuarioUSB(estudiante.usuario) or redirect(URL('agregar'))
+    usuario = db.auth_user(estudiante.usuario) or redirect(URL('agregar'))
     usuarioAuth = db.auth_user(usuario.auth_User) or redirect(URL('agregar'))
 
-    db.UsuarioUSB.first_name.default = usuario.first_name
-    db.UsuarioUSB.last_name.default = usuario.last_name
-    db.UsuarioUSB.email.default = usuario.email
-    db.UsuarioUSB.tipo_documento.default = usuario.tipo_documento
-    db.UsuarioUSB.numero_documento.default = usuario.numero_documento
-    db.UsuarioUSB.telefono.default = usuario.telefono
-    db.UsuarioUSB.direcUsuario.default = usuario.direcUsuario
-    db.UsuarioUSB.sexo.default = usuario.sexo
-    db.UsuarioUSB.activo.default = usuario.activo
+    db.auth_user.first_name.default = usuario.first_name
+    db.auth_user.last_name.default = usuario.last_name
+    db.auth_user.email.default = usuario.email
+    db.auth_user.tipo_documento.default = usuario.tipo_documento
+    db.auth_user.numero_documento.default = usuario.numero_documento
+    db.auth_user.telefono.default = usuario.telefono
+    db.auth_user.direccion.default = usuario.direccion
+    db.auth_user.sexo.default = usuario.sexo
+    db.auth_user.activo.default = usuario.activo
 
 
     fields.append('carnet')
@@ -118,7 +112,7 @@ def modificar():
     db.Estudiante.carnet.default = estudiante.carnet
     db.Estudiante.carrera.default = estudiante.carrera
     db.Estudiante.sede.default = estudiante.sede
-    form = SQLFORM.factory(db.UsuarioUSB, db.Estudiante, fields=fields, submit_button='Actualizar', showid=False)
+    form = SQLFORM.factory(db.auth_user, db.Estudiante, fields=fields, submit_button='Actualizar', showid=False)
 
     if form.process().accepted:
         #
@@ -126,7 +120,7 @@ def modificar():
                                   last_name=form.vars.last_name,
                                   email=form.vars.email)
         # Actualizo los datos de usuario
-        usuario.update_record(**db.UsuarioUSB._filter_fields(form.vars))
+        usuario.update_record(**db.auth_user._filter_fields(form.vars))
         # Actualizo los datos exclusivos de estudiante
         estudiante.update_record(**db.Estudiante._filter_fields(form.vars))
         usuario.update_record(activo=True)

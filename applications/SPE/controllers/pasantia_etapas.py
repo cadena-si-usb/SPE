@@ -7,8 +7,8 @@ Etapa = Etapa()
 
 def etapas():
     userid = session.currentUser.id
-    currentUser = db.UsuarioUSB(db.UsuarioUSB.id == userid)
-    estudiante = db(((db.UsuarioUSB.id == userid) & (db.Estudiante.usuario == db.UsuarioUSB.id))).select().first()
+    currentUser = db.auth_user(db.auth_user.id == userid)
+    estudiante = db(((db.auth_user.id == userid) & (db.Estudiante.usuario == db.auth_user.id))).select().first()
     pasantia = db(db.Pasantia.estudiante == estudiante.Estudiante).select().first()
 
     obj = Encoder.to_dict(request.vars)

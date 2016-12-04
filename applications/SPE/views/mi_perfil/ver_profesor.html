@@ -78,8 +78,8 @@
            <b>Correo</b>
        </h2>
        <div>   
-          {{if profesor.UsuarioUSB.email:}}
-				<h3>{{=profesor.UsuarioUSB.email}}</h3>
+          {{if profesor.auth_user.email:}}
+				<h3>{{=profesor.auth_user.email}}</h3>
 			{{else:}}
 				<h3>N/A</h3>
 			{{pass}}

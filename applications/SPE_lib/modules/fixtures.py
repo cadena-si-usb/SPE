@@ -228,17 +228,17 @@ def load_fixtures(db,T):
     if db(db.Coordinacion.id > 0).count() == 0:
         db.Coordinacion.insert(
             first_name='Computacion',
-            usbid='1000',
+            username='1000',
             sede=1
         )
         db.Coordinacion.insert(
             first_name='Mecanica',
-            usbid='1001',
+            username='1001',
             sede=1
         )
         db.Coordinacion.insert(
             first_name='Coordinación de Cooperación Tecnica',
-            usbid='1002',
+            username='1002',
             sede=1
         )
         db.commit()
@@ -442,11 +442,11 @@ def load_fixtures(db,T):
         )
         db.commit()
 
-    if db(db.UsuarioUSB.id > 0).count() == 0:
-        db.UsuarioUSB.insert(
+    if db(db.auth_user.id > 0).count() == 0:
+        db.auth_user.insert(
             id=3,
             auth_User=3,
-            usbid='emuguerza',
+            username='emuguerza',
             first_name='Enrique',
             last_name='Muguerza',
             email='emuguerza@gmail.com',
@@ -454,14 +454,14 @@ def load_fixtures(db,T):
             tipo_documento='1',
             numero_documento='11234112',
             telefono='04122347576',
-            direcUsuario='Caracas',
+            direccion='Caracas',
             sexo='M',
             activo='True'
         )
-        db.UsuarioUSB.insert(
+        db.auth_user.insert(
             id=4,
             auth_User=4,
-            usbid='10-10102',
+            username='10-10102',
             first_name='Roberto Andres',
             last_name='Manzanilla',
             email='queso976@gmail.com',
@@ -469,14 +469,14 @@ def load_fixtures(db,T):
             tipo_documento='1',
             numero_documento='20101324',
             telefono='04129767576',
-            direcUsuario='Prados Del Este',
+            direccion='Prados Del Este',
             sexo='M',
             activo='True'
         )
-        db.UsuarioUSB.insert(
+        db.auth_user.insert(
             id=5,
             auth_User=5,
-            usbid='10-10292',
+            username='10-10292',
             first_name='Hector Alejandro',
             last_name='Goncalves Pita',
             email='KKNKKMTGJYXLCURWCFAC',
@@ -484,14 +484,14 @@ def load_fixtures(db,T):
             tipo_documento='1',
             numero_documento='20101324',
             telefono='04243130932',
-            direcUsuario='Prados Del Este',
+            direccion='Prados Del Este',
             sexo='M',
             activo='True'
         )
-        db.UsuarioUSB.insert(
+        db.auth_user.insert(
             id=6,
             auth_User=6,
-            usbid='10-10419',
+            username='10-10419',
             first_name='Daniel Arturo',
             last_name='Marin Tirado',
             email='NULL',
@@ -499,14 +499,14 @@ def load_fixtures(db,T):
             tipo_documento='1',
             numero_documento='21464359',
             telefono='0414-4742003',
-            direcUsuario='merche',
+            direccion='merche',
             sexo='M',
             activo='True'
         )
-        db.UsuarioUSB.insert(
+        db.auth_user.insert(
             id=7,
             auth_User=7,
-            usbid='10-10717',
+            username='10-10717',
             first_name='Francisco Javier',
             last_name='Sucre Gonzalez',
             email='10-10717@usb.ve',
@@ -514,14 +514,14 @@ def load_fixtures(db,T):
             tipo_documento='1',
             numero_documento='19564959',
             telefono='02127653852',
-            direcUsuario='La Floresta',
+            direccion='La Floresta',
             sexo='M',
             activo='True'
         )
-        db.UsuarioUSB.insert(
+        db.auth_user.insert(
             id=8,
             auth_User=8,
-            usbid='10-10193',
+            username='10-10193',
             first_name='Mathieu',
             last_name='Da Valery',
             email='mvalery@gmail.com',
@@ -529,14 +529,14 @@ def load_fixtures(db,T):
             tipo_documento='1',
             numero_documento='20101324',
             telefono='04129767576',
-            direcUsuario='Prados Del Este',
+            direccion='Prados Del Este',
             sexo='M',
             activo='True'
         )
-        db.UsuarioUSB.insert(
+        db.auth_user.insert(
             id=9,
             auth_User=9,
-            usbid='10-10353',
+            username='10-10353',
             first_name='Andres Rafael',
             last_name='Hernandez Monterola',
             email='queso976@gmail.com',
@@ -544,14 +544,14 @@ def load_fixtures(db,T):
             tipo_documento='1',
             numero_documento='20101324',
             telefono='04129767576',
-            direcUsuario='Prados Del Este',
+            direccion='Prados Del Este',
             sexo='M',
             activo='True'
         )
-        db.UsuarioUSB.insert(
+        db.auth_user.insert(
             id=10,
             auth_User=10,
-            usbid='10-10195',
+            username='10-10195',
             first_name='Alfredo',
             last_name='Delgado',
             email='adelgado@gmail.com',
@@ -559,14 +559,14 @@ def load_fixtures(db,T):
             tipo_documento='1',
             numero_documento='20101324',
             telefono='04129767576',
-            direcUsuario='Prados Del Este',
+            direccion='Prados Del Este',
             sexo='M',
             activo='True'
         )
-        db.UsuarioUSB.insert(
+        db.auth_user.insert(
             id=11,
             auth_User=11,
-            usbid='09-10066',
+            username='09-10066',
             first_name='Gabriel',
             last_name='Austin',
             email='gmailaustin@gmail.com',
@@ -574,7 +574,7 @@ def load_fixtures(db,T):
             tipo_documento='1',
             numero_documento='20101324',
             telefono='04129767576',
-            direcUsuario='Prados Del Este',
+            direccion='Prados Del Este',
             sexo='M',
             activo='True'
         )

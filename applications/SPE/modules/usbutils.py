@@ -7,7 +7,7 @@ import random
 # sudo apt-get install libsasl2-dev python-dev libldap2-dev libssl-dev ldap-utils python-ldap
 # El script de setupEnv.sh instala dichas dependencias
 
-def get_ldap_data(usbid):
+def get_ldap_data(username):
     def getFirst(maybeList):
         # Evitar excepcion de index no encontrado
         if type(maybeList)==list and len(maybeList)>0:
@@ -20,7 +20,7 @@ def get_ldap_data(usbid):
     searchScope        = ldap.SCOPE_SUBTREE
     retrieveAttributes = None #Traemos todos los atributos
     baseDN = "ou=People,dc=usb,dc=ve"
-    searchFilter = "uid=*"+usbid+"*"
+    searchFilter = "uid=*"+username+"*"
     ldap_result_id = l.search(baseDN,searchScope,searchFilter,retrieveAttributes)
     result_type, consulta = l.result(ldap_result_id, 0)
     datos = consulta[0][1]

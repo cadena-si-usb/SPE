@@ -2,7 +2,7 @@
 from gluon import *
 def Administrativo_Table(db,T):
     db.define_table('Administrativo',
-        Field('usuario','reference UsuarioUSB',
+        Field('usuario','reference auth_user',
               label='Usuario (*)'),
         Field('carnet',
               requires=IS_MATCH('^\d{2}?[\s.-]?\d{5}$',

@@ -8,10 +8,10 @@ def captcha_field(request=request):
     return Field('captcha', 'string', widget=w, default='ok')
 
 
-def tiene_foto(usbid):
+def tiene_foto(username):
     import os
 
-    query = db(db.usuario.usbid == usbid)
+    query = db(db.usuario.username == username)
     foto = query.select()[0].foto
     path = 'applications/SPE/static/profile_pictures/' + str(foto)
 
@@ -94,6 +94,6 @@ def reenviar_Correo_Verificacion(email):
 
     enviar_Correo_Verificacion(email, codigoGenerado)
 
-def obtener_correo(usbid):
-    usuario = db(db.UsuarioUSB.usbid == usbid).select()[0]
+def obtener_correo(username):
+    usuario = db(db.auth_user.username == username).select()[0]
     return usuario.email

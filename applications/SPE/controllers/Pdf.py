@@ -113,9 +113,8 @@ def stylesheet():
 
 def generarPdfPlanTrabajo():
     # Datos del estudiante
-
-    userid = session.currentUser.id
-    currentUser = db.UsuarioUSB(db.UsuarioUSB.id == userid)
+    currentUser = db.auth_user(id=auth.user_id)
+    userid = auth.user_id
     rol = db(
         (db.auth_membership.user_id == userid) & (db.auth_membership.group_id == db.auth_group.id)).select().first()
     usuario = {
@@ -124,7 +123,7 @@ def generarPdfPlanTrabajo():
         "rol": rol.auth_group.role,
     }
 
-    estudiante = db(((db.UsuarioUSB.id == userid) & (db.Estudiante.usuario == db.UsuarioUSB.id))).select().first()
+    estudiante = db(((db.auth_user.id == userid) & (db.Estudiante.usuario == db.auth_user.id))).select().first()
     carrera = db.Carrera(id=estudiante.Estudiante.carrera)
     sede = db(db.Sede.id == db.Estudiante.sede).select().first()
     pasantia = db(db.Pasantia.estudiante == estudiante.Estudiante).select().first()
@@ -155,12 +154,12 @@ def generarPdfPlanTrabajo():
         [Paragraph("<b>Nombre y Apellido:</b>" + "  " +
                    str(usuario['first_name']) + " " + str(usuario['last_name']) + "   " +
                    "<b>Carnet:</b>" + " " + str(estudiante.Estudiante.carnet) + "   " +
-                   "<b>Cedula:</b>" + " " + str(estudiante.UsuarioUSB.numero_documento), styles["default"])
+                   "<b>Cedula:</b>" + " " + str(estudiante.auth_user.numero_documento), styles["default"])
          ],
         [Paragraph("<b>Carrera:</b>" + " " +
                    str(carrera.first_name) + " " +
-                   "<b>Telefono:</b>" + " " + str(estudiante.UsuarioUSB.telefono) + " " +
-                   "<b>Email:</b>" + " " + str(estudiante.UsuarioUSB.email), styles["default"])
+                   "<b>Telefono:</b>" + " " + str(estudiante.auth_user.telefono) + " " +
+                   "<b>Email:</b>" + " " + str(estudiante.auth_user.email), styles["default"])
          ],
         [Paragraph("<b>Periodo de Pasantia:</b>" + " " +
                    str(pasantia.periodo.mes_inicio) + "-" +

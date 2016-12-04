@@ -82,15 +82,15 @@ def login_cas():
     else:
         # session.casticket = request.vars.getfirst('ticket')
         data  = the_page.split()
-        usbid = data[1]
+        username = data[1]
 
-        usuario = get_ldap_data(usbid) #Se leen los datos del CAS
+        usuario = get_ldap_data(username) #Se leen los datos del CAS
         
-        tablaUsuario  = db.UsuarioUSB
+        tablaUsuario  = db.auth_user
 
         #Esto nos indica si el usuario ha ingresado alguna vez al sistema
         #buscandolo en la tabla de usuario.
-        primeravez = db(tablaUsuario.usbid==usbid)
+        primeravez = db(tablaUsuario.username==username)
 
         if primeravez.isempty():
 
@@ -106,12 +106,12 @@ def login_cas():
                 redirect(URL(c='mi_perfil/configuracion'))
 
             redirect(URL(c='default',f='index'))
-            # auth.login_bare(usbid,clave)
-            #redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,usbid=usbid)))
+            # auth.login_bare(username,clave)
+            #redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,username=username)))
 
         else:
             #Como el usuario ya esta registrado, buscamos sus datos y lo logueamos.
-            datosAuth=db(db.auth_user.username==usbid).select().first()
+            datosAuth=db(db.auth_user.username==username).select().first()
             # Iniciamos Sesion
             auth.user=datosAuth
             auth.login_user(datosAuth)
@@ -122,10 +122,10 @@ def login_cas():
             if respuesta == None:
                 redirect(URL(c='usuarios',f='perfil'))
             # Caso 2: El usuario no ha verificado su email
-            elif correo_no_verificado(usbid):
-                obtener_correo(usbid)
-                correo_sec = obtener_correo(usbid)
-                redirect(URL(c='default',f='verifyEmail',vars=dict(usbid=usbid,email=correo_sec)))
+            elif correo_no_verificado(username):
+                obtener_correo(username)
+                correo_sec = obtener_correo(username)
+                redirect(URL(c='default',f='verifyEmail',vars=dict(username=username,email=correo_sec)))
             # Caso 3: El usuario ha cumplido con los pasos necesarios por lo que
             # puede iniciar sesion
             else:
@@ -140,9 +140,9 @@ def logout():
     session.currentUser = None
     auth.logout(next=url)
 
-def verificar_datos(usuario,usbid):
+def verificar_datos(usuario,username):
 
-    usuariousb = db(db.UsuarioUSB.usbid==usbid).select()[0]
+    usuariousb = db(db.auth_user.username==username).select()[0]
     consulta = None
 
     if usuario['tipo'] == "Docente":
@@ -164,21 +164,21 @@ def registrar():
 
     if usuario['tipo'] == "Docente":
         #Enviar al registro del profesor
-        redirect(URL(c='profesor',f='registrar_profesor', vars=dict(usuario=usuario,usbid=request.vars.usbid)))
+        redirect(URL(c='profesor',f='registrar_profesor', vars=dict(usuario=usuario,username=request.vars.username)))
     elif usuario['tipo'] == "Administrativo":
         pass
     elif usuario['tipo'] in ["Pregrado","Postgrado"]:
-        #redirect(URL(c='profesor',f='registrar_profesor', vars=dict(usuario=usuario,usbid=request.vars.usbid)))
-        redirect(URL(c='estudiante',f='registrar_estudiante', vars=dict(usuario=usuario,usbid=request.vars.usbid)))
+        #redirect(URL(c='profesor',f='registrar_profesor', vars=dict(usuario=usuario,username=request.vars.username)))
+        redirect(URL(c='estudiante',f='registrar_estudiante', vars=dict(usuario=usuario,username=request.vars.username)))
     elif usuario['tipo'] in ["Empleado","Organizacion","Egresado"]:
         pass
 
     return dict(message=usuario)
 
 #Comprueba si el usuario no ha verificado su email
-def correo_no_verificado(usbid):
+def correo_no_verificado(username):
 
-    correoUsuario = obtener_correo(usbid)
+    correoUsuario = obtener_correo(username)
     buscarCorreo  = db(db.correo_por_verificar.email==correoUsuario)
 
     return not(buscarCorreo.isempty())
@@ -191,7 +191,7 @@ def resendVerificationEmail():
     reenviar_Correo_Verificacion(request.vars.email)
 
     redirect(URL(c='default',f='verifyEmail',
-        vars=dict(usbid=request.vars.usbid,email=request.vars.email,
+        vars=dict(username=request.vars.username,email=request.vars.email,
             resend= T("El Correo ha sido reenviado"),
             message=T("Verificacion de Correo"))))
 
@@ -203,7 +203,7 @@ def verifyEmail():
                 formstyle='bootstrap3_stacked'
                            )
     form.add_button(T('Send Email Again'), URL(c='default',f='resendVerificationEmail',
-        vars=dict(usbid=request.vars.usbid,email=request.vars.email)))
+        vars=dict(username=request.vars.username,email=request.vars.email)))
 
     correo_usuario = request.vars.email
 
@@ -214,14 +214,14 @@ def verifyEmail():
             response.flash = T("Codigo incorrecto")
         else:
             db(db.correo_por_verificar.email == correo_usuario).delete()
-            usuarioUSB = db(db.UsuarioUSB.usbid==request.vars.usbid).select()[0]
-            auth.login_bare(request.vars.usbid,usuarioUSB.clave)
+            usuarioUSB = db(db.auth_user.username==request.vars.username).select()[0]
+            auth.login_bare(request.vars.username,usuarioUSB.clave)
             redirect(URL(c='default',f='index'))
 
     return response.render('default/codigoVerificacion.html',
     message=T("Verificacion de Correo"),
     resend= request.vars.resend,
-    form=form,vars=dict(usbid=request.vars.usbid,email=correo_usuario))
+    form=form,vars=dict(username=request.vars.username,email=correo_usuario))
 
 
 @cache.action()

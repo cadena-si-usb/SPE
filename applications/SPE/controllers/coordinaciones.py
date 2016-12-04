@@ -13,7 +13,7 @@ def listar():
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
-    fields = ['first_name','usbid','sede']
+    fields = ['first_name','username','sede']
 
     form = Coordinacion.form(fields)
 

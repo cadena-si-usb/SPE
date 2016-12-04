@@ -85,7 +85,7 @@ class Usuario(Model):
 										auth_User=auth_User_Id,
 										first_name=first_name,
 										last_name=last_name,
-										usbid=carnet,
+										username=carnet,
 										clave=clave,
 										activo=False)
 
