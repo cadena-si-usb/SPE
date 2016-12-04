@@ -30,6 +30,7 @@ def agregar():
         db.Tutor_Industrial.departamento,
         db.auth_user.pais,
         db.auth_user.estado,
+        db.Tutor_Industrial.Empresa,
         db.Tutor_Industrial.universidad,
         db.auth_user.direccion,
         db.auth_user.telefono
@@ -61,35 +62,19 @@ def agregar():
               })
     # Caso 1: El form se lleno de manera correcta asi que registramos al tutor y procedemos a la pagina de exito
     if form.process().accepted:
-
         # Insertamos en la tabla user de Web2py
         result = db.auth_user.insert(
             first_name=request.vars.first_name,
             last_name=request.vars.last_name,
             password=db.auth_user.password.validate(request.vars.password)[0],
-            email=request.vars.email,
-        )
-
-        # Registramos el usuario externo
-        db.auth_user.insert(
-            id=result,
-            auth_User=result,
-            email=request.vars.email,
-            pregunta_secreta=request.vars.pregunta_secreta,
+            email=request.vars.email,pregunta_secreta=request.vars.pregunta_secreta,
             respuesta_secreta=request.vars.respuesta_secreta,
-            first_name=request.vars.first_name,
             pais=request.vars.pais,
             estado=request.vars.estado,
             telefono=request.vars.telefono,
             direccion=request.vars.direccion,
+
         )
-
-        usuarioExternoSet = db(db.UsuarioExterno,db.auth_user.email == request.vars.email).select()
-        usuarioExterno = usuarioExternoSet[0]
-
-        empresa = \
-            db(db.Empresa, db.Empresa.usuario == usuarioExterno.id).select()[0]
-
         # Registramos al tutor
         db.Tutor_Industrial.insert(
             id=result,
@@ -97,7 +82,7 @@ def agregar():
             last_name=request.vars.last_name,
             tipo_documento=request.vars.tipo_documento,
             numero_documento=request.vars.numero_documento,
-            Empresa=empresa.id,
+            Empresa=request.vars.Empresa,
             profesion=request.vars.profesion,
             cargo=request.vars.cargo,
             departamento=request.vars.departamento,
@@ -125,37 +110,39 @@ def count():
 def get():
     obj = Encoder.to_dict(request.vars)
 
+    empresa_auth = db.auth_user.with_alias('empresa_auth')
+
     rows = db((db.Tutor_Industrial.usuario == db.auth_user.id) &
-              (db.Tutor_Industrial.Empresa == db.Empresa.id) & (db.Empresa.usuario == db.auth_user.id)).select()
+              (db.Tutor_Industrial.Empresa == db.Empresa.id) & (db.Empresa.usuario == db.empresa_auth.id)).select()
 
     return rows.as_json()
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
-    prueba=request.args[0]
-    tutor = db(db.Tutor_Industrial.id == request.args[0]).select().first()
-    usuarioExterno = db(tutor.usuario == db.auth_user.id).select().first()
+    # Buscamos la informacion general del usuario
+    auth_user = db.auth_user(id=request.args[0])
+    # Buscamos la informacion de tutor
+    tutor = db.Tutor_Industrial(usuario=request.args[0])
+
 
     db.auth_user.email.requires = []
-    db.auth_user.email.default = usuarioExterno.email
-    db.auth_user.pregunta_secreta.default = usuarioExterno.pregunta_secreta
-    db.auth_user.respuesta_secreta.default = usuarioExterno.respuesta_secreta
-    db.auth_user.first_name.default = usuarioExterno.first_name
-    db.auth_user.pais.default = usuarioExterno.pais
-    db.auth_user.estado.default = usuarioExterno.estado
+    db.auth_user.email.default = auth_user.email
+    db.auth_user.pregunta_secreta.default = auth_user.pregunta_secreta
+    db.auth_user.respuesta_secreta.default = auth_user.respuesta_secreta
+    db.auth_user.first_name.default = auth_user.first_name
+    db.auth_user.pais.default = auth_user.pais
+    db.auth_user.estado.default = auth_user.estado
 
-    db.Tutor_Industrial.last_name.default = tutor.last_name
+    db.auth_user.last_name.default = auth_user.last_name
     db.Tutor_Industrial.Empresa.default = tutor.Empresa
     db.Tutor_Industrial.profesion.default = tutor.profesion
-    db.Tutor_Industrial.tipo_documento.default = tutor.tipo_documento
-    db.Tutor_Industrial.numero_documento.default = tutor.numero_documento
+    db.auth_user.tipo_documento.default = auth_user.tipo_documento
+    db.auth_user.numero_documento.default = auth_user.numero_documento
     db.Tutor_Industrial.cargo.default = tutor.cargo
     db.Tutor_Industrial.departamento.default = tutor.departamento
     db.Tutor_Industrial.universidad.default = tutor.universidad
-    db.auth_user.direccion.default = usuarioExterno.direccion
-    db.auth_user.telefono.default = usuarioExterno.telefono
-
-    db.Tutor_Industrial.Empresa.writable = False
+    db.auth_user.direccion.default = auth_user.direccion
+    db.auth_user.telefono.default = auth_user.telefono
 
     fields = [
         'email',
@@ -175,18 +162,11 @@ def modificar():
         'direccion',
         'telefono'
     ]
-    form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar',
+    form = SQLFORM.factory(db.auth_user, db.Tutor_Industrial, fields=fields, submit_button='Actualizar',
                            showid=False)
 
     if form.accepts(request.vars):
-        db(db.auth_user.id == auth.user.id).update(
-            email=request.vars.email,
-            first_name=request.vars.first_name,
-            last_name=request.vars.last_name,
-        )
-
-        id = usuarioExterno.update_record(**db.auth_user._filter_fields(form.vars))
-        form.vars.client = id
+        id = auth_user.update_record(**db.auth_user._filter_fields(form.vars))
         id = tutor.update_record(**db.Tutor_Industrial._filter_fields(form.vars))
         session.flash = T('Perfil actualizado exitosamente!')
         redirect(URL('listar'))

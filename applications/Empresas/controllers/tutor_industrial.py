@@ -153,16 +153,16 @@ def solicitar_registro_tutor():
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Tutor Industrial'))
 def verPerfil():
     # Buscamos la informacion general del usuario
-    usuarioExterno = db(db.UsuarioExterno, (auth.user.id == db.auth_user.auth_User)).select().first()
+    auth_user = db.auth_user(id=auth.user_id)
     # Buscamos la informacion de tutor
-    tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == db.auth_user.id)).select().first()
+    tutor = db.Tutor_Industrial(usuario=auth_user)
     # Llenamos el valor de los campos
-    db.auth_user.email.default = usuarioExterno.email
-    db.auth_user.pregunta_secreta.default = usuarioExterno.pregunta_secreta
-    db.auth_user.respuesta_secreta.default = usuarioExterno.respuesta_secreta
-    db.auth_user.first_name.default = usuarioExterno.first_name
-    db.auth_user.pais.default = usuarioExterno.pais
-    db.auth_user.estado.default = usuarioExterno.estado
+    db.auth_user.email.default = auth_user.email
+    db.auth_user.pregunta_secreta.default = auth_user.pregunta_secreta
+    db.auth_user.respuesta_secreta.default = auth_user.respuesta_secreta
+    db.auth_user.first_name.default = auth_user.first_name
+    db.auth_user.pais.default = auth_user.pais
+    db.auth_user.estado.default = auth_user.estado
     # Llenamos el valor de los campos
     db.Tutor_Industrial.last_name.default = tutor.last_name
     db.Tutor_Industrial.Empresa.default = tutor.Empresa
@@ -172,13 +172,8 @@ def verPerfil():
     db.Tutor_Industrial.cargo.default = tutor.cargo
     db.Tutor_Industrial.departamento.default = tutor.departamento
     db.Tutor_Industrial.universidad.default = tutor.universidad
-    db.auth_user.direccion.default = usuarioExterno.direccion
-    db.auth_user.telefono.default = usuarioExterno.telefono
-    # Marcamos los campos como no modificables
-    for field in db.UsuarioExterno:
-        field.writable=False
-    for field in db.Tutor_Industrial:
-        field.writable=False
+    db.auth_user.direccion.default = auth_user.direccion
+    db.auth_user.telefono.default = auth_user.telefono
     # Seleccionamos los campos a mostrar
     fields = [
         'email',
@@ -199,7 +194,7 @@ def verPerfil():
         'telefono'
     ]
     # Construimos el formulario
-    form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
+    form = SQLFORM.factory(db.auth_user, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False,readonly=True)
     # Elegimos la vista a renderizar
     response.view = 'Tutor_Industrial/verPerfil.html'
     return locals()
@@ -207,28 +202,31 @@ def verPerfil():
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Tutor Industrial'))
 def editarPerfil():
     message = T("Editar Perfil")
-    usuarioExterno = db(db.auth_user, (auth.user.id == auth.user_id)).select().first()
-    tutor = db(db.Tutor_Industrial, (db.Tutor_Industrial.usuario == auth.user_id)).select().first()
 
-    db.auth_user.email.default = usuarioExterno.email
-    db.auth_user.pregunta_secreta.default = usuarioExterno.pregunta_secreta
-    db.auth_user.respuesta_secreta.default = usuarioExterno.respuesta_secreta
-    db.auth_user.first_name.default = usuarioExterno.first_name
-    db.auth_user.pais.default = usuarioExterno.pais
-    db.auth_user.estado.default = usuarioExterno.estado
+    # Buscamos la informacion general del usuario
+    auth_user = db.auth_user(id=auth.user_id)
+    # Buscamos la informacion de tutor
+    tutor = db.Tutor_Industrial(usuario=auth_user)
+    db.auth_user.email.default = auth_user.email
+    db.auth_user.pregunta_secreta.default = auth_user.pregunta_secreta
+    db.auth_user.respuesta_secreta.default = auth_user.respuesta_secreta
+    db.auth_user.first_name.default = auth_user.first_name
+    db.auth_user.pais.default = auth_user.pais
+    db.auth_user.estado.default = auth_user.estado
 
-    db.Tutor_Industrial.last_name.default = tutor.last_name
+    db.auth_user.last_name.default = auth_user.last_name
     db.Tutor_Industrial.Empresa.default = tutor.Empresa
     db.Tutor_Industrial.profesion.default = tutor.profesion
-    db.Tutor_Industrial.tipo_documento.default = tutor.tipo_documento
-    db.Tutor_Industrial.numero_documento.default = tutor.numero_documento
+    db.auth_user.tipo_documento.default = auth_user.tipo_documento
+    db.auth_user.numero_documento.default = auth_user.numero_documento
     db.Tutor_Industrial.cargo.default = tutor.cargo
     db.Tutor_Industrial.departamento.default = tutor.departamento
     db.Tutor_Industrial.universidad.default = tutor.universidad
-    db.auth_user.direccion.default = usuarioExterno.direccion
-    db.auth_user.telefono.default = usuarioExterno.telefono
+    db.auth_user.direccion.default = auth_user.direccion
+    db.auth_user.telefono.default = auth_user.telefono
 
-    db.Tutor_Industrial.Empresa.writable=False
+    db.auth_user.email.writable=False
+    db.Tutor_Industrial.Empresa.writable = False
 
     fields = [
         'email',
@@ -248,16 +246,10 @@ def editarPerfil():
         'direccion',
         'telefono'
     ]
-    form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
+    form = SQLFORM.factory(db.auth_user, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
 
     if form.accepts(request.vars):
-        db(db.auth_user.id == auth.user.id).update(
-            first_name=request.vars.first_name,
-            last_name=request.vars.last_name,
-        )
-
-        id = usuarioExterno.update_record(**db.auth_user._filter_fields(form.vars))
-        form.vars.client = id
+        auth_user = db.auth_user(id=auth.user.id).update_record(**db.auth_user._filter_fields(form.vars))
         id = tutor.update_record(**db.Tutor_Industrial._filter_fields(form.vars))
         # Nos dirigimos a la pagina de exito
         redirect(URL(c='tutor_industrial', f='verPerfil'))
@@ -268,16 +260,16 @@ def editarPerfil():
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Tutor Industrial'))
 def consultarPasantias():
     email = auth.user.email
-    pasantias=db((db.auth_user.email==email) & (db.Tutor_Industrial.usuario==db.auth_user.id)
-                 & (db.Pasantia.tutor_industrial == db.Tutor_Industrial.id) & (db.Etapa.id == db.Pasantia.etapa))
 
+    tutor_industrial = db.Tutor_Industrial(usuario=auth.user_id)
+
+    pasantias = ((db.Pasantia.tutor_industrial == tutor_industrial))
     #Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
     # this is not required in later versions)
-    fields = (db.Pasantia.titulo, db.Pasantia.estudiante,db.Etapa.first_name, db.Pasantia.status)
+    fields = (db.Pasantia.titulo, db.Pasantia.estudiante,db.Pasantia.etapa, db.Pasantia.status)
 
     #Define headers as tuples/dictionaries
     headers = {
-            ''
             'Pasantia.titulo': 'Titulo',
             'Pasantia.estudiante':'Estudiante',
             'Pasantia.etapa':'Etapa',
@@ -285,7 +277,7 @@ def consultarPasantias():
 
     #Let's specify a default sort order on date_of_birth column in grid
     default_sort_order=[db.Pasantia.titulo]
-    links = [lambda row: A('Detalle', _href=URL(a='Empresas',c='Pasantia',f='verDetallePasantia',args=[row.Pasantia.id]))]
+    links = [lambda row: A('Detalle', _href=URL(a='Empresas',c='Pasantia',f='verDetallePasantia',args=[row.id]))]
 
     #Creating the grid object
     form = SQLFORM.grid(query=pasantias, fields=fields, headers=headers, orderby=default_sort_order,

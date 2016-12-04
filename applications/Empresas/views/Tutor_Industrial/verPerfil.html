@@ -21,7 +21,7 @@
                             <p class="list-group-item">{{=form.custom.label.last_name}} : {{=form.custom.widget.last_name}} </p>
                             <p class="list-group-item">{{=form.custom.label.tipo_documento}} : {{=form.custom.widget.tipo_documento}} </p>
                             <p class="list-group-item">{{=form.custom.label.numero_documento}} : {{=form.custom.widget.numero_documento}} </p>
-                            {{if usuarioExterno.telefono:}}
+                            {{if form.custom.widget.telefono:}}
                                 <p class="list-group-item">{{=form.custom.label.telefono}} : {{=form.custom.widget.telefono}} </p>
                             {{pass}}
                         </div>
@@ -66,7 +66,7 @@
         </div>
         <div class="col-md-4">
             <div class="panel-group" id="accordionTwo">
-                {{if usuarioExterno.estado or usuarioExterno.direccion:}}
+                {{if auth_user.estado or auth_user.direccion:}}
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <h3 class="panel-title">
@@ -78,13 +78,13 @@
                     </div>
                     <div class="panel-collapse collapse in" id="location">
                         <div class="list-group">
-                            {{if usuarioExterno.pais:}}
+                            {{if auth_user.pais:}}
                                 <p class="list-group-item">{{=form.custom.label.pais}} : {{=form.custom.widget.pais}} </p>
                             {{pass}}
-                            {{if usuarioExterno.estado:}}
+                            {{if auth_user.estado:}}
                                 <p class="list-group-item">{{=form.custom.label.estado}} : {{=form.custom.widget.estado}} </p>
                             {{pass}}
-                            {{if usuarioExterno.direccion:}}
+                            {{if auth_user.direccion:}}
                                 <p class="list-group-item">{{=form.custom.label.direccion}} : {{=form.custom.widget.direccion}} </p>
                             {{pass}}
                         </div>
