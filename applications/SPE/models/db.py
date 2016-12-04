@@ -36,7 +36,6 @@ from applications.SPE_lib.modules.db_2_Carrera import Carrera_Table
 from applications.SPE_lib.modules.db_2_Coordinador import Coordinador_Table
 from applications.SPE_lib.modules.db_2_Estado import Estado_Table
 from applications.SPE_lib.modules.db_2_Profesor import Profesor_Table
-from applications.SPE_lib.modules.db_2_UsuarioExterno import UsuarioExterno_Table
 from applications.SPE_lib.modules.db_3_Empresa import Empresa_Table
 from applications.SPE_lib.modules.db_3_Estudiante import Estudiante_Table
 from applications.SPE_lib.modules.db_3_Tutor_Industrial import Tutor_Industrial_Table
@@ -127,7 +126,7 @@ auth.settings.extra_fields['auth_user']= [
                             error_message='Numero no valido,ingrese numero telefonico'),
           comment='0212-111111',
           label='Telefono(*)'),
-    Field('direcUsuario', 'text',
+    Field('direccion', 'text',
           label='Direccion'),
     Field('sexo',
           requires=IS_IN_SET(['M', 'F']),

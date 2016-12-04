@@ -23,21 +23,19 @@ def agregar():
         response.flash = T('Por favor llene la forma.')
     return locals()
 
+# Hay que acomodar los querys de esta funcion para que se vean en el panel
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = PlanTrabajo.count(obj)
-
     return count
 
+# Hay que acomodar los querys de esta funcion para que se vean en el panel
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
-
     rows = PlanTrabajo.find(obj)
-
     rows = rows.as_json()
-
     return rows
 
 # plan_trabajo/modificar

@@ -98,6 +98,7 @@ def aprobarPermiso():
     elif ('CoordinadorCCT' in currentRoles) or ('Administrativo' in currentRoles):
         permiso.update_record(estado="Aprobado")
         efectuarModificacionPasantia(currentRoles,permiso,pasantia)
+        redirect(URL(c='Permiso',f='consultarPermisos'))
     elif 'Coordinador' in currentRoles:
         print("Entra aqui")
         permiso.update_record(aprobacion_coordinacion="Aprobado")
@@ -115,17 +116,15 @@ def aprobarPermiso():
 def efectuarModificacionPasantia(currentRoles,permiso,pasantia):
     # Caso en el que el permiso es de inscripcion
     if (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Inscripcion Extemporanea'):
-        etapa = db(db.Etapa.first_name == 'Ejecucion').select().first()
-        pasantia.update_record(etapa=etapa.id)
+        inscribirPasantia(pasantia)        
         redirect(URL(c='Permiso',f='consultarPermisos'))
     # Caso en el que el permiso es de retiro
     elif (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Retiro Extemporaneo'):
-        currentUser = auth.user_id
-        retirarPasantia(currentUser,pasantia)
+        retirarPasantia(pasantia)
         redirect(URL(c='Permiso',f='consultarPermisos'))
     # Caso en el que el permiso es de evaluacion extemporanea
     elif (permiso.aprobacion_tutor_academico == 'Aprobado') and (permiso.aprobacion_coordinacion == 'Aprobado') and (permiso.Tipo == 'Evaluacion Extemporanea'):
-        generarEvalExtemporanea(currentUser,pasantia)
+        generarEvalExtemporanea(pasantia)
         redirect(URL(c='Permiso',f='consultarPermisos'))
 
     else:
@@ -137,15 +136,25 @@ def efectuarModificacionPasantia(currentRoles,permiso,pasantia):
      referencia hacia la pasantia
 '''
 @auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
-def retirarPasantia(user,pasantia):
-    print("Completar caso de uso de retirarPasantia")
+def retirarPasantia(pasantia):
+    pasantia.update_record(status='Retirada')
     
+
+'''
+     Buscamos al usuario que tiene la pasantia inscrita y quitamos la 
+     referencia hacia la pasantia
+'''
+@auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
+def inscribirPasantia(pasantia):
+    etapa = db(db.Etapa.nombre == 'Ejecucion').select().first()
+    pasantia.update_record(etapa=etapa.id)
+
 
 '''
      Genera la planilla y los campos adicionales correspondientes a 
      la evaluacion extemporánea
 '''
 @auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
-def generarEvalExtemporanea(user,pasantia):
+def generarEvalExtemporanea(pasantia):
     print("Completar caso de uso de Evaluacion Extemporanea")
     

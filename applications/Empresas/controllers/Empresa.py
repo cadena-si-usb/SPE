@@ -301,10 +301,8 @@ def ver_Perfil_Empresa():
 
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Empresa'))
 def editar_Perfil_Empresa():
-    usuarioExterno = db(db.auth_user.email == auth.user.email).select()[0]
-    empresa = db(db.Empresa.usuario == usuarioExterno.id).select()[0]
-    # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
-    # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
+    auth_user = db.auth_user(id=auth.user_id)
+    empresa = db(db.Empresa.usuario == auth_user.id).select()[0]
     fields = [db.auth_user.email]
     # Agregamos el resto de los campos
     fields += [
@@ -321,17 +319,17 @@ def editar_Perfil_Empresa():
         db.Empresa.contacto_RRHH
         ]
 
-    db.auth_user.email.default = usuarioExterno.email
-    db.auth_user.pregunta_secreta.default = usuarioExterno.pregunta_secreta
-    db.auth_user.respuesta_secreta.default = usuarioExterno.respuesta_secreta
-    db.auth_user.first_name.default = usuarioExterno.first_name
-    db.auth_user.pais.default = usuarioExterno.pais
-    db.auth_user.estado.default = usuarioExterno.estado
+    db.auth_user.email.default = auth_user.email
+    db.auth_user.pregunta_secreta.default = auth_user.pregunta_secreta
+    db.auth_user.respuesta_secreta.default = auth_user.respuesta_secreta
+    db.auth_user.first_name.default = auth_user.first_name
+    db.auth_user.pais.default = auth_user.pais
+    db.auth_user.estado.default = auth_user.estado
     db.Empresa.area_laboral.default = empresa.area_laboral
-    db.auth_user.direccion.default = usuarioExterno.direccion
+    db.auth_user.direccion.default = auth_user.direccion
     db.Empresa.direccion_web.default = empresa.direccion_web
     db.Empresa.descripcion.default = empresa.descripcion
-    db.auth_user.telefono.default = usuarioExterno.telefono
+    db.auth_user.telefono.default = auth_user.telefono
     db.Empresa.contacto_RRHH.default = empresa.contacto_RRHH
 
     db.auth_user.email.writable = False
@@ -371,10 +369,11 @@ def editar_Perfil_Empresa():
     if form.process().accepted:
 
         # Registramos el usuario externo
-        db(db.auth_user.id == usuarioExterno.id).update(
+        db(db.auth_user.id == auth_user.id).update(
+            first_name=request.vars.first_name,
+            password=db.auth_user.password.validate(request.vars.password)[0],
             pregunta_secreta=request.vars.pregunta_secreta,
             respuesta_secreta=request.vars.respuesta_secreta,
-            first_name=request.vars.first_name,
             pais=request.vars.pais,
             estado=request.vars.estado,
             telefono=request.vars.telefono,
@@ -383,16 +382,11 @@ def editar_Perfil_Empresa():
 
         # Registramos la Empresa
         db(db.Empresa.id == empresa.id).update(
-            usuario=usuarioExterno.id,
+            usuario=auth_user.id,
             area_laboral=request.vars.area_laboral,
             direccion_web=request.vars.direccion_web,
             descripcion=request.vars.descripcion,
-            contacto_RRHH=request.vars.contacto_RRHH
-        )
-
-        db(db.auth_user.id == auth.user.id).update(
-            first_name=request.vars.first_name,
-            password = db.auth_user.password.validate(request.vars.password)[0]
+            contacto_RRHH=request.vars.contacto_RRHH,
         )
 
         # Mensaje de exito
@@ -476,7 +470,7 @@ def verPerfilTutor():
     db.auth_user.direccion.default = auth_user.direccion
     db.auth_user.telefono.default = auth_user.telefono
 
-    for field in db.UsuarioExterno:
+    for field in db.auth_user:
         field.writable=False
     for field in db.Tutor_Industrial:
         field.writable=False
@@ -499,7 +493,7 @@ def verPerfilTutor():
         'direccion',
         'telefono'
     ]
-    form = SQLFORM.factory(db.UsuarioExterno, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
+    form = SQLFORM.factory(db.auth_user, db.Tutor_Industrial, fields=fields, submit_button='Actualizar', showid=False)
 
     response.view = 'Empresa/verPerfilTutor.html'
     return locals()

@@ -117,7 +117,6 @@ def get():
         #query = "db.Estudiante." + search["key"] + ".startswith('" + search["value"] + "')"
         query = "db.Estudiante.carnet.startswith('" + search["value"] + "')"
 
-    print(query)
     rows = db(eval(query) & (db.Pasantia.estudiante == db.Estudiante.id) & (db.Pasantia.id == db.Permiso.pasantia)).select()
     rows = rows.as_json()
     return rows

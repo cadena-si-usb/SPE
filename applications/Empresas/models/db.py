@@ -36,7 +36,6 @@ from applications.SPE_lib.modules.db_2_Carrera import Carrera_Table
 from applications.SPE_lib.modules.db_2_Coordinador import Coordinador_Table
 from applications.SPE_lib.modules.db_2_Estado import Estado_Table
 from applications.SPE_lib.modules.db_2_Profesor import Profesor_Table
-from applications.SPE_lib.modules.db_2_UsuarioExterno import UsuarioExterno_Table
 from applications.SPE_lib.modules.db_3_Empresa import Empresa_Table
 from applications.SPE_lib.modules.db_3_Estudiante import Estudiante_Table
 from applications.SPE_lib.modules.db_3_Tutor_Industrial import Tutor_Industrial_Table
@@ -106,7 +105,8 @@ from gluon.tools import Auth, Service, PluginManager,Mail
 
 Sede_Table(db,T)
 Tipo_Documento_Table(db,T)
-
+Pais_Table(db,T)
+Estado_Table(db,T)
 auth = Auth(db)
 
 auth.settings.extra_fields['auth_user']= [
@@ -121,7 +121,7 @@ auth.settings.extra_fields['auth_user']= [
                             error_message='Numero no valido,ingrese numero telefonico'),
           comment='0212-111111',
           label='Telefono(*)'),
-    Field('direcUsuario', 'text',
+    Field('direccion', 'text',
           label='Direccion'),
     Field('sexo',
           requires=IS_IN_SET(['M', 'F']),
@@ -199,13 +199,11 @@ Coordinacion_Table(db,T)
 correo_por_verificar_Table(db,T)
 Departamento_Table(db,T)
 Materia_Table(db,T)
-Pais_Table(db,T)
 Universidad_Table(db,T)
 UsuarioUSB_Table(db,T)
 Administrativo_Table(db,T)
 Carrera_Table(db,T)
 Coordinador_Table(db,T)
-Estado_Table(db,T)
 Profesor_Table(db,T)
 Empresa_Table(db,T)
 Estudiante_Table(db,T)
