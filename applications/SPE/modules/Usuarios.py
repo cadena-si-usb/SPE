@@ -24,7 +24,7 @@ class Usuario(Model):
 	'''
 	#Building database object
 	def __init__(self):
-		super(Usuario,self).__init__(tableName="UsuarioUSB")
+		super(Usuario,self).__init__(tableName="auth_user")
 
 	def getByRole(self,id):
 		'''
@@ -36,7 +36,7 @@ class Usuario(Model):
 
 		row = self.db((self.table.id == id) & (self.db.auth_membership.user_id==self.table.id)
 					  & (self.db.auth_group.id == self.db.auth_membership.group_id)).select().first()
-		usuarioUSB = row.UsuarioUSB
+		usuarioUSB = row.auth_user
 		rol = row.auth_group
 		if (row != None):
 			usuario = {}

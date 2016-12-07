@@ -130,7 +130,7 @@ def login_cas():
             # puede iniciar sesion
             else:
                 #Deberiamos redireccionar a un "home" dependiendo del tipo de usuario
-                session.currentUser = respuesta
+                session.currentUser = auth.user
                 redirect('index')
 
     return None

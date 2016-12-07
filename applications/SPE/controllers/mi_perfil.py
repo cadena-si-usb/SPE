@@ -125,9 +125,6 @@ def configuracion():
         redirect(URL(c="default",f="index"))
 
     if form.process().accepted:
-        usuarioAuth.update_record(first_name=form.vars.first_name,
-                                  last_name=form.vars.last_name,
-                                  email=form.vars.email)
         # Actualizo los datos de usuario
         usuario.update_record(**db.auth_user._filter_fields(form.vars))
         if (auth.has_membership(role='Estudiante')):
