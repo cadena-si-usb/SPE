@@ -1,0 +1,6 @@
+Pillow==3.4.2
+pip==9.0.1
+python-ldap==2.4.28
+reportlab==3.3.0
+setuptools==32.1.2
+wheel==0.29.0
