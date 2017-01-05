@@ -1,0 +1,484 @@
+timestamp: 2017-01-04T19:58:31.930332
+CREATE TABLE Sede(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:33.094564
+CREATE TABLE Tipo_Documento(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:33.650606
+CREATE TABLE Pais(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:34.151758
+CREATE TABLE Estado(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    Pais INT  , INDEX Pais__idx (Pais), FOREIGN KEY (Pais) REFERENCES Pais (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:34.731646
+CREATE TABLE auth_user(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(512),
+    username VARCHAR(128),
+    password VARCHAR(512),
+    registration_key VARCHAR(512),
+    reset_password_key VARCHAR(512),
+    registration_id VARCHAR(512),
+    tipo_documento INT  , INDEX tipo_documento__idx (tipo_documento), FOREIGN KEY (tipo_documento) REFERENCES Tipo_Documento (id) ON DELETE CASCADE,
+    numero_documento VARCHAR(512),
+    telefono VARCHAR(512),
+    direccion LONGTEXT,
+    sexo VARCHAR(512),
+    activo CHAR(1),
+    pregunta_secreta LONGTEXT,
+    respuesta_secreta VARCHAR(512),
+    pais INT  , INDEX pais__idx (pais), FOREIGN KEY (pais) REFERENCES Pais (id) ON DELETE CASCADE,
+    estado INT  , INDEX estado__idx (estado), FOREIGN KEY (estado) REFERENCES Estado (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:35.454526
+CREATE TABLE auth_group(
+    id INT AUTO_INCREMENT NOT NULL,
+    role VARCHAR(512),
+    description LONGTEXT,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:35.922134
+CREATE TABLE auth_membership(
+    id INT AUTO_INCREMENT NOT NULL,
+    user_id INT  , INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user (id) ON DELETE CASCADE,
+    group_id INT  , INDEX group_id__idx (group_id), FOREIGN KEY (group_id) REFERENCES auth_group (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:36.756050
+CREATE TABLE auth_permission(
+    id INT AUTO_INCREMENT NOT NULL,
+    group_id INT  , INDEX group_id__idx (group_id), FOREIGN KEY (group_id) REFERENCES auth_group (id) ON DELETE CASCADE,
+    name VARCHAR(512),
+    table_name VARCHAR(512),
+    record_id INT,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:37.279182
+CREATE TABLE auth_event(
+    id INT AUTO_INCREMENT NOT NULL,
+    time_stamp DATETIME,
+    client_ip VARCHAR(512),
+    user_id INT  , INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user (id) ON DELETE CASCADE,
+    origin VARCHAR(512),
+    description LONGTEXT,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:37.836729
+CREATE TABLE auth_cas(
+    id INT AUTO_INCREMENT NOT NULL,
+    user_id INT  , INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user (id) ON DELETE CASCADE,
+    created_on DATETIME,
+    service VARCHAR(512),
+    ticket VARCHAR(512),
+    renew CHAR(1),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:38.392086
+CREATE TABLE Area_Laboral(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512) NOT NULL,
+    descripcion LONGTEXT NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:38.899010
+CREATE TABLE Area_Proyecto(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512) NOT NULL,
+    descripcion LONGTEXT NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:39.339184
+CREATE TABLE Categoria(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:40.011195
+CREATE TABLE Dedicacion(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:40.463932
+CREATE TABLE Division(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:40.944827
+CREATE TABLE Etapa(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    procedimientos VARCHAR(512),
+    descripcion VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:41.420911
+CREATE TABLE Periodo(
+    id INT AUTO_INCREMENT NOT NULL,
+    mes_inicio VARCHAR(512),
+    mes_final VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:41.859387
+CREATE TABLE Acceso_Etapa(
+    id INT AUTO_INCREMENT NOT NULL,
+    rol INT  , INDEX rol__idx (rol), FOREIGN KEY (rol) REFERENCES auth_group (id) ON DELETE CASCADE,
+    etapa INT  , INDEX etapa__idx (etapa), FOREIGN KEY (etapa) REFERENCES Etapa (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:42.443747
+CREATE TABLE Accion_Usuario(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    destino VARCHAR(512),
+    contexto VARCHAR(512),
+    rol INT  , INDEX rol__idx (rol), FOREIGN KEY (rol) REFERENCES auth_group (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:42.974595
+CREATE TABLE Coordinacion(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    username VARCHAR(512),
+    sede INT  , INDEX sede__idx (sede), FOREIGN KEY (sede) REFERENCES Sede (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:43.537753
+CREATE TABLE correo_por_verificar(
+    id INT AUTO_INCREMENT NOT NULL,
+    email VARCHAR(512) NOT NULL,
+    codigo VARCHAR(512) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:44.083613
+CREATE TABLE Departamento(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    id_division INT  NOT NULL , INDEX id_division__idx (id_division), FOREIGN KEY (id_division) REFERENCES Division (id) ON DELETE CASCADE,
+    email_dep VARCHAR(512),
+    sede INT  , INDEX sede__idx (sede), FOREIGN KEY (sede) REFERENCES Sede (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:44.655114
+CREATE TABLE Materia(
+    id INT AUTO_INCREMENT NOT NULL,
+    codigo VARCHAR(512),
+    sede INT  NOT NULL , INDEX sede__idx (sede), FOREIGN KEY (sede) REFERENCES Sede (id) ON DELETE CASCADE,
+    tipo VARCHAR(512),
+    descripcion VARCHAR(512),
+    duracion INT,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:45.218884
+CREATE TABLE Universidad(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512) NOT NULL,
+    id_pais INT  NOT NULL , INDEX id_pais__idx (id_pais), FOREIGN KEY (id_pais) REFERENCES Pais (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:45.717580
+CREATE TABLE UsuarioUSB(
+    id INT AUTO_INCREMENT NOT NULL,
+    auth_User INT  , INDEX auth_User__idx (auth_User), FOREIGN KEY (auth_User) REFERENCES auth_user (id) ON DELETE CASCADE,
+    username VARCHAR(512),
+    first_name VARCHAR(512),
+    last_name VARCHAR(512),
+    email VARCHAR(512),
+    clave VARCHAR(512),
+    tipo_documento INT  , INDEX tipo_documento__idx (tipo_documento), FOREIGN KEY (tipo_documento) REFERENCES Tipo_Documento (id) ON DELETE CASCADE,
+    numero_documento VARCHAR(512),
+    telefono VARCHAR(512),
+    direccion LONGTEXT,
+    sexo VARCHAR(512),
+    activo CHAR(1),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:49.120998
+CREATE TABLE Administrativo(
+    id INT AUTO_INCREMENT NOT NULL,
+    usuario INT  , INDEX usuario__idx (usuario), FOREIGN KEY (usuario) REFERENCES auth_user (id) ON DELETE CASCADE,
+    carnet VARCHAR(512),
+    coordinacion INT  , INDEX coordinacion__idx (coordinacion), FOREIGN KEY (coordinacion) REFERENCES Coordinacion (id) ON DELETE CASCADE,
+    correo_Alternativo VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:50.257197
+CREATE TABLE Carrera(
+    id INT AUTO_INCREMENT NOT NULL,
+    codigo VARCHAR(512) NOT NULL,
+    first_name VARCHAR(512),
+    duracion VARCHAR(512) NOT NULL,
+    coordinacion INT  , INDEX coordinacion__idx (coordinacion), FOREIGN KEY (coordinacion) REFERENCES Coordinacion (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:50.879919
+CREATE TABLE Coordinador(
+    id INT AUTO_INCREMENT NOT NULL,
+    usuario INT  , INDEX usuario__idx (usuario), FOREIGN KEY (usuario) REFERENCES auth_user (id) ON DELETE CASCADE,
+    carnet VARCHAR(512),
+    coordinacion INT  , INDEX coordinacion__idx (coordinacion), FOREIGN KEY (coordinacion) REFERENCES Coordinacion (id) ON DELETE CASCADE,
+    correo_Alternativo VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:51.470893
+CREATE TABLE Profesor(
+    id INT AUTO_INCREMENT NOT NULL,
+    usuario INT  , INDEX usuario__idx (usuario), FOREIGN KEY (usuario) REFERENCES auth_user (id) ON DELETE CASCADE,
+    categoria INT  , INDEX categoria__idx (categoria), FOREIGN KEY (categoria) REFERENCES Categoria (id) ON DELETE CASCADE,
+    dedicacion INT  , INDEX dedicacion__idx (dedicacion), FOREIGN KEY (dedicacion) REFERENCES Dedicacion (id) ON DELETE CASCADE,
+    departamento INT  , INDEX departamento__idx (departamento), FOREIGN KEY (departamento) REFERENCES Departamento (id) ON DELETE CASCADE,
+    sede INT  , INDEX sede__idx (sede), FOREIGN KEY (sede) REFERENCES Sede (id) ON DELETE CASCADE,
+    activo CHAR(1),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:52.225739
+CREATE TABLE Empresa(
+    id INT AUTO_INCREMENT NOT NULL,
+    usuario INT  , INDEX usuario__idx (usuario), FOREIGN KEY (usuario) REFERENCES auth_user (id) ON DELETE CASCADE,
+    area_laboral INT  , INDEX area_laboral__idx (area_laboral), FOREIGN KEY (area_laboral) REFERENCES Area_Laboral (id) ON DELETE CASCADE,
+    descripcion VARCHAR(512),
+    direccion_web VARCHAR(512),
+    contacto_RRHH VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:52.826785
+CREATE TABLE Estudiante(
+    id INT AUTO_INCREMENT NOT NULL,
+    usuario INT  , INDEX usuario__idx (usuario), FOREIGN KEY (usuario) REFERENCES auth_user (id) ON DELETE CASCADE,
+    carnet VARCHAR(512),
+    carrera INT  , INDEX carrera__idx (carrera), FOREIGN KEY (carrera) REFERENCES Carrera (id) ON DELETE CASCADE,
+    sede INT  , INDEX sede__idx (sede), FOREIGN KEY (sede) REFERENCES Sede (id) ON DELETE CASCADE,
+    activo CHAR(1),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:53.621677
+CREATE TABLE Tutor_Industrial(
+    id INT AUTO_INCREMENT NOT NULL,
+    usuario INT  , INDEX usuario__idx (usuario), FOREIGN KEY (usuario) REFERENCES auth_user (id) ON DELETE CASCADE,
+    last_name VARCHAR(512),
+    Empresa INT  NOT NULL , INDEX Empresa__idx (Empresa), FOREIGN KEY (Empresa) REFERENCES Empresa (id) ON DELETE CASCADE,
+    profesion VARCHAR(512),
+    tipo_documento INT  , INDEX tipo_documento__idx (tipo_documento), FOREIGN KEY (tipo_documento) REFERENCES Tipo_Documento (id) ON DELETE CASCADE,
+    numero_documento VARCHAR(512),
+    cargo VARCHAR(512),
+    departamento VARCHAR(512),
+    universidad INT  , INDEX universidad__idx (universidad), FOREIGN KEY (universidad) REFERENCES Universidad (id) ON DELETE CASCADE,
+    comfirmado_Por_Empresa INT,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:54.442896
+CREATE TABLE Curriculo(
+    id INT AUTO_INCREMENT NOT NULL,
+    estudiante INT  , INDEX estudiante__idx (estudiante), FOREIGN KEY (estudiante) REFERENCES Estudiante (id) ON DELETE CASCADE,
+    electivas VARCHAR(512),
+    cursos VARCHAR(512),
+    aficiones VARCHAR(512),
+    idiomas VARCHAR(512),
+    activo CHAR(1),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:54.992698
+CREATE TABLE Pasantia(
+    id INT AUTO_INCREMENT NOT NULL,
+    titulo VARCHAR(512),
+    estudiante INT  , INDEX estudiante__idx (estudiante), FOREIGN KEY (estudiante) REFERENCES Estudiante (id) ON DELETE CASCADE,
+    tutor_academico INT  , INDEX tutor_academico__idx (tutor_academico), FOREIGN KEY (tutor_academico) REFERENCES Profesor (id) ON DELETE CASCADE,
+    tutor_industrial INT  , INDEX tutor_industrial__idx (tutor_industrial), FOREIGN KEY (tutor_industrial) REFERENCES Tutor_Industrial (id) ON DELETE CASCADE,
+    periodo INT  , INDEX periodo__idx (periodo), FOREIGN KEY (periodo) REFERENCES Periodo (id) ON DELETE CASCADE,
+    area_proyecto INT  , INDEX area_proyecto__idx (area_proyecto), FOREIGN KEY (area_proyecto) REFERENCES Area_Proyecto (id) ON DELETE CASCADE,
+    resumen_proyecto LONGTEXT,
+    materia INT  , INDEX materia__idx (materia), FOREIGN KEY (materia) REFERENCES Materia (id) ON DELETE CASCADE,
+    objetivo VARCHAR(512),
+    confidencialidad LONGTEXT,
+    status VARCHAR(512),
+    etapa INT  , INDEX etapa__idx (etapa), FOREIGN KEY (etapa) REFERENCES Etapa (id) ON DELETE CASCADE,
+    fecha_creacion DATETIME,
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    fecha_tope_jurado DATE,
+    fecha_defensa DATE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:57.469298
+CREATE TABLE Permiso(
+    id INT AUTO_INCREMENT NOT NULL,
+    Estudiante INT  , INDEX Estudiante__idx (Estudiante), FOREIGN KEY (Estudiante) REFERENCES Estudiante (id) ON DELETE CASCADE,
+    Tipo VARCHAR(512),
+    pasantia INT  , INDEX pasantia__idx (pasantia), FOREIGN KEY (pasantia) REFERENCES Pasantia (id) ON DELETE CASCADE,
+    estado VARCHAR(512),
+    aprobacion_tutor_academico VARCHAR(512),
+    aprobacion_coordinacion VARCHAR(512),
+    justificacion VARCHAR(512),
+    calendario_compromisos VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:58.117400
+CREATE TABLE Permiso_Evaluacion(
+    id INT AUTO_INCREMENT NOT NULL,
+    Estudiante INT  , INDEX Estudiante__idx (Estudiante), FOREIGN KEY (Estudiante) REFERENCES UsuarioUSB (id) ON DELETE CASCADE,
+    Tipo VARCHAR(512),
+    pasantia INT  , INDEX pasantia__idx (pasantia), FOREIGN KEY (pasantia) REFERENCES Pasantia (id) ON DELETE CASCADE,
+    estado VARCHAR(512),
+    aprobacion_tutor_academico VARCHAR(512),
+    aprobacion_coordinacion VARCHAR(512),
+    justificacion LONGTEXT,
+    calendario_compromisos VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:58.705913
+CREATE TABLE Retiro(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(512),
+    pasantia INT  , INDEX pasantia__idx (pasantia), FOREIGN KEY (pasantia) REFERENCES Pasantia (id) ON DELETE CASCADE,
+    estado VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:59.217580
+CREATE TABLE Calendario(
+    id INT AUTO_INCREMENT NOT NULL,
+    permiso VARCHAR(512),
+    fecha_creacion DATETIME,
+    fecha_envio DATETIME,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:58:59.797968
+CREATE TABLE Colocacion(
+    id INT AUTO_INCREMENT NOT NULL,
+    pasantia INT  , INDEX pasantia__idx (pasantia), FOREIGN KEY (pasantia) REFERENCES Pasantia (id) ON DELETE CASCADE,
+    aprobacionCCT CHAR(1),
+    comentarioCCT LONGTEXT,
+    estado VARCHAR(512),
+    fecha_creacion DATETIME,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:59:00.342668
+CREATE TABLE Ejecucion(
+    id INT AUTO_INCREMENT NOT NULL,
+    pasantia INT  , INDEX pasantia__idx (pasantia), FOREIGN KEY (pasantia) REFERENCES Pasantia (id) ON DELETE CASCADE,
+    aprobacionCCT CHAR(1),
+    comentarioCCT LONGTEXT,
+    fecha_creacion DATETIME,
+    estado VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:59:00.987766
+CREATE TABLE Inscripcion(
+    id INT AUTO_INCREMENT NOT NULL,
+    pasantia INT  , INDEX pasantia__idx (pasantia), FOREIGN KEY (pasantia) REFERENCES Pasantia (id) ON DELETE CASCADE,
+    aprobacionCCT CHAR(1),
+    comentarioCCT LONGTEXT,
+    fecha_creacion DATETIME,
+    estado VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:59:01.643819
+CREATE TABLE Plan_Trabajo(
+    id INT AUTO_INCREMENT NOT NULL,
+    pasantia INT  , INDEX pasantia__idx (pasantia), FOREIGN KEY (pasantia) REFERENCES Pasantia (id) ON DELETE CASCADE,
+    aprobacion_tutor_academico VARCHAR(512),
+    aprobacion_tutor_industrial VARCHAR(512),
+    aprobacion_coordinacion VARCHAR(512),
+    fecha_creacion DATETIME,
+    fecha_envio DATETIME,
+    estado VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:59:02.523688
+CREATE TABLE Preinscripcion(
+    id INT AUTO_INCREMENT NOT NULL,
+    pasantia INT  , INDEX pasantia__idx (pasantia), FOREIGN KEY (pasantia) REFERENCES Pasantia (id) ON DELETE CASCADE,
+    estado VARCHAR(512),
+    aprobacionCCT CHAR(1),
+    comentarioCCT LONGTEXT,
+    fecha_creacion DATETIME,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:59:03.124658
+CREATE TABLE Fase(
+    id INT AUTO_INCREMENT NOT NULL,
+    numero INT,
+    plan_trabajo INT  , INDEX plan_trabajo__idx (plan_trabajo), FOREIGN KEY (plan_trabajo) REFERENCES Plan_Trabajo (id) ON DELETE CASCADE,
+    objetivo_especifico LONGTEXT,
+    descripcion LONGTEXT,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:59:03.940117
+CREATE TABLE Actividad(
+    id INT AUTO_INCREMENT NOT NULL,
+    fase INT  , INDEX fase__idx (fase), FOREIGN KEY (fase) REFERENCES Fase (id) ON DELETE CASCADE,
+    numero INT,
+    descripcion LONGTEXT,
+    semana_inicio VARCHAR(512),
+    semana_fin VARCHAR(512),
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2017-01-04T19:59:04.650884
+CREATE TABLE Materia_Periodo(
+    id INT AUTO_INCREMENT NOT NULL,
+    materia INT  , INDEX materia__idx (materia), FOREIGN KEY (materia) REFERENCES Materia (id) ON DELETE CASCADE,
+    periodo INT  , INDEX periodo__idx (periodo), FOREIGN KEY (periodo) REFERENCES Periodo (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!

@@ -29,4 +29,8 @@ applications/SPE/temp
 /.project
 /.pydevproject
 /.settings/org.eclipse.core.resources.prefs
+<<<<<<< HEAD
 env/*
+=======
+env/*
+>>>>>>> 68aa228859af161110e4fb690fe90bb36d411d13
