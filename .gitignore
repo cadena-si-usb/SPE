@@ -29,3 +29,4 @@ applications/SPE/temp
 /.project
 /.pydevproject
 /.settings/org.eclipse.core.resources.prefs
+env/*
