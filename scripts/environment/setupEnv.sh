@@ -2,7 +2,7 @@
 # setupEnv.sh
 # Este script prepara el entorno de desarrollo para la aplicacion de SPE
 
-Chequeando que la distribucion de linux instalada este basada en debian
+# Chequeando que la distribucion de linux instalada este basada en debian
 /usr/bin/rpm -q -f /usr/bin/rpm >/dev/null 2>&1
 if [[ $? -eq $zero ]]; then
 	echo "--------------------------------------------------------------"
@@ -15,15 +15,22 @@ else
 	echo "---------------------------------------------------------------"
 fi
 
-#Instalando dependencias para usar el cas
+# Instalando dependencias para usar el cas
 echo "Instalando dependencias"
 echo "---------------------------------------------------------------"
-sudo apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev ldap-utils python-ldap
+sudo apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev ldap-utils python-tk
+echo "Instalando ambiente virtual"
+echo "---------------------------------------------------------------"
+cd ../../
+rm -rf env
+virtualenv -p python env
+env/bin/pip install -r requirements.txt
+
 if [[ $? -ne $zero ]]; then
 	echo "No se instalaron las dependencias correctamente. Abortando instalacion"
 	exit
 fi
-Verificando que el servidor este instalado previamente
+# Verificando que el servidor este instalado previamente
 dpkg-query -s mysql-server > /dev/null 2>&1
 if [[ $? -eq 0 ]]; then
 	echo "Servidor MySQL previamente instalado, saltando este paso"
@@ -36,7 +43,7 @@ else
 	# Instala el servidor de MySQL en Debian/Ubuntu
 	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
 	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
-	sudo apt-get -y install mysql-client-5.6 mysql-client-core-5.6 mysql-common-5.6 mysql-server-5.6 mysql-server-core-5.6 python-tk python-ldap python-pip python-pip-whl python-wheel libsasl2-dev python-dev libldap2-dev libssl-dev ldap-utils python-reportlab
+	sudo apt-get -y install mysql-client-5.7 mysql-client-core-5.7 mysql-common-5.7 mysql-server-5.7 mysql-server-core-5.7
 fi
 
 echo "Cuentas habilitadas:"
@@ -53,8 +60,8 @@ dbName=SPE
 dbPasswd=spe2016
 
 mysql -uroot -proot <<MYSQL_SCRIPT
-CREATE DATABASE $dbName;
-CREATE USER '$username'@'localhost' IDENTIFIED BY '$dbPasswd';
+CREATE DATABASE IF NOT EXISTS $dbName;
+CREATE USER IF NOT EXISTS '$username'@'localhost' IDENTIFIED BY '$dbPasswd';
 GRANT ALL PRIVILEGES ON $dbName.* TO '$username'@'localhost';
 FLUSH PRIVILEGES;
 MYSQL_SCRIPT
