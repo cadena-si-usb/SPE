@@ -1,14 +1,7 @@
-<<<<<<< HEAD
 pep8==1.7.0
-=======
->>>>>>> 68aa228859af161110e4fb690fe90bb36d411d13
 Pillow==3.4.2
 pip==9.0.1
 python-ldap==2.4.28
 reportlab==3.3.0
 setuptools==32.1.2
-<<<<<<< HEAD
 wheel==0.29.0
-=======
-wheel==0.29.0
->>>>>>> 68aa228859af161110e4fb690fe90bb36d411d13
