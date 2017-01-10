@@ -58,7 +58,7 @@ echo "Configurando Base de datos SPE:"
 username=speclient
 dbName=SPE
 dbPasswd=spe2016
-
+./cleanDB.sh
 mysql -uroot -proot <<MYSQL_SCRIPT
 CREATE DATABASE IF NOT EXISTS $dbName;
 CREATE USER IF NOT EXISTS '$username'@'localhost' IDENTIFIED BY '$dbPasswd';
