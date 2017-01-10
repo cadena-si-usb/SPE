@@ -3,8 +3,12 @@ from Permisos import Permiso
 from gluon import current
 import Encoder
 import ast
-
+from applications.SPE_lib.modules.grids import single_table_spe_grid
 Permiso = Permiso()
+
+def sqlform_grid():
+    sqlform_grid = single_table_spe_grid(db.Permiso)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

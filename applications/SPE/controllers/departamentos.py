@@ -2,8 +2,12 @@
 from Departamentos import Departamento
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import single_table_spe_grid
 Departamento = Departamento()
+
+def sqlform_grid():
+    sqlform_grid = single_table_spe_grid(db.Departamento)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

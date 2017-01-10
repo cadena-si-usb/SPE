@@ -17,3 +17,8 @@ def Estudiante_Table(db,T):
         Field('activo','boolean'),
         format=lambda r: '%s - %s %s' % (r.usuario.username, r.usuario.first_name,r.usuario.last_name)
         )
+
+    db.Estudiante.usuario.requires = IS_IN_DB(
+        db(db.auth_user.username != None),
+        'auth_user.id', '%(username)s - %(first_name)s %(last_name)s',
+        zero='Seleccione un usuario USB', )

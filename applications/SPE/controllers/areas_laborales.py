@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 from Areas_Laborales import Area_Laboral
-
+from applications.SPE_lib.modules.grids import single_table_spe_grid
 import Encoder
 
 Area_Laboral = Area_Laboral()
+
+def sqlform_grid():
+    sqlform_grid = single_table_spe_grid(db.Area_Laboral)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

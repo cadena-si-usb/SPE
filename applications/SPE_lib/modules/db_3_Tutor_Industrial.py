@@ -3,7 +3,7 @@ from gluon import *
 def Tutor_Industrial_Table(db,T):
     # Tutor Industrial
     db.define_table('Tutor_Industrial',
-                        Field('usuario','reference auth_user',label=T('Usuario'),),
+                        Field('usuario','reference auth_user',label=T('Usuario'),writable=False),
                         Field('last_name','string',label=T('Apellido'),),
                         Field('Empresa','reference Empresa',required=True, notnull=True,label=T('Empresa')),
                         Field('profesion','string',label=T('Profesion')),

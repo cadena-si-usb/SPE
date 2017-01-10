@@ -2,8 +2,12 @@
 from Administrativos import Administrativo
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import single_table_spe_grid
 Administrativo = Administrativo()
+
+def sqlform_grid():
+    sqlform_grid = single_table_spe_grid(db.Administrativo)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

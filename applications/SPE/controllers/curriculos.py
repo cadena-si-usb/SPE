@@ -2,8 +2,12 @@
 from Curriculos import Curriculo
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import single_table_spe_grid
 Curriculo = Curriculo()
+
+def sqlform_grid():
+    sqlform_grid = single_table_spe_grid(db.Curriculo)
+    return sqlform_grid
 
 # Verifica que se accedan a los recursos asignados al actor correspondiente 
 def chequear_permisologia():

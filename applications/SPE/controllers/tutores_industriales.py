@@ -2,8 +2,23 @@
 from Tutores_Industriales import Tutor_Industrial
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import single_table_spe_grid
 Tutor_Industrial = Tutor_Industrial()
+
+def sqlform_grid():
+    fields = [db.Tutor_Industrial.usuario,
+              db.Tutor_Industrial.Empresa]
+    if not request.args:
+        return single_table_spe_grid(db.Tutor_Industrial,
+                                     fields=fields)
+    elif request.args[-2] == 'new':
+        return agregar(request)
+    elif request.args[-3] == 'edit':
+        return modificar(request)
+    elif request.args[-3] == 'view':
+        return ver(request)
+    else:
+        return single_table_spe_grid(db.Tutor_Industrial)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
@@ -11,7 +26,7 @@ def listar():
     return dict(rows=session.rows)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
-def agregar():
+def agregar(request):
     # Agregamos los campos en el orden deseado, comenzamos con el login y el password
     fields = [
         db.auth_user.email,
@@ -60,6 +75,8 @@ def agregar():
             'universidad': T('Universidad de la cual egreso el tutor'),
             'telefono': T('Numerico telefonico del tutor industrial')
               })
+    referrer = session.get('_web2py_grid_referrer_' + 'web2py_grid', url())
+    form.process.next = referrer
     # Caso 1: El form se lleno de manera correcta asi que registramos al tutor y procedemos a la pagina de exito
     if form.process().accepted:
         # Insertamos en la tabla user de Web2py
@@ -91,13 +108,13 @@ def agregar():
         )
         # Actualizo los datos exclusivos de estudiante
         session.flash = T('Perfil actualizado exitosamente!')
-        redirect(URL('listar'))
+        return single_table_spe_grid(db.Tutor_Industrial)
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')
 
-    return locals()
+    return form
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
@@ -118,11 +135,11 @@ def get():
     return rows.as_json()
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
-def modificar():
-    # Buscamos la informacion general del usuario
-    auth_user = db.auth_user(id=request.args[0])
+def modificar(request):
     # Buscamos la informacion de tutor
-    tutor = db.Tutor_Industrial(usuario=request.args[0])
+    tutor = db.Tutor_Industrial(id=request.args[-1])
+    # Buscamos la informacion general del usuario
+    auth_user = db.auth_user(id=tutor.usuario)
 
 
     db.auth_user.email.requires = []
@@ -164,15 +181,74 @@ def modificar():
     ]
     form = SQLFORM.factory(db.auth_user, db.Tutor_Industrial, fields=fields, submit_button='Actualizar',
                            showid=False)
-
+    referrer = session.get('_web2py_grid_referrer_' + 'web2py_grid', request.controller + '/' + request.function)
+    form.process().next = referrer
     if form.accepts(request.vars):
         id = auth_user.update_record(**db.auth_user._filter_fields(form.vars))
         id = tutor.update_record(**db.Tutor_Industrial._filter_fields(form.vars))
-        session.flash = T('Perfil actualizado exitosamente!')
-        redirect(URL('listar'))
+        redirect(URL('sqlform_grid'))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')
 
-    return locals()
+    return form
+
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
+def ver(request):
+    # Buscamos la informacion de tutor
+    tutor = db.Tutor_Industrial(id=request.args[-1])
+    # Buscamos la informacion general del usuario
+    auth_user = db.auth_user(id=tutor.usuario)
+
+    db.auth_user.email.requires = []
+    db.auth_user.email.default = auth_user.email
+    db.auth_user.pregunta_secreta.default = auth_user.pregunta_secreta
+    db.auth_user.respuesta_secreta.default = auth_user.respuesta_secreta
+    db.auth_user.first_name.default = auth_user.first_name
+    db.auth_user.pais.default = auth_user.pais
+    db.auth_user.estado.default = auth_user.estado
+
+    db.auth_user.last_name.default = auth_user.last_name
+    db.Tutor_Industrial.Empresa.default = tutor.Empresa
+    db.Tutor_Industrial.profesion.default = tutor.profesion
+    db.auth_user.tipo_documento.default = auth_user.tipo_documento
+    db.auth_user.numero_documento.default = auth_user.numero_documento
+    db.Tutor_Industrial.cargo.default = tutor.cargo
+    db.Tutor_Industrial.departamento.default = tutor.departamento
+    db.Tutor_Industrial.universidad.default = tutor.universidad
+    db.auth_user.direccion.default = auth_user.direccion
+    db.auth_user.telefono.default = auth_user.telefono
+
+    fields = [
+        'email',
+        'first_name',
+        'last_name',
+        'tipo_documento',
+        'numero_documento',
+        'Empresa',
+        'pregunta_secreta',
+        'respuesta_secreta',
+        'profesion',
+        'cargo',
+        'departamento',
+        'pais',
+        'estado',
+        'universidad',
+        'direccion',
+        'telefono'
+    ]
+    form = SQLFORM.factory(db.auth_user, db.Tutor_Industrial, fields=fields, submit_button='Actualizar',readonly=True,
+                           showid=False)
+
+    if form.accepts(request.vars):
+        id = auth_user.update_record(**db.auth_user._filter_fields(form.vars))
+        id = tutor.update_record(**db.Tutor_Industrial._filter_fields(form.vars))
+        session.flash = T('Perfil actualizado exitosamente!')
+        redirect(URL('sqlform_grid'))
+    elif form.errors:
+        response.flash = T('La forma tiene errores, por favor llenela correctamente.')
+    else:
+        response.flash = T('Por favor llene la forma.')
+
+    return form

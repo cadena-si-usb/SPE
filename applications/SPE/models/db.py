@@ -153,6 +153,17 @@ plugins = PluginManager()
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
+
+def format_user(row):
+    if row.username:
+        return row.username + ": " + row.first_name + " " + row.last_name
+    elif not row.username and row.last_name:
+        return row.email + ": " + row.first_name + " " + row.last_name
+    elif not row.username and not row.last_name:
+        return row.email + ": " + row.first_name
+
+db.auth_user._format = lambda row: format_user(row)
+
 ## configure email
 mail = Mail()
 mail.settings.server = 'smtp.gmail.com:587'

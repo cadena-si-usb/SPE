@@ -2,8 +2,12 @@
 from Etapas import Etapa
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import single_table_spe_grid
 Etapa = Etapa()
+
+def sqlform_grid():
+    sqlform_grid = single_table_spe_grid(db.Etapa)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

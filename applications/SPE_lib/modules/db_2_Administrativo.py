@@ -12,3 +12,8 @@ def Administrativo_Table(db,T):
               label='Coordinacion (*)'),
         Field('correo_Alternativo',  requires=IS_EMAIL(error_message='Introduzca un email valido.'),
               label='Correo Alternativo'))
+
+    db.Administrativo.usuario.requires = IS_IN_DB(
+        db(db.auth_user.username != None),
+        'auth_user.id', '%(username)s - %(first_name)s %(last_name)s',
+        zero='Seleccione un usuario USB', )

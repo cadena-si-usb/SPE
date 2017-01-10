@@ -2,8 +2,12 @@
 from Membresias import Membresia
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import single_table_spe_grid
 Membresia = Membresia()
+
+def sqlform_grid():
+    sqlform_grid = single_table_spe_grid(db.auth_membership)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

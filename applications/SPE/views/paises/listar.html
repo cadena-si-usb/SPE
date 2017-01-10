@@ -9,46 +9,11 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <h3>Paises</h3>
-                            <hr WIDTH="30%" />
-                            <p>Listado de Paises</p>
                         </div>
                     </div>
-
-                    Cantidad = <span id="cantidad">0</span>
-
-                    <label>Buscar: </label>
-                    <input id="search" placeholder="Buscar..." type="text">
-
-                    <!-- Add New Paisls -->
-                    <div class="col-xs-4 col-xs-offset-8 col-sm-2 col-sm-offset-10 text-right">
-                        <a class="notif_link_but" title="Agregar Pais" role='button' href="{{=URL('paises', 'agregar')}}">
-                            <i class="fa fa-plus fa-fw fa-2x yellow"></i>
-                        </a>
-                    </div>
-                    <!-- Add new materials -->
+                    {{=LOAD('paises', 'sqlform_grid', ajax=True)}}
                 </center>
             </div>
-
-            <br/>
-
-            <div class="row">
-                <table class='table table-hover borde-tabla' id="tabla_paises">
-                    <thead>
-                        <tr>
-                            <th class='text-center uai-table-header' id="codigo">Nombre</th>
-                            <th class='text-center'>Editar</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="elBody">
-                    </tbody>
-
-                </table>
-                <button id="next" disabled="true">
-                    MAS
-                </button>
-            </div>
-            <br />
         </div>
     </div>
 </div>

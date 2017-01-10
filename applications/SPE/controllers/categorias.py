@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 from Categorias import Categoria
-
+from applications.SPE_lib.modules.grids import single_table_spe_grid
 import Encoder
 
 Categoria = Categoria()
+
+def sqlform_grid():
+    sqlform_grid = single_table_spe_grid(db.Categoria)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

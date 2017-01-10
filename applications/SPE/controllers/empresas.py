@@ -2,8 +2,23 @@
 from Empresas import Empresa
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import single_table_spe_grid
 Empresa = Empresa()
+from applications.SPE_lib.modules.grids import single_table_spe_grid
+def sqlform_grid():
+    fields = [db.Empresa.usuario,
+              db.Empresa.area_laboral,
+              db.Empresa.contacto_RRHH]
+    if not request.args:
+        return single_table_spe_grid(db.Empresa,fields=fields)
+    elif request.args[-2]=='new':
+        return agregar(request)
+    elif request.args[-3]=='edit':
+        return modificar(request)
+    elif request.args[-3]=='view':
+        return ver(request)
+    else:
+        return single_table_spe_grid(db.Empresa)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
@@ -11,7 +26,7 @@ def listar():
     return dict(rows=session.rows)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
-def agregar():
+def agregar(request):
     fields = [db.auth_user.email, db.auth_user.password]
     fields += [
         db.auth_user.pregunta_secreta,
@@ -89,13 +104,13 @@ def agregar():
         )
         # Actualizo los datos exclusivos de estudiante
         session.flash = T('Perfil actualizado exitosamente!')
-        redirect(URL('listar'))
+        redirect(URL('sqlform_grid'))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')
 
-    return locals()
+    return form
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
@@ -114,11 +129,11 @@ def get():
     return rows.as_json()
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
-def modificar():
-    # Buscamos la informacion general del usuario
-    auth_user = db.auth_user(id=request.args[0])
+def modificar(request):
     # Buscamos la informacion de tutor
-    empresa = db.Empresa(usuario=auth_user)
+    empresa = db.Empresa(usuario=request.args[-1])
+    # Buscamos la informacion general del usuario
+    auth_user = db.auth_user(id=empresa.usuario)
     # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
     # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
     fields = [db.auth_user.email]
@@ -174,14 +189,53 @@ def modificar():
     # Caso 1: El form se lleno de manera correcta asi que registramos al tutor y procedemos a la pagina de exito
     if form.process().accepted:
 
-        auth_user = db.auth_user(id=auth.user.id).update_record(**db.auth_user._filter_fields(form.vars))
+        auth_user = db.auth_user(id=auth_user.id).update_record(**db.auth_user._filter_fields(form.vars))
         id = empresa.update_record(**db.Empresa._filter_fields(form.vars))
-
-        session.flash = T('Perfil actualizado exitosamente!')
-        redirect(URL('listar'))
+        redirect(URL('sqlform_grid'))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')
 
-    return locals()
+    return form
+
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
+def ver(request):
+    # Buscamos la informacion de tutor
+    empresa = db.Empresa(usuario=request.args[-1])
+    # Buscamos la informacion general del usuario
+    auth_user = db.auth_user(id=empresa.usuario)
+    # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
+    # Agregamos los campos en el orden deseado, comenzamos con el correoin y el password
+    fields = ['email']
+    # Agregamos el resto de los campos
+    fields += [
+        'pregunta_secreta',
+        'respuesta_secreta',
+        'first_name',
+        'pais',
+        'estado',
+        'area_laboral',
+        'direccion',
+        'direccion_web',
+        'descripcion',
+        'telefono',
+        'contacto_RRHH'
+    ]
+
+    for field in fields:
+        if field in db.auth_user.fields:
+            db.auth_user[field].default = auth_user[field]
+        elif field in db.Empresa.fields:
+            db.Empresa[field].default = empresa[field]
+
+    # Generamos el SQLFORM utilizando los campos
+    form = SQLFORM.factory(db.auth_user,db.Empresa,
+                           fields=fields,
+                           readonly=True,
+                           submit_button='Submit',
+                           separator=': ',
+                           buttons=['submit']
+                           )
+    # Caso 1: El form se lleno de manera correcta asi que registramos al tutor y procedemos a la pagina de exito
+    return form

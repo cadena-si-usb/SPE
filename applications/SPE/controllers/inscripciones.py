@@ -2,8 +2,12 @@
 from Inscripciones import Inscripcion
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import single_table_spe_grid
 Inscripcion = Inscripcion()
+
+def sqlform_grid():
+    sqlform_grid = single_table_spe_grid(db.Inscripcion)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

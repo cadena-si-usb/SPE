@@ -13,10 +13,9 @@ def coordinacion():
 	if ('currentUser' in session):
 		usuario = session.currentUser
 
-		if usuario['activo']:
-			rol= db((db.auth_membership.user_id == auth.user.id)
-						  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
-			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'coordinacion')).select(orderby=db.Accion_Usuario.first_name)
+		rol= db((db.auth_membership.user_id == auth.user.id)
+					  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
+		rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'coordinacion')).select(orderby=db.Accion_Usuario.first_name)
 
 	response.view = 'sidebar/coordinacion.load.html'
 	return dict(routes=rows,id="id")
@@ -29,10 +28,9 @@ def pasantias():
 	if ('currentUser' in session):
 		usuario = session.currentUser
 
-		if usuario['activo']:
-			rol= db((db.auth_membership.user_id == auth.user.id)
-						  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
-			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'pasantias')).select(orderby=db.Accion_Usuario.first_name)
+		rol= db((db.auth_membership.user_id == auth.user.id)
+					  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
+		rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'pasantias')).select(orderby=db.Accion_Usuario.first_name)
 
 	response.view = 'sidebar/coordinacion.load.html'
 	return dict(routes=rows,id="id")
@@ -45,10 +43,9 @@ def catalogos():
 	if ('currentUser' in session):
 		usuario = session.currentUser
 
-		if usuario['activo']:
-			rol= db((db.auth_membership.user_id == auth.user.id)
-						  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
-			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'catalogos')).select(orderby=db.Accion_Usuario.first_name)
+		rol= db((db.auth_membership.user_id == auth.user.id)
+					  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
+		rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'catalogos')).select(orderby=db.Accion_Usuario.first_name)
 
 	response.view = 'sidebar/catalogos.load.html'
 	return dict(routes=rows,id="id")

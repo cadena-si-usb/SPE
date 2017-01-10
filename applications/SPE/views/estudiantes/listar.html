@@ -9,52 +9,12 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <h3>Estudiantes</h3>
-                            <hr WIDTH="30%" />
-                            <p>Listado de Estudiantes</p>
                         </div>
                     </div>
-
-                    Cantidad = <span id="cantidad">0</span>
-
-                    <label>Buscar: </label>
-                    <input id="search" placeholder="Buscar..." type="text">
-
-                    <!-- Add New Materials -->
-                    <div class="col-xs-4 col-xs-offset-8 col-sm-2 col-sm-offset-10 text-right">
-                        <a class="notif_link_but" title="Agregar Estudiante" role='button' href="{{=URL('estudiantes', 'agregar')}}">
-                            <i class="fa fa-plus fa-fw fa-2x yellow"></i>
-                        </a>
-                    </div>
-                    <!-- Add new materials -->
+                    {{=LOAD('estudiantes', 'sqlform_grid', ajax=True)}}
                 </center>
             </div>
-
-            <br/>
-
-            <div class="row">
-                <table class='table table-hover borde-tabla' id="tabla_estudiantes">
-                    <thead>
-                        <tr>
-                            <th class='text-center uai-table-header' id="first_name">Carnet</th>
-                            <th class='text-center uai-table-header' id="first_name">Nombre</th>
-                            <th class='text-center uai-table-header' id="first_name">Carrera</th>
-                            <th class='text-center uai-table-header' id="first_name">Sede</th>
-                            <th class='text-center'>Perfil</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="elBody">
-                    </tbody>
-
-                </table>
-                <button id="next" disabled="true">
-                    MAS
-                </button>
-            </div>
-            <br />
         </div>
     </div>
 </div>
 {{end}}
-{{include 'estudiantes/contenido.html'}}
-<script src="{{=URL('static','js/contentHandler/estudiantes.js')}}"></script>
