@@ -7,7 +7,7 @@ username=speclient
 dbPasswd=spe2016
 
 scriptDir=$(dirname -- "$(readlink -e -- "$BASH_SOURCE")")
-cd "$scriptDir" && rm ../../applications/*/databases/*
+cd "$scriptDir" && rm -rf ../../applications/*/databases/*
 
 dbName=SPE
 mysql -uspeclient -pspe2016 <<MYSQL_SCRIPT
