@@ -2,15 +2,15 @@
 from Empresas import Empresa
 
 import Encoder
-from applications.SPE_lib.modules.grids import single_table_spe_grid
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Empresa = Empresa()
-from applications.SPE_lib.modules.grids import single_table_spe_grid
+from applications.SPE_lib.modules.grids import simple_spe_grid
 def sqlform_grid():
     fields = [db.Empresa.usuario,
               db.Empresa.area_laboral,
               db.Empresa.contacto_RRHH]
     if not request.args:
-        return single_table_spe_grid(db.Empresa,fields=fields)
+        return simple_spe_grid(db.Empresa,fields=fields)
     elif request.args[-2]=='new':
         return agregar(request)
     elif request.args[-3]=='edit':
@@ -18,7 +18,7 @@ def sqlform_grid():
     elif request.args[-3]=='view':
         return ver(request)
     else:
-        return single_table_spe_grid(db.Empresa)
+        return simple_spe_grid(db.Empresa)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

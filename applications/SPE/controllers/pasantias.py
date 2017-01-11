@@ -3,11 +3,11 @@ from Pasantias import Pasantia
 
 import Encoder
 import ast
-from applications.SPE_lib.modules.grids import single_table_spe_grid
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Pasantia = Pasantia()
 
 def sqlform_grid():
-    sqlform_grid = single_table_spe_grid(db.Pasantia)
+    sqlform_grid = simple_spe_grid(db.Pasantia)
     return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))

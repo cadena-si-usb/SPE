@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from Carreras import Carrera
-from applications.SPE_lib.modules.grids import single_table_spe_grid
+from applications.SPE_lib.modules.grids import simple_spe_grid
 import Encoder
 
 Carrera = Carrera()
 
 def sqlform_grid():
-    sqlform_grid = single_table_spe_grid(db.Carrera)
+    sqlform_grid = simple_spe_grid(db.Carrera)
     return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))

@@ -2,11 +2,11 @@
 from Tipos_Documento import Tipo_Documento
 
 import Encoder
-from applications.SPE_lib.modules.grids import single_table_spe_grid
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Tipo_Documento = Tipo_Documento()
 
 def sqlform_grid():
-    sqlform_grid = single_table_spe_grid(db.Tipo_Documento)
+    sqlform_grid = simple_spe_grid(db.Tipo_Documento)
     return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))

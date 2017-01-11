@@ -2,11 +2,11 @@
 from Dedicaciones import Dedicacion
 
 import Encoder
-from applications.SPE_lib.modules.grids import single_table_spe_grid
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Dedicacion = Dedicacion()
 
 def sqlform_grid():
-    sqlform_grid = single_table_spe_grid(db.Dedicacion)
+    sqlform_grid = simple_spe_grid(db.Dedicacion)
     return sqlform_grid
 
 def listar():

@@ -2,14 +2,14 @@
 from Tutores_Industriales import Tutor_Industrial
 
 import Encoder
-from applications.SPE_lib.modules.grids import single_table_spe_grid
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Tutor_Industrial = Tutor_Industrial()
 
 def sqlform_grid():
     fields = [db.Tutor_Industrial.usuario,
               db.Tutor_Industrial.Empresa]
     if not request.args:
-        return single_table_spe_grid(db.Tutor_Industrial,
+        return simple_spe_grid(db.Tutor_Industrial,
                                      fields=fields)
     elif request.args[-2] == 'new':
         return agregar(request)
@@ -18,7 +18,7 @@ def sqlform_grid():
     elif request.args[-3] == 'view':
         return ver(request)
     else:
-        return single_table_spe_grid(db.Tutor_Industrial)
+        return simple_spe_grid(db.Tutor_Industrial)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
@@ -108,7 +108,7 @@ def agregar(request):
         )
         # Actualizo los datos exclusivos de estudiante
         session.flash = T('Perfil actualizado exitosamente!')
-        return single_table_spe_grid(db.Tutor_Industrial)
+        return simple_spe_grid(db.Tutor_Industrial)
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:

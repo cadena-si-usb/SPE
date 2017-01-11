@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from Areas_Proyecto import Area_Proyecto
-from applications.SPE_lib.modules.grids import single_table_spe_grid
+from applications.SPE_lib.modules.grids import simple_spe_grid
 import Encoder
 
 Area_Proyecto = Area_Proyecto()
 
 def sqlform_grid():
-    sqlform_grid = single_table_spe_grid(db.Area_Proyecto)
+    sqlform_grid = simple_spe_grid(db.Area_Proyecto)
     return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))

@@ -2,11 +2,11 @@
 from Universidades import Universidad
 
 import Encoder
-from applications.SPE_lib.modules.grids import single_table_spe_grid
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Universidad = Universidad()
 
 def sqlform_grid():
-    sqlform_grid = single_table_spe_grid(db.Universidad)
+    sqlform_grid = simple_spe_grid(db.Universidad)
     return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))

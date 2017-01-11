@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from Acciones_Usuario import Accion_Usuario
-from applications.SPE_lib.modules.grids import single_table_spe_grid
+from applications.SPE_lib.modules.grids import simple_spe_grid
 import Encoder
 
 Accion_Usuario = Accion_Usuario()
 
 def sqlform_grid():
-    sqlform_grid = single_table_spe_grid(db.Accion_Usuario)
+    sqlform_grid = simple_spe_grid(db.Accion_Usuario)
     return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))

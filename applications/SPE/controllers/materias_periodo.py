@@ -2,11 +2,11 @@
 from Materias_Periodo import Materia_Periodo
 
 import Encoder
-from applications.SPE_lib.modules.grids import single_table_spe_grid
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Materia_Periodo = Materia_Periodo()
 
 def sqlform_grid():
-    sqlform_grid = single_table_spe_grid(db.Materia_Periodo)
+    sqlform_grid = simple_spe_grid(db.Materia_Periodo)
     return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
