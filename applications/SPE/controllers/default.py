@@ -102,6 +102,26 @@ def login_cas():
 
             session.currentUser = respuesta
 
+            session.roles = {}
+
+            estudiante = db.Estudiante(usuario=authUserId)
+            profesor = db.Profesor(usuario=authUserId)
+            coordinador = db.Coordinador(usuario=authUserId)
+            administrativo = db.Administrativo(usuario=authUserId)
+
+            if estudiante:
+                session.roles['estudiante'] = estudiante.id
+            if profesor:
+                session.roles['profesor'] = profesor.id
+            if coordinador:
+                session.roles['coordinador'] = coordinador.id
+            if administrativo:
+                session.roles['administrativo'] = administrativo.id
+
+
+
+
+
             if usuario['tipo'] == 'Pregrado' or usuario['tipo'] == 'Postgrado':
                 redirect(URL(c='mi_perfil/configuracion'))
 
@@ -117,6 +137,22 @@ def login_cas():
             auth.login_user(datosAuth)
 
             respuesta = Usuario.getByRole(auth.user.id)
+
+            session.roles = {}
+
+            estudiante = db.Estudiante(usuario=auth.user.id)
+            profesor = db.Profesor(usuario=auth.user.id)
+            coordinador = db.Coordinador(usuario=auth.user.id)
+            administrativo = db.Administrativo(usuario=auth.user.id)
+
+            if estudiante:
+                session.roles['estudiante'] = estudiante.id
+            if profesor:
+                session.roles['profesor'] = profesor.id
+            if coordinador:
+                session.roles['coordinador'] = coordinador.id
+            if administrativo:
+                session.roles['administrativo'] = administrativo.id
 
             # Caso 1: El usuario no ha registrado sus datos
             if respuesta == None:
