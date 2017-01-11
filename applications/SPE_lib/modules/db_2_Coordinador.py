@@ -18,3 +18,27 @@ def Coordinador_Table(db,T):
         db(db.auth_user.username != None),
         'auth_user.id', '%(username)s - %(first_name)s %(last_name)s',
         zero='Seleccione un usuario USB',)
+
+    if db(db.Coordinador.id > 0).count() == 0:
+        db.Coordinador.insert(
+            id='6',
+            usuario='6',
+            carnet='10-10330',
+            coordinacion='3',
+            correo_Alternativo='danielarturomt@gmail.com'
+        )
+        db.Coordinador.insert(
+            id='8',
+            usuario='8',
+            carnet='10-10193',
+            coordinacion = '1',
+            correo_Alternativo='coord@copt.com'
+        )
+        db.Coordinador.insert(
+            id='9',
+            usuario='9',
+            carnet='10-10292',
+            coordinacion = '2',
+            correo_Alternativo='asd@asd.com'
+        )
+        db.commit()

@@ -6,3 +6,12 @@ def Sede_Table(db,T):
                label = 'Nombre'),
         format='%(first_name)s'
     )
+
+    if db(db.Sede.id > 0).count() == 0:
+        db.Sede.insert(
+            first_name='Sartenejas'
+        )
+        db.Sede.insert(
+            first_name='Litoral'
+        )
+        db.commit()

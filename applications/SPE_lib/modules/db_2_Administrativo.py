@@ -17,3 +17,13 @@ def Administrativo_Table(db,T):
         db(db.auth_user.username != None),
         'auth_user.id', '%(username)s - %(first_name)s %(last_name)s',
         zero='Seleccione un usuario USB', )
+
+    if db(db.Administrativo.id > 0).count() == 0:
+        db.Administrativo.insert(
+            id='11',
+            usuario='11',
+            carnet='09-10066',
+            coordinacion='3',
+            correo_Alternativo='gmailaustin@gmail.com'
+        )
+        db.commit()

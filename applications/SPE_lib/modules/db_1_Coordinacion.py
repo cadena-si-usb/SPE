@@ -11,3 +11,21 @@ def Coordinacion_Table(db,T):
                    )
 
     db.Coordinacion.username.requires+=[IS_NOT_IN_DB(db, 'Coordinacion.username',error_message=T('Coordinacion ya registrado'))]
+
+    if db(db.Coordinacion.id > 0).count() == 0:
+        db.Coordinacion.insert(
+            first_name='Computacion',
+            username='1000',
+            sede=1
+        )
+        db.Coordinacion.insert(
+            first_name='Mecanica',
+            username='1001',
+            sede=1
+        )
+        db.Coordinacion.insert(
+            first_name='Coordinación de Cooperación Tecnica',
+            username='1002',
+            sede=1
+        )
+        db.commit()

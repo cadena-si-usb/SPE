@@ -6,3 +6,15 @@ def Tipo_Documento_Table(db,T):
                label = 'Nombre'),
         format='%(first_name)s'
     )
+
+    if db(db.Tipo_Documento.id > 0).count() == 0:
+        db.Tipo_Documento.insert(
+            first_name='Cedula'
+        )
+        db.Tipo_Documento.insert(
+            first_name='Pasaporte'
+        )
+        db.Tipo_Documento.insert(
+            first_name='RIF'
+        )
+        db.commit()

@@ -22,3 +22,19 @@ def Tutor_Industrial_Table(db,T):
     # Validadores
     db.Tutor_Industrial.last_name.requires=[IS_LENGTH(512)]
     db.Tutor_Industrial.last_name.requires+=[IS_NOT_EMPTY(error_message='Campo Obligatorio')]
+
+    if db(db.Tutor_Industrial.id > 0).count() == 0:
+        db.Tutor_Industrial.insert(
+            id='2',
+            usuario='2',
+            last_name='Sucre González',
+            Empresa='1',
+            profesion='Consultor De Software',
+            tipo_documento='1',
+            numero_documento='19564959',
+            cargo='Administrador De Base De Datos',
+            departamento='Tecnologia De La Informacion',
+            universidad='1',
+            comfirmado_Por_Empresa='1'
+        )
+        db.commit()

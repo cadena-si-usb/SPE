@@ -13,6 +13,7 @@
 from gluon.contrib.appconfig import AppConfig
 from gluon import current
 
+from applications.SPE_lib.modules.db_0_Auth_Tables import spe_auth_tables
 from applications.SPE_lib.modules.db_0_Area_Laboral import Area_Laboral_Table
 from applications.SPE_lib.modules.db_0_Area_Proyecto import Area_Proyecto_Table
 from applications.SPE_lib.modules.db_0_Categoria import Categoria_Table
@@ -30,7 +31,6 @@ from applications.SPE_lib.modules.db_1_Departamento import Departamento_Table
 from applications.SPE_lib.modules.db_1_Materia import Materia_Table
 from applications.SPE_lib.modules.db_1_Pais import Pais_Table
 from applications.SPE_lib.modules.db_1_Universidad import Universidad_Table
-from applications.SPE_lib.modules.db_1_UsuarioUSB import UsuarioUSB_Table
 from applications.SPE_lib.modules.db_2_Administrativo import Administrativo_Table
 from applications.SPE_lib.modules.db_2_Carrera import Carrera_Table
 from applications.SPE_lib.modules.db_2_Coordinador import Coordinador_Table
@@ -56,7 +56,7 @@ from applications.SPE_lib.modules.db_6_Fase import Fase_Table
 from applications.SPE_lib.modules.db_7_Actividad import Actividad_Table
 from applications.SPE_lib.modules.db_7_Materia_Periodo import Materia_Periodo_Table
 
-from applications.SPE_lib.modules.fixtures import load_fixtures
+from applications.SPE_lib.modules.fixtures import load_auth_fixtures
 
 ## once in production, remove reload=True to gain full speed
 myconf = AppConfig(reload=True)
@@ -101,45 +101,13 @@ response.form_label_separator = myconf.take('forms.separator')
 ## (more options discussed in gluon/tools.py)
 #########################################################################
 
-from gluon.tools import Auth, Service, PluginManager,Mail
+from gluon.tools import Service, PluginManager,Mail
 
 Sede_Table(db,T)
 Tipo_Documento_Table(db,T)
 Pais_Table(db,T)
 Estado_Table(db,T)
-auth = Auth(db)
-
-auth.settings.extra_fields['auth_user']= [
-    Field('tipo_documento', 'reference Tipo_Documento',
-          label='Tipo de Documento (*)'),
-    Field('numero_documento',
-          requires=[IS_MATCH('^[0-9][0-9]*$',
-                             error_message='Introduzca una cedula.')],
-          label='Numero Documentacion (*)'),
-    Field('telefono',
-          requires=IS_MATCH('^\d{4}?[\s.-]?\d{7}$',
-                            error_message='Numero no valido,ingrese numero telefonico'),
-          comment='0212-111111',
-          label='Telefono(*)'),
-    Field('direccion', 'text',
-          label='Direccion'),
-    Field('sexo',
-          requires=IS_IN_SET(['M', 'F']),
-          label='Sexo (*)'),
-    Field('activo', 'boolean'),
-    Field('pregunta_secreta', 'text',
-          requires=[IS_NOT_EMPTY
-                    (error_message='Campo necesario')],
-          label='Pregunta Secreta'),
-    Field('respuesta_secreta', 'string',
-          requires=[IS_NOT_EMPTY
-                    (error_message='Campo necesario')],
-          label='Respuesta Secreta'),
-    Field('pais', 'reference Pais',
-          label='Pais'),
-    Field('estado', 'reference Estado',
-          label='Estado'),
-]
+auth = spe_auth_tables(db,T)
 
 current.auth = auth
 service = Service()
@@ -147,6 +115,18 @@ plugins = PluginManager()
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=False, signature=False,migrate=False)
+
+def format_user(row):
+    if row.username:
+        return row.username + ": " + row.first_name + " " + row.last_name
+    elif not row.username and row.last_name:
+        return row.email + ": " + row.first_name + " " + row.last_name
+    elif not row.username and not row.last_name:
+        return row.email + ": " + row.first_name
+
+db.auth_user._format = lambda row: format_user(row)
+
+load_auth_fixtures(db,T)
 
 ## configure email
 mail = Mail()
@@ -200,7 +180,6 @@ correo_por_verificar_Table(db,T)
 Departamento_Table(db,T)
 Materia_Table(db,T)
 Universidad_Table(db,T)
-UsuarioUSB_Table(db,T)
 Administrativo_Table(db,T)
 Carrera_Table(db,T)
 Coordinador_Table(db,T)
@@ -221,4 +200,3 @@ Fase_Table(db,T)
 Actividad_Table(db,T)
 Materia_Periodo_Table(db,T)
 # Cargamos La Data Predeterminada
-load_fixtures(db,T)

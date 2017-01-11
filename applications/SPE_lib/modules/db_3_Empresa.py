@@ -21,3 +21,14 @@ def Empresa_Table(db,T):
             db(db.auth_user.username == None),
             'auth_user.id', '%(tipo_documento)s-%(numero_documento)s : %(first_name)s %(last_name)s',
             zero='Seleccione un usuario', )
+
+    if db(db.Empresa.id > 0).count() == 0:
+        db.Empresa.insert(
+            id='1',
+            usuario='1',
+            area_laboral='2',
+            descripcion='Soluciones De Software',
+            direccion_web='www.ecorp.com',
+            contacto_RRHH='www.ecorp-rrhh@ecorp.com'
+        )
+        db.commit()

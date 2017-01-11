@@ -22,3 +22,22 @@ def Estudiante_Table(db,T):
         db(db.auth_user.username != None),
         'auth_user.id', '%(username)s - %(first_name)s %(last_name)s',
         zero='Seleccione un usuario USB', )
+
+    if db(db.Estudiante.id > 0).count() == 0:
+        db.Estudiante.insert(
+            id='4',
+            usuario='4',
+            carnet='10-10102',
+            carrera='1',
+            sede='1',
+            activo='True'
+        )
+        db.Estudiante.insert(
+            id='7',
+            usuario='7',
+            carnet='10-10717',
+            carrera='1',
+            sede='1',
+            activo='True'
+        )
+        db.commit()

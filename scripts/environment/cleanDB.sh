@@ -10,10 +10,9 @@ scriptDir=$(dirname -- "$(readlink -e -- "$BASH_SOURCE")")
 cd "$scriptDir" && rm -rf ../../applications/*/databases/*
 
 dbName=SPE
-mysql -uspeclient -pspe2016 <<MYSQL_SCRIPT
-DROP DATABASE $dbName;
-CREATE DATABASE $dbName;
-MYSQL_SCRIPT
+
+sudo -u postgres dropdb spe
+sudo -u postgres createdb -O speclient -E UTF8 spe
 
 if [[ $? -eq 0 ]]; then
 	echo "El script finalizo exitosamente"

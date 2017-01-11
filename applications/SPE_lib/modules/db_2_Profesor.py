@@ -20,3 +20,42 @@ def Profesor_Table(db,T):
         db(db.auth_user.username != None),
         'auth_user.id', '%(username)s - %(first_name)s %(last_name)s',
         zero='Seleccione un usuario USB', )
+
+    if db(db.Profesor.id > 0).count() == 0:
+        db.Profesor.insert(
+            id='3',
+            usuario='3',
+            categoria='1',
+            dedicacion='1',
+            departamento='1',
+            sede='1',
+            activo='True'
+        )
+        db.Profesor.insert(
+            id='5',
+            usuario='5',
+            categoria='1',
+            dedicacion='1',
+            departamento='1',
+            sede='1',
+            activo='True'
+        )
+        db.Profesor.insert(
+            id='9',
+            usuario='9',
+            categoria='1',
+            dedicacion='1',
+            departamento='1',
+            sede='1',
+            activo='True'
+        )
+        db.Profesor.insert(
+            id='10',
+            usuario='10',
+            categoria='1',
+            dedicacion='1',
+            departamento='1',
+            sede='1',
+            activo='True'
+        )
+        db.commit()

@@ -13,3 +13,18 @@ def Carrera_Table(db,T):
             ,IS_NOT_EMPTY(error_message='Campo Obligatorio')
             ,IS_NOT_IN_DB(db, 'Carrera.codigo',error_message=T('Carrera ya existe'))
             ,IS_MATCH('[0-9]{4}',error_message=T('Solo se permiten numeros de cuatro digitos'))]
+
+    if db(db.Carrera.id > 0).count() == 0:
+        db.Carrera.insert(
+            first_name='Ingenieria de la Computacion',
+            codigo='0800',
+            duracion='Larga',
+            coordinacion=1
+        )
+        db.Carrera.insert(
+            first_name='Ingenieria de Mecanica',
+            codigo='0200',
+            duracion='Larga',
+            coordinacion=1
+        )
+        db.commit()
