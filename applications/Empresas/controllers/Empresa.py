@@ -49,6 +49,7 @@ def registrar_Empresa():
 
         # Insertamos en la tabla User de Web2py, para el correoin
         result = db.auth_user.insert(
+            username=request.vars.email,
             first_name=request.vars.first_name,
             password=db.auth_user.password.validate(request.vars.password)[0],
             email=request.vars.email,
@@ -163,6 +164,7 @@ def registrar_Tutor_Industrial():
 
         # Insertamos en la tabla user de Web2py
         result = db.auth_user.insert(
+            username=request.vars.email,
             first_name=request.vars.first_name,
             last_name=request.vars.last_name,
             password=db.auth_user.password.validate(request.vars.password)[0],

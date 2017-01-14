@@ -69,26 +69,19 @@ def agregar(request):
 
         # Insertamos en la tabla User de Web2py, para el correoin
         result = db.auth_user.insert(
+            username=request.vars.email,
             first_name=request.vars.first_name,
             password=db.auth_user.password.validate(request.vars.password)[0],
             email=request.vars.email,
-        )
-        group_id = auth.id_group(role='Empresa')
-        auth.add_membership(group_id, result)
-
-        # Registramos el usuario externo
-        db.auth_user.insert(
-            id=result,
-            auth_User=result,
-            email=request.vars.email,
             pregunta_secreta=request.vars.pregunta_secreta,
             respuesta_secreta=request.vars.respuesta_secreta,
-            first_name=request.vars.first_name,
             pais=request.vars.pais,
             estado=request.vars.estado,
             telefono=request.vars.telefono,
             direccion=request.vars.direccion,
         )
+        group_id = auth.id_group(role='Empresa')
+        auth.add_membership(group_id, result)
 
         usuarioExternoSet = db(db.auth_user.email == request.vars.email).select()
         usuarioExterno = usuarioExternoSet[0]

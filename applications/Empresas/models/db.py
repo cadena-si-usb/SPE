@@ -114,7 +114,7 @@ service = Service()
 plugins = PluginManager()
 
 ## create all tables needed by auth if not custom tables
-auth.define_tables(username=False, signature=False,migrate=False)
+auth.define_tables(username=True, signature=False,migrate=False)
 
 def format_user(row):
     if row.username:
@@ -125,6 +125,8 @@ def format_user(row):
         return row.email + ": " + row.first_name
 
 db.auth_user._format = lambda row: format_user(row)
+db.auth_user.username.readonly=True
+db.auth_user.email.readonly=True
 
 load_auth_fixtures(db,T)
 

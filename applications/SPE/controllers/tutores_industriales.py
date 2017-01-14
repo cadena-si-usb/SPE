@@ -81,6 +81,7 @@ def agregar(request):
     if form.process().accepted:
         # Insertamos en la tabla user de Web2py
         result = db.auth_user.insert(
+            username=request.vars.email,
             first_name=request.vars.first_name,
             last_name=request.vars.last_name,
             password=db.auth_user.password.validate(request.vars.password)[0],
