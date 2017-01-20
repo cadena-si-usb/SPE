@@ -36,7 +36,7 @@ def generarLinksCoordinador(row):
 @auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
 def consultarPermisos():
     userId=auth.user.id
-    usuario=db(db.auth_user.auth_User == userId).select().first()
+    usuario=auth.user.id
     currentRoles = auth.user_groups.values()
 
     fields = (db.Permiso._id,db.Permiso.Tipo, db.Permiso.aprobacion_tutor_academico, db.Permiso.aprobacion_coordinacion, db.Permiso.pasantia, db.Permiso.estado, db.Permiso.justificacion)    
