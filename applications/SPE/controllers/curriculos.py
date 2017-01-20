@@ -80,14 +80,13 @@ def editar():
         'idiomas'         
     ]
 
-    userid = str(auth.user['username'])
+    userid = str(auth.user['id'])
 
-    estudiante = db.Estudiante(db.Estudiante.carnet == userid)
+    estudiante = db.Estudiante(usuario=userid)
 
-    curriculo = db.Curriculo(db.Curriculo.estudiante == estudiante['id'])
+    curriculo = db.Curriculo(estudiante=estudiante['id'])
 
-    form = SQLFORM(db.Curriculo,record=curriculo,fields=fields,submit_button='Actualizar',showid=False)
-
+    form = SQLFORM(db.Curriculo, record=curriculo, fields=fields, submit_button='Actualizar', showid=False)
     if form.process().accepted:
         session.flash = T('Perfil actualizado exitosamente!')
         curriculo.update_record(activo=True)
