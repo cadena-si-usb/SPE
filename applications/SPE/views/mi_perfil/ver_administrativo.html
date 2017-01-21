@@ -1,69 +1,66 @@
-{{extend 'mi_perfil/ver.html'}}
-{{block content}}
-
-<h2>Hola {{=usuario['last_name']}}, {{=usuario['first_name']}}.</h2>
-<h4>{{=usuario['rol']}}</h4>
-<div id="perfil_estudiante">
-    <section id="sec1" style="margin-bottom: 10%">
-        <div class="container">
+<div class="panel panel-warning">
+    <div class="panel-heading">
+      <h1 class="panel-title" style="font-size: 15px"> Datos de Administrativo</h1>
+    </div>
+    <div class="panel-body">
+        <section id="sec1">
             <div class="row">
-                <div class="col-lg-4">
-                    <div id="foto-perfil">
-                        <h5 style="margin-bottom: 90%"><b>Foto del Perfil</b></h5>
-                        <button class="boton-negro">SUBIR FOTO</button>
-                        <p class="parrafos">Una vez completado todos sus datos finalice su inscripcion.</p>
+                <div class="col-sm-12">
+                    <div class="col-sm-4">
+                        <center>
+                            <h4> <b>Coordinación</b> </h4>
+                            <div>
+                                 <h5>{{=coordinacion.Coordinacion.first_name}}</h5>
+                            </div>
+
+                            <br>
+
+                            <h4> <b>Dirección</b> </h4>
+                            <div>
+                                 <h5>{{=currentUser.direccion}}</h5>
+                            </div>
+                        </center>
                     </div>
-                </div>
-                <div class="col-lg-8">
-                    <h2>
-                        <b>Coordinacion</b>
-                    </h2>
 
-                    <h3>{{=coordinacion.Coordinacion.first_name}}</h3>
+                    <div class="col-sm-4">
+                        <center>
+                            <h4> <b>Teléfono</b> </h4>
+                            <div>
+                                 <h5>{{=currentUser.telefono}}</h5>
+                            </div>
 
-                    <h2>
-                        <b>USB-ID</b>
-                    </h2>
+                            <br>
 
-                    <h3>{{=currentUser.username}}</h3>
-                    <h2>
-                        <b>{{=currentUser.tipo_documento.first_name}}</b>
-                    </h2>
-                    <h3>{{=currentUser.numero_documento}}</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4">
-                    <h2>
-                        <b>Telefono</b>
-                    </h2>
-                    <h3>{{=currentUser.telefono}}</h3>
+                            <h4> <b>Sexo</b> </h4>
+                            <div>
+                                {{if currentUser.sexo == 'M':}}
+                                    <h5>Masculino</h5>
+                                {{elif currentUser.sexo == 'F':}}
+                                    <h5>Femenino</h5>
+                                {{pass}}
+                            </div>
+                            
+                        </center>
+                    </div>
 
+                    <div class="col-sm-4">
+                        <center>
+                            <h4> <b>Correo</b> </h4>
+                            <div>
+                                <h5>{{=administrativo.auth_user.email}}</h5>
+                            </div>
 
-                    <h2>
-                        <b>Direccion</b>
-                    </h2>
-                    <h3>{{=currentUser.direccion}}</h3>
+                            <br>
 
-                    <h2>
-                        <b>Sexo</b>
-                    </h2>
-                    <h3>{{=currentUser.sexo}}</h3>
-                </div>
-                <div class="col-lg-8">
-                    <h2>
-                        <b>Correo</b>
-                    </h2>
-                    <h3>{{=administrativo.auth_user.email}}</h3>
+                            <h4> <b>Correo Alternativo</b> </h4>
+                            <div>
+                                <h5>{{=administrativo.Administrativo.correo_Alternativo}}</h5>
+                            </div>
+                        </center>
+                    </div>
 
-                    <h2>
-                        <b>Correo Alternativo</b>
-                    </h2>
-                    <h3>{{=administrativo.Administrativo.correo_Alternativo}}</h3>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </div>
-
-{{end}}

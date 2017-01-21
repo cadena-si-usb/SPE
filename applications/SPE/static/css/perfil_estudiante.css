@@ -26,6 +26,8 @@
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: contain;
+	text-align: right;
+	margin-left: 120px;
 }
 
 #footer, #barra{
@@ -46,7 +48,7 @@
 	background: #2B2B2B;
 	color: #DDD;
 	border: none;
-	width: 250px;
+	width: 200px;
 }
 
 .cols{

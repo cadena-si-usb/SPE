@@ -19,7 +19,7 @@ def ver():
         carrera=db.Carrera(id=estudiante.Estudiante.carrera)
         sede = db(db.Sede.id == db.Estudiante.sede).select().first()
         curriculo = db(db.Curriculo.estudiante == estudiante.Estudiante.id).select().first()
-        response.view = 'mi_perfil/ver_estudiante.html'
+        response.view = 'mi_perfil/ver.html'
 
     elif (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
         profesor = db(((db.auth_user.id == userid) & (db.Profesor.usuario == db.auth_user.id))).select().first()
@@ -27,12 +27,12 @@ def ver():
         categoria = db.Categoria(id=profesor.Profesor.categoria)
         dedicacion= db.Dedicacion(id=profesor.Profesor.dedicacion)
         sede = db.Sede(id= profesor.Profesor.sede)
-        response.view = 'mi_perfil/ver_profesor.html'
+        response.view = 'mi_perfil/ver.html'
 
     elif (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
         coordinador = db(((db.auth_user.id == userid) & (db.Coordinador.usuario == db.auth_user.id))).select().first()
         coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
-        response.view = 'mi_perfil/ver_coordinador.html'
+        response.view = 'mi_perfil/ver.html'
     # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles personalizados)
     # o es un usuario con rol ajeno al sistema
     else:
@@ -40,11 +40,11 @@ def ver():
         if administrativo:
             administrativo = administrativo.first()
             coordinacion = db(db.Administrativo.coordinacion == db.Coordinacion.id).select().first()
-            response.view = 'mi_perfil/ver_administrativo.html'
+            response.view = 'mi_perfil/ver.html'
         else:
             invitado = db(
                 ((db.auth_user.auth_User == userid) & (userid == db.auth_user.id))).select().first()
-            response.view = 'mi_perfil/ver_invitado.html'
+            response.view = 'mi_perfil/ver.html'
 
     return locals()
 

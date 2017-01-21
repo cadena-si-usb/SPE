@@ -1,7 +1,51 @@
 {{extend 'shell.html'}}
 {{block content}}
+	
+	<center><h2>MI PERFIL</h2></center>
 
-VER
+	<div id="perfil_estudiante">
+    	<section id="sec1" style="margin-bottom: 10%">
+    		<br>
+            <div class="row">
+            		<div class="col-sm-12">
+	            		<div class="col-sm-5" style="text-align: center;">
+	            			<div id="foto-perfil" style="text-align: center;">
+                        		<h5 style="margin-bottom: 80%"><b>Foto del Perfil</b></h5>
+                        		<button class="boton-negro">SUBIR FOTO</button>
+                        	</div>
+                        </div>
+                   
+	            		<div class="col-sm-6" style="text-align: left; margin-top: 07%;">
+	            			<h4><p><b>{{=usuario['first_name']}} {{=usuario['last_name']}}</b></p></h4>
+	            			<h4><p>{{=usuario['rol']}}</p></h4>
+	            			{{if usuario['rol'] == 'Estudiante':}}
+	            				<h4><p>{{=estudiante.Estudiante.carnet}}</p></h4>
+	            			{{elif usuario['rol'] == 'Administrativo':}}
+	            				<h4><p>{{=currentUser.username}} / {{=currentUser.numero_documento}} </p></h4>
+	            			{{elif usuario['rol'] == 'CoordinadorCCT' or usuario['rol'] == 'Coordinador':}}
+	            				<h4><p>{{=currentUser.username}} / {{=currentUser.numero_documento}}</p></h4>
+	            			{{pass}}
+	            		</div>
+	            	</div>
 
+            </div>
+    	</section>
+    </div>
+
+    {{if usuario['rol'] == 'Estudiante':}}
+    	{{include 'mi_perfil/ver_estudiante.html'}}
+    {{pass}}
+
+    {{if usuario['rol'] == 'Profesor' or usuario['rol'] == 'TutorAcademico' :}}
+    	{{include 'mi_perfil/ver_profesor.html'}}
+    {{pass}}
+
+    {{if usuario['rol'] == 'Administrativo':}}
+    	{{include 'mi_perfil/ver_administrativo.html'}}
+    {{pass}}
+
+    {{if usuario['rol'] == 'CoordinadorCCT' or usuario['rol'] == 'Coordinador':}}
+    	{{include 'mi_perfil/ver_coordinador.html'}}
+    {{pass}}
 
 {{end}}
