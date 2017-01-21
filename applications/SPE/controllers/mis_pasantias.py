@@ -41,9 +41,9 @@ def get():
 # Verifica que se accedan a los recursos asignados al actor correspondiente 
 def chequear_permisologia():
     try:
-        userid = str(auth.user['username'])
-        estudiante = db.Estudiante(db.Estudiante.carnet == userid)
-        pasantia = db.Pasantia(db.Pasantia.estudiante == estudiante['id'])
+        userid = auth.user.id
+        estudiante = db.Estudiante(usuario= userid)
+        pasantia = db.Pasantia(estudiante=estudiante.id)
     except Exception as e:
         return False
 
@@ -56,23 +56,14 @@ def ver():
     etapa = db.Etapa(pasantia.etapa)
 
     if etapa.first_name == 'Inscripcion':
-        inscripcion=db(db.Inscripcion.pasantia == pasantia.id).select().first()
-        plan_trabajo = db(db.Plan_Trabajo.pasantia == pasantia.id).select().first()
+        inscripcion=db.Pasantia(pasantia= pasantia.id)
+        plan_trabajo = db.Plan_Trabajo(pasantia=pasantia.id)
     elif etapa.first_name == 'Colocacion':
-        try:
-            colocacion=db(db.Colocacion.pasantia == pasantia.id).select().first()
-        except:
-            colocacion=None
+        colocacion=db.Colocacion(pasantia=pasantia.id)
     elif etapa.first_name == 'Preinscripcion':
-        try:
-            preinscripcion=db(db.Preinscripcion.pasantia == pasantia.id).select().first()
-        except:
-            inscripcion=None
+        preinscripcion = db.Preinscripcion(pasantia=pasantia.id)
     elif etapa.first_name == 'Ejecucion':
-        try:
-            ejecucion=db(db.Ejecucion.pasantia == pasantia.id).select().first()
-        except:
-            ejecucion=None
+        ejecucion = db.Ejecucion(pasantia=pasantia.id)
 
     response.view = 'mis_pasantias/' + etapa.first_name.lower() + '.html'
     
