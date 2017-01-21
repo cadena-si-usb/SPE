@@ -109,21 +109,18 @@ def planes_trabajo():
 #@auth.requires(chequear_permisologia())
 def preinscribir():
     idMateria = request.args(0)
-    currentUser = session.currentUser
-    estudiante = db(db.Estudiante.usuario == currentUser.id).select().first()
-    etapa = db(db.Etapa.first_name == 'Preinscripcion').select().first()
+    user = auth.user
+    estudiante = db.Estudiante(usuario=user.id)
+    etapa = db.Etapa(first_name= 'Preinscripcion')
     periodo = db(db.Periodo).select().first()
 
     if not estudiante:
         return "ERROR, debes ser estudiante"
-
-    curriculo = db((db.Curriculo.estudiante == estudiante.id) and (db.Curriculo.activo == True)).select().first()
+    curriculo = db.Curriculo(estudiante= estudiante.id,activo= True)
 
     if not curriculo:
         return "ERROR, debes tener el curriculo lleno"
-
-    tienePasantia = db((db.Pasantia.estudiante == estudiante.id) and (db.Pasantia.materia == idMateria)).select().first()
-
+    tienePasantia = db.Pasantia(estudiante=estudiante.id,materia=idMateria)
     if tienePasantia:
         return "ERROR, no puedes tener dos pasantias"
 
