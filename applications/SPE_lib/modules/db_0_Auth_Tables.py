@@ -21,7 +21,7 @@ def spe_auth_tables(db,T):
         Field('direccion', 'text',
               label='Direccion'),
         Field('sexo',
-              requires=IS_IN_SET(['M', 'F']),
+              requires=IS_IN_SET(['Masculino', 'Femenino']),
               label='Sexo (*)'),
         Field('activo', 'boolean'),
         Field('pregunta_secreta', 'text',

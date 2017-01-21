@@ -5,47 +5,30 @@ Usuario = Usuario()
 @auth.requires_login()
 def ver():
     userid = session.currentUser.id
+    usuario = auth.user
     # Preguntar aqui por usuario externo o usuarioUSB
-    currentUser = db.auth_user(db.auth_user.id == userid)
-    rol=db((db.auth_membership.user_id==userid) & (db.auth_membership.group_id==db.auth_group.id)).select().first()
-    usuario = {
-        "last_name": currentUser.last_name,
-        "first_name": currentUser.first_name,
-        "rol":  rol.auth_group.role,
-    }
+    currentUser = usuario
 
     if (auth.has_membership(role='Estudiante')):
-        estudiante = db(((db.auth_user.id == userid) & (db.Estudiante.usuario == db.auth_user.id))).select().first()
-        carrera=db.Carrera(id=estudiante.Estudiante.carrera)
-        sede = db(db.Sede.id == db.Estudiante.sede).select().first()
-        curriculo = db(db.Curriculo.estudiante == estudiante.Estudiante.id).select().first()
-        response.view = 'mi_perfil/ver.html'
-
-    elif (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
-        profesor = db(((db.auth_user.id == userid) & (db.Profesor.usuario == db.auth_user.id))).select().first()
+        estudiante = db.Estudiante(usuario=userid)
+        carrera=db.Carrera(id=estudiante.carrera)
+        sede_estudiante = db.Sede(id=estudiante.sede)
+        curriculo = db.Curriculo(estudiante=estudiante.id)
+    if (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
+        profesor = db.Profesor(usuario=userid)
         departamento = db.Departamento(id=profesor.Profesor.departamento)
         categoria = db.Categoria(id=profesor.Profesor.categoria)
         dedicacion= db.Dedicacion(id=profesor.Profesor.dedicacion)
-        sede = db.Sede(id= profesor.Profesor.sede)
-        response.view = 'mi_perfil/ver.html'
-
-    elif (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
-        coordinador = db(((db.auth_user.id == userid) & (db.Coordinador.usuario == db.auth_user.id))).select().first()
+        sede_profesor = db.Sede(id= profesor.Profesor.sede)
+    if (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
+        coordinador = db.Coordinador(usuario=userid)
+        db.Coordinacion(id=coordinador.coordinacion)
         coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
-        response.view = 'mi_perfil/ver.html'
     # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles personalizados)
     # o es un usuario con rol ajeno al sistema
-    else:
-        administrativo = db(((db.auth_user.id == userid) & (db.Administrativo.usuario == db.auth_user.id))).select()
-        if administrativo:
-            administrativo = administrativo.first()
-            coordinacion = db(db.Administrativo.coordinacion == db.Coordinacion.id).select().first()
-            response.view = 'mi_perfil/ver.html'
-        else:
-            invitado = db(
-                ((db.auth_user.auth_User == userid) & (userid == db.auth_user.id))).select().first()
-            response.view = 'mi_perfil/ver.html'
-
+    administrativo = db.Administrativo(usuario=usuario.id)
+    if administrativo:
+        coordinacion = db.Coordinacion(id=administrativo.coordinacion)
     return locals()
 
 @auth.requires_login()
@@ -64,9 +47,8 @@ def configuracion():
 
     if auth.is_logged_in():
         userid = str(auth.user['username'])
-        usuario = db.auth_user(auth.user.id)
+        usuario = auth.user
 
-        db.auth_user.first_name.default=usuario.first_name
         db.auth_user.last_name.default = usuario.last_name
         db.auth_user.email.default = usuario.email
         db.auth_user.tipo_documento.default = usuario.tipo_documento

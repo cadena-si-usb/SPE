@@ -264,7 +264,7 @@ def load_auth_fixtures(db,T):
             numero_documento='12341223',
             telefono='02129871121',
             direccion='Portal de algun lado, calle 234',
-            sexo='M',
+            sexo='Masculino',
             activo=True,
             pregunta_secreta='Pregunta??',
             respuesta_secreta='Respuesta!!',
