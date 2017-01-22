@@ -1,7 +1,9 @@
 <div class="panel panel-info">
     <div class="panel-heading">
-      <h1 class="panel-title" style="font-size: 15px"> Datos de Estudiante</h1>
-      <a href="#" class="clickable"><span class="pull-right icon boton_posicion"><i class="glyphicon glyphicon-edit"></i> Editar</span> </a>
+        <h3 class="panel-title pull-left" style="font-size: 15px"> Datos de Estudiante</h1>
+        <a href="{{=URL('configuracion', args=['estudiante'])}}" class="clickable">
+            <span class="pull-right icon boton_posicion"><i class="glyphicon glyphicon-edit"></i> Editar</span> 
+        </a>
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">
@@ -32,18 +34,6 @@
                         </center>
                     </div>
 
-                    <div class="col-sm-4">
-                        <center>
-                            <h4> <b> Correo </b> </h3>
-                            <div>
-                                {{if currentUser.email :}}
-                                    <h5>{{=currentUser.email}}</h5>
-                                {{else:}}
-                                    <h5>N/A</h5>
-                                {{pass}}
-                            </div>
-                        </center>
-                    </div>
             </div>
         </section>
         {{if curriculo:}}

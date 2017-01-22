@@ -61,7 +61,7 @@ def configuracion():
         db.auth_user.direccion.default = usuario.direccion
         db.auth_user.sexo.default = usuario.sexo
 
-        if (auth.has_membership(role='Estudiante')):
+        if (auth.has_membership(role='Estudiante') and request.args(0) =="estudiante"):
             estudiante = db.Estudiante(db.Estudiante.usuario == usuario.id)
             fields.append('carnet')
             fields.append('carrera')
@@ -69,9 +69,11 @@ def configuracion():
             db.Estudiante.carnet.default = estudiante.carnet
             db.Estudiante.carrera.default = estudiante.carrera
             db.Estudiante.sede.default = estudiante.sede
-            form = SQLFORM.factory(db.auth_user,db.Estudiante,fields=fields,submit_button='Actualizar', showid=False)
+            form = SQLFORM.factory(db.auth_user,db.Estudiante,fields=fields,submit_button='Actualizar Estudiante', showid=False)
             response.view = 'mi_perfil/configuracion_estudiante.html'
-        elif (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
+
+
+        if ( (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')) and request.args(0) =="profesor" ):
             profesor = db.Profesor(db.Profesor.usuario == usuario.id)
             fields.append('categoria')
             fields.append('dedicacion')
@@ -81,15 +83,16 @@ def configuracion():
             db.Profesor.dedicacion.default = profesor.dedicacion
             db.Profesor.departamento.default = profesor.departamento
             db.Profesor.sede.default = profesor.sede
-            form = SQLFORM.factory(db.auth_user,db.Profesor,fields=fields,submit_button='Actualizar', showid=False)
+            form = SQLFORM.factory(db.auth_user,db.Profesor,fields=fields,submit_button='Actualizar Profesor', showid=False)
             response.view = 'mi_perfil/configuracion__profesor.html'
-        elif (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
+
+        if ( (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')) and request.args(0) =="coordinador"):
             coordinador = db.Coordinador(db.Coordinador.id == usuario.id)
             fields.append('carnet')
             fields.append('correo_Alternativo')
             db.Coordinador.carnet.default = coordinador.carnet
             db.Coordinador.correo_Alternativo.default = coordinador.correo_Alternativo
-            form = SQLFORM.factory(db.auth_user,db.Coordinador,fields=fields,submit_button='Actualizar', showid=False)
+            form = SQLFORM.factory(db.auth_user,db.Coordinador,fields=fields,submit_button='Actualizar Coordinador', showid=False)
             response.view = 'mi_perfil/configuracion_coordinador.html'
         # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles personalizados)
         # o es un usuario con rol ajeno al sistema
@@ -103,7 +106,7 @@ def configuracion():
                 db.Administrativo.carnet.default = administrativo.Administrativo.carnet
                 db.Administrativo.coordinacion.default = administrativo.Administrativo.coordinacion
                 db.Administrativo.correo_Alternativo.default = administrativo.Administrativo.correo_Alternativo
-                form = SQLFORM.factory(db.auth_user, db.Administrativo, fields=fields, submit_button='Actualizar',
+                form = SQLFORM.factory(db.auth_user, db.Administrativo, fields=fields, submit_button='Actualizar Administrativo',
                                        showid=False)
             else:
                 form = SQLFORM(db.auth_user, record=usuario, fields=fields, submit_button='Actualizar', showid=False)
