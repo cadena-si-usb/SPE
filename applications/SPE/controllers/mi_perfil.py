@@ -8,27 +8,31 @@ def ver():
     usuario = auth.user
     # Preguntar aqui por usuario externo o usuarioUSB
     currentUser = usuario
+    tipo_documento = db.Tipo_Documento(id=currentUser.tipo_documento)
+
 
     if (auth.has_membership(role='Estudiante')):
         estudiante = db.Estudiante(usuario=userid)
         carrera=db.Carrera(id=estudiante.carrera)
         sede_estudiante = db.Sede(id=estudiante.sede)
         curriculo = db.Curriculo(estudiante=estudiante.id)
+
     if (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
-        profesor = db.Profesor(usuario=userid)
-        departamento = db.Departamento(id=profesor.Profesor.departamento)
-        categoria = db.Categoria(id=profesor.Profesor.categoria)
-        dedicacion= db.Dedicacion(id=profesor.Profesor.dedicacion)
-        sede_profesor = db.Sede(id= profesor.Profesor.sede)
+		profesor = db(((db.auth_user.id == userid) & (db.Profesor.usuario == db.auth_user.id))).select().first()
+		departamento = db.Departamento(id=profesor.Profesor.departamento)
+		categoria = db.Categoria(id=profesor.Profesor.categoria)
+		dedicacion= db.Dedicacion(id=profesor.Profesor.dedicacion)
+		sede = db.Sede(id= profesor.Profesor.sede)
+
     if (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
-        coordinador = db.Coordinador(usuario=userid)
-        db.Coordinacion(id=coordinador.coordinacion)
+        coordinador = db(((db.auth_user.id == userid) & (db.Coordinador.usuario == db.auth_user.id))).select().first()
         coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
     # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles personalizados)
     # o es un usuario con rol ajeno al sistema
-    administrativo = db.Administrativo(usuario=usuario.id)
+    administrativo = db(((db.auth_user.id == userid) & (db.Administrativo.usuario == db.auth_user.id))).select()
     if administrativo:
-        coordinacion = db.Coordinacion(id=administrativo.coordinacion)
+    	administrativo = administrativo.first()
+        coordinacion = db(db.Administrativo.coordinacion == db.Coordinacion.id).select().first()
     return locals()
 
 @auth.requires_login()

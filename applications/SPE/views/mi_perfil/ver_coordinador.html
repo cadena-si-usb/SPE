@@ -12,37 +12,6 @@
                             <div>
                                  <h5>{{=coordinacion.Coordinacion.first_name}}</h5>
                             </div>
-
-                            <br>
-
-                            <h4> <b>Dirección</b> </h4>
-                            <div>
-                                 <h5>{{=currentUser.direccion}}</h5>
-                            </div>
-                        </center>
-                    </div>
-
-
-                    <div class="col-sm-4">
-                        <center>
-
-                            <h4> <b>Teléfono</b> </h4>
-                            <div>
-                                 <h5>{{=currentUser.telefono}}</h5>
-                            </div>
-
-                            <br>
-
-                            <h4> <b>Sexo</b> </h4>
-                            <div>
-                                {{if currentUser.sexo == 'M':}}
-                                    <h5>Masculino</h5>
-                                {{elif currentUser.sexo == 'F':}}
-                                    <h5>Femenino</h5>
-                                {{pass}}
-                            </div>
-
-
                         </center>
                     </div>
 
@@ -52,9 +21,11 @@
                             <div>
                                 <h5>{{=coordinador.auth_user.email}}</h5>
                             </div>
+                        </center>
+                    </div>
 
-                            <br>
-
+                    <div class="col-sm-4">
+                        <center>
                             <h4> <b>Correo Alternativo</b> </h4>
                             <div>
                                 <h5>{{=coordinador.Coordinador.correo_Alternativo}}</h5>
