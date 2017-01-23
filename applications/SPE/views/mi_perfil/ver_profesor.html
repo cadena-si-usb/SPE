@@ -1,6 +1,10 @@
 <div class="panel panel-success"> 
     <div class="panel-heading"> 
-        <h3 class="panel-title" style="font-size: 15px">Datos de Profesor</h3> 
+        <h3 class="panel-title pull-left" style="font-size: 15px">Datos de Profesor</h3> 
+        <a href="{{=URL('configuracion', args=['profesor'])}}" class="clickable">
+            <span class="pull-right icon boton_posicion"><i class="glyphicon glyphicon-edit"></i> Editar</span> 
+        </a>
+        <div class="clearfix"></div>
     </div> 
     <div class="panel-body">
     	<section id="sec1">
@@ -18,16 +22,6 @@
 								{{pass}}
 					       </div>
 
-					       <br>
-
-					       <h4> <b>Sede</b> </h4>
-                           <div>
-					   			{{if sede:}}
-									<h5>{{=sede.first_name}}</h5>
-								{{else:}}
-									<h5>N/A</h5>
-								{{pass}}
-					       </div>
 
                         </center>
                     </div>
@@ -44,6 +38,15 @@
        						</div>
 
        						<br>
+
+                           <h4> <b>Sede</b> </h4>
+                           <div>
+                                {{if sede:}}
+                                    <h5>{{=sede.first_name}}</h5>
+                                {{else:}}
+                                    <h5>N/A</h5>
+                                {{pass}}
+                           </div>
                         </center>
                     </div>
 

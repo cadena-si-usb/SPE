@@ -15,14 +15,18 @@
                         	</div>
                         </div>
                    
-	            		<div class="col-sm-6" style="text-align: left; margin-top: 07%;">
+	            		<div class="col-sm-6" style="text-align: left; margin-top: 02%;">
 	            			<h4><p><b>{{=usuario['first_name']}} {{=usuario['last_name']}}</b></p></h4>
                             <h4><p>USBID: {{=usuario.username}}</p></h4>
-                            <h4><p>{{=usuario.tipo_documento}} - {{=usuario.numero_documento}} </p></h4>
-                            <h4><p>{{=usuario.email }}</p></h4>
-                            <h4><p>{{=usuario.sexo }}</p></h4>
-                            <h4><p>{{=usuario.telefono }}</p></h4>
-                            <h4><p>{{=usuario.direccion }}</p></h4>
+                            <h4><p>{{=tipo_documento.first_name}}: {{=currentUser.numero_documento}} </p></h4>
+                            <h4><p>{{=currentUser.email }}</p></h4>
+                            {{if currentUser.sexo == 'M':}}
+                                <h4><p>Masculino<p></h4>
+                            {{elif currentUser.sexo == 'F':}}
+                                <h4><p>Femenino<p></h4>
+                            {{pass}}
+                            <h4><p>{{=currentUser.telefono }}</p></h4>
+                            <h4><p>{{=currentUser.direccion }}</p></h4>
 	            		</div>
 	            	</div>
 
@@ -32,14 +36,15 @@
     {{if globals().get('estudiante', False):}}
     	{{include 'mi_perfil/ver_estudiante.html'}}
     {{pass}}
-    {{if globals().get('profesor', False):}}
+    {{if globals().get('profesor', False) or globals().get('TutorAcademico', False):}}
     	{{include 'mi_perfil/ver_profesor.html'}}
-    {{pass}}
-    {{if globals().get('coordinador', False):}}
-    	{{include 'mi_perfil/ver_coordinador.html'}}
     {{pass}}
     {{if globals().get('administrativo', False):}}
     	{{include 'mi_perfil/ver_administrativo.html'}}
     {{pass}}
+    {{if globals().get('coordinador', False) or globals().get('CoordinadorCCT', False):}}
+    	{{include 'mi_perfil/ver_coordinador.html'}}
+    {{pass}}
+    
 
 {{end}}

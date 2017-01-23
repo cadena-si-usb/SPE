@@ -1,6 +1,10 @@
 <div class="panel panel-warning">
     <div class="panel-heading">
-      <h1 class="panel-title" style="font-size: 15px"> Datos de Administrativo</h1>
+        <h3 class="panel-title pull-left" style="font-size: 15px">Datos de Administrativo</h1>
+        <a href="{{=URL('configuracion')}}" class="clickable">
+            <span class="pull-right icon boton_posicion"><i class="glyphicon glyphicon-edit"></i> Editar</span> 
+        </a>
+      <div class="clearfix"></div>
     </div>
     <div class="panel-body">
         <section id="sec1">
@@ -12,34 +16,6 @@
                             <div>
                                  <h5>{{=coordinacion.Coordinacion.first_name}}</h5>
                             </div>
-
-                            <br>
-
-                            <h4> <b>Dirección</b> </h4>
-                            <div>
-                                 <h5>{{=currentUser.direccion}}</h5>
-                            </div>
-                        </center>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <center>
-                            <h4> <b>Teléfono</b> </h4>
-                            <div>
-                                 <h5>{{=currentUser.telefono}}</h5>
-                            </div>
-
-                            <br>
-
-                            <h4> <b>Sexo</b> </h4>
-                            <div>
-                                {{if currentUser.sexo == 'M':}}
-                                    <h5>Masculino</h5>
-                                {{elif currentUser.sexo == 'F':}}
-                                    <h5>Femenino</h5>
-                                {{pass}}
-                            </div>
-                            
                         </center>
                     </div>
 
@@ -49,8 +25,11 @@
                             <div>
                                 <h5>{{=administrativo.auth_user.email}}</h5>
                             </div>
+                        </center>
+                    </div>
 
-                            <br>
+                    <div class="col-sm-4">
+                        <center>
 
                             <h4> <b>Correo Alternativo</b> </h4>
                             <div>
