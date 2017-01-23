@@ -18,7 +18,7 @@ def sqlform_grid():
     elif request.args[-3]=='view':
         return ver(request)
     else:
-        return simple_spe_grid(db.Empresa)
+        return simple_spe_grid(db.Empresa,fields=fields)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
