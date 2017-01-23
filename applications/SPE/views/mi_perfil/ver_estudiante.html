@@ -12,6 +12,16 @@
                 <div class="col-sm-12">
                     <div class="col-sm-4">
                         <center>
+                            <h4> <b>Carnet</b> </h4>
+                            {{if estudiante.carnet:}}
+                                <h5>{{=estudiante.carnet}}</h5>
+                            {{else:}}
+                                <h5>N/A</h5>
+                            {{pass}}
+                        </center>
+                    </div>
+                    <div class="col-sm-4">
+                        <center>
                             <h4> <b>Carrera</b> </h4>
                             {{if carrera:}}
                                 <h5>{{=sede_estudiante.first_name}}</h5>
