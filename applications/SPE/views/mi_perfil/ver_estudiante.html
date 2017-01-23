@@ -1,6 +1,6 @@
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title pull-left" style="font-size: 15px"> Datos de Estudiante</h1>
+        <h1 class="panel-title pull-left" style="font-size: 15px"> Datos de Estudiante</h1>
         <a href="{{=URL('configuracion', args=['estudiante'])}}" class="clickable">
             <span class="pull-right icon boton_posicion"><i class="glyphicon glyphicon-edit"></i></span>
         </a>
@@ -42,33 +42,86 @@
 
                 <div class="row">
                     <center> <h3> <b> Curriculo </b> </h3> </center>
-
-                    <div class="col-sm-6 col-sm-offset-1">
+                    <div class="col-sm-4">
                             <h4> <b> Idiomas: </b> </h4>
-                            <div>
-                                <h5>{{=curriculo.idiomas}}</h5>
-                            </div>
-
-                            <br>
-
+                            <ul>
+                                {{for item in curriculo.idiomas:}}
+                                    <div>
+                                        <li><h5>{{=item}}</h5></li>
+                                    </div>
+                                {{pass}}
+                            </ul>
+                    </div>
+                    <div class="col-sm-4">
                             <h4> <b> Electivas: </b> </h4>
-                            <div>
-                                <h5>{{=curriculo.electivas}}</h5>
-                            </div>
+                            <ul>
+                                {{for item in curriculo.electivas:}}
+                                    <div>
+                                        <li><h5>{{=item}}</h5></li>
+                                    </div>
+                                {{pass}}
+                            </ul>
                     </div>
 
-                    <div class="col-sm-5">
-                            <h4> <b> Cursos: </b> </h3>
-                            <div>
-                                <h5>{{=curriculo.cursos}}</h5>
-                            </div>
-
-                            <br>
-
-                            <h4> <b> Aficiones: </b> </h3>
-                            <div>
-                                <h5>{{=curriculo.aficiones}}</h5>
-                            </div>
+                    <div class="col-sm-4">
+                            <h4> <b> Cursos: </b> </h4>
+                            <ul>
+                                {{for item in curriculo.cursos:}}
+                                    <div>
+                                        <li><h5>{{=item}}</h5></li>
+                                    </div>
+                                {{pass}}
+                            </ul>
+                    </div>
+                    <div class="col-sm-4">
+                            <h4> <b> Aficiones: </b> </h4>
+                            <ul>
+                                {{for item in curriculo.aficiones:}}
+                                    <div>
+                                        <li><h5>{{=item}}</h5></li>
+                                    </div>
+                                {{pass}}
+                            </ul>
+                    </div>
+                    <div class="col-sm-4">
+                            <h4> <b> Voluntariados: </b> </h4>
+                            <ul>
+                                {{for item in curriculo.voluntariados:}}
+                                    <div>
+                                        <li><h5>{{=item}}</h5></li>
+                                    </div>
+                                {{pass}}
+                            </ul>
+                    </div>
+                    <div class="col-sm-4">
+                            <h4> <b> Educacion: </b> </h4>
+                            <ul>
+                                {{for item in curriculo.educacion:}}
+                                    <div>
+                                        <li><h5>{{=item}}</h5></li>
+                                    </div>
+                                {{pass}}
+                            </ul>
+                    </div>
+                    <div class="col-sm-4">
+                            <h4> <b> Experiencias: </b> </h4>
+                            <ul>
+                                {{for item in curriculo.experiencias:}}
+                                    <div>
+                                        <li><h5>{{=item}}</h5></li>
+                                    </div>
+                                {{pass}}
+                            </ul>
+                    </div>
+                    <div class="col-sm-4">
+                            <h4> <b> Proyectos: </b> </h4>
+                            <ul>
+                                {{for item in curriculo.proyectos:}}
+                                    <div>
+                                        <li><h5>{{=item}}</h5></li>
+                                    </div>
+                                {{pass}}
+                            </ul>
                     </div>
                 </div>
             </section>

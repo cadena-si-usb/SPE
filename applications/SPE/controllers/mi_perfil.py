@@ -42,7 +42,7 @@ def configuracion():
     global estudiante
     if auth.is_logged_in():
         userid = str(auth.user['username'])
-        usuario = auth.user
+        usuario = db.auth_user(id=auth.user.id)
 
         if (auth.has_membership(role='Estudiante') and request.args(0) == "estudiante"):
             record = db.Estudiante(db.Estudiante.usuario == usuario.id)
@@ -104,6 +104,7 @@ def configuracion():
                 'direccion',
                 'sexo'
             ]
+            response.view = 'mi_perfil/configuracion.html'
             form = SQLFORM(db.auth_user, record=auth.user, fields=fields, submit_button='Actualizar', showid=False)
     else:
         redirect(URL(c="default", f="index"))
