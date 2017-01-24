@@ -56,7 +56,7 @@ def ver():
     etapa = db.Etapa(pasantia.etapa)
 
     if etapa.first_name == 'Inscripcion':
-        inscripcion=db.Pasantia(pasantia= pasantia.id)
+        inscripcion=db.Inscripcion(pasantia= pasantia.id)
         plan_trabajo = db.Plan_Trabajo(pasantia=pasantia.id)
     elif etapa.first_name == 'Colocacion':
         colocacion=db.Colocacion(pasantia=pasantia.id)
@@ -129,3 +129,112 @@ def preinscribir():
     
     redirect(URL('ver', args=(pasantia)))
     
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Profesor'))
+def consultar_pasantias_profesor():
+    response.view = 'mis_pasantias/consultar_pasantias_profesor.html'
+    return locals()
+
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Profesor'))
+def pasantias_grid_profesor():
+    userId=auth.user.id
+    profesor = db.Profesor(usuario=userId)
+    email = auth.user.email
+    pasantias=db((profesor.id==db.Pasantia.tutor_academico))
+
+    #Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
+    # this is not required in later versions)
+    fields = (db.Pasantia.titulo, db.Pasantia.estudiante,db.Pasantia.etapa, db.Pasantia.status)
+
+    #Define headers as tuples/dictionaries
+    headers = {
+            ''
+            'Pasantia.titulo': 'Titulo',
+            'Pasantia.estudiante':'Estudiante',
+            'Pasantia.etapa':'Etapa',
+            'Pasantia.status': 'Status' }
+
+    #Let's specify a default sort order on date_of_birth column in grid
+    default_sort_order=[db.Pasantia.titulo]
+    links = [lambda row: A('Detalle', _href=URL(c='Pasantia',f='verDetallePasantia',args=[row.id]))]
+
+    #Creating the grid object
+    form = SQLFORM.grid(query=pasantias, fields=fields, headers=headers, orderby=default_sort_order,
+                create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,
+                links=links,csv=False,user_signature=False)
+
+    return form
+
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Coordinador'))
+def consultar_pasantias_coordinador():
+    userId=auth.user.id
+    coordinador=db.Coordinador(id=userId)
+    coordinacion=db.Coordinacion(id=coordinador.coordinacion)
+    response.view = 'mis_pasantias/consultar_pasantias_coordinador.html'
+    return locals()
+
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Coordinador'))
+def pasantias_grid_coordinador():
+    userId = auth.user.id
+    coordinador = db.Coordinador(id=userId)
+    coordinacion = db.Coordinacion(id=coordinador.coordinacion)
+    carrera = db.Carrera(coordinacion=coordinacion.id)
+    email = auth.user.email
+    pasantias = db((db.Estudiante.id == db.Pasantia.estudiante) & (db.Estudiante.carrera == carrera.id))
+
+    # Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
+    # this is not required in later versions)
+    fields = (db.Pasantia.titulo, db.Pasantia.estudiante, db.Pasantia.etapa, db.Pasantia.status)
+
+    # Define headers as tuples/dictionaries
+    headers = {
+        ''
+        'Pasantia.titulo': 'Titulo',
+        'Pasantia.estudiante': 'Estudiante',
+        'Pasantia.etapa': 'Etapa',
+        'Pasantia.status': 'Status'
+    }
+
+    # Let's specify a default sort order on date_of_birth column in grid
+    default_sort_order = [db.Pasantia.titulo]
+    links = [lambda row: A('Detalle', _href=URL(c='Pasantia', f='verDetallePasantia', args=[row.id]))]
+
+    # Creating the grid object
+    form = SQLFORM.grid(query=pasantias, fields=fields, headers=headers, orderby=default_sort_order,
+                        create=False, deletable=False, editable=False, maxtextlength=64, paginate=25, details=False,
+                        links=links, csv=False, user_signature=False)
+    return form
+
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Estudiante'))
+def consultar_pasantias_estudiante():
+    pasantia_abierta = not db(db.Pasantia.status!='Culminada').isempty()
+    response.view = 'mis_pasantias/consultar_pasantias_estudiante.html'
+    return locals()
+
+@auth.requires(auth.is_logged_in() and auth.has_membership(role='Estudiante'))
+def pasantias_grid_estudiante():
+    userId = auth.user.id
+    email = auth.user.email
+    pasantias = db((db.Estudiante.id == db.Pasantia.estudiante) & (db.Estudiante.id == userId))
+
+    # Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
+    # this is not required in later versions)
+    fields = (db.Pasantia.titulo, db.Pasantia.estudiante, db.Pasantia.etapa, db.Pasantia.status)
+
+    # Define headers as tuples/dictionaries
+    headers = {
+        ''
+        'Pasantia.titulo': 'Titulo',
+        'Pasantia.estudiante': 'Estudiante',
+        'Pasantia.etapa': 'Etapa',
+        'Pasantia.status': 'Status'
+    }
+
+    # Let's specify a default sort order on date_of_birth column in grid
+    default_sort_order = [db.Pasantia.titulo]
+    links = [lambda row: A('Detalle', _href=URL(c='mis_pasantias', f='ver', args=[row.id]))]
+
+    # Creating the grid object
+    form = SQLFORM.grid(query=pasantias, fields=fields, headers=headers, orderby=default_sort_order,
+                        create=False, deletable=False, editable=False, maxtextlength=64, paginate=25, details=False,
+                        links=links, csv=False, user_signature=False)
+    return form

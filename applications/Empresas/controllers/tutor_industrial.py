@@ -67,26 +67,19 @@ def solicitar_registro_tutor():
     # Caso 1: El form se lleno de manera correcta asi que registramos al tutor y procedemos a la pagina de exito
     if form.process().accepted:
 
-        # Insertamos en la tabla user de Web2py
         result = db.auth_user.insert(
+            username=request.vars.email,
             first_name=request.vars.first_name,
             last_name=request.vars.last_name,
             password=db.auth_user.password.validate(request.vars.password)[0],
             email=request.vars.email,
-        )
-
-        # Registramos el usuario externo
-        db.auth_user.insert(
-            id=result,
-            auth_User=result,
-            email=request.vars.email,
             pregunta_secreta=request.vars.pregunta_secreta,
             respuesta_secreta=request.vars.respuesta_secreta,
-            first_name=request.vars.first_name,
             pais=request.vars.pais,
             estado=request.vars.estado,
             telefono=request.vars.telefono,
             direccion=request.vars.direccion,
+            miembro_usb=False,
         )
 
         usuarioExternoSet = db(db.auth_user.email == request.vars.email).select()

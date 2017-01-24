@@ -31,7 +31,7 @@ opciones_administrativo = [
 opciones_estudiante = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-cog'), '  Configuración '), False, '/SPE/mi_perfil/configuracion'),
-    ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/mis_pasantias/listar'),
+    ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/mis_pasantias/consultar_pasantias_estudiante'),
     ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/Permiso/consultarPermisos'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
@@ -45,7 +45,7 @@ opciones_coordinadorCCT = [
 opciones_coordinador = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-cog'), '  Configuración'), False, '/SPE/mi_perfil/configuracion'),
-    ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/Coordinador/consultarPasantias'),
+    ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/Coordinador/consultar_pasantias_coordinador'),
     ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/Permiso/consultarPermisos'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]
@@ -53,7 +53,7 @@ opciones_coordinador = [
 opciones_profesor = [
     ((SPAN(_class='fa fa-user'), '  Ver Perfil'), False, '/SPE/mi_perfil/ver'),
     ((SPAN(_class='fa fa-cog'), '  Configuración'), False, '/SPE/mi_perfil/configuracion'),
-    ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/mis_pasantias/listar'),
+    ((SPAN(_class='fa fa-list'), '  Mis Pasantias'), False, '/SPE/mis_pasantias/consultar_pasantias_profesor'),
     ((SPAN(_class='fa fa-file-text'), '  Mis Permisos'), False, '/SPE/Permiso/consultarPermisos'),
     ((SPAN(_class='fa fa-sign-out'), '  Cerrar Sesión'), False, URL('default', 'logout'))
 ]

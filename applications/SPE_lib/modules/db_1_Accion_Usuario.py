@@ -28,6 +28,12 @@ def Accion_Usuario_Table(db,T):
         db.Accion_Usuario.insert(
             first_name='Mis Pasantias',
             destino='/SPE/mis_pasantias/listar',
+            contexto='',
+            rol='1'
+        )
+        db.Accion_Usuario.insert(
+            first_name='Mis Pasantias',
+            destino='/SPE/mis_pasantias/consultar_pasantias_estudiante',
             contexto='coordinacion',
             rol='1'
         )

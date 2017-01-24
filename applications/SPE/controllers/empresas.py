@@ -79,6 +79,7 @@ def agregar(request):
             estado=request.vars.estado,
             telefono=request.vars.telefono,
             direccion=request.vars.direccion,
+            miembro_usb=False,
         )
         group_id = auth.id_group(role='Empresa')
         auth.add_membership(group_id, result)
