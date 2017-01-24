@@ -6,12 +6,14 @@
             <div class="row">
             		<div class="col-sm-12">
 	            		<div class="col-sm-5" style="text-align: center;">
-	            			<div id="foto-perfil" style="text-align: center;">
-                        		<h5 style="margin-bottom: 80%"><b>Foto del Perfil</b></h5>
-                        		<button class="boton-negro">SUBIR FOTO</button>
-                        	</div>
+                            {{if usuario.image:}}
+                                <img style="max-width: 100%; max-height: 250px;" src="{{=URL('mi_perfil', 'download',
+                                args=usuario.image)}}" />
+                            {{else:}}
+                                <img style="max-width: 100%; max-height: 250px;" src="/static/images/profile.png" />
+                            {{pass}}
                         </div>
-                   
+
 	            		<div class="col-sm-6" style="text-align: left; margin-top: 02%;">
 	            			<h4><p><b>{{=usuario['first_name']}} {{=usuario['last_name']}}</b></p></h4>
                             <h4><p>USBID: {{=usuario.username}}</p></h4>
@@ -26,7 +28,6 @@
                             <h4><p>{{=currentUser.direccion }}</p></h4>
 	            		</div>
 	            	</div>
-
             </div>
     	</section>
     </div>

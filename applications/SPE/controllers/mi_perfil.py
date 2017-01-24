@@ -6,7 +6,7 @@ Usuario = Usuario()
 @auth.requires_login()
 def ver():
     userid = session.currentUser.id
-    usuario = auth.user
+    usuario = db.auth_user(id=auth.user.id)
     # Preguntar aqui por usuario externo o usuarioUSB
     currentUser = usuario
     tipo_documento = db.Tipo_Documento(id=currentUser.tipo_documento)
@@ -107,7 +107,7 @@ def configuracion():
             ]
             response.view = 'mi_perfil/configuracion.html'
             form = SQLFORM(db.auth_user,
-                           record=auth.user,
+                           record=usuario,
                            upload=URL('download'),
                            fields=fields,
                            submit_button='Actualizar',
@@ -131,6 +131,7 @@ def configuracion():
             record.update_record(**db.Administrativo._filter_fields(form.vars))
         else:
             usuario.update_record(**db.auth_user._filter_fields(form.vars))
+            auth.user = usuario
         session.flash = T('Perfil actualizado exitosamente!')
         redirect(URL('ver'))
     else:
