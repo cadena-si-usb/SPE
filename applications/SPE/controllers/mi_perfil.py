@@ -102,10 +102,16 @@ def configuracion():
                 'numero_documento',
                 'telefono',
                 'direccion',
-                'sexo'
+                'sexo',
+                'image'
             ]
             response.view = 'mi_perfil/configuracion.html'
-            form = SQLFORM(db.auth_user, record=auth.user, fields=fields, submit_button='Actualizar', showid=False)
+            form = SQLFORM(db.auth_user,
+                           record=auth.user,
+                           upload=URL('download'),
+                           fields=fields,
+                           submit_button='Actualizar',
+                           showid=False)
     else:
         redirect(URL(c="default", f="index"))
 
@@ -158,3 +164,6 @@ def editar_curriculo():
         response.flash = T('Por favor llene la forma.')
 
     return locals()
+
+def download():
+    return response.download(request, db)

@@ -36,6 +36,7 @@ def spe_auth_tables(db,T):
               label='Pais'),
         Field('estado', 'reference Estado',
               label='Estado'),
+        Field('image', 'upload'),
         Field('miembro_usb', 'boolean',writable=False,readable=False,
               default=True),
     ]
