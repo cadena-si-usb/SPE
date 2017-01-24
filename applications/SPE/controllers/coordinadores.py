@@ -6,8 +6,18 @@ from applications.SPE_lib.modules.grids import simple_spe_grid
 Coordinador = Coordinador()
 
 def sqlform_grid():
-    sqlform_grid = simple_spe_grid(db.Coordinador)
-    return sqlform_grid
+    if not request.args:
+        return simple_spe_grid(db.Coordinador)
+    elif request.args[-2]=='new':
+        return agregar(request)
+    elif request.args[-3]=='edit':
+        return modificar(request)
+    elif request.args[-3]=='delete':
+        return eliminar(request)
+    else:
+        return simple_spe_grid(db.Coordinador)
+
+
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
@@ -15,123 +25,92 @@ def listar():
     return dict(rows=session.rows)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
-def agregar():
+def agregar(request):
     fields = [
-        'first_name',
-        'last_name',
-        'email',
-        'tipo_documento',
-        'numero_documento',
-        'telefono',
-        'direccion',
-        'sexo',
-        'activo',
+        'usuario',
         'carnet',
         'correo_Alternativo',
         'coordinacion'
     ]
-
-    form = SQLFORM.factory(db.auth_user, db.auth_user, db.Coordinador, fields=fields, submit_button='Actualizar',
-                           showid=False)
+    db.Coordinador.usuario.writable=True
+    form = SQLFORM.factory(db.Coordinador, fields=fields, submit_button='Crear', showid=False)
 
     if form.process().accepted:
-        authId=db.auth_user.insert(first_name=form.vars.first_name,
-                            last_name=form.vars.last_name,
-                            email=form.vars.email,
-                            username=form.vars.username,
-                            tipo_documento=form.vars.tipo_documento,
-                            numero_documento=form.vars.numero_documento,
-                            telefono=form.vars.telefono,
-                            direccion=form.vars.direccion,
-                            sexo=form.vars.sexo,
-                            activo=form.vars.activo,
-        )
         # Actualizo los datos de usuario
         coordinadorId = db.Coordinador.insert(
-            id=authId,
-            usuario=authId,
+            usuario=form.vars.usuario,
             carnet=form.vars.carnet,
             correo_Alternativo=form.vars.correo_Alternativo,
             coordinacion=form.vars.coordinacion,
         )
+        coordinador=db.Coordinador(id=coordinadorId)
+        group = db.auth_group(role="Coordinador")
+        # Se agrega el rol
+        membership = db.auth_membership.insert(
+            user_id=coordinador.usuario,
+            group_id=group.id,
+        )
         # Actualizo los datos exclusivos de estudiante
         session.flash = T('Perfil actualizado exitosamente!')
-        redirect(URL('listar'))
+        redirect(URL('sqlform_grid'))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')
 
-    return locals()
+    return form
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Coordinador.count(obj)
+
     return count
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def get():
     obj = Encoder.to_dict(request.vars)
 
-    rows = db(((db.Coordinador.usuario == db.auth_user.id) & (db.Coordinador.coordinacion == db.Coordinacion.id) &
-               (db.Coordinacion.sede == db.Sede.id))).select()
+    rows = db(((db.Coordinador.usuario == db.auth_user.id) & (db.Coordinador.sede == db.Sede.id)
+               & (db.Coordinador.dedicacion == db.Dedicacion.id)
+               & (db.Coordinador.categoria == db.Categoria.id)
+               & (db.auth_user.auth_User == db.auth_user.id))).select()
 
     return rows.as_json()
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
-def modificar():
+def modificar(request):
     fields = [
-        'first_name',
-        'last_name',
-        'email',
-        'tipo_documento',
-        'numero_documento',
-        'telefono',
-        'direccion',
-        'sexo',
-        'activo',
+        'usuario',
         'carnet',
         'correo_Alternativo',
         'coordinacion'
     ]
-
-    coordinador = db.Coordinador(request.args(0)) or redirect(URL('agregar'))
-
-    usuario = db.auth_user(coordinador.usuario) or redirect(URL('agregar'))
-
-    usuarioAuth = db.auth_user(usuario.auth_User) or redirect(URL('agregar'))
-
-    db.auth_user.first_name.default = usuario.first_name
-    db.auth_user.last_name.default = usuario.last_name
-    db.auth_user.email.default = usuario.email
-    db.auth_user.tipo_documento.default = usuario.tipo_documento
-    db.auth_user.numero_documento.default = usuario.numero_documento
-    db.auth_user.telefono.default = usuario.telefono
-    db.auth_user.direccion.default = usuario.direccion
-    db.auth_user.sexo.default = usuario.sexo
-    db.auth_user.activo.default = usuario.activo
-
-    db.Coordinador.carnet.default = coordinador.carnet
-    db.Coordinador.correo_Alternativo.default = coordinador.correo_Alternativo
-    db.Coordinador.coordinacion.default = coordinador.coordinacion
-
-    form = SQLFORM.factory(db.auth_user,db.auth_user, db.Coordinador, fields=fields, submit_button='Actualizar', showid=False)
+    coordinador = db.Coordinador(request.args[-1]) or redirect(URL('agregar'))
+    usuario = db.auth_user(coordinador.usuario)
+    form = SQLFORM.factory(db.Coordinador,record=coordinador, fields=fields, submit_button='Actualizar', showid=False)
 
     if form.process().accepted:
-        #
-        usuarioAuth.update_record(first_name=form.vars.first_name,
-                                  last_name=form.vars.last_name,
-                                  email=form.vars.email)
-        # Actualizo los datos de usuario
-        usuario.update_record(**db.auth_user._filter_fields(form.vars))
-        # Actualizo los datos exclusivos de estudiante
-        coordinador.update_record(**db.Estudiante._filter_fields(form.vars))
+        # Actualizo los datos exclusivos de coordinador
+        coordinador.update_record(**db.Coordinador._filter_fields(form.vars))
         session.flash = T('Perfil actualizado exitosamente!')
-        redirect(URL('listar'))
+        redirect(URL('sqlform_grid'))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')
 
-    return locals()
+    return form
+
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
+def eliminar(request):
+    coordinador = db.Coordinador(request.args[-1]) or redirect(URL('agregar'))
+    group = db.auth_group(role="Coordinador")
+    # Se agrega el rol
+    membership = db.auth_membership(
+        user_id=coordinador.usuario,
+        group_id=group.id,
+    )
+    coordinador.delete_record()
+    membership.delete_record()
+    redirect(URL('sqlform_grid'))

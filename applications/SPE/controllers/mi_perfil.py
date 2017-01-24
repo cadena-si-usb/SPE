@@ -2,149 +2,136 @@ from Usuarios import Usuario
 
 Usuario = Usuario()
 
+
 @auth.requires_login()
 def ver():
     userid = session.currentUser.id
+    usuario = auth.user
     # Preguntar aqui por usuario externo o usuarioUSB
-    currentUser = db.auth_user(db.auth_user.id == userid)
-    rol=db((db.auth_membership.user_id==userid) & (db.auth_membership.group_id==db.auth_group.id)).select().first()
-    usuario = {
-        "last_name": currentUser.last_name,
-        "first_name": currentUser.first_name,
-        "rol":  rol.auth_group.role,
-    }
+    currentUser = usuario
+    tipo_documento = db.Tipo_Documento(id=currentUser.tipo_documento)
 
     if (auth.has_membership(role='Estudiante')):
-        estudiante = db(((db.auth_user.id == userid) & (db.Estudiante.usuario == db.auth_user.id))).select().first()
-        carrera=db.Carrera(id=estudiante.Estudiante.carrera)
-        sede = db(db.Sede.id == db.Estudiante.sede).select().first()
-        curriculo = db(db.Curriculo.estudiante == estudiante.Estudiante.id).select().first()
-        response.view = 'mi_perfil/ver_estudiante.html'
+        estudiante = db.Estudiante(usuario=userid)
+        carrera = db.Carrera(id=estudiante.carrera)
+        sede_estudiante = db.Sede(id=estudiante.sede)
+        curriculo = db.Curriculo(estudiante=estudiante.id)
 
-    elif (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
+    if (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
         profesor = db(((db.auth_user.id == userid) & (db.Profesor.usuario == db.auth_user.id))).select().first()
         departamento = db.Departamento(id=profesor.Profesor.departamento)
         categoria = db.Categoria(id=profesor.Profesor.categoria)
-        dedicacion= db.Dedicacion(id=profesor.Profesor.dedicacion)
-        sede = db.Sede(id= profesor.Profesor.sede)
-        response.view = 'mi_perfil/ver_profesor.html'
+        dedicacion = db.Dedicacion(id=profesor.Profesor.dedicacion)
+        sede = db.Sede(id=profesor.Profesor.sede)
 
-    elif (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
+    if (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
         coordinador = db(((db.auth_user.id == userid) & (db.Coordinador.usuario == db.auth_user.id))).select().first()
         coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
-        response.view = 'mi_perfil/ver_coordinador.html'
-    # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles personalizados)
+    # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles
+    # personalizados)
     # o es un usuario con rol ajeno al sistema
-    else:
-        administrativo = db(((db.auth_user.id == userid) & (db.Administrativo.usuario == db.auth_user.id))).select()
-        if administrativo:
-            administrativo = administrativo.first()
-            coordinacion = db(db.Administrativo.coordinacion == db.Coordinacion.id).select().first()
-            response.view = 'mi_perfil/ver_administrativo.html'
-        else:
-            invitado = db(
-                ((db.auth_user.auth_User == userid) & (userid == db.auth_user.id))).select().first()
-            response.view = 'mi_perfil/ver_invitado.html'
-
+    administrativo = db(((db.auth_user.id == userid) & (db.Administrativo.usuario == db.auth_user.id))).select()
+    if administrativo:
+        administrativo = administrativo.first()
+        coordinacion = db(db.Administrativo.coordinacion == db.Coordinacion.id).select().first()
     return locals()
+
 
 @auth.requires_login()
 def configuracion():
     global estudiante
-    fields = [
-        'first_name',
-        'last_name',
-        'email',
-        'tipo_documento',
-        'numero_documento',
-        'telefono',
-        'direccion',
-        'sexo'         
-    ]
-
     if auth.is_logged_in():
         userid = str(auth.user['username'])
-        usuario = db.auth_user(auth.user.id)
+        usuario = db.auth_user(id=auth.user.id)
 
-        db.auth_user.first_name.default=usuario.first_name
-        db.auth_user.last_name.default = usuario.last_name
-        db.auth_user.email.default = usuario.email
-        db.auth_user.tipo_documento.default = usuario.tipo_documento
-        db.auth_user.numero_documento.default = usuario.numero_documento
-        db.auth_user.telefono.default = usuario.telefono
-        db.auth_user.direccion.default = usuario.direccion
-        db.auth_user.sexo.default = usuario.sexo
-
-        if (auth.has_membership(role='Estudiante')):
-            estudiante = db.Estudiante(db.Estudiante.usuario == usuario.id)
-            fields.append('carnet')
-            fields.append('carrera')
-            fields.append('sede')
-            db.Estudiante.carnet.default = estudiante.carnet
-            db.Estudiante.carrera.default = estudiante.carrera
-            db.Estudiante.sede.default = estudiante.sede
-            form = SQLFORM.factory(db.auth_user,db.Estudiante,fields=fields,submit_button='Actualizar', showid=False)
+        if (auth.has_membership(role='Estudiante') and request.args(0) == "estudiante"):
+            record = db.Estudiante(db.Estudiante.usuario == usuario.id)
+            fields = [
+                'carnet',
+                'carrera',
+                'sede',
+            ]
+            form = SQLFORM(db.Estudiante, record=record, fields=fields, submit_button='Actualizar Estudiante',
+                           showid=False)
             response.view = 'mi_perfil/configuracion_estudiante.html'
-        elif (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
-            profesor = db.Profesor(db.Profesor.usuario == usuario.id)
-            fields.append('categoria')
-            fields.append('dedicacion')
-            fields.append('departamento')
-            fields.append('sede')
-            db.Profesor.categoria.default = profesor.categoria
-            db.Profesor.dedicacion.default = profesor.dedicacion
-            db.Profesor.departamento.default = profesor.departamento
-            db.Profesor.sede.default = profesor.sede
-            form = SQLFORM.factory(db.auth_user,db.Profesor,fields=fields,submit_button='Actualizar', showid=False)
+
+        elif (auth.has_membership(role='Profesor') and request.args(0) == "profesor"):
+            record = db.Profesor(db.Profesor.usuario == usuario.id)
+            fields = [
+                'categoria',
+                'dedicacion',
+                'departamento',
+                'sede',
+            ]
+            form = SQLFORM(db.Profesor, record=record, fields=fields, submit_button='Actualizar Profesor', showid=False)
             response.view = 'mi_perfil/configuracion__profesor.html'
-        elif (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
-            coordinador = db.Coordinador(db.Coordinador.id == usuario.id)
-            fields.append('carnet')
-            fields.append('correo_Alternativo')
-            db.Coordinador.carnet.default = coordinador.carnet
-            db.Coordinador.correo_Alternativo.default = coordinador.correo_Alternativo
-            form = SQLFORM.factory(db.auth_user,db.Coordinador,fields=fields,submit_button='Actualizar', showid=False)
+
+        elif ((auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')) and request.args(
+                0) == "coordinador"):
+            record = db.Coordinador(db.Coordinador.id == usuario.id)
+            fields = [
+                'carnet',
+                'correo_Alternativo',
+                'coordinacion',
+            ]
+            form = SQLFORM(db.Coordinador, record=record, fields=fields, submit_button='Actualizar Coordinador',
+                           showid=False)
             response.view = 'mi_perfil/configuracion_coordinador.html'
-        # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles personalizados)
+        # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles
+        # personalizados)
         # o es un usuario con rol ajeno al sistema
+        elif request.args(0) == "administrativo":
+            record = db.Administrativo(usuario=auth.user.id)
+            fields = [
+                'carnet',
+                'correo_Alternativo',
+                'coordinacion',
+            ]
+            form = SQLFORM(db.Administrativo,
+                           record=record,
+                           fields=fields,
+                           submit_button='Actualizar Administrativo',
+                           showid=False)
+            response.view = 'mi_perfil/configuracion_administrativo.html'
         else:
-            administrativo = db(((db.auth_user.id == auth.user.id) & (db.Administrativo.usuario == db.auth_user.id))).select()
-            if administrativo:
-                fields.append('carnet')
-                fields.append('correo_Alternativo')
-                fields.append('coordinacion')
-                administrativo = administrativo.first()
-                db.Administrativo.carnet.default = administrativo.Administrativo.carnet
-                db.Administrativo.coordinacion.default = administrativo.Administrativo.coordinacion
-                db.Administrativo.correo_Alternativo.default = administrativo.Administrativo.correo_Alternativo
-                form = SQLFORM.factory(db.auth_user, db.Administrativo, fields=fields, submit_button='Actualizar',
-                                       showid=False)
-            else:
-                form = SQLFORM(db.auth_user, record=usuario, fields=fields, submit_button='Actualizar', showid=False)
+            fields = [
+                'first_name',
+                'last_name',
+                'email',
+                'tipo_documento',
+                'numero_documento',
+                'telefono',
+                'direccion',
+                'sexo'
+            ]
+            response.view = 'mi_perfil/configuracion.html'
+            form = SQLFORM(db.auth_user, record=auth.user, fields=fields, submit_button='Actualizar', showid=False)
     else:
-        redirect(URL(c="default",f="index"))
+        redirect(URL(c="default", f="index"))
 
     if form.process().accepted:
-        # Actualizo los datos de usuario
-        usuario.update_record(**db.auth_user._filter_fields(form.vars))
-        if (auth.has_membership(role='Estudiante')):
+        if (auth.has_membership(role='Estudiante') and request.args(0) == "estudiante"):
             # Actualizo los datos exclusivos de estudiante
-            estudiante.update_record(**db.Estudiante._filter_fields(form.vars))
-        elif (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
+            record.update_record(**db.Estudiante._filter_fields(form.vars))
+        elif (auth.has_membership(role='Profesor') and request.args(0) == "profesor"):
             # Actualizo los datos exclusivos de profesor
-            profesor.update_record(**db.Profesor._filter_fields(form.vars))
-        elif (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
+            record.update_record(**db.Profesor._filter_fields(form.vars))
+        elif ((auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')) and
+                      request.args(0) == "coordinador"):
             # Actualizo los datos exclusivos de profesor
-            coordinador.update_record(**db.Coordinador._filter_fields(form.vars))
-
+            record.update_record(**db.Coordinador._filter_fields(form.vars))
+        elif request.args(0) == "administrativo":
+            administrativo = db.Administrativo(usuario=auth.user.id)
+            record.update_record(**db.Administrativo._filter_fields(form.vars))
+        else:
+            usuario.update_record(**db.auth_user._filter_fields(form.vars))
         session.flash = T('Perfil actualizado exitosamente!')
-        usuario.update_record(activo=True)
-        session.currentUser = Usuario.getByRole(usuario.id)
         redirect(URL('ver'))
     else:
         response.flash = T('Por favor llene la forma.')
 
     return locals()
+
 
 @auth.requires(auth.has_membership(role='Estudiante'))
 def editar_curriculo():
@@ -152,21 +139,21 @@ def editar_curriculo():
         'electivas',
         'cursos',
         'aficiones',
-        'idiomas'         
+        'idiomas'
     ]
 
     userid = str(auth.user['id'])
 
-    estudiante = db.Estudiante(usuario = userid)
+    estudiante = db.Estudiante(usuario=userid)
 
-    curriculo = db.Curriculo(estudiante = estudiante['id'])
+    curriculo = db.Curriculo(estudiante=estudiante['id'])
 
-    form = SQLFORM(db.Curriculo,record=curriculo,fields=fields,submit_button='Actualizar',showid=False)
+    form = SQLFORM(db.Curriculo, record=curriculo, fields=fields, submit_button='Actualizar', showid=False)
 
     if form.process().accepted:
         session.flash = T('Perfil actualizado exitosamente!')
         curriculo.update_record(activo=True)
-        redirect(URL(c="default",f="index"))
+        redirect(URL(c="default", f="index"))
     else:
         response.flash = T('Por favor llene la forma.')
 

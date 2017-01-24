@@ -1,7 +1,47 @@
 {{extend 'shell.html'}}
 {{block content}}
+	<div id="perfil_estudiante">
+    	<section id="sec1" style="margin-bottom: 10%">
+    		<br>
+            <div class="row">
+            		<div class="col-sm-12">
+	            		<div class="col-sm-5" style="text-align: center;">
+	            			<div id="foto-perfil" style="text-align: center;">
+                        		<h5 style="margin-bottom: 80%"><b>Foto del Perfil</b></h5>
+                        		<button class="boton-negro">SUBIR FOTO</button>
+                        	</div>
+                        </div>
+                   
+	            		<div class="col-sm-6" style="text-align: left; margin-top: 02%;">
+	            			<h4><p><b>{{=usuario['first_name']}} {{=usuario['last_name']}}</b></p></h4>
+                            <h4><p>USBID: {{=usuario.username}}</p></h4>
+                            <h4><p>{{=tipo_documento.first_name}}: {{=currentUser.numero_documento}} </p></h4>
+                            <h4><p>{{=currentUser.email }}</p></h4>
+                            {{if currentUser.sexo == 'M':}}
+                                <h4><p>Masculino<p></h4>
+                            {{elif currentUser.sexo == 'F':}}
+                                <h4><p>Femenino<p></h4>
+                            {{pass}}
+                            <h4><p>{{=currentUser.telefono }}</p></h4>
+                            <h4><p>{{=currentUser.direccion }}</p></h4>
+	            		</div>
+	            	</div>
 
-VER
-
+            </div>
+    	</section>
+    </div>
+    {{if globals().get('estudiante', False):}}
+    	{{include 'mi_perfil/ver_estudiante.html'}}
+    {{pass}}
+    {{if globals().get('profesor', False) or globals().get('TutorAcademico', False):}}
+    	{{include 'mi_perfil/ver_profesor.html'}}
+    {{pass}}
+    {{if globals().get('administrativo', False):}}
+    	{{include 'mi_perfil/ver_administrativo.html'}}
+    {{pass}}
+    {{if globals().get('coordinador', False) or globals().get('CoordinadorCCT', False):}}
+    	{{include 'mi_perfil/ver_coordinador.html'}}
+    {{pass}}
+    
 
 {{end}}

@@ -26,6 +26,8 @@
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: contain;
+	text-align: right;
+	margin-left: 120px;
 }
 
 #footer, #barra{
@@ -46,7 +48,7 @@
 	background: #2B2B2B;
 	color: #DDD;
 	border: none;
-	width: 250px;
+	width: 200px;
 }
 
 .cols{
@@ -65,4 +67,31 @@
 .parrafos{
 	color: #9D9D9D;
 	font-size: 12px;
+}
+
+.boton_posicion {
+  margin-top: -06px;
+  margin-bottom: -06px;
+  margin-right: -10px;
+  border-radius: 05px; 
+}
+
+.clickable
+{
+    cursor: pointer;
+}
+
+.clickable .icon
+{
+    background: rgba(0, 0, 0, 0.15);
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px
+}
+
+a.clickable { color: inherit; }
+
+.boton_posicion:hover 
+{
+	background: rgba(0, 0, 0, 0.40);
 }

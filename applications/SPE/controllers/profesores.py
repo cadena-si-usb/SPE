@@ -6,8 +6,18 @@ from applications.SPE_lib.modules.grids import simple_spe_grid
 Profesor = Profesor()
 
 def sqlform_grid():
-    sqlform_grid = simple_spe_grid(db.Profesor)
-    return sqlform_grid
+    if not request.args:
+        return simple_spe_grid(db.Profesor)
+    elif request.args[-2]=='new':
+        return agregar(request)
+    elif request.args[-3]=='edit':
+        return modificar(request)
+    elif request.args[-3]=='delete':
+        return eliminar(request)
+    else:
+        return simple_spe_grid(db.Profesor)
+
+
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
@@ -15,58 +25,43 @@ def listar():
     return dict(rows=session.rows)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
-def agregar():
+def agregar(request):
     fields = [
-        'username',
-        'first_name',
-        'last_name',
-        'email',
-        'tipo_documento',
-        'numero_documento',
-        'telefono',
-        'direccion',
-        'sexo',
-        'activo',
+        'usuario',
         'categoria',
         'dedicacion',
         'departamento',
         'sede'
     ]
-
-    form = SQLFORM.factory(db.auth_user,db.auth_user, db.Profesor, fields=fields, submit_button='Crear', showid=False)
+    db.Profesor.usuario.writable=True
+    form = SQLFORM.factory(db.Profesor, fields=fields, submit_button='Crear', showid=False)
 
     if form.process().accepted:
-        authId=db.auth_user.insert(
-                            username=form.vars.username,
-                            first_name=form.vars.first_name,
-                            last_name=form.vars.last_name,
-                            email=form.vars.email,
-                            tipo_documento=form.vars.tipo_documento,
-                            numero_documento=form.vars.numero_documento,
-                            telefono=form.vars.telefono,
-                            direccion=form.vars.direccion,
-                            sexo=form.vars.sexo,
-                            activo=form.vars.activo,
-        )
         # Actualizo los datos de usuario
         profesorId = db.Profesor.insert(
-            id=authId,
-            usuario=authId,
+            usuario=form.vars.usuario,
             categoria=form.vars.categoria,
             dedicacion=form.vars.dedicacion,
             departamento=form.vars.departamento,
             sede=form.vars.sede,
             activo=form.vars.activo,
         )
+        profesor=db.Profesor(id=profesorId)
+        group = db.auth_group(role="Profesor")
+        # Se agrega el rol
+        membership = db.auth_membership.insert(
+            user_id=profesor.usuario,
+            group_id=group.id,
+        )
         # Actualizo los datos exclusivos de estudiante
         session.flash = T('Perfil actualizado exitosamente!')
-        redirect(URL('listar'))
+        redirect(URL('sqlform_grid'))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')
 
-    return locals()
+    return form
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
@@ -87,57 +82,39 @@ def get():
     return rows.as_json()
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
-def modificar():
+def modificar(request):
     fields = [
-        'username',
-        'first_name',
-        'last_name',
-        'email',
-        'tipo_documento',
-        'numero_documento',
-        'telefono',
-        'direccion',
-        'sexo',
-        'activo',
+        'usuario',
         'categoria',
         'dedicacion',
         'departamento',
         'sede'
     ]
-    profesor = db.Profesor(request.args(0)) or redirect(URL('agregar'))
+    profesor = db.Profesor(request.args[-1]) or redirect(URL('agregar'))
     usuario = db.auth_user(profesor.usuario)
-    usuarioAuth = db.auth_user(usuario.auth_User)
-
-    db.auth_user.first_name.default = usuario.first_name
-    db.auth_user.last_name.default = usuario.last_name
-    db.auth_user.email.default = usuario.email
-    db.auth_user.tipo_documento.default = usuario.tipo_documento
-    db.auth_user.numero_documento.default = usuario.numero_documento
-    db.auth_user.telefono.default = usuario.telefono
-    db.auth_user.direccion.default = usuario.direccion
-    db.auth_user.sexo.default = usuario.sexo
-    db.auth_user.activo.default = usuario.activo
-
-    db.Profesor.categoria.default = profesor.categoria
-    db.Profesor.dedicacion.default = profesor.dedicacion
-    db.Profesor.departamento.default = profesor.departamento
-    db.Profesor.sede.default = profesor.sede
-    form = SQLFORM.factory(db.auth_user,db.auth_user, db.Profesor, fields=fields, submit_button='Actualizar', showid=False)
+    form = SQLFORM.factory(db.Profesor,record=profesor, fields=fields, submit_button='Actualizar', showid=False)
 
     if form.process().accepted:
-        #
-        usuarioAuth.update_record(first_name=form.vars.first_name,
-                                  last_name=form.vars.last_name,
-                                  email=form.vars.email)
-        # Actualizo los datos de usuario
-        usuario.update_record(**db.auth_user._filter_fields(form.vars))
         # Actualizo los datos exclusivos de profesor
         profesor.update_record(**db.Profesor._filter_fields(form.vars))
         session.flash = T('Perfil actualizado exitosamente!')
-        redirect(URL('listar'))
+        redirect(URL('sqlform_grid'))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')
 
-    return locals()
+    return form
+
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
+def eliminar(request):
+    profesor = db.Profesor(request.args[-1]) or redirect(URL('agregar'))
+    group = db.auth_group(role="Profesor")
+    # Se agrega el rol
+    membership = db.auth_membership(
+        user_id=profesor.usuario,
+        group_id=group.id,
+    )
+    profesor.delete_record()
+    membership.delete_record()
+    redirect(URL('sqlform_grid'))
