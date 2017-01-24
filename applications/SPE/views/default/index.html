@@ -65,18 +65,21 @@
 
     </div>
 
-    <div class="row">
-        <div class="col-xs-12" style="text-align: center">
-            <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
-              <button class='btn-index'>Miembro USB</button>
-            </a>
+    {{if auth.is_logged_in() == False :}}
+         <div class="row">
+                <div class="col-xs-12" style="text-align: center">
+                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
+                      <button class='btn-index'>Miembro USB</button>
+                    </a>
 
 
-            <a class="link-btn" href={{=URL(a='Empresas',c='default',f='index')}}>
-              <button class='btn-index'>Empresas</button>
-            </a>
-        </div>
-    </div>
+                    <a class="link-btn" href={{=URL(a='Empresas',c='default',f='index')}}>
+                      <button class='btn-index'>Empresas</button>
+                    </a>
+                </div>
+         </div>
+
+    {{pass}}
 
 
 </div>
