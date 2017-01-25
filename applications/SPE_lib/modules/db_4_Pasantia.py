@@ -54,5 +54,5 @@ def Pasantia_Table(db,T):
         Field('fecha_defensa','date',
               label='Fecha de la defensa',
               represent=lambda v, r: 'N/A' if v is None else v),
-        format=lambda r: '%s %s - %s %s (%s)' % (r.id,r.titulo, r.estudiante.first_name,r.estudiante.last_name,r.estudiante.username)
+        format=lambda r: '%s %s - %s %s (%s)' % (r.id,r.titulo, r.estudiante,r.materia,r.periodo)
     )

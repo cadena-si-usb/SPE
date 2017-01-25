@@ -7,8 +7,19 @@ Estudiante = Estudiante()
 
 
 def sqlform_grid():
+    query = db(db.Estudiante.usuario == db.auth_user.id)
+    db.auth_user._format = lambda row: row.first_name + " " + row.last_name
+
+    fields = [
+        db.auth_user.username,
+        db.Estudiante.usuario,
+        db.Estudiante.carnet,
+        db.Estudiante.carrera,
+        db.Estudiante.sede,
+    ]
+
     if not request.args:
-        return simple_spe_grid(db.Estudiante)
+        return simple_spe_grid(query, fields=fields, field_id=db.Estudiante.id)
     elif request.args[-2]=='new':
         return agregar(request)
     elif request.args[-3]=='edit':
@@ -16,7 +27,7 @@ def sqlform_grid():
     elif request.args[-3]=='delete':
         return eliminar(request)
     else:
-        return simple_spe_grid(db.Estudiante)
+        return simple_spe_grid(query, fields=fields, field_id=db.Estudiante.id)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

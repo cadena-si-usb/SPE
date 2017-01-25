@@ -10,8 +10,7 @@ def Fase_Table(db, T):
                           label='Numero'),
                     Field('plan_trabajo', 'reference Plan_Trabajo',
                           label='Pasantía (*)',
-                          writable=False,
-                          unique=True,),
+                          writable=False),
                     Field('objetivo_especifico', 'text',
                           requires=[IS_NOT_EMPTY
                                     (error_message='Es necesario un objetivo')],

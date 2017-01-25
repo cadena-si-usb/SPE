@@ -6,8 +6,7 @@ def Actividad_Table(db, T):
     db.define_table('Actividad',
                     Field('fase', 'reference Fase',
                           label='Fase',
-                          writable=False,
-                          unique=True,),
+                          writable=False),
                     Field('numero', 'integer',
                           requires=[IS_NOT_EMPTY
                                     (error_message='Es necesario un numero de identificacion')],
