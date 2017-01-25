@@ -3,6 +3,8 @@ from gluon import *
 def Estudiante_Table(db,T):
     db.define_table('Estudiante',
         Field('usuario','reference auth_user',
+              writable=False,
+              unique=True,
               label='Usuario (*)'),
         Field('carnet',
               requires=IS_MATCH('^\d{2}?[\s.-]?\d{5}$',
