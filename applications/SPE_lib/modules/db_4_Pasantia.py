@@ -35,7 +35,7 @@ def Pasantia_Table(db,T):
               writable=False,
               requires=IS_IN_SET(['En Progreso', 'Cancelada','Culminada']),
               default='En Progreso',
-              label='Estado De Pasantia',
+              label='Estado',
               represent=lambda v, r: 'N/A' if v is None else v),
         Field('etapa','reference Etapa',
               writable=False,

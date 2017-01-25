@@ -40,11 +40,14 @@ class Plan_Trabajo(Model):
     @staticmethod
     def esActorDePlan(db,userId,id):
         pasantia = db.Pasantia(id=id)
+        estudiante = db.Estudiante(id=pasantia.estudiante)
+        tutor_academico = db.Estudiante(id=pasantia.tutor_academico)
+        tutor_industrial = db.Tutor_Industrial(id=pasantia.tutor_industrial)
         # Verificamos si hay que revertir aprobaciones para evitar ir a la base de datos innecesariamente
         try:
-            resultado=(pasantia.estudiante==userId
-                       or pasantia.tutor_industrial==userId
-                       or pasantia.tutor_academico==userId)
+            resultado=(tutor_industrial.usuario==userId
+                       or estudiante.usuario==userId
+                       or tutor_academico.usuario==userId)
             if not resultado:
                 coordID=db((db.Coordinador.usuario==userId) & (db.Coordinador.coordinacion==pasantia.estudiante.carrera.coordinacion))
                 if coordID:

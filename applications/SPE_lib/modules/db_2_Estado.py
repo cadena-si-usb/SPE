@@ -2,7 +2,7 @@
 from gluon import *
 def Estado_Table(db,T):
     db.define_table('Estado',
-        Field('first_name','string'),
+        Field('first_name','string', unique=True),
         Field('Pais', 'reference Pais'),
         format=lambda r: '%s - %s' % (r.Pais.first_name, r.first_name))
 

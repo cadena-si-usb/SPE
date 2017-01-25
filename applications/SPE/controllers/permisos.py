@@ -25,7 +25,8 @@ def agregar():
         tipo = request.args[0]
     except IndexError:
         tipo = None 
-
+    pasantia_id = request.args[1]
+    db.Permiso.pasantia.default = pasantia_id
     currentRoles = current.auth.user_groups.values()
     permisoBD = db.Permiso
     fieldsEstudianteInscr = ['Tipo','pasantia','justificacion']
@@ -35,8 +36,9 @@ def agregar():
     
 
     if 'Estudiante' in currentRoles:
+        estudiante = db.Estudiante(usuario=auth.user.id)
         permisoBD.Estudiante.writable = False
-        permisoBD.Estudiante.default = current.auth.user_id
+        permisoBD.Estudiante.default = estudiante.id
         
         permisoBD.Tipo.writable = False
         if tipo == 'Inscripcion Extemporanea':

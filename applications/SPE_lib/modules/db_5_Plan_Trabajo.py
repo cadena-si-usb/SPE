@@ -4,6 +4,8 @@ from datetime import datetime
 def Plan_Trabajo_Table(db,T):
     db.define_table('Plan_Trabajo',
         Field('pasantia','reference Pasantia',
+              writable=False,
+              unique=True,
               label='Pasantia (*)'),
         Field('aprobacion_tutor_academico', 'string',
               requires=IS_IN_SET(['En espera', 'Aprobado'],zero=None,

@@ -54,16 +54,20 @@ def chequear_permisologia():
 def ver():
     pasantia = db.Pasantia(request.args(0)) or redirect(URL('agregar'))
     etapa = db.Etapa(pasantia.etapa)
-
+    usuario = db.auth_user(id=auth.user.id)
+    estudiante = db.Estudiante(usuario=usuario.id)
     if etapa.first_name == 'Inscripcion':
         inscripcion=db.Inscripcion(pasantia= pasantia.id)
         plan_trabajo = db.Plan_Trabajo(pasantia=pasantia.id)
+        permisos_inscripcion_extemporanea = db.Permiso(Estudiante=estudiante.id,Tipo='Inscripcion Extemporanea')
     elif etapa.first_name == 'Colocacion':
         colocacion=db.Colocacion(pasantia=pasantia.id)
     elif etapa.first_name == 'Preinscripcion':
         preinscripcion = db.Preinscripcion(pasantia=pasantia.id)
     elif etapa.first_name == 'Ejecucion':
         ejecucion = db.Ejecucion(pasantia=pasantia.id)
+        permisos_evaluacion_extemporanea = db.Permiso(Estudiante=estudiante.id, Tipo='Evaluacion Extemporanea')
+        permisos_retiro_extemporanea = db.Permiso(Estudiante=estudiante.id, Tipo='Retiro Extemporaneo')
 
     response.view = 'mis_pasantias/' + etapa.first_name.lower() + '.html'
     
@@ -214,7 +218,8 @@ def consultar_pasantias_estudiante():
 def pasantias_grid_estudiante():
     userId = auth.user.id
     email = auth.user.email
-    pasantias = db((db.Estudiante.id == db.Pasantia.estudiante) & (db.Estudiante.usuario == userId))
+    estudiante = db.Estudiante(usuario=userId)
+    pasantias = db(db.Pasantia.estudiante==estudiante.id)
     # Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
     # this is not required in later versions)
     fields = (db.Pasantia.titulo, db.Pasantia.estudiante, db.Pasantia.etapa, db.Pasantia.status)
@@ -222,10 +227,10 @@ def pasantias_grid_estudiante():
     # Define headers as tuples/dictionaries
     headers = {
         ''
-        'Pasantia.titulo': 'Titulo',
-        'Pasantia.estudiante': 'Estudiante',
-        'Pasantia.etapa': 'Etapa',
-        'Pasantia.status': 'Status'
+        'titulo': 'Titulo',
+        'estudiante': 'Estudiante',
+        'etapa': 'Etapa',
+        'status': 'Status'
     }
 
     # Let's specify a default sort order on date_of_birth column in grid

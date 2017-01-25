@@ -4,14 +4,17 @@ from gluon import *
 
 def Curriculo_Table(db, T):
     db.define_table('Curriculo',
-                    Field('estudiante', 'reference Estudiante', label='Estudiante (*)', unique=True),
-                    Field('electivas', 'list:string',label='Electivas', default=[]),
-                    Field('cursos', 'list:string',label='Cursos', default=[]),
-                    Field('aficiones', 'list:string',label='Aficciones', default=[]),
-                    Field('idiomas', 'list:string',label='Idiomas', default=[]),
-                    Field('voluntariados', 'list:string',label='Voluntariados', default=[]),
-                    Field('educacion', 'list:string',label='Educacion', default=[]),
-                    Field('experiencias', 'list:string',label='Experiencias', default=[]),
+                    Field('estudiante', 'reference Estudiante',
+                          label='Estudiante (*)',
+                          writable=False,
+                          unique=True, ),
+                    Field('electivas', 'list:string', label='Electivas', default=[]),
+                    Field('cursos', 'list:string', label='Cursos', default=[]),
+                    Field('aficiones', 'list:string', label='Aficciones', default=[]),
+                    Field('idiomas', 'list:string', label='Idiomas', default=[]),
+                    Field('voluntariados', 'list:string', label='Voluntariados', default=[]),
+                    Field('educacion', 'list:string', label='Educacion', default=[]),
+                    Field('experiencias', 'list:string', label='Experiencias', default=[]),
                     Field('proyectos', 'list:string', label='Proyectos', default=[]),
                     Field('activo', 'list:string', default=[])
                     )

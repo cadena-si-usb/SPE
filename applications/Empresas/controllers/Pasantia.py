@@ -67,9 +67,9 @@ def crudPasantia():
 def verPlanDeTrabajo():
     pasantiaId=request.args[0]
     # Obtenemos el objeto de pasantia
-    pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
+    pasantia = db.Pasantia(id=pasantiaId)
     # Obtenemos el plan de trabajo
-    planTrabajo = pasantia.Plan_Trabajo.select().first()
+    planTrabajo = db.Plan_Trabajo(pasantia=pasantia.id)
     # Obtenemos las fases del plan de trabajo
     fases=planTrabajo.Fase.select(orderby=db.Fase.numero)
     # Verificamos si el plan ya fue aprobado, si no es asi entonces puede ser editado por el tutor industrial

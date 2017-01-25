@@ -10,45 +10,13 @@ Plan_Trabajo = Plan_Trabajo()
 @auth.requires(auth.is_logged_in()
                and Plan_Trabajo.esActorDePlan(db, auth.user.id, request.args[0]))
 def verDetallePasantia():
-    pasantiaId = request.args[0]
+    pasantiaId=request.args[0]
     # Buscamos los datos necesarios
-    pasantia = db((db.Pasantia.id == pasantiaId)).select().first()
-    planTrabajo = pasantia.Plan_Trabajo.select().first()
-    # Definimos que no se pueden editar los datos
-    for field in db.Pasantia:
-        field.writable = False
-    # Llenamos Los Campos con los datos encontrados
-    db.Pasantia.titulo.default = pasantia.titulo
-    db.Pasantia.estudiante.default = pasantia.estudiante
-    db.Pasantia.tutor_academico.default = pasantia.tutor_academico
-    db.Pasantia.tutor_industrial.default = pasantia.tutor_industrial
-    db.Pasantia.periodo.default = pasantia.periodo
-    db.Pasantia.area_proyecto.default = pasantia.area_proyecto
-    db.Pasantia.resumen_proyecto.default = pasantia.resumen_proyecto
-    db.Pasantia.materia.default = pasantia.materia
-    db.Pasantia.objetivo.default = pasantia.objetivo
-    db.Pasantia.confidencialidad.default = pasantia.confidencialidad
-    db.Pasantia.status.default = pasantia.status
-    db.Pasantia.etapa.default = pasantia.etapa
-    db.Pasantia.fecha_creacion.default = pasantia.fecha_creacion
-    db.Pasantia.fecha_inicio.default = pasantia.fecha_inicio
-    db.Pasantia.fecha_fin.default = pasantia.fecha_fin
-    db.Pasantia.fecha_tope_jurado.default = pasantia.fecha_tope_jurado
-    db.Pasantia.fecha_defensa.default = pasantia.fecha_defensa
-    # Definimos que no se pueden editar los datos
-    for field in db.Plan_Trabajo:
-        field.writable = False
-    # Si existe el plan de trabajo repetimos el proceso con el plan de trabajo
-    if (planTrabajo):
-        db.Plan_Trabajo.aprobacion_tutor_academico.default = planTrabajo.aprobacion_tutor_academico
-        db.Plan_Trabajo.aprobacion_tutor_industrial.default = planTrabajo.aprobacion_tutor_industrial
-        db.Plan_Trabajo.aprobacion_coordinacion.default = planTrabajo.aprobacion_coordinacion
-        db.Plan_Trabajo.fecha_creacion.default = planTrabajo.fecha_creacion
-        db.Plan_Trabajo.fecha_envio.default = planTrabajo.fecha_envio
-        db.Plan_Trabajo.estado.default = planTrabajo.estado
+    pasantia = db.Pasantia(id=pasantiaId)
+    planTrabajo = db.Plan_Trabajo(pasantia=pasantia.id)
     # Creamos Los forms con lso que mostraremos los datos
-    formPasantia = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
-    formPlanTrabajo = SQLFORM.factory(db.Pasantia, db.Plan_Trabajo, fields=None, showid=False)
+    formPasantia = SQLFORM(db.Pasantia, record=pasantia, fields=None, showid=False,readonly=True)
+    formPlanTrabajo = SQLFORM(db.Plan_Trabajo, record=planTrabajo, fields=None, showid=False,readonly=True)
     response.view = 'Pasantia/Detalle_Pasantia.html'
     return locals()
 
@@ -112,10 +80,11 @@ def verPlanDeTrabajo():
     editable = (planTrabajo.aprobacion_coordinacion == 'Aprobado'
                 and planTrabajo.aprobacion_tutor_academico == 'Aprobado'
                 and planTrabajo.aprobacion_tutor_industrial == 'Aprobado')
-
-    if auth.user.id == pasantia.estudiante:
+    estudiante = db.Estudiante(id=pasantia.estudiante)
+    tutor_academico = db.Estudiante(id=pasantia.tutor_academico)
+    if auth.user.id == estudiante.usuario:
         response.view = 'Pasantia/Detalle_Plan_De_Trabajo_estudiante.html'
-    elif auth.user.id == pasantia.tutor_academico:
+    elif auth.user.id == tutor_academico.usuario:
         response.view = 'Pasantia/Detalle_Plan_De_Trabajo_tutor.html'
     else:
         response.view = 'Pasantia/Detalle_Plan_De_Trabajo_coordinador.html'
