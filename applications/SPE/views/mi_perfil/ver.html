@@ -36,13 +36,13 @@
     {{if globals().get('estudiante', False):}}
     	{{include 'mi_perfil/ver_estudiante.html'}}
     {{pass}}
-    {{if globals().get('profesor', False) or globals().get('TutorAcademico', False):}}
+    {{if globals().get('profesor', False):}}
     	{{include 'mi_perfil/ver_profesor.html'}}
     {{pass}}
     {{if globals().get('administrativo', False):}}
     	{{include 'mi_perfil/ver_administrativo.html'}}
     {{pass}}
-    {{if globals().get('coordinador', False) or globals().get('CoordinadorCCT', False):}}
+    {{if globals().get('coordinador', False):}}
     	{{include 'mi_perfil/ver_coordinador.html'}}
     {{pass}}
     
