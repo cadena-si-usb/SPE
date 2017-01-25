@@ -89,7 +89,6 @@ def agregar(request):
 
         # Registramos la Empresa
         db.Empresa.insert(
-            id=result,
             usuario=usuarioExterno.id,
             area_laboral=request.vars.area_laboral,
             direccion_web=request.vars.direccion_web,

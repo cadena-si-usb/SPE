@@ -28,9 +28,13 @@ def Tutor_Industrial_Table(db, T):
     db.Tutor_Industrial.last_name.requires = [IS_LENGTH(512)]
     db.Tutor_Industrial.last_name.requires += [IS_NOT_EMPTY(error_message='Campo Obligatorio')]
 
+    db.Tutor_Industrial.usuario.requires = IS_IN_DB(
+        db(db.auth_user.miembro_usb == False),
+        'auth_user.id', db.auth_user._format,
+        zero='Seleccione un usuario Empresarial', )
+
     if db(db.Tutor_Industrial.id > 0).count() == 0:
         db.Tutor_Industrial.insert(
-            id='2',
             usuario='2',
             last_name='Sucre González',
             Empresa='1',

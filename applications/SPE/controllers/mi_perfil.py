@@ -95,6 +95,7 @@ def configuracion():
             response.view = 'mi_perfil/configuracion_administrativo.html'
         else:
             fields = [
+                'image',
                 'first_name',
                 'last_name',
                 'email',
@@ -103,7 +104,7 @@ def configuracion():
                 'telefono',
                 'direccion',
                 'sexo',
-                'image'
+
             ]
             response.view = 'mi_perfil/configuracion.html'
             form = SQLFORM(db.auth_user,
@@ -142,6 +143,10 @@ def configuracion():
 
 @auth.requires(auth.has_membership(role='Estudiante'))
 def editar_curriculo():
+
+    return locals()
+
+def curriculo_form():
     fields = [
         'electivas',
         'cursos',
@@ -158,13 +163,10 @@ def editar_curriculo():
     form = SQLFORM(db.Curriculo, record=curriculo, fields=fields, submit_button='Actualizar', showid=False)
 
     if form.process().accepted:
-        session.flash = T('Perfil actualizado exitosamente!')
+        session.flash = T('Curriculum actualizado exitosamente!')
         curriculo.update_record(activo=True)
-        redirect(URL(c="default", f="index"))
-    else:
-        response.flash = T('Por favor llene la forma.')
-
-    return locals()
+        redirect(URL(c="mi_perfil", f="curriculo_form"))
+    return form
 
 def download():
     return response.download(request, db)

@@ -21,13 +21,12 @@ def Estudiante_Table(db,T):
         )
 
     db.Estudiante.usuario.requires = IS_IN_DB(
-        db(db.auth_user.username != None),
-        'auth_user.id', '%(username)s - %(first_name)s %(last_name)s',
+        db(db.auth_user.miembro_usb == True),
+        'auth_user.id', db.auth_user._format,
         zero='Seleccione un usuario USB', )
 
     if db(db.Estudiante.id > 0).count() == 0:
         db.Estudiante.insert(
-            id='4',
             usuario='4',
             carnet='10-10102',
             carrera='1',
@@ -35,7 +34,6 @@ def Estudiante_Table(db,T):
             activo='True'
         )
         db.Estudiante.insert(
-            id='7',
             usuario='7',
             carnet='10-10717',
             carrera='1',

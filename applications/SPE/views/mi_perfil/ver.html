@@ -6,7 +6,7 @@
             <div class="row">
             		<div class="col-sm-12">
 	            		<div class="col-sm-5" style="text-align: center;">
-                            {{if usuario.image:}}
+                            {{if usuario.image and usuario.image!="":}}
                                 <img style="max-width: 100%; max-height: 250px;" src="{{=URL('mi_perfil', 'download',
                                 args=usuario.image)}}" />
                             {{else:}}
@@ -42,6 +42,9 @@
     {{pass}}
     {{if globals().get('coordinador', False) or globals().get('CoordinadorCCT', False):}}
     	{{include 'mi_perfil/ver_coordinador.html'}}
+    {{pass}}
+    {{if globals().get('curriculo', False):}}
+    	{{include 'mi_perfil/ver_curriculo.html'}}
     {{pass}}
     
 

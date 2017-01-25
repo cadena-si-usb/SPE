@@ -41,7 +41,6 @@ def load_auth_fixtures(db,T):
 
     if db(db.auth_user.id > 0).count() == 0:
         db.auth_user.insert(
-            id=1,
             first_name='Ecorp',
             last_name='',
             email='ecorp-admin@ecorp.com',
@@ -60,9 +59,9 @@ def load_auth_fixtures(db,T):
             respuesta_secreta='Respuesta!!',
             pais='1',
             estado='1',
+            miembro_usb=False,
         )
         db.auth_user.insert(
-            id=2,
             first_name='Francisco Javier',
             last_name='Sucre González',
             email='fsucre@integra.la',
@@ -75,15 +74,15 @@ def load_auth_fixtures(db,T):
             numero_documento='12341223',
             telefono='02129871121',
             direccion='Portal de algun lado, calle 234',
-            sexo='M',
+            sexo='Masculino',
             activo=True,
             pregunta_secreta='Pregunta??',
             respuesta_secreta='Respuesta!!',
             pais='1',
             estado='1',
+            miembro_usb=False,
         )
         db.auth_user.insert(
-            id=3,
             first_name='Enrique',
             last_name='Muguerza',
             email='emuguerza@gmail.com',
@@ -96,15 +95,15 @@ def load_auth_fixtures(db,T):
             numero_documento='12341223',
             telefono='02129871121',
             direccion='Portal de algun lado, calle 234',
-            sexo='M',
+            sexo='Masculino',
             activo=True,
             pregunta_secreta='Pregunta??',
             respuesta_secreta='Respuesta!!',
             pais='1',
             estado='1',
+            miembro_usb=False,
         )
         db.auth_user.insert(
-            id=4,
             first_name='Roberto Andres',
             last_name='Manzanilla',
             email='queso976@gmail.com',
@@ -117,15 +116,15 @@ def load_auth_fixtures(db,T):
             numero_documento='12341223',
             telefono='02129871121',
             direccion='Portal de algun lado, calle 234',
-            sexo='M',
+            sexo='Masculino',
             activo=True,
             pregunta_secreta='Pregunta??',
             respuesta_secreta='Respuesta!!',
             pais='1',
             estado='1',
+            miembro_usb=True,
         )
         db.auth_user.insert(
-            id=5,
             first_name='Hector Alejandro',
             last_name='Goncalves Pita',
             email='hpita@gmail.com',
@@ -138,15 +137,15 @@ def load_auth_fixtures(db,T):
             numero_documento='12341223',
             telefono='02129871121',
             direccion='Portal de algun lado, calle 234',
-            sexo='M',
+            sexo='Masculino',
             activo=True,
             pregunta_secreta='Pregunta??',
             respuesta_secreta='Respuesta!!',
             pais='1',
             estado='1',
+            miembro_usb=True,
         )
         db.auth_user.insert(
-            id=6,
             first_name='Daniel Arturo',
             last_name='Marin Tirado',
             email='dmarin@gmail.com',
@@ -159,15 +158,15 @@ def load_auth_fixtures(db,T):
             numero_documento='12341223',
             telefono='02129871121',
             direccion='Portal de algun lado, calle 234',
-            sexo='M',
+            sexo='Masculino',
             activo=True,
             pregunta_secreta='Pregunta??',
             respuesta_secreta='Respuesta!!',
             pais='1',
             estado='1',
+            miembro_usb=True,
         )
         db.auth_user.insert(
-            id=7,
             first_name='Francisco Javier',
             last_name='Sucre Gonzalez',
             email='frank91frank@gmail.com',
@@ -180,15 +179,15 @@ def load_auth_fixtures(db,T):
             numero_documento='12341223',
             telefono='02129871121',
             direccion='Portal de algun lado, calle 234',
-            sexo='M',
+            sexo='Masculino',
             activo=True,
             pregunta_secreta='Pregunta??',
             respuesta_secreta='Respuesta!!',
             pais='1',
             estado='1',
+            miembro_usb=True,
         )
         db.auth_user.insert(
-            id=8,
             first_name='Mathieu',
             last_name='Da Valery',
             email='mvalery@gmail.com',
@@ -201,15 +200,15 @@ def load_auth_fixtures(db,T):
             numero_documento='12341223',
             telefono='02129871121',
             direccion='Portal de algun lado, calle 234',
-            sexo='M',
+            sexo='Masculino',
             activo=True,
             pregunta_secreta='Pregunta??',
             respuesta_secreta='Respuesta!!',
             pais='1',
             estado='1',
+            miembro_usb=True,
         )
         db.auth_user.insert(
-            id=9,
             first_name='Andres Rafael',
             last_name='Hernandez Monterola',
             email='ahernandez@gmail.com',
@@ -222,15 +221,15 @@ def load_auth_fixtures(db,T):
             numero_documento='12341223',
             telefono='02129871121',
             direccion='Portal de algun lado, calle 234',
-            sexo='M',
+            sexo='Masculino',
             activo=True,
             pregunta_secreta='Pregunta??',
             respuesta_secreta='Respuesta!!',
             pais='1',
             estado='1',
+            miembro_usb=True,
         )
         db.auth_user.insert(
-            id=10,
             first_name= 'Alfredo',
             last_name='Delgado',
             email='adelgado@gmail.com',
@@ -243,15 +242,15 @@ def load_auth_fixtures(db,T):
             numero_documento='12341223',
             telefono='02129871121',
             direccion='Portal de algun lado, calle 234',
-            sexo='M',
+            sexo='Masculino',
             activo=True,
             pregunta_secreta='Pregunta??',
             respuesta_secreta='Respuesta!!',
             pais='1',
             estado='1',
+            miembro_usb=True,
         )
         db.auth_user.insert(
-            id=11,
             first_name='Gabriel',
             last_name='Austin',
             email='gaustin@gmail.com',
@@ -270,6 +269,7 @@ def load_auth_fixtures(db,T):
             respuesta_secreta='Respuesta!!',
             pais='1',
             estado='1',
+            miembro_usb=True,
         )
         db.commit()
 

@@ -127,6 +127,9 @@ def format_user(row):
 db.auth_user._format = lambda row: format_user(row)
 db.auth_user.username.readonly=True
 db.auth_user.email.readonly=True
+db.auth_user.first_name.label="Nombre"
+db.auth_user.last_name.label="Apellidos"
+db.auth_user.image.label="Foto de perfil"
 
 load_auth_fixtures(db,T)
 

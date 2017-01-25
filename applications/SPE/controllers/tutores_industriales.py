@@ -95,7 +95,6 @@ def agregar(request):
         )
         # Registramos al tutor
         db.Tutor_Industrial.insert(
-            id=result,
             usuario=result,
             last_name=request.vars.last_name,
             tipo_documento=request.vars.tipo_documento,

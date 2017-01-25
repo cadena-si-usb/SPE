@@ -16,13 +16,12 @@ def Administrativo_Table(db, T):
                           label='Correo Alternativo'))
 
     db.Administrativo.usuario.requires = IS_IN_DB(
-        db(db.auth_user.username != None),
-        'auth_user.id', '%(username)s - %(first_name)s %(last_name)s',
+        db(db.auth_user.miembro_usb == True),
+        'auth_user.id', db.auth_user._format,
         zero='Seleccione un usuario USB', )
 
     if db(db.Administrativo.id > 0).count() == 0:
         db.Administrativo.insert(
-            id='11',
             usuario='11',
             carnet='09-10066',
             coordinacion='3',
