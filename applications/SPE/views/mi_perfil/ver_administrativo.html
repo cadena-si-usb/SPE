@@ -1,6 +1,6 @@
 <div class="panel panel-warning">
     <div class="panel-heading">
-        <h3 class="panel-title pull-left" style="font-size: 15px">Datos de Administrativo</h1>
+        <h3 class="panel-title pull-left" style="font-size: 15px">Administrador</h1>
         <a href="{{=URL('configuracion', args=['administrativo'])}}" class="clickable">
             <span class="pull-right icon boton_posicion"><i class="glyphicon glyphicon-edit"></i></span>
         </a>
@@ -10,34 +10,41 @@
         <section id="sec1">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="col-sm-4">
+                    {{if cont == 12 or cont == 6 :}}
+                        <div class="col-sm-6">
+                            <center>
+                                <h4> <b>Coordinación</b> </h4>
+                                <div>
+                                     <h5>{{=coordinacion.Coordinacion.first_name}}</h5>
+                                </div>
+                            </center>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <center>
+                                <h4> <b>Correo Alternativo</b> </h4>
+                                <div>
+                                    <h5>{{=administrativo.Administrativo.correo_Alternativo}}</h5>
+                                </div>
+                            </center>
+                        </div>
+                    {{pass}}
+
+                    {{if cont == 4 :}}
                         <center>
                             <h4> <b>Coordinación</b> </h4>
                             <div>
                                  <h5>{{=coordinacion.Coordinacion.first_name}}</h5>
                             </div>
-                        </center>
-                    </div>
 
-                    <div class="col-sm-4">
-                        <center>
-                            <h4> <b>Correo</b> </h4>
-                            <div>
-                                <h5>{{=administrativo.auth_user.email}}</h5>
-                            </div>
-                        </center>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <center>
+                            <br>
 
                             <h4> <b>Correo Alternativo</b> </h4>
                             <div>
                                 <h5>{{=administrativo.Administrativo.correo_Alternativo}}</h5>
                             </div>
                         </center>
-                    </div>
-
+                    {{pass}}
                 </div>
             </div>
         </section>

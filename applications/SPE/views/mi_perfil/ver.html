@@ -8,12 +8,14 @@
 	            		<div class="col-sm-5" style="text-align: center;">
 	            			<div id="foto-perfil" style="text-align: center;">
                         		<h5 style="margin-bottom: 80%"><b>Foto del Perfil</b></h5>
-                        		<button class="boton-negro">SUBIR FOTO</button>
+                        		<a href="{{=URL('configuracion')}}">
+                                    <button class="boton-negro"  type="button">Editar Perfil</button>
+                                </a>
                         	</div>
                         </div>
                    
 	            		<div class="col-sm-6" style="text-align: left; margin-top: 02%;">
-	            			<h4><p><b>{{=usuario['first_name']}} {{=usuario['last_name']}}</b></p></h4>
+                            <h4><p><b>{{=usuario['first_name']}} {{=usuario['last_name']}}</b></p></h4>
                             <h4><p>USBID: {{=usuario.username}}</p></h4>
                             <h4><p>{{=tipo_documento.first_name}}: {{=currentUser.numero_documento}} </p></h4>
                             <h4><p>{{=currentUser.email }}</p></h4>
@@ -30,18 +32,25 @@
             </div>
     	</section>
     </div>
+
     {{if globals().get('estudiante', False):}}
-    	{{include 'mi_perfil/ver_estudiante.html'}}
+        <div class="{{=clase}}">
+           {{include 'mi_perfil/ver_estudiante.html'}}
+        </div>
     {{pass}}
     {{if globals().get('profesor', False):}}
-    	{{include 'mi_perfil/ver_profesor.html'}}
+        <div class="{{=clase}}">
+           {{include 'mi_perfil/ver_profesor.html'}}
+        </div>
     {{pass}}
     {{if globals().get('administrativo', False):}}
-    	{{include 'mi_perfil/ver_administrativo.html'}}
+        <div class="{{=clase}}">
+           {{include 'mi_perfil/ver_administrativo.html'}}
+        </div>
     {{pass}}
     {{if globals().get('coordinador', False):}}
-    	{{include 'mi_perfil/ver_coordinador.html'}}
+        <div class="{{=clase}}">
+           {{include 'mi_perfil/ver_coordinador.html'}}
+        </div>
     {{pass}}
-    
-
 {{end}}

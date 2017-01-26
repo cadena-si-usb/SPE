@@ -10,12 +10,14 @@ def ver():
     # Preguntar aqui por usuario externo o usuarioUSB
     currentUser = usuario
     tipo_documento = db.Tipo_Documento(id=currentUser.tipo_documento)
+    cont = 0
 
     if (auth.has_membership(role='Estudiante')):
         estudiante = db.Estudiante(usuario=userid)
         carrera = db.Carrera(id=estudiante.carrera)
         sede_estudiante = db.Sede(id=estudiante.sede)
         curriculo = db.Curriculo(estudiante=estudiante.id)
+        cont = cont + 1
 
     if (auth.has_membership(role='Profesor') or auth.has_membership(role='TutorAcademico')):
         profesor = db(((db.auth_user.id == userid) & (db.Profesor.usuario == db.auth_user.id))).select().first()
@@ -23,10 +25,12 @@ def ver():
         categoria = db.Categoria(id=profesor.Profesor.categoria)
         dedicacion = db.Dedicacion(id=profesor.Profesor.dedicacion)
         sede = db.Sede(id=profesor.Profesor.sede)
+        cont = cont + 1
 
     if (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
         coordinador = db(((db.auth_user.id == userid) & (db.Coordinador.usuario == db.auth_user.id))).select().first()
         coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
+        cont = cont + 1
     # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles
     # personalizados)
     # o es un usuario con rol ajeno al sistema
@@ -34,6 +38,9 @@ def ver():
     if administrativo:
         administrativo = administrativo.first()
         coordinacion = db(db.Administrativo.coordinacion == db.Coordinacion.id).select().first()
+        cont = cont + 1
+    cont = 12 / cont
+    clase = "col-sm-" + str(cont)
     return locals()
 
 
