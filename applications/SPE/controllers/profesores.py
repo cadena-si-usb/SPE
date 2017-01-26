@@ -17,6 +17,30 @@ def sqlform_grid():
     else:
         return simple_spe_grid(db.Profesor)
 
+def sqlform_grid():
+    query = db(db.Profesor.usuario == db.auth_user.id)
+    db.auth_user._format = lambda row: row.first_name + " " + row.last_name
+
+    fields = [
+        db.auth_user.username,
+        db.Profesor.usuario,
+        db.Profesor.categoria,
+        db.Profesor.dedicacion,
+        db.Profesor.departamento,
+        db.Profesor.sede,
+    ]
+
+    if not request.args:
+        return simple_spe_grid(query, fields=fields, field_id=db.Profesor.id)
+    elif request.args[-2]=='new':
+        return agregar(request)
+    elif request.args[-3]=='edit':
+        return modificar(request)
+    elif request.args[-3]=='delete':
+        return eliminar(request)
+    else:
+        return simple_spe_grid(query, fields=fields, field_id=db.Profesor.id)
+
 
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))

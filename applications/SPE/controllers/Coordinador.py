@@ -12,8 +12,6 @@ def consultarPasantias():
     email = auth.user.email
     pasantias=db((db.Estudiante.id==db.Pasantia.estudiante) & (db.Estudiante.carrera==carrera.id))
 
-    prueba=pasantias.select().first()
-
     #Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
     # this is not required in later versions)
     fields = (db.Pasantia.titulo, db.Pasantia.estudiante,db.Pasantia.etapa, db.Pasantia.status)

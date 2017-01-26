@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from gluon import *
 
-def simple_spe_grid(table, fields=None,add=True,view=True,edit=True,delete=True,field_id=None):
+
+def simple_spe_grid(table, fields=None, add=True, view=True, edit=True, delete=True, field_id=None):
     sqlform_grid = SQLFORM.grid(table,
                                 fields=fields,
                                 deletable=delete,

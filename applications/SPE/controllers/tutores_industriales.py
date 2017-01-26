@@ -91,11 +91,10 @@ def agregar(request):
             estado=request.vars.estado,
             telefono=request.vars.telefono,
             direccion=request.vars.direccion,
-
+            miembro_usb=False,
         )
         # Registramos al tutor
         db.Tutor_Industrial.insert(
-            id=result,
             usuario=result,
             last_name=request.vars.last_name,
             tipo_documento=request.vars.tipo_documento,

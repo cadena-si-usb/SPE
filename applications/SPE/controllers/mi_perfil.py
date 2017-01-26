@@ -5,8 +5,8 @@ Usuario = Usuario()
 
 @auth.requires_login()
 def ver():
-    userid = session.currentUser.id
-    usuario = auth.user
+    userid = auth.user.id
+    usuario = db.auth_user(id=userid)
     # Preguntar aqui por usuario externo o usuarioUSB
     currentUser = usuario
     tipo_documento = db.Tipo_Documento(id=currentUser.tipo_documento)
@@ -28,16 +28,16 @@ def ver():
         cont = cont + 1
 
     if (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
-        coordinador = db(((db.auth_user.id == userid) & (db.Coordinador.usuario == db.auth_user.id))).select().first()
-        coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
+        coordinador = db.Coordinador(usuario=userid)
+        coordinacion = db.Coordinacion(id=coordinador.coordinacion)
+        sede_coordinacion = db.Sede(id=coordinacion.sede)
         cont = cont + 1
     # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles
     # personalizados)
     # o es un usuario con rol ajeno al sistema
-    administrativo = db(((db.auth_user.id == userid) & (db.Administrativo.usuario == db.auth_user.id))).select()
+    administrativo = db.Administrativo(usuario=userid)
     if administrativo:
-        administrativo = administrativo.first()
-        coordinacion = db(db.Administrativo.coordinacion == db.Coordinacion.id).select().first()
+        coordinacion_admin = db.Coordinacion(id=administrativo.coordinacion)
         cont = cont + 1
     cont = 12 / cont
     clase = "col-sm-" + str(cont)
@@ -102,6 +102,7 @@ def configuracion():
             response.view = 'mi_perfil/configuracion_administrativo.html'
         else:
             fields = [
+                'image',
                 'first_name',
                 'last_name',
                 'email',
@@ -109,10 +110,16 @@ def configuracion():
                 'numero_documento',
                 'telefono',
                 'direccion',
-                'sexo'
+                'sexo',
+
             ]
             response.view = 'mi_perfil/configuracion.html'
-            form = SQLFORM(db.auth_user, record=auth.user, fields=fields, submit_button='Actualizar', showid=False)
+            form = SQLFORM(db.auth_user,
+                           record=usuario,
+                           upload=URL('download'),
+                           fields=fields,
+                           submit_button='Actualizar',
+                           showid=False)
     else:
         redirect(URL(c="default", f="index"))
 
@@ -132,6 +139,7 @@ def configuracion():
             record.update_record(**db.Administrativo._filter_fields(form.vars))
         else:
             usuario.update_record(**db.auth_user._filter_fields(form.vars))
+            auth.user = usuario
         session.flash = T('Perfil actualizado exitosamente!')
         redirect(URL('ver'))
     else:
@@ -142,11 +150,19 @@ def configuracion():
 
 @auth.requires(auth.has_membership(role='Estudiante'))
 def editar_curriculo():
+
+    return locals()
+
+def curriculo_form():
     fields = [
         'electivas',
         'cursos',
         'aficiones',
-        'idiomas'
+        'idiomas',
+        'voluntariados',
+        'educacion',
+        'experiencias',
+        'proyectos',
     ]
 
     userid = str(auth.user['id'])
@@ -158,10 +174,10 @@ def editar_curriculo():
     form = SQLFORM(db.Curriculo, record=curriculo, fields=fields, submit_button='Actualizar', showid=False)
 
     if form.process().accepted:
-        session.flash = T('Perfil actualizado exitosamente!')
+        session.flash = T('Curriculum actualizado exitosamente!')
         curriculo.update_record(activo=True)
-        redirect(URL(c="default", f="index"))
-    else:
-        response.flash = T('Por favor llene la forma.')
+        redirect(URL(c="mi_perfil", f="curriculo_form"))
+    return form
 
-    return locals()
+def download():
+    return response.download(request, db)

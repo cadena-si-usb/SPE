@@ -20,9 +20,13 @@ def Profesor_Table(db, T):
                     format=lambda r: '%s - %s %s' % (r.usuario.username, r.usuario.first_name, r.usuario.last_name)
                     )
 
+    db.Profesor.usuario.requires = IS_IN_DB(
+        db(db.auth_user.miembro_usb == True),
+        'auth_user.id', db.auth_user._format,
+        zero='Seleccione un usuario USB', )
+
     if db(db.Profesor.id > 0).count() == 0:
         db.Profesor.insert(
-            id='3',
             usuario='3',
             categoria='1',
             dedicacion='1',
@@ -31,7 +35,6 @@ def Profesor_Table(db, T):
             activo='True'
         )
         db.Profesor.insert(
-            id='5',
             usuario='5',
             categoria='1',
             dedicacion='1',
@@ -40,7 +43,6 @@ def Profesor_Table(db, T):
             activo='True'
         )
         db.Profesor.insert(
-            id='9',
             usuario='9',
             categoria='1',
             dedicacion='1',
@@ -49,7 +51,6 @@ def Profesor_Table(db, T):
             activo='True'
         )
         db.Profesor.insert(
-            id='10',
             usuario='10',
             categoria='1',
             dedicacion='1',

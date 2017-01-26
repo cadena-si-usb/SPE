@@ -13,12 +13,14 @@ from Usuarios import Usuario
 
 Usuario = Usuario()
 
+
 def reroute():
     """
     Funcion utilizada para que nos lleve al index aunque estemos en la pagina
     por defecto de web2py
     """
     redirect(URL('index'))
+
 
 def index():
     """
@@ -50,18 +52,18 @@ def user():
     """
     return dict(form=auth())
 
+
 def login_cas():
     if not request.vars.getfirst('ticket'):
-        #redirect(URL('error'))
+        # redirect(URL('error'))
         pass
     try:
         import urllib2, ssl
         ssl._create_default_https_context = ssl._create_unverified_context
 
-
         # url en caso de querer iniciar sesion en el servidor remoto
-        url = "https://secure.dst.usb.ve/validate?ticket="+\
-              request.vars.getfirst('ticket') +\
+        url = "https://secure.dst.usb.ve/validate?ticket=" + \
+              request.vars.getfirst('ticket') + \
               "&service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas"
 
         # url en caso de querer iniciar sesion en el servidor remoto
@@ -75,171 +77,113 @@ def login_cas():
 
     except Exception, e:
         print e
-        redirect(URL('error'))
 
     if the_page[0:2] == "no":
         redirect(URL('index'))
     else:
         # session.casticket = request.vars.getfirst('ticket')
-        data  = the_page.split()
+        data = the_page.split()
         username = data[1]
+        # Se leen los datos del CAS
+        usuario = get_ldap_data(username)
 
-        usuario = get_ldap_data(username) #Se leen los datos del CAS
-        
-        tablaUsuario  = db.auth_user
+        tablaUsuario = db.auth_user
 
-        #Esto nos indica si el usuario ha ingresado alguna vez al sistema
-        #buscandolo en la tabla de usuario.
-        primeravez = db(tablaUsuario.username==username)
+        # Esto nos indica si el usuario ha ingresado alguna vez al sistema
+        # buscandolo en la tabla de usuario.
+        usuario_encontrado = db.auth_user(username=username)
 
-        if primeravez.isempty():
+        if not usuario_encontrado:
 
-            print usuario['tipo']
-
-            authUserId=Usuario.registrar(usuario,auth)
-
-            respuesta = Usuario.getByRole(authUserId)
-
-            session.currentUser = respuesta
-
-            session.roles = {}
-
-            estudiante = db.Estudiante(usuario=authUserId)
-            profesor = db.Profesor(usuario=authUserId)
-            coordinador = db.Coordinador(usuario=authUserId)
-            administrativo = db.Administrativo(usuario=authUserId)
-
-            if estudiante:
-                session.roles['estudiante'] = estudiante.id
-            if profesor:
-                session.roles['profesor'] = profesor.id
-            if coordinador:
-                session.roles['coordinador'] = coordinador.id
-            if administrativo:
-                session.roles['administrativo'] = administrativo.id
-
-
-
-
-
-            if usuario['tipo'] == 'Pregrado' or usuario['tipo'] == 'Postgrado':
-                redirect(URL(c='mi_perfil/configuracion'))
-
-            redirect(URL(c='default',f='index'))
-            # auth.login_bare(username,clave)
-            #redirect(URL(c='default',f='registrar', vars=dict(usuario=usuario,username=username)))
+            authUserId = Usuario.registrar(usuario, auth)
+            session.currentUser = db.auth_user(id=auth.user.id)
+            redirect(URL(c='mi_perfil/configuracion'))
 
         else:
-            #Como el usuario ya esta registrado, buscamos sus datos y lo logueamos.
-            datosAuth=db(db.auth_user.username==username).select().first()
+            # Como el usuario ya esta registrado, buscamos sus datos y lo logueamos.
+            datosAuth = db(db.auth_user.username == username).select().first()
             # Iniciamos Sesion
-            auth.user=datosAuth
+            auth.user = datosAuth
             auth.login_user(datosAuth)
 
-            respuesta = Usuario.getByRole(auth.user.id)
-
-            session.roles = {}
-
-            estudiante = db.Estudiante(usuario=auth.user.id)
-            profesor = db.Profesor(usuario=auth.user.id)
-            coordinador = db.Coordinador(usuario=auth.user.id)
-            administrativo = db.Administrativo(usuario=auth.user.id)
-
-            if estudiante:
-                session.roles['estudiante'] = estudiante.id
-            if profesor:
-                session.roles['profesor'] = profesor.id
-            if coordinador:
-                session.roles['coordinador'] = coordinador.id
-            if administrativo:
-                session.roles['administrativo'] = administrativo.id
-
-            # Caso 1: El usuario no ha registrado sus datos
-            if respuesta == None:
-                redirect(URL(c='usuarios',f='perfil'))
-            # Caso 2: El usuario no ha verificado su email
-            elif correo_no_verificado(username):
-                obtener_correo(username)
-                correo_sec = obtener_correo(username)
-                redirect(URL(c='default',f='verifyEmail',vars=dict(username=username,email=correo_sec)))
-            # Caso 3: El usuario ha cumplido con los pasos necesarios por lo que
-            # puede iniciar sesion
-            else:
-                #Deberiamos redireccionar a un "home" dependiendo del tipo de usuario
-                session.currentUser = auth.user
-                redirect('index')
+            # Deberiamos redireccionar a un "home" dependiendo del tipo de usuario
+            session.currentUser = auth.user
+            redirect('index')
 
     return None
+
 
 def logout():
     url = 'http://secure.dst.usb.ve/logout'
     session.currentUser = None
     auth.logout(next=url)
 
-def verificar_datos(usuario,username):
 
-    usuariousb = db(db.auth_user.username==username).select()[0]
+def verificar_datos(usuario, username):
+    usuariousb = db(db.auth_user.username == username).select()[0]
     consulta = None
 
     if usuario['tipo'] == "Docente":
-        consulta = db(db.Profesor.usuario==usuariousb.id)
+        consulta = db(db.Profesor.usuario == usuariousb.id)
     elif usuario['tipo'] == "Administrativo":
         pass
-    elif usuario['tipo'] in ["Pregrado","Postgrado"]:
-        consulta = db(db.Estudiante.usuario==usuariousb.id)
-    elif usuario['tipo'] in ["Empleado","Organizacion","Egresado"]:
+    elif usuario['tipo'] in ["Pregrado", "Postgrado"]:
+        consulta = db(db.Estudiante.usuario == usuariousb.id)
+    elif usuario['tipo'] in ["Empleado", "Organizacion", "Egresado"]:
         pass
 
     return consulta
 
-def registrar():
 
+def registrar():
     import ast
-    #Aqui estan las variables obtenidas por el CAS
-    usuario =  ast.literal_eval(request.vars['usuario'])
+    # Aqui estan las variables obtenidas por el CAS
+    usuario = ast.literal_eval(request.vars['usuario'])
 
     if usuario['tipo'] == "Docente":
-        #Enviar al registro del profesor
-        redirect(URL(c='profesor',f='registrar_profesor', vars=dict(usuario=usuario,username=request.vars.username)))
+        # Enviar al registro del profesor
+        redirect(URL(c='profesor', f='registrar_profesor', vars=dict(usuario=usuario, username=request.vars.username)))
     elif usuario['tipo'] == "Administrativo":
         pass
-    elif usuario['tipo'] in ["Pregrado","Postgrado"]:
-        #redirect(URL(c='profesor',f='registrar_profesor', vars=dict(usuario=usuario,username=request.vars.username)))
-        redirect(URL(c='estudiante',f='registrar_estudiante', vars=dict(usuario=usuario,username=request.vars.username)))
-    elif usuario['tipo'] in ["Empleado","Organizacion","Egresado"]:
+    elif usuario['tipo'] in ["Pregrado", "Postgrado"]:
+        # redirect(URL(c='profesor',f='registrar_profesor', vars=dict(usuario=usuario,username=request.vars.username)))
+        redirect(
+            URL(c='estudiante', f='registrar_estudiante', vars=dict(usuario=usuario, username=request.vars.username)))
+    elif usuario['tipo'] in ["Empleado", "Organizacion", "Egresado"]:
         pass
 
     return dict(message=usuario)
 
-#Comprueba si el usuario no ha verificado su email
+
+# Comprueba si el usuario no ha verificado su email
 def correo_no_verificado(username):
-
     correoUsuario = obtener_correo(username)
-    buscarCorreo  = db(db.correo_por_verificar.email==correoUsuario)
+    buscarCorreo = db(db.correo_por_verificar.email == correoUsuario)
 
-    return not(buscarCorreo.isempty())
+    return not (buscarCorreo.isempty())
 
-#Reenvia la verificacion del email
+
+# Reenvia la verificacion del email
 def resendVerificationEmail():
-
     correoVerificarSet = db(db.correo_por_verificar.email == request.vars.email).select()
 
     reenviar_Correo_Verificacion(request.vars.email)
 
-    redirect(URL(c='default',f='verifyEmail',
-        vars=dict(username=request.vars.username,email=request.vars.email,
-            resend= T("El Correo ha sido reenviado"),
-            message=T("Verificacion de Correo"))))
+    redirect(URL(c='default', f='verifyEmail',
+                 vars=dict(username=request.vars.username, email=request.vars.email,
+                           resend=T("El Correo ha sido reenviado"),
+                           message=T("Verificacion de Correo"))))
 
-#Verifica el email
+
+# Verifica el email
 def verifyEmail():
     form = SQLFORM.factory(
         Field('codigo', label=T('Codigo De Verificacion'), required=True,
-                requires=IS_NOT_EMPTY(error_message=T('Este campo es necesario'))),
-                formstyle='bootstrap3_stacked'
-                           )
-    form.add_button(T('Send Email Again'), URL(c='default',f='resendVerificationEmail',
-        vars=dict(username=request.vars.username,email=request.vars.email)))
+              requires=IS_NOT_EMPTY(error_message=T('Este campo es necesario'))),
+        formstyle='bootstrap3_stacked'
+    )
+    form.add_button(T('Send Email Again'), URL(c='default', f='resendVerificationEmail',
+                                               vars=dict(username=request.vars.username, email=request.vars.email)))
 
     correo_usuario = request.vars.email
 
@@ -250,14 +194,14 @@ def verifyEmail():
             response.flash = T("Codigo incorrecto")
         else:
             db(db.correo_por_verificar.email == correo_usuario).delete()
-            usuarioUSB = db(db.auth_user.username==request.vars.username).select()[0]
-            auth.login_bare(request.vars.username,usuarioUSB.clave)
-            redirect(URL(c='default',f='index'))
+            usuarioUSB = db(db.auth_user.username == request.vars.username).select()[0]
+            auth.login_bare(request.vars.username, usuarioUSB.clave)
+            redirect(URL(c='default', f='index'))
 
     return response.render('default/codigoVerificacion.html',
-    message=T("Verificacion de Correo"),
-    resend= request.vars.resend,
-    form=form,vars=dict(username=request.vars.username,email=correo_usuario))
+                           message=T("Verificacion de Correo"),
+                           resend=request.vars.resend,
+                           form=form, vars=dict(username=request.vars.username, email=correo_usuario))
 
 
 @cache.action()

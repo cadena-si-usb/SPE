@@ -1,18 +1,144 @@
-{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+
 {{extend 'layoutViejo.html'}}
 
 {{if 'message' in globals():}}
-<p class='title'>{{=message}}</p>
-<div class='content'>
-  <p><b>Estudiante</b>, este sistema te permite realizar la Inscripción, Documentación, Formulación y Culminación de Pasantías Empresariales.
-  Debes mantener tu información de contacto actualizada, para que la Coordinación de Cooperación Técnica pueda comunicarse contigo.</p>
 
-  <p><b>Profesores USB</b>, este sistema les permite realizar la Revisión de Planes de Trabajo, Asignación de Notas y Consulta de Pasantías Tutoreadas.</p>
 
-  <p><b>CCT</b>, este sistema le permite realizar Consultas Avanzadas y Reportes de utilidad para la comunidad USB entera.</p>
 
-  <p><b>Empresa Pública o Privada</b>, este sistema le permite solicitar pasantes, revisar el plan de trabajo y recibir anuncios de chalas y estudiantes interesados en hacer pasantías tanto largas, intermedias como cortas.</p>
+<div class='content container-fluid'>
+
+    <div class="row" style="text-align: center">
+        <p class='title'>{{=message}}</p>
+    </div>
+    <div class="row containers">
+
+         <div class="col-md-3 col-xs-12 containerCCT">
+                <div>
+                    <span class="tituloCCT col-xs-12">
+                        CCT
+                    </span>
+                    <span class="contenidoColumnas col-xs-12">
+                        Este sistema le permite realizar Consultas Avanzadas y Reportes de utilidad para la comunidad USB entera.
+                    </span>
+                </div>
+
+         </div>
+
+        <div class="col-md-3 col-xs-12 containerProfesor">
+                <div>
+                    <span class="tituloProfesor col-xs-12">
+                        Profesores
+                    </span>
+                    <span class="contenidoColumnas col-xs-12">
+                        Este sistema les permite realizar la Revisión de Planes de Trabajo, Asignación de Notas y Consulta de Pasantías Tutoreadas.
+                    </span>
+                </div>
+
+        </div>
+
+        <div class="col-md-3 col-xs-12 containerEstudiante">
+            <div>
+                <span class="tituloEstudiante col-xs-12">
+                    Estudiante
+                </span>
+                <span class="contenidoColumnas col-xs-12">
+                    Este sistema te permite realizar la Inscripción, Documentación, Formulación y Culminación de Pasantías Empresariales.
+                    Debes mantener tu información de contacto actualizada, para que la Coordinación de Cooperación Técnica pueda comunicarse contigo.</p>
+                </span>
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-3 col-xs-12 containerEmpresa">
+                <div>
+                    <span class="tituloEmpresa col-xs-12">
+                        Empresas
+                    </span>
+                    <span class="contenidoColumnas col-xs-12">
+                        Este sistema le permite solicitar pasantes, revisar el plan de trabajo y recibir anuncios de chalas y estudiantes interesados en hacer pasantías tanto largas, intermedias como cortas.
+                    </span>
+                </div>
+
+        </div>
+
+    </div>
+
+    {{if auth.is_logged_in() == False :}}
+         <div class="row">
+                <div class="col-xs-12" style="text-align: center">
+                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
+                      <button class='btn-index'>Miembro USB</button>
+                    </a>
+
+
+                    <a class="link-btn" href={{=URL(a='Empresas',c='default',f='index')}}>
+                      <button class='btn-index'>Empresas</button>
+                    </a>
+                </div>
+         </div>
+
+    {{pass}}
+
+
 </div>
+
+<script>
+
+    function sameHeightContainers(){
+        var maxHeight = 0;
+        $(" .containers div").each(function(){
+            console.log($(this).height())
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+        });
+
+        $(".containerCCT").height(maxHeight);
+        $(".containerProfesor").height(maxHeight);
+        $(".containerEstudiante").height(maxHeight);
+        $(".containerEmpresa").height(maxHeight);
+
+    }
+
+    function sameHeightTitles(){
+
+        var maxHeight = 0;
+        $(" .containers div > span").each(function(){
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height() }
+        });
+
+        $(".titleCCT").height(maxHeight);
+        $(".titleProfesor").height(maxHeight);
+        $(".titleEstudiante").height(maxHeight);
+        $(".titleEmpresa").height(maxHeight);
+
+    }
+
+    function resetHeight(){
+        $(".titleCCT").height("auto");
+        $(".titleProfesor").height("auto");
+        $(".titleEstudiante").height("auto");
+        $(".titleEmpresa").height("auto");
+        $(".containerCCT").height("auto");
+        $(".containerProfesor").height("auto");
+        $(".containerEstudiante").height("auto");
+        $(".containerEmpresa").height("auto");
+    }
+
+    resetHeight();
+
+     sameHeightContainers();
+        sameHeightTitles();
+
+    $(window).resize(function() {
+        resetHeight();
+        sameHeightContainers();
+        sameHeightTitles();
+
+    });
+
+</script>
+
 
 {{elif 'content' in globals():}}
 {{=content}}
@@ -20,23 +146,4 @@
 {{=BEAUTIFY(response._vars)}}
 {{pass}}
 
-{{block right_sidebar}}
-<div class="container">
-  <div class="title"> Iniciar Sesión</div>
-    <br>
-    <!--
-    <a href="https://secure.dst.usb.ve/login?service=https%3A%2F%2Fprosigue.dex.usb.ve%2FSPE%2Fdefault%2Flogin_cas">
-      <button class='success'>Miembro USB</button>
-    </a>
--->
 
-    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
-      <button class='btn-index'>Miembro USB</button>
-    </a>
-
-
-    <a class="link-btn" href={{=URL(a='Empresas',c='default',f='index')}}>
-      <button class='btn-index'>Empresas</button>
-    </a>
-</div>
-{{end}}

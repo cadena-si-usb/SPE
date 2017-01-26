@@ -6,17 +6,27 @@ from applications.SPE_lib.modules.grids import simple_spe_grid
 Coordinador = Coordinador()
 
 def sqlform_grid():
+    query = db(db.Coordinador.usuario == db.auth_user.id)
+    db.auth_user._format = lambda row: row.first_name + " " + row.last_name
+
+    fields = [
+        db.auth_user.username,
+        db.Coordinador.usuario,
+        db.Coordinador.carnet,
+        db.Coordinador.coordinacion,
+        db.Coordinador.correo_Alternativo,
+    ]
+
     if not request.args:
-        return simple_spe_grid(db.Coordinador)
-    elif request.args[-2]=='new':
+        return simple_spe_grid(query, fields=fields, field_id=db.Coordinador.id)
+    elif request.args[-2] == 'new':
         return agregar(request)
-    elif request.args[-3]=='edit':
+    elif request.args[-3] == 'edit':
         return modificar(request)
-    elif request.args[-3]=='delete':
+    elif request.args[-3] == 'delete':
         return eliminar(request)
     else:
-        return simple_spe_grid(db.Coordinador)
-
+        return simple_spe_grid(query, fields=fields, field_id=db.Coordinador.id)
 
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))

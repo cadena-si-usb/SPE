@@ -59,13 +59,13 @@ def registrar_Empresa():
             estado=request.vars.estado,
             telefono=request.vars.telefono,
             direccion=request.vars.direccion,
+            miembro_usb=False,
         )
         group_id = auth.id_group(role='Empresa')
         auth.add_membership(group_id, result)
 
         # Registramos la Empresa
         db.Empresa.insert(
-            id=result,
             usuario = result,
             area_laboral = request.vars.area_laboral,
             direccion_web = request.vars.direccion_web,
@@ -175,6 +175,7 @@ def registrar_Tutor_Industrial():
             estado=request.vars.estado,
             telefono=request.vars.telefono,
             direccion=request.vars.direccion,
+            miembro_usb=False,
         )
 
         empresa = \
@@ -182,7 +183,6 @@ def registrar_Tutor_Industrial():
 
         # Registramos al tutor
         db.Tutor_Industrial.insert(
-            id=result,
             usuario=result,
             last_name=request.vars.last_name,
             tipo_documento=request.vars.tipo_documento,

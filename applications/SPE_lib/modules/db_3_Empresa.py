@@ -23,13 +23,12 @@ def Empresa_Table(db, T):
                     format=lambda r: '%s %s' % (r.usuario.first_name, r.usuario.email))
 
     db.Empresa.usuario.requires = IS_IN_DB(
-        db(db.auth_user.username == None),
-        'auth_user.id', '%(tipo_documento)s-%(numero_documento)s : %(first_name)s %(last_name)s',
-        zero='Seleccione un usuario', )
+        db(db.auth_user.miembro_usb == False),
+        'auth_user.id', db.auth_user._format,
+        zero='Seleccione un usuario Empresarial', )
 
     if db(db.Empresa.id > 0).count() == 0:
         db.Empresa.insert(
-            id='1',
             usuario='1',
             area_laboral='2',
             descripcion='Soluciones De Software',

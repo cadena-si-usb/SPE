@@ -17,6 +17,7 @@
     color: #1a1a1a;
 }
 
+
 /*BOTONES*/
 
 .btn-index{
@@ -55,4 +56,59 @@
     text-decoration: none !important;
     color: #3e3f3a;
     cursor: pointer;
+}
+
+/*Home*/
+
+.title{
+    text-transform: uppercase;
+}
+
+.tituloCCT, .tituloEstudiante, .tituloProfesor, .tituloEmpresa{
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+
+}
+
+.tituloCCT{
+    background: #ff531f;
+}
+.tituloEstudiante{
+    background: #6da8e1;
+}
+
+.tituloProfesor{
+    background: #65bb5f;
+}
+
+.tituloEmpresa{
+    background: #cc9900;
+}
+
+
+.containerCCT, .containerEstudiante, .containerProfesor, .containerEmpresa{
+    padding: 0;
+    margin-bottom: 10px;
+
+}
+
+.containerCCT{
+    border: 2px solid #ff531f;
+}
+
+.containerEstudiante{
+    border: 2px solid #6da8e1;
+}
+
+.containerProfesor{
+    border: 2px solid #65bb5f;
+}
+
+.containerEmpresa{
+    border: 2px solid #cc9900;
+}
+
+.contenidoColumnas{
+    padding: 10px;
 }

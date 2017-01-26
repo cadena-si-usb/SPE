@@ -6,12 +6,22 @@ from applications.SPE_lib.modules.grids import simple_spe_grid
 Preinscripcion = Preinscripcion()
 
 def sqlform_grid():
+    query = db(db.Preinscripcion.pasantia == db.Pasantia.id)
+    db.Estudiante._format = lambda row: row.carnet
+
+    fields = [
+        db.Pasantia.titulo,
+        db.Pasantia.estudiante,
+        db.Pasantia.materia,
+        db.Pasantia.periodo,
+        db.Preinscripcion.estado,
+    ]
     if not request.args:
-        return simple_spe_grid(db.Preinscripcion)
+        return simple_spe_grid(query,fields=fields,field_id=db.Preinscripcion.id)
     elif request.args[-3]=='edit':
         return modificar(request)
     else:
-        return simple_spe_grid(db.Preinscripcion)
+        return simple_spe_grid(query, fields=fields, field_id=db.Preinscripcion.id)
 
 def modificar(request):
     print request.args

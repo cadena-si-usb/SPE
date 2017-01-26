@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from gluon import *
-def Inscripcion_Table(db,T):
+
+
+def Inscripcion_Table(db, T):
     db.define_table('Inscripcion',
-        Field('pasantia', 'reference Pasantia',
-              label='Pasantia'),
-        Field('aprobacionCCT', 'boolean',label='Aprobacion De La CCT',default=False,
-              represent=lambda v, r: 'Aprobado' if v==True else 'En Espera'),
-        Field('comentarioCCT','text', label='Comentario De La CCT'),
+                    Field('pasantia', 'reference Pasantia',
+                          writable=False,
+                          unique=True,
+                          label='Pasantia'),
+                    Field('aprobacionCCT', 'boolean', label='Aprobacion De La CCT', default=False,
+                          represent=lambda v, r: 'Aprobado' if v == True else 'En Espera'),
+                    Field('comentarioCCT', 'text', label='Comentario De La CCT'),
 
-        Field('fecha_creacion','datetime',default=datetime.now()),
-        Field('estado', 'string',default="En Espera",
-              requires=IS_IN_SET(['En espera', 'Aprobado'], zero=None,
-                                error_message='Opcion Invalida')))
-
+                    Field('fecha_creacion', 'datetime', default=datetime.now(), writable=False, ),
+                    Field('estado', 'string', default="En Espera",
+                          requires=IS_IN_SET(['En espera', 'Aprobado'],
+                                             zero=None,
+                                             error_message='Opcion Invalida'),
+                          writable=False, ))

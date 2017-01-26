@@ -11,7 +11,10 @@ def Coordinador_Table(db, T):
                     Field('carnet',
                           requires=IS_MATCH('^\d{2}?[\s.-]?\d{5}$',
                                             error_message='Introduzca un carnet valido.'),
-                          label='Carnet'),
+                          label='Carnet',
+                          unique=True,
+                          required=True,
+                          ),
                     Field('coordinacion', 'reference Coordinacion',
                           label='Coordinacion (*)'),
                     Field('correo_Alternativo', requires=IS_EMAIL(error_message='Introduzca un email valido.'),
@@ -19,8 +22,8 @@ def Coordinador_Table(db, T):
                     format=lambda r: '%s - %s %s' % (r.usuario.username, r.usuario.first_name, r.usuario.last_name))
 
     db.Coordinador.usuario.requires = IS_IN_DB(
-        db(db.auth_user.username != None),
-        'auth_user.id', '%(username)s - %(first_name)s %(last_name)s',
+        db(db.auth_user.miembro_usb == True),
+        'auth_user.id', db.auth_user._format,
         zero='Seleccione un usuario USB', )
 
     if db(db.Coordinador.id > 0).count() == 0:
