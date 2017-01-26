@@ -14,7 +14,8 @@
                         <center>
                             <h4> <b>Coordinación</b> </h4>
                             <div>
-                                 <h5>{{=coordinacion.Coordinacion.first_name}}</h5>
+                                 <h5>{{=coordinacion.codigo}} - {{=coordinacion.nombre}} - {{=sede_coordinacion
+                                 .first_name}}</h5>
                             </div>
                         </center>
                     </div>
@@ -23,7 +24,7 @@
                         <center>
                             <h4> <b>Correo</b> </h4>
                             <div>
-                                <h5>{{=coordinador.auth_user.email}}</h5>
+                                <h5>{{=coordinador.carnet}}</h5>
                             </div>
                         </center>
                     </div>
@@ -32,11 +33,10 @@
                         <center>
                             <h4> <b>Correo Alternativo</b> </h4>
                             <div>
-                                <h5>{{=coordinador.Coordinador.correo_Alternativo}}</h5>
+                                <h5>{{=coordinador.correo_Alternativo}}</h5>
                             </div>
                         </center>
                     </div>
-
                 </div>
             </div>
         </section>

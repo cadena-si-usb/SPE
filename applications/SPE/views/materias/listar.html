@@ -1,6 +1,5 @@
 {{extend 'catalogos.html'}}
 {{block content}}
-{{if auth.has_membership(role='Estudiante'): redirect(URL(c='default',f='index'))}}
 <div class="container-fluid" id="materiasIndex">
     <div class="row">
         <div class="col-lg-12 rounded_border" >
@@ -20,5 +19,3 @@
     </div>
 </div>
 {{end}}
-{{include 'materias/contenido.html'}}
-<script src="{{=URL('static','js/contentHandler/materias.js')}}"></script>

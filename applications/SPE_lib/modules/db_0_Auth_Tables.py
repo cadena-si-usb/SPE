@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from gluon import *
-from gluon.tools import Auth, Service, PluginManager,Mail
+from gluon.tools import Auth, Service, PluginManager, Mail
 
-def spe_auth_tables(db,T):
 
+def spe_auth_tables(db, T):
     auth = Auth(db)
 
     auth.settings.extra_fields['auth_user'] = [
@@ -36,8 +36,8 @@ def spe_auth_tables(db,T):
               label='Pais'),
         Field('estado', 'reference Estado',
               label='Estado'),
-        Field('image', 'upload',uploadseparate=True,autodelete=True),
-        Field('miembro_usb', 'boolean',writable=False,readable=False,
+        Field('image', 'upload', uploadseparate=True, autodelete=True),
+        Field('miembro_usb', 'boolean', writable=False, readable=False,
               default=True),
     ]
 

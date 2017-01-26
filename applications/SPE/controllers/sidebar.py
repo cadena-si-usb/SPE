@@ -7,9 +7,6 @@ Accion_Usuario = Accion_Usuario()
 
 
 def coordinacion():
-    obj = Encoder.to_dict(request.vars)
-
-    # TODO Hacer que esto filtre dependiendo del rol del usuario logeado
     if (auth.is_logged_in()):
         usuario = auth.user
         roles = db(db.auth_membership.user_id==auth.user.id).select()

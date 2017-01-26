@@ -5,8 +5,8 @@ Usuario = Usuario()
 
 @auth.requires_login()
 def ver():
-    userid = session.currentUser.id
-    usuario = db.auth_user(id=auth.user.id)
+    userid = auth.user.id
+    usuario = db.auth_user(id=userid)
     # Preguntar aqui por usuario externo o usuarioUSB
     currentUser = usuario
     tipo_documento = db.Tipo_Documento(id=currentUser.tipo_documento)
@@ -25,15 +25,15 @@ def ver():
         sede = db.Sede(id=profesor.Profesor.sede)
 
     if (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
-        coordinador = db(((db.auth_user.id == userid) & (db.Coordinador.usuario == db.auth_user.id))).select().first()
-        coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
+        coordinador = db.Coordinador(usuario=userid)
+        coordinacion = db.Coordinacion(id=coordinador.coordinacion)
+        sede_coordinacion = db.Sede(id=coordinacion.sede)
     # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles
     # personalizados)
     # o es un usuario con rol ajeno al sistema
-    administrativo = db(((db.auth_user.id == userid) & (db.Administrativo.usuario == db.auth_user.id))).select()
+    administrativo = db.Administrativo(usuario=userid)
     if administrativo:
-        administrativo = administrativo.first()
-        coordinacion = db(db.Administrativo.coordinacion == db.Coordinacion.id).select().first()
+        coordinacion_admin = db.Coordinacion(id=administrativo.coordinacion)
     return locals()
 
 

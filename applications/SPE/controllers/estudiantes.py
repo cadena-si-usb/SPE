@@ -54,6 +54,9 @@ def agregar(request):
             sede=form.vars.sede,
             activo=form.vars.activo,
         )
+        db.Curriculo.insert(
+            estudiante=estudianteId
+        )
         estudiante=db.Estudiante(id=estudianteId)
         group = db.auth_group(role="Estudiante")
         # Se agrega el rolProfesor
