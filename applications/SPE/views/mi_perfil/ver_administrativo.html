@@ -10,27 +10,40 @@
         <section id="sec1">
             <div class="row">
                 <div class="col-sm-12">
+                {{if cont == 12 or cont == 6 :}}
+                    <div class="col-sm-6">
+                        <center>
+                            <h4> <b>Coordinación</b> </h4>
+                            <div>
+                                <h5>{{=coordinacion.Coordinacion.nombre}}</h5>
+                            </div>
+                        </center>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <center>
+                            <h4> <b>Correo Alternativo</b> </h4>
+                            <div>
+                                <h5>{{=administrativo.Administrativo.correo_Alternativo}}</h5>
+                            </div>
+                        </center>
+                    </div>
+                {{pass}}
+                {{if cont == 4 :}}
                     <center>
                         <h4> <b>Coordinación</b> </h4>
                         <div>
-                            <h5>{{=coordinacion.nombre}}</h5>
+                             <h5>{{=coordinacion.Coordinacion.nombre}}</h5>
                         </div>
-                    </center>
 
-                    <center>
-                        <h4> <b>Correo</b> </h4>
-                        <div>
-                            <h5>{{=usuario.email}}</h5>
-                        </div>
-                    </center>
-                    <br>
-                    <center>
+                        <br>
+
                         <h4> <b>Correo Alternativo</b> </h4>
                         <div>
-                            <h5>{{=administrativo.correo_Alternativo}}</h5>
+                            <h5>{{=administrativo.Administrativo.correo_Alternativo}}</h5>
                         </div>
                     </center>
-                </div>
+                {{pass}}
         </section>
     </div>
 </div>

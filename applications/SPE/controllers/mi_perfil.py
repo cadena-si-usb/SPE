@@ -28,16 +28,16 @@ def ver():
         cont = cont + 1
 
     if (auth.has_membership(role='CoordinadorCCT') or auth.has_membership(role='Coordinador')):
-        coordinador = db.Coordinador(usuario=userid)
-        coordinacion = db.Coordinacion(id=coordinador.coordinacion)
-        sede_coordinacion = db.Sede(id=coordinacion.sede)
+        coordinador = db(((db.auth_user.id == userid) & (db.Coordinador.usuario == db.auth_user.id))).select().first()
+        coordinacion = db(db.Coordinador.coordinacion == db.Coordinacion.id).select().first()
         cont = cont + 1
     # Si no es uno de los roles basicos entonces es un empleado administrativo (el cual puede pertenecer a roles
     # personalizados)
     # o es un usuario con rol ajeno al sistema
-    administrativo = db.Administrativo(usuario=userid)
+    administrativo = db(((db.auth_user.id == userid) & (db.Administrativo.usuario == db.auth_user.id))).select()
     if administrativo:
-        coordinacion_admin = db.Coordinacion(id=administrativo.coordinacion)
+        administrativo = administrativo.first()
+        coordinacion = db(db.Administrativo.coordinacion == db.Coordinacion.id).select().first()
         cont = cont + 1
     cont = 12 / cont
     clase = "col-sm-" + str(cont)

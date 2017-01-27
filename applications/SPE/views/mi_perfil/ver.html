@@ -6,15 +6,20 @@
             <div class="row">
             		<div class="col-sm-12">
 	            		<div class="col-sm-5" style="text-align: center;">
-                            {{if usuario.image and usuario.image!="":}}
-                                <img style="max-width: 100%; max-height: 250px;" src="{{=URL('mi_perfil', 'download',
-                                args=usuario.image)}}" />
-                            {{else:}}
-                                <img style="max-width: 100%; max-height: 250px;" src="/static/images/profile.png" />
-                            {{pass}}
+                            <div style="text-align: right;">
+                                {{if usuario.image and usuario.image!="":}}
+                                    <img style="max-width: 100%; max-height: 250px;" src="{{=URL('mi_perfil', 'download',
+                                    args=usuario.image)}}" />
+                                {{else:}}
+                                    <img style="max-width: 100%; max-height: 250px;" src="/static/images/profile.png" />
+                                {{pass}}
+                                <a href="{{=URL('configuracion')}}">
+                                    <button class="boton-negro"  type="button">Editar Perfil</button>
+                                </a>
+                            </div>
                         </div>
 
-	            		<div class="col-sm-6" style="text-align: left; margin-top: 02%;">
+	            		<div class="col-sm-6" style="text-align: left; margin-top: 08%;">
                             <h4><p><b>{{=usuario['first_name']}} {{=usuario['last_name']}}</b></p></h4>
                             <h4><p>USBID: {{=usuario.username}}</p></h4>
                             <h4><p>{{=tipo_documento.first_name}}: {{=usuario.numero_documento}} </p></h4>
@@ -31,30 +36,31 @@
             </div>
     	</section>
     </div>
-
-    {{if globals().get('estudiante', False):}}
-        <div class="{{=clase}}">
-           {{include 'mi_perfil/ver_estudiante.html'}}
+    <div class="row ">
+        {{if globals().get('estudiante', False):}}
+            <div class="{{=clase}}">
+               {{include 'mi_perfil/ver_estudiante.html'}}
+            </div>
+        {{pass}}
+        {{if globals().get('profesor', False):}}
+            <div class="{{=clase}}">
+               {{include 'mi_perfil/ver_profesor.html'}}
+            </div>
+        {{pass}}
+        {{if globals().get('administrativo', False):}}
+            <div class="{{=clase}}">
+               {{include 'mi_perfil/ver_administrativo.html'}}
+            </div>
+        {{pass}}
+        {{if globals().get('coordinador', False):}}
+            <div class="{{=clase}}">
+               {{include 'mi_perfil/ver_coordinador.html'}}
+            </div>
+        {{pass}}
+        {{if globals().get('curriculo', False):}}
+        <div class="col-sm-9">
+           {{include 'mi_perfil/ver_curriculo.html'}}
         </div>
-    {{pass}}
-    {{if globals().get('profesor', False):}}
-        <div class="{{=clase}}">
-           {{include 'mi_perfil/ver_profesor.html'}}
-        </div>
-    {{pass}}
-    {{if globals().get('administrativo', False):}}
-        <div class="{{=clase}}">
-           {{include 'mi_perfil/ver_administrativo.html'}}
-        </div>
-    {{pass}}
-    {{if globals().get('coordinador', False):}}
-        <div class="{{=clase}}">
-           {{include 'mi_perfil/ver_coordinador.html'}}
-        </div>
-    {{pass}}
-    {{if globals().get('curriculo', False):}}
-    <div class="col-sm-9">
-       {{include 'mi_perfil/ver_curriculo.html'}}
+        {{pass}}
     </div>
-    {{pass}}
 {{end}}
