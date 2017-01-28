@@ -63,13 +63,6 @@
 	font-size: 12px;
 }
 
-.boton_posicion {
-  margin-top: -06px;
-  margin-bottom: -06px;
-  margin-right: -10px;
-  border-radius: 05px; 
-}
-
 .clickable
 {
     cursor: pointer;
@@ -85,7 +78,29 @@
 
 a.clickable { color: inherit; }
 
-.boton_posicion:hover 
-{
+.boton_posicion {
+  margin-top: -06px;
+  margin-bottom: -06px;
+  margin-right: -10px;
+  border-radius: 05px; 
+}
+
+.button_cv_back {
+  margin-top: -06px;
+  margin-bottom: -06px;
+  margin-left: -10px;
+  border-radius: 05px; 
+}
+
+.button_position_cv {
+	margin-left: 663px; 
+	margin-top: -06px;
+	margin-bottom: -06px;
+	margin-right: -10px;
+	border-radius: 05px;
+}
+
+.button_position_cv:hover, .boton_posicion:hover, .button_cv_back:hover {
 	background: rgba(0, 0, 0, 0.40);
 }
+

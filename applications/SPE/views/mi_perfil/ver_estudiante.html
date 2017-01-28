@@ -1,9 +1,14 @@
 <div class="panel panel-info">
     <div class="panel-heading">
         <h1 class="panel-title pull-left" style="font-size: 15px">Estudiante</h1>
+        <a href="{{=URL('ver_curriculo')}}" class="clickable">
+            <span class="icon button_position_cv"><i class="glyphicon glyphicon-list-alt"></i></span>
+        </a>
+
         <a href="{{=URL('configuracion', args=['estudiante'])}}" class="clickable">
             <span class="pull-right icon boton_posicion"><i class="glyphicon glyphicon-edit"></i></span>
         </a>
+
         <div class="clearfix"></div>
     </div>
     <div class="panel-body">

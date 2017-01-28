@@ -1,7 +1,7 @@
 {{extend 'shell.html'}}
 {{block content}}
 	<div id="perfil_estudiante">
-    	<section id="sec1" style="margin-bottom: 10%">
+    	<section id="sec1" style="margin-bottom: 06%">
     		<br>
             <div class="row">
             		<div class="col-sm-12">
@@ -56,11 +56,6 @@
             <div class="{{=clase}}">
                {{include 'mi_perfil/ver_coordinador.html'}}
             </div>
-        {{pass}}
-        {{if globals().get('curriculo', False):}}
-        <div class="col-sm-9">
-           {{include 'mi_perfil/ver_curriculo.html'}}
-        </div>
         {{pass}}
     </div>
 {{end}}

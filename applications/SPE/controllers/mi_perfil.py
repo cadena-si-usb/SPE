@@ -181,3 +181,13 @@ def curriculo_form():
 
 def download():
     return response.download(request, db)
+
+def ver_curriculo():
+    userid = auth.user.id
+    usuario = db.auth_user(id=userid)
+    currentUser = usuario
+    tipo_documento = db.Tipo_Documento(id=currentUser.tipo_documento)
+    estudiante = db.Estudiante(usuario=userid)
+    curriculo = db.Curriculo(estudiante=estudiante.id)
+    response.view = 'mi_perfil/ver_curriculo.html'
+    return locals()
