@@ -13,10 +13,19 @@
 /*FOOTER*/
 .footer{
     margin-top: 20px;
-    background: #D7D7D7;
-    color: #1a1a1a;
+    background: #666666;
+    color:  white;
 }
 
+.main-container{
+    background: #ececec !important;
+    margin-top: 0;
+}
+
+.header_home{
+    padding-top: 0;
+
+}
 
 /*BOTONES*/
 
@@ -90,6 +99,7 @@
 .containerCCT, .containerEstudiante, .containerProfesor, .containerEmpresa{
     padding: 0;
     margin-bottom: 10px;
+        background: white;
 
 }
 
@@ -111,4 +121,33 @@
 
 .contenidoColumnas{
     padding: 10px;
+}
+
+body{
+    background: #ececec;
+}
+.navbar-style, #navbar a, .footer {
+    background: #666666 !important;
+    color: white !important;
+}
+
+.carousel-inner > .item > div,
+  .carousel-inner > .item > a > div {
+      width: 70%;
+      margin: auto;
+  }
+.carousel-control.right, .carousel-control.left{
+	background: transparent;
+}
+
+.carousel-indicators li{
+	border: 2px solid #666666;
+}
+
+.carousel-indicators .active {
+	background: #666666;
+}
+
+.carousel-control span {
+	color: #666666;
 }
