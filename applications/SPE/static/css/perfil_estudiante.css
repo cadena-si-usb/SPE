@@ -22,6 +22,10 @@
 	background: url("../images/profile.png");
 }
 
+#perfil {
+	text-align: right;
+}
+
 #footer, #barra{
 	background: rgba(63,93,93,0.50);
 	color: #ffffff;
@@ -36,12 +40,17 @@
 	padding-top: 2% !important;
 }
 
+.bio {
+	text-align: left; 
+	margin-top: 08%;"
+}
+
 .boton-negro{
 	background: #2B2B2B;
 	color: #DDD;
 	border: none;
 	width: 200px;
-	margin-right: 20px;
+	margin-right: 25px;
 	margin-top: -25px;
 }
 
@@ -83,13 +92,10 @@ a.clickable { color: inherit; }
   margin-bottom: -06px;
   margin-right: -10px;
   border-radius: 05px; 
-  transition:0.3s ease all; 
-  -moz-transition:0.3s ease all; 
-  -webkit-transition:0.3s ease all;
 }
 
 .button_position_cv {
-	margin-left: 659px; 
+	margin-left: 40px; 
 	margin-top: -06px;
 	margin-bottom: -06px;
 	margin-right: -10px;
@@ -107,7 +113,7 @@ a.clickable { color: inherit; }
 
 .button_position_cv:hover {
 	background: rgba(0, 0, 0, 0.40);
-	margin-left: 570px; 
+	margin-left: -50px; 
 	width: 130px; 
 	border-radius:5px; 
 }
@@ -116,6 +122,19 @@ a.clickable { color: inherit; }
 	background: rgba(0, 0, 0, 0.40);
 	width: 80px; 
 	border-radius:5px; 
-	-moz-border-radius:5px; 
-	-webkit-border-radius:5px;
+}
+
+@media screen and (max-width: 800px) {
+
+	#perfil, .bio { text-align: center; }
+
+	.boton-negro {
+		margin-right: 0px;
+	}
+
+}
+
+@media screen and (max-device-width : 480px) {
+
+
 }

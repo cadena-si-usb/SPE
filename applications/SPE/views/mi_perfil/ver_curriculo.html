@@ -5,21 +5,23 @@
             <br>
             <div class="row">
                     <div class="col-sm-12">
-                        <div class="col-sm-5" style="text-align: center;">
-                            <div style="text-align: right;">
+                        <div class="col-sm-6" id="perfil">
+                            <div class="row">
                                 {{if usuario.image and usuario.image!="":}}
                                     <img style="max-width: 100%; max-height: 250px;" src="{{=URL('mi_perfil', 'download',
                                     args=usuario.image)}}" />
                                 {{else:}}
                                     <img style="max-width: 100%; max-height: 250px;" src="/static/images/profile.png" />
                                 {{pass}}
+                            </div>
+                            <div class="row" >
                                 <a href="{{=URL('configuracion')}}">
                                     <button class="boton-negro"  type="button">Editar Perfil</button>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="col-sm-6" style="text-align: left; margin-top: 08%;">
+                        <div class="col-sm-5 bio">
                             <h4><p><b>{{=usuario['first_name']}} {{=usuario['last_name']}}</b></p></h4>
                             <h4><p>USBID: {{=usuario.username}}</p></h4>
                             <h4><p>{{=tipo_documento.first_name}}: {{=usuario.numero_documento}} </p></h4>
