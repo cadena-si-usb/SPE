@@ -73,7 +73,7 @@
     background: rgba(0, 0, 0, 0.15);
     display: inline-block;
     padding: 6px 12px;
-    border-radius: 4px
+    border-radius: 4px;
 }
 
 a.clickable { color: inherit; }
@@ -83,24 +83,39 @@ a.clickable { color: inherit; }
   margin-bottom: -06px;
   margin-right: -10px;
   border-radius: 05px; 
-}
-
-.button_cv_back {
-  margin-top: -06px;
-  margin-bottom: -06px;
-  margin-left: -10px;
-  border-radius: 05px; 
+  transition:0.3s ease all; 
+  -moz-transition:0.3s ease all; 
+  -webkit-transition:0.3s ease all;
 }
 
 .button_position_cv {
-	margin-left: 663px; 
+	margin-left: 659px; 
 	margin-top: -06px;
 	margin-bottom: -06px;
 	margin-right: -10px;
 	border-radius: 05px;
 }
 
-.button_position_cv:hover, .boton_posicion:hover, .button_cv_back:hover {
-	background: rgba(0, 0, 0, 0.40);
+
+.boton_posicion:hover:after {
+	content: ' Editar';
 }
 
+.button_position_cv:hover:after {
+	content: ' Ver Curriculum';
+}
+
+.button_position_cv:hover {
+	background: rgba(0, 0, 0, 0.40);
+	margin-left: 570px; 
+	width: 130px; 
+	border-radius:5px; 
+}
+
+.boton_posicion:hover {
+	background: rgba(0, 0, 0, 0.40);
+	width: 80px; 
+	border-radius:5px; 
+	-moz-border-radius:5px; 
+	-webkit-border-radius:5px;
+}
