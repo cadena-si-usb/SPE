@@ -1,8 +1,6 @@
 {{extend 'shell.html'}}
 {{block content}}
 
-<!-- <button id="preinscribir">PREINSCRIBIR</button> -->
-
 <div class="container-fluid" id="mis_pasantias_index">
     <div class="row">
         <div class="col-lg-12 rounded_border" >
@@ -19,3 +17,5 @@
 
 
 {{end}}
+{{include 'mis_pasantias/materias.html'}}
+<script src="{{=URL('static','js/contentHandler/mis_pasantias.js')}}"></script>
