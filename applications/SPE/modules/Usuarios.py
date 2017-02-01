@@ -140,26 +140,32 @@ class Usuario(Model):
         :param context: Filtro opcional para las acciones bajo un context especifico
         :return: String[]
         '''
+        usuario = current.auth.user
         roles = current.auth.user_groups
         acciones = None
+        roles = self.db(current.db.auth_membership.user_id == current.auth.user.id).select()
+        roles_id = []
+        for rol in roles:
+            roles_id.append(rol.group_id)
         for rol in roles:
             if context:
                 if acciones:
-                    acciones.records.append(self.db(
-                        (self.db.Accion_Usuario.rol == rol) & (self.db.Accion_Usuario.contexto == context)).select(
-                        self.db.Accion_Usuario.destino, orderby=self.db.Accion_Usuario.first_name))
+                    acciones.records.append(self.db((current.db.Accion_Usuario.rol.belongs(roles_id)) & (self.db.Accion_Usuario.contexto ==
+                                                                           context)).select(
+                        orderby=self.db.Accion_Usuario.first_name))
                 else:
-                    acciones = (self.db(
-                        (self.db.Accion_Usuario.rol == rol) & (self.db.Accion_Usuario.contexto == context)).select(
-                        self.db.Accion_Usuario.destino, orderby=self.db.Accion_Usuario.first_name))
+                    acciones = (self.db((current.db.Accion_Usuario.rol.belongs(roles_id)) & (self.db.Accion_Usuario.contexto ==
+                                                                           context)).select(
+                        orderby=self.db.Accion_Usuario.first_name))
             else:
                 if acciones:
                     acciones.records.append(
-                        self.db((self.db.Accion_Usuario.rol == rol)).select(
-                            self.db.Accion_Usuario.destino, orderby=self.db.Accion_Usuario.first_name))
+                        self.db((current.db.Accion_Usuario.rol.belongs(roles_id))).select(
+                            orderby=self.db.Accion_Usuario.first_name))
                 else:
-                    acciones = self.db((self.db.Accion_Usuario.rol == rol)).select(
-                        self.db.Accion_Usuario.destino, orderby=self.db.Accion_Usuario.first_name)
+                    acciones = (
+                    self.db((current.db.Accion_Usuario.rol.belongs(roles_id))).select(
+                        orderby=self.db.Accion_Usuario.first_name))
         destinos = []
         for accion in acciones:
             destinos.append(accion.destino)
