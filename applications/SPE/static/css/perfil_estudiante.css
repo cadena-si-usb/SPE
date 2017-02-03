@@ -83,6 +83,7 @@
     display: inline-block;
     padding: 6px 12px;
     border-radius: 4px;
+    font-size: 12px;
 }
 
 a.clickable { color: inherit; }
@@ -113,8 +114,8 @@ a.clickable { color: inherit; }
 
 .button_position_cv:hover {
 	background: rgba(0, 0, 0, 0.40);
-	margin-left: -50px; 
-	width: 130px; 
+	margin-left: -60px; 
+	width: 140px; 
 	border-radius:5px; 
 }
 

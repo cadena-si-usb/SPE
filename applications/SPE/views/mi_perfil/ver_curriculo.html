@@ -39,11 +39,11 @@
         </section>
     </div>
 
-<div class="panel panel-danger">
+<div class="panel panel-info">
     <div class="panel-heading">
         <h3 class="panel-title pull-left" style="font-size: 15px">Curriculum</h3>
         <a href="{{=URL('mi_perfil','editar_curriculo')}}" class="clickable">
-            <span class="pull-right icon boton_posicion"><i class="glyphicon glyphicon-edit "> <span class="bt_cv"></span></i></span>
+            <span class="pull-right icon boton_posicion"><i class="fa fa-pencil-square-o"></i></span>
         </a>
 
       <div class="clearfix"></div>
@@ -52,7 +52,7 @@
         <div id="sec1">
                 <div class="row">
                     <div class="col-sm-5 col-sm-offset-1">
-                        <h4> <b> Electivas: </b> </h4>
+                        <h4> <i class="fa fa-check-square" aria-hidden="true"></i> <b> Electivas: </b> </h4>
                         <ul>
                             {{for item in curriculo.electivas:}}
                                 <div>
@@ -63,7 +63,7 @@
                             
                     </div>
                     <div class="col-sm-5 col-sm-offset-1">
-                        <h4> <b> Idiomas: </b> </h4>
+                        <h4> <i class="fa fa-language" aria-hidden="true"></i> <b> Idiomas: </b> </h4>
                         <ul>
                             {{for item in curriculo.idiomas:}}
                                 <div>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 col-sm-offset-1">
-                            <h4> <b> Cursos: </b> </h4>
+                            <h4> <i class="fa fa-book" aria-hidden="true"></i> <b> Cursos: </b> </h4>
                             <ul>
                                 {{for item in curriculo.cursos:}}
                                     <div>
@@ -85,7 +85,7 @@
                             </ul>
                     </div>
                     <div class="col-sm-5 col-sm-offset-1">
-                            <h4> <b> Aficiones: </b> </h4>
+                            <h4> <i class="fa fa-music" aria-hidden="true"></i> <b> Aficiones: </b> </h4>
                             <ul>
                                 {{for item in curriculo.aficiones:}}
                                     <div>
@@ -97,7 +97,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 col-sm-offset-1">
-                            <h4> <b> Voluntariados: </b> </h4>
+                            <h4> <i class="fa fa-universal-access" aria-hidden="true"></i> <b> Voluntariados: </b> </h4>
                             <ul>
                                 {{for item in curriculo.voluntariados:}}
                                     <div>
@@ -107,7 +107,7 @@
                             </ul>
                     </div>
                     <div class="col-sm-5 col-sm-offset-1">
-                            <h4> <b> Educacion: </b> </h4>
+                            <h4> <i class="fa fa-graduation-cap" aria-hidden="true"></i> <b> Educacion: </b> </h4>
                             <ul>
                                 {{for item in curriculo.educacion:}}
                                     <div>
@@ -119,7 +119,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 col-sm-offset-1">
-                            <h4> <b> Experiencias: </b> </h4>
+                            <h4> <i class="fa fa-file-text" aria-hidden="true"></i> <b> Experiencias: </b> </h4>
                             <ul>
                                 {{for item in curriculo.experiencias:}}
                                     <div>
@@ -129,7 +129,7 @@
                             </ul>
                     </div>
                     <div class="col-sm-5 col-sm-offset-1">
-                            <h4> <b> Proyectos: </b> </h4>
+                            <h4> <i class="fa fa-folder-open" aria-hidden="true"></i> <b> Proyectos: </b> </h4>
                             <ul>
                                 {{for item in curriculo.proyectos:}}
                                     <div>
