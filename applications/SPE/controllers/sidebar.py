@@ -19,19 +19,19 @@ def sidebar():
             roles_id.append(rol.group_id)
             names = db(db.auth_group.id == rol.group_id.id).select(db.auth_group.role)
 
-        for name in names:
-            contextos_usuario = []
-            # PROBAR: cuando haya un rol multiperfil
-            for contexto in contextos:
-                accion = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
-                                                                    contexto)).select(
-                    orderby=db.Accion_Usuario.first_name)
-                contextos_usuario.append({'contexto': contexto, 'acciones': accion})
+            for name in names:
+                contextos_usuario = []
+                # PROBAR: cuando haya un rol multiperfil
+                for contexto in contextos:
+                    accion = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
+                                                                        contexto)).select(
+                        orderby=db.Accion_Usuario.first_name)
+                    contextos_usuario.append({'contexto': contexto, 'acciones': accion})
 
-            sidebar.append({'rol': name.role, 'contextos': contextos_usuario})
+                sidebar.append({'rol': name.role, 'contextos': contextos_usuario})
 
     response.view = 'sidebar/sidebar.html'
-    return dict(sidebar=sidebar)
+    return dict(roles=roles, sidebar=sidebar)
 
 def coordinacion():
     if (auth.is_logged_in()):

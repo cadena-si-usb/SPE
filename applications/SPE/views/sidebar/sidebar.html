@@ -1,3 +1,4 @@
+{{=roles}}
 <ul style="margin-top: 20px; display: flex; flex-direction: column; font-family: 'DejaVu Sans' !important;" class="container">
     {{for roles in sidebar:}}
         { {{=roles['rol']}}:
@@ -13,8 +14,8 @@
                     </a>
                 </li>
             {{pass}}
-            }
+        } 
         {{pass}}
-        }
+        } <br/>
     {{pass}}
 </ul>
