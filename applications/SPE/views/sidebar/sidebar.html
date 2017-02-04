@@ -12,11 +12,11 @@
     {{=sidebar}}
     <br/><br/>
     {{for roles in sidebar:}}
-        { {{=roles[0]}}:
+        { {{=roles['rol']}}:
         <br/>
-        {{for contexto in roles[1]:}}
-            {{=contexto[0]}} : {
-            {{for accion in contexto[1]:}}
+        {{for contexto in roles['contextos']:}}
+            {{=contexto['contexto']}} : {
+            {{for accion in contexto['acciones']:}}
                 {{=accion}},
             {{pass}}
             }

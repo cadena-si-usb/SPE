@@ -31,7 +31,7 @@ def sidebar():
             accion = []
             for row in rows:
                 accion.append(row.first_name)
-            contexto.append(['coordinacion', accion])
+            contexto.append({'contexto': 'coordinacion', 'acciones': accion})
 
             rows = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
                                                                 'pasantias')).select(
@@ -39,7 +39,7 @@ def sidebar():
             accion = []
             for row in rows:
                 accion.append(row.first_name)
-            contexto.append(['pasantias', accion])
+            contexto.append({'contexto': 'pasantias', 'acciones': accion})
 
             rows = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
                                                                 'catalogos')).select(
@@ -47,7 +47,7 @@ def sidebar():
             accion = []
             for row in rows:
                 accion.append(row.first_name)
-            contexto.append(['catalogos', accion])
+            contexto.append({'contexto': 'catalogos', 'acciones': accion})
 
             rows = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
                                                                 'configuracion')).select(
@@ -55,11 +55,11 @@ def sidebar():
             accion = []
             for row in rows:
                 accion.append(row.first_name)
-            contexto.append(['configuracion', accion])
-            sidebar.append([name.role, contexto])
+            contexto.append({'contexto': 'configuracion', 'acciones': accion})
+            sidebar.append({'rol': name.role, 'contextos': contexto})
 
     response.view = 'sidebar/sidebar.html'
-    return dict(routes=rows, sidebar=sidebar)
+    return dict(sidebar=sidebar)
 
 def coordinacion():
     if (auth.is_logged_in()):
