@@ -4,6 +4,7 @@ from Acciones_Usuario import Accion_Usuario
 import Encoder
 
 Accion_Usuario = Accion_Usuario()
+contextos = ['coordinacion', 'pasantias', 'catalogos', 'configuracion']
 
 def sidebar():
 
@@ -12,51 +13,22 @@ def sidebar():
         usuario = auth.user
         roles = db(db.auth_membership.user_id == auth.user.id).select()
         roles_id = []
-        rows = []
+        accion = []
         sidebar = []
         for rol in roles:
             roles_id.append(rol.group_id)
             names = db(db.auth_group.id == rol.group_id.id).select(db.auth_group.role)
-            # aux = []
-            # for name in names:
-            #     aux.append(name.role)
 
         for name in names:
-            contexto = []
-            # verificar cuando haya un rol multiperfil
+            contextos_usuario = []
+            # PROBAR: cuando haya un rol multiperfil
+            for contexto in contextos:
+                accion = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
+                                                                    contexto)).select(
+                    orderby=db.Accion_Usuario.first_name)
+                contextos_usuario.append({'contexto': contexto, 'acciones': accion})
 
-            rows = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
-                                                                'coordinacion')).select(
-                orderby=db.Accion_Usuario.first_name)
-            accion = []
-            for row in rows:
-                accion.append(row.first_name)
-            contexto.append({'contexto': 'coordinacion', 'acciones': accion})
-
-            rows = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
-                                                                'pasantias')).select(
-                orderby=db.Accion_Usuario.first_name)
-            accion = []
-            for row in rows:
-                accion.append(row.first_name)
-            contexto.append({'contexto': 'pasantias', 'acciones': accion})
-
-            rows = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
-                                                                'catalogos')).select(
-                orderby=db.Accion_Usuario.first_name)
-            accion = []
-            for row in rows:
-                accion.append(row.first_name)
-            contexto.append({'contexto': 'catalogos', 'acciones': accion})
-
-            rows = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
-                                                                'configuracion')).select(
-                orderby=db.Accion_Usuario.first_name)
-            accion = []
-            for row in rows:
-                accion.append(row.first_name)
-            contexto.append({'contexto': 'configuracion', 'acciones': accion})
-            sidebar.append({'rol': name.role, 'contextos': contexto})
+            sidebar.append({'rol': name.role, 'contextos': contextos_usuario})
 
     response.view = 'sidebar/sidebar.html'
     return dict(sidebar=sidebar)
