@@ -1,20 +1,26 @@
 <ul style="margin-top: 20px; display: flex; flex-direction: column; font-family: 'DejaVu Sans' !important;" class="container">
     {{for roles in sidebar:}}
-        <!-- { {{=roles['rol']}}:
-        <br/> -->
-        {{for contexto in roles['contextos']:}}
-            <!-- {{=contexto['contexto']}} : { -->
-            {{for accion in contexto['acciones']:}}
-                <li style="padding: 10px 10px; text-align: left;font-size: 16px; cursor: pointer; list-style-type: none" class="row">
-                    <a style="text-decoration: none;"href="{{=accion['destino']}}">
-                        <button class="col-lg-2">
-                            {{=accion['first_name']}}
-                        </button>
-                    </a>
-                </li>
+    <li><div class="dropdown">
+        <button class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            {{=roles['rol']}}:
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            {{for contexto in roles['contextos']:}}
+                <li><div class="dropdown">
+                    <span class="dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        {{=contexto['contexto']}}
+                        <span class="caret"></span>
+                    </span>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        {{for accion in contexto['acciones']:}}
+                            <li>
+                                <a href="{{=accion['destino']}}">{{=accion['first_name']}}</a>
+                            </li>
+                        {{pass}}
+                    </ul>
+                </div></li>
             {{pass}}
-        <!-- } -->
-        {{pass}}
-        <!-- } <br/> -->
-    {{pass}}
+        </ul>
+    </li></div>
 </ul>
