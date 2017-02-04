@@ -26,7 +26,8 @@ def sidebar():
                     accion = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
                                                                         contexto)).select(
                         orderby=db.Accion_Usuario.first_name)
-                    contextos_usuario.append({'contexto': contexto, 'acciones': accion})
+                    if accion:
+                        contextos_usuario.append({'contexto': contexto, 'acciones': accion})
 
                 sidebar.append({'rol': name.role, 'contextos': contextos_usuario})
 
