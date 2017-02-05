@@ -5838,6 +5838,27 @@ button.list-group-item-danger.active:focus {
 .panel-danger > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: #ebccd1;
 }
+/* -------------------PANEL INVENTADO POR MI -------------------*/
+
+.panel-emp {
+  border-color: #bce8f1;
+}
+.panel-emp > .panel-heading {
+  color: #31708f;
+  background-color: #cc9900 !important;
+  border-color: #bce8f1;
+}
+.panel-emp > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #bce8f1;
+}
+.panel-emp > .panel-heading .badge {
+  color: #d9edf7;
+  background-color: #31708f;
+}
+.panel-emp > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #bce8f1;
+}
+--------------------------------------------------------------------
 .embed-responsive {
   position: relative;
   display: block;

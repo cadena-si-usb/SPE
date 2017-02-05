@@ -80,43 +80,31 @@
 
 }
 
-.tituloCCT{
-    background: #ff531f;
+.tituloCCT, .tituloEstudiante, .tituloProfesor, .tituloEmpresa{
+    font-size: 17px !important;
 }
-.tituloEstudiante{
-    background: #6da8e1;
-}
-
-.tituloProfesor{
-    background: #65bb5f;
-}
-
-.tituloEmpresa{
-    background: #cc9900;
-}
-
 
 .containerCCT, .containerEstudiante, .containerProfesor, .containerEmpresa{
     padding: 0;
     margin-bottom: 10px;
-        background: white;
+    background: white;
 
 }
 
 .containerCCT{
-    border: 2px solid #ff531f;
+    border: 2px solid #ebccd1;
 }
 
 .containerEstudiante{
-    border: 2px solid #6da8e1;
+    border: 2px solid #bce8f1;
 }
 
 .containerProfesor{
-    border: 2px solid #65bb5f;
+    border: 2px solid #d6e9c6;
 }
 
 .containerEmpresa{
-    border: 2px solid #cc9900;
+    border: 2px solid #edd797;
 }
 
 .contenidoColumnas{

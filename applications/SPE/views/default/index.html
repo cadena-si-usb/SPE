@@ -21,89 +21,77 @@
     </ol>
 
     <!-- Wrapper for slides -->
+    <!-- <div class="containerCCT"> -->
     <div class="carousel-inner" role="listbox">
-      <div class="item active">
-         <div class="containerCCT">
-                <div>
-                    <span class="tituloCCT col-xs-12">
-                        CCT
-                    </span>
-                    <span class="contenidoColumnas col-xs-12">
-                        Este sistema le permite realizar Consultas Avanzadas y Reportes de utilidad para la comunidad USB entera.
-                    </span>
-                </div>
- {{if auth.is_logged_in() == False :}}
-         <div class="row">
-                <div class="col-xs-12" style="text-align: center">
-                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
-                      <button class='btn-index'>Miembro USB</button>
-                    </a>
 
+		<div class="item active">
+      		<div class="panel panel-danger containerCCT">
+    			<div class="panel-heading">
+        			<center><span class="panel-title tituloCCT">CCT</span></center>
+        			<div class="clearfix"></div>
+    			</div>
+    			<div class="panel-body ">
+    				Este sistema le permite realizar Consultas Avanzadas y Reportes de utilidad para la comunidad USB 
+    				entera.
 
-                
-                </div>
-         </div>
+	    			{{if auth.is_logged_in() == False :}}
+			         <div class="row">
+		                <div class="col-xs-12" style="text-align: center">
+		                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
+		                      <button class='btn-index'>Miembro USB</button>
+		                    </a>
+		                </div>
+			         </div>
+				    {{pass}}
+    			</div>
+			</div>		 
+		</div>
 
-    {{pass}}
-         </div>
-      </div>
+		<div class="item">
+	  		<div class="panel panel-success containerProfesor">
+				<div class="panel-heading">
+	    			<center><span class="panel-title tituloProfesor">Profesores</span></center>
+	    			<div class="clearfix"></div>
+				</div>
+				<div class="panel-body ">
+					Este sistema les permite realizar la Revisión de Planes de Trabajo, Asignación de Notas y Consulta de Pasantías Tutoreadas.
 
-      <div class="item">
-        <div class="containerProfesor">
-                <div>
-                    <span class="tituloProfesor col-xs-12">
-                        Profesores
-                    </span>
-                    <span class="contenidoColumnas col-xs-12">
-                        Este sistema les permite realizar la Revisión de Planes de Trabajo, Asignación de Notas y Consulta de Pasantías Tutoreadas.
-                    </span>
-                </div>
- {{if auth.is_logged_in() == False :}}
-         <div class="row">
-                <div class="col-xs-12" style="text-align: center">
-                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
-                      <button class='btn-index'>Miembro USB</button>
-                    </a>
+	    			{{if auth.is_logged_in() == False :}}
+			         <div class="row">
+		                <div class="col-xs-12" style="text-align: center">
+		                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
+		                      <button class='btn-index'>Miembro USB</button>
+		                    </a>
+		                </div>
+			         </div>
+				    {{pass}}
+				</div>
+			</div>
+		</div>
 
+		<div class="item">
+	  		<div class="panel panel-info containerEstudiante">
+				<div class="panel-heading">
+	    			<center><span class="panel-title tituloEstudiante">Estudiante</span></center>
+	    			<div class="clearfix"></div>
+				</div>
+				<div class="panel-body ">
+					Este sistema te permite realizar la Inscripción, Documentación, Formulación y Culminación de Pasantías Empresariales.
+                    Debes mantener tu información de contacto actualizada, para que la Coordinación de Cooperación Técnica pueda comunicarse contigo.
 
-                
-                </div>
-         </div>
-
-    {{pass}}
-        </div>
-      </div>
-    
-      <div class="item">
-         <div class="containerEstudiante">
-            <div>
-                <span class="tituloEstudiante col-xs-12">
-                    Estudiante
-                </span>
-                <span class="contenidoColumnas col-xs-12">
-                    Este sistema te permite realizar la Inscripción, Documentación, Formulación y Culminación de Pasantías Empresariales.
-                    Debes mantener tu información de contacto actualizada, para que la Coordinación de Cooperación Técnica pueda comunicarse contigo.</p>
-                </span>
-
- {{if auth.is_logged_in() == False :}}
-         <div class="row">
-                <div class="col-xs-12" style="text-align: center">
-                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
-                      <button class='btn-index'>Miembro USB</button>
-                    </a>
-
-
-                
-                </div>
-         </div>
-
-    {{pass}}
-            </div>
-
-        </div>
-      </div>
-
-      
+	    			{{if auth.is_logged_in() == False :}}
+			         <div class="row">
+		                <div class="col-xs-12" style="text-align: center">
+		                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
+		                      <button class='btn-index'>Miembro USB</button>
+		                    </a>
+		                </div>
+			         </div>
+				    {{pass}}
+				</div>
+			</div>
+		</div>
+       
     </div>
 
     <!-- Left and right controls -->
@@ -123,34 +111,29 @@
 
     <div class="row containers">
 
+		<div class="col-md-offset-1 col-md-4 col-xs-12">
+			<div class="panel panel-emp containerEmpresa">
+				<div class="panel-heading">
+	    			<center><span class="panel-title tituloEmpresa">Empresas</span></center>
+	    			<div class="clearfix"></div>
+				</div>
+				<div class="panel-body ">
+					Este sistema le permite solicitar pasantes, revisar el plan de trabajo y recibir anuncios de chalas y estudiantes interesados en hacer pasantías tanto largas, intermedias como cortas.
 
+	    			{{if auth.is_logged_in() == False :}}
+			         <div class="row">
+		                <div class="col-xs-12" style="text-align: center">
+		                    <a class="link-btn" href={{=URL(a='Empresas',c='default',f='index')}}>
+		                      <button class='btn-index'>Empresas</button>
+		                    </a>
+		                </div>
+			         </div>
+				    {{pass}}
+				</div>
+			</div>
+		</div>
+	</div>
 
-        <div class="col-md-offset-1 col-md-4 col-xs-12 containerEmpresa">
-                <div>
-                    <span class="tituloEmpresa col-xs-12">
-                        Empresas
-                    </span>
-                    <span class="contenidoColumnas col-xs-12">
-                        Este sistema le permite solicitar pasantes, revisar el plan de trabajo y recibir anuncios de chalas y estudiantes interesados en hacer pasantías tanto largas, intermedias como cortas.
-                    </span>
-                </div>
-    {{if auth.is_logged_in() == False :}}
-         <div class="row">
-                <div class="col-xs-12" style="text-align: center">
-                 
-
-                    <a class="link-btn" href={{=URL(a='Empresas',c='default',f='index')}}>
-                      <button class='btn-index'>Empresas</button>
-                    </a>
-                </div>
-         </div>
-
-    {{pass}}
-
-
-        </div>
-
-    </div>
 
 
 
