@@ -4828,7 +4828,7 @@ a.list-group-item-danger.active,button.list-group-item-danger.active,a.list-grou
 }
 .panel-success>.panel-heading {
 	color:#93c54b;
-	background-color:#93c54b;
+	background-color:#65bb5f;
 	border-color:#d6e9c6
 }
 .panel-success>.panel-heading+.panel-collapse>.panel-body {
@@ -4846,7 +4846,7 @@ a.list-group-item-danger.active,button.list-group-item-danger.active,a.list-grou
 }
 .panel-info>.panel-heading {
 	color:#29abe0;
-	background-color:#29abe0;
+	background-color:#6da8e1;
 	border-color:#bce8f1
 }
 .panel-info>.panel-heading+.panel-collapse>.panel-body {
@@ -4864,7 +4864,7 @@ a.list-group-item-danger.active,button.list-group-item-danger.active,a.list-grou
 }
 .panel-warning>.panel-heading {
 	color:#ff8227;
-	background-color:#ff8227;
+	background-color:#706DE1;
 	border-color:#faebcc
 }
 .panel-warning>.panel-heading+.panel-collapse>.panel-body {
