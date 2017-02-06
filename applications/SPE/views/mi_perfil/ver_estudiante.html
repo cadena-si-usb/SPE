@@ -1,54 +1,95 @@
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h1 class="panel-title pull-left" style="font-size: 15px">Estudiante</h1>
-        <a href="{{=URL('configuracion', args=['estudiante'])}}" class="clickable">
-            <span class="pull-right icon boton_posicion"><i class="glyphicon glyphicon-edit"></i></span>
-        </a>
+        <div class="row">
+            <div class="col-sm-12">
+                <h1 class="panel-title pull-left" style="font-size: 15px">Estudiante</h1>
+                    <div class ="pull-right button_est">
+                    <a href="{{=URL('ver_curriculo')}}" class="clickable">
+                        <span class="icon button_est_cv"><i class="fa fa-list-alt"></i></span>
+                    </a>
+                    <a href="{{=URL('configuracion', args=['estudiante'])}}" class="clickable">
+                        <span class=" icon button_est_ed"><i class="fa fa-pencil-square-o"></i></span>
+                    </a>
+                </div>
+            </div>
         <div class="clearfix"></div>
+        </div>
     </div>
     <div class="panel-body">
         <section id="sec1">
             <div class="row">
                 <div class="col-sm-12">
-                    <center>
-                        <h4> <b>Carrera</b> </h4>
-                    {{if carrera:}}
-                        <h5>{{=carrera.first_name}}</h5>
-                    {{else:}}
-                        <h5>N/A</h5>
-                    {{pass}}
-                    </center>
-
-                    <center>
-                        <h4> <b>Sede</b> </h4>
-                        <div>
-                        {{if sede_estudiante.first_name :}}
-                            <h5>{{=sede_estudiante.first_name}}</h5>
-                        {{else:}}
-                            <h5>N/A</h5>
-                        {{pass}}
+                    {{if cont == 12 or cont == 6:}}
+                        <div class="col-sm-4">
+                            <center>
+                                <h4> <b>Carrera</b> </h4>
+                                {{if carrera:}}
+                                    <h5>{{=carrera.first_name}}</h5>
+                                {{else:}}
+                                    <h5>N/A</h5>
+                                {{pass}}
+                            </center>
                         </div>
-                    </center>
-                </div>
-                <center>
-                    <h4> <b>Carrera</b> </h4>
-                {{if carrera:}}
-                    <h5>{{=carrera.first_name}}</h5>
-                {{else:}}
-                    <h5>N/A</h5>
 
-                    <br>
+                        <div class="col-sm-4"> 
+                            <center>
+                                <h4> <b>Carnet</b> </h4>
+                                <div>
+                                {{if estudiante.carnet :}}
+                                    <h5>{{=estudiante.carnet}}</h5>
+                                {{else:}}
+                                    <h5>N/A</h5>
+                                {{pass}}
+                                </div>
+                            </center> 
+                        </div>
 
-                    <h4> <b>Sede</b> </h4>
-                    <div>
-                    {{if sede_estudiante.first_name :}}
-                        <h5>{{=sede_estudiante.first_name}}</h5>
-                    {{else:}}
-                        <h5>N/A</h5>
+                        <div class="col-sm-4">
+                            <center>
+                                <h4> <b>Sede</b> </h4>
+                                <div>
+                                {{if sede_estudiante.first_name :}}
+                                    <h5>{{=sede_estudiante.first_name}}</h5>
+                                {{else:}}
+                                    <h5>N/A</h5>
+                                {{pass}}
+                                </div>
+                            </center> 
+                        </div>
                     {{pass}}
-                    </div>
-                </center>
-            {{pass}}
+                    {{if cont == 4 :}}
+                        <center>
+                            <h4> <b>Carrera</b> </h4>
+                            {{if carrera:}}
+                                <h5>{{=carrera.first_name}}</h5>
+                            {{else:}}
+                                <h5>N/A</h5>
+                            {{pass}}
+
+                            <br>
+
+                            <h4> <b>Carnet</b> </h4>
+                            <div>
+                            {{if estudiante.carnet :}}
+                                <h5>{{=estudiante.carnet}}</h5>
+                            {{else:}}
+                                <h5>N/A</h5>
+                            {{pass}}
+                            </div>
+
+                            <br>
+
+                            <h4> <b>Sede</b> </h4>
+                            <div>
+                            {{if sede_estudiante.first_name :}}
+                                <h5>{{=sede_estudiante.first_name}}</h5>
+                            {{else:}}
+                                <h5>N/A</h5>
+                            {{pass}}
+                            </div>
+                        </center>
+                    {{pass}}
+                </div>
             </div>
         </section>
     </div>

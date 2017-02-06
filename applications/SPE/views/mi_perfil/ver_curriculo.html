@@ -1,38 +1,81 @@
-<div class="panel panel-danger">
+{{extend 'shell.html'}}
+{{block content}}
+    <div id="perfil_estudiante">
+        <section id="sec1" style="margin-bottom: 06%">
+            <br>
+            <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-6" id="perfil">
+                            <div class="row">
+                                {{if usuario.image and usuario.image!="":}}
+                                    <img style="max-width: 100%; max-height: 250px;" src="{{=URL('mi_perfil', 'download',
+                                    args=usuario.image)}}" />
+                                {{else:}}
+                                    <img style="max-width: 100%; max-height: 250px;" src="/static/images/profile.png" />
+                                {{pass}}
+                            </div>
+                            <div class="row" >
+                                <a href="{{=URL('configuracion')}}">
+                                    <button class="boton-negro"  type="button">Editar Perfil</button>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-5 bio">
+                            <h4><p><b>{{=usuario['first_name']}} {{=usuario['last_name']}}</b></p></h4>
+                            <h4><p>USBID: {{=usuario.username}}</p></h4>
+                            <h4><p>{{=tipo_documento.first_name}}: {{=usuario.numero_documento}} </p></h4>
+                            <h4><p>{{=usuario.email }}</p></h4>
+                            {{if usuario.sexo == 'M':}}
+                                <h4><p>Masculino<p></h4>
+                            {{elif usuario.sexo == 'F':}}
+                                <h4><p>Femenino<p></h4>
+                            {{pass}}
+                            <h4><p>{{=usuario.telefono }}</p></h4>
+                            <h4><p>{{=usuario.direccion }}</p></h4>
+                        </div>
+                    </div>
+            </div>
+        </section>
+    </div>
+
+<div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title pull-left" style="font-size: 15px"> Curriculo</h1>
+        <h3 class="panel-title pull-left" style="font-size: 15px">Curriculum</h3>
         <a href="{{=URL('mi_perfil','editar_curriculo')}}" class="clickable">
-            <span class="pull-right icon boton_posicion"><i class="glyphicon glyphicon-edit"></i></span>
+            <span class="pull-right icon boton_posicion"><i class="fa fa-pencil-square-o"></i></span>
         </a>
+
       <div class="clearfix"></div>
     </div>
     <div class="panel-body">
         <div id="sec1">
                 <div class="row">
-                    <div class="col-sm-6">
-                            <h4> <b> Idiomas: </b> </h4>
-                            <ul>
-                                {{for item in curriculo.idiomas:}}
-                                    <div>
-                                        <li><h5>{{=item}}</h5></li>
-                                    </div>
-                                {{pass}}
-                            </ul>
+                    <div class="col-sm-5 col-sm-offset-1">
+                        <h4> <i class="fa fa-check-square" aria-hidden="true"></i> <b> Electivas: </b> </h4>
+                        <ul>
+                            {{for item in curriculo.electivas:}}
+                                <div>
+                                    <li><h5>{{=item}}</h5></li>
+                                </div>
+                            {{pass}}
+                        </ul>
+                            
                     </div>
-                    <div class="col-sm-6">
-                            <h4> <b> Electivas: </b> </h4>
-                            <ul>
-                                {{for item in curriculo.electivas:}}
-                                    <div>
-                                        <li><h5>{{=item}}</h5></li>
-                                    </div>
-                                {{pass}}
-                            </ul>
+                    <div class="col-sm-5 col-sm-offset-1">
+                        <h4> <i class="fa fa-language" aria-hidden="true"></i> <b> Idiomas: </b> </h4>
+                        <ul>
+                            {{for item in curriculo.idiomas:}}
+                                <div>
+                                    <li><h5>{{=item}}</h5></li>
+                                </div>
+                            {{pass}}
+                        </ul>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
-                            <h4> <b> Cursos: </b> </h4>
+                    <div class="col-sm-5 col-sm-offset-1">
+                            <h4> <i class="fa fa-book" aria-hidden="true"></i> <b> Cursos: </b> </h4>
                             <ul>
                                 {{for item in curriculo.cursos:}}
                                     <div>
@@ -41,8 +84,8 @@
                                 {{pass}}
                             </ul>
                     </div>
-                    <div class="col-sm-6">
-                            <h4> <b> Aficiones: </b> </h4>
+                    <div class="col-sm-5 col-sm-offset-1">
+                            <h4> <i class="fa fa-music" aria-hidden="true"></i> <b> Aficiones: </b> </h4>
                             <ul>
                                 {{for item in curriculo.aficiones:}}
                                     <div>
@@ -53,8 +96,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
-                            <h4> <b> Voluntariados: </b> </h4>
+                    <div class="col-sm-5 col-sm-offset-1">
+                            <h4> <i class="fa fa-paw" aria-hidden="true"></i> <b> Voluntariados: </b> </h4>
                             <ul>
                                 {{for item in curriculo.voluntariados:}}
                                     <div>
@@ -63,8 +106,8 @@
                                 {{pass}}
                             </ul>
                     </div>
-                    <div class="col-sm-6">
-                            <h4> <b> Educacion: </b> </h4>
+                    <div class="col-sm-5 col-sm-offset-1">
+                            <h4> <i class="fa fa-graduation-cap" aria-hidden="true"></i> <b> Educacion: </b> </h4>
                             <ul>
                                 {{for item in curriculo.educacion:}}
                                     <div>
@@ -75,8 +118,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
-                            <h4> <b> Experiencias: </b> </h4>
+                    <div class="col-sm-5 col-sm-offset-1">
+                            <h4> <i class="fa fa-file-text" aria-hidden="true"></i> <b> Experiencias: </b> </h4>
                             <ul>
                                 {{for item in curriculo.experiencias:}}
                                     <div>
@@ -85,8 +128,8 @@
                                 {{pass}}
                             </ul>
                     </div>
-                    <div class="col-sm-6">
-                            <h4> <b> Proyectos: </b> </h4>
+                    <div class="col-sm-5 col-sm-offset-1">
+                            <h4> <i class="fa fa-folder-open" aria-hidden="true"></i> <b> Proyectos: </b> </h4>
                             <ul>
                                 {{for item in curriculo.proyectos:}}
                                     <div>
@@ -100,3 +143,5 @@
             </section>
     </div>
 </div>
+
+{{pass}}
