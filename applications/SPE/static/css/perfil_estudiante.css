@@ -88,6 +88,12 @@
 
 a.clickable { color: inherit; }
 
+.button_est {
+   margin-top: -06px;
+   margin-bottom: -06px;
+   margin-right: -10px;
+}
+
 .boton_posicion {
   margin-top: -06px;
   margin-bottom: -06px;
@@ -96,30 +102,30 @@ a.clickable { color: inherit; }
 }
 
 .button_position_cv {
-	margin-left: 40px; 
+	margin-left: 35px; 
 	margin-top: -06px;
 	margin-bottom: -06px;
-	margin-right: -10px;
+	margin-right: 0px;
 	border-radius: 05px;
 }
 
 
-.boton_posicion:hover:after {
+.boton_posicion:hover:after, .button_est_ed:hover:after {
 	content: ' Editar';
 }
 
-.button_position_cv:hover:after {
-	content: ' Ver Curriculum';
+.button_est_cv:hover:after {
+	content: ' Curriculum';
 }
 
 .button_position_cv:hover {
 	background: rgba(0, 0, 0, 0.40);
-	margin-left: -60px; 
-	width: 140px; 
+	margin-left: -35px; 
+	width: 115px; 
 	border-radius:5px; 
 }
 
-.boton_posicion:hover {
+.boton_posicion:hover,  {
 	background: rgba(0, 0, 0, 0.40);
 	width: 80px; 
 	border-radius:5px; 
@@ -132,7 +138,6 @@ a.clickable { color: inherit; }
 	.boton-negro {
 		margin-right: 0px;
 	}
-
 }
 
 @media screen and (max-device-width : 480px) {
