@@ -209,7 +209,7 @@ def Accion_Table(db,T):
             nombre='Editar Perfil',
             destino='/SPE/mi_perfil/configuracion',
         )
-        # /SPE/mis_pasantias/listar
+        # 39
         db.Accion.insert(
             nombre='Mis Pasantias',
             destino='/SPE/mis_pasantias/consultar_pasantias_estudiante',
@@ -228,6 +228,16 @@ def Accion_Table(db,T):
         db.Accion.insert(
             nombre='Mis Permisos',
             destino='/SPE/mis_permisos/listar',
+        )
+        # 43
+        db.Accion.insert(
+            nombre='Mi Perfil',
+            destino='/SPE/mi_perfil/ver',
+        )
+        # 44
+        db.Accion.insert(
+            nombre='Mi Currículo',
+            destino='/SPE/mi_perfil/ver_curriculo',
         )
 
 

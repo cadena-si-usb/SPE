@@ -7,10 +7,11 @@ Pasantia = Pasantia()
 
 
 # Hacer para el caso en el que el actor sea tutor academico
-def listar():
-    session.rows = []
+def listar_materias():
 
-    return dict(rows=session.rows)
+    materias = db(db.Materia).select()
+
+    return locals()
 
 
 def agregar():

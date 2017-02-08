@@ -216,7 +216,7 @@ def Accion_Usuario_Table(db,T):
             )
         db.Accion_Usuario.insert(
             accion=39,
-            contexto='Configuración',
+            contexto='Pasantias',
             rol='1'
         )
         db.Accion_Usuario.insert(
@@ -227,6 +227,16 @@ def Accion_Usuario_Table(db,T):
         db.Accion_Usuario.insert(
             accion=42,
             contexto='Pasantias',
+            rol='1'
+        )
+        db.Accion_Usuario.insert(
+            accion=43,
+            contexto='Configuración',
+            rol='1'
+        )
+        db.Accion_Usuario.insert(
+            accion=44,
+            contexto='Configuración',
             rol='1'
         )
         db.Accion_Usuario.insert(
