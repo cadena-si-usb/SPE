@@ -1,38 +1,47 @@
 # -*- coding: utf-8 -*-
 def load_auth_fixtures(db,T):
     if db(db.auth_group.id > 0).count() == 0:
+        # 1
         db.auth_group.insert(
             role='Estudiante',
-            description='3'
+            description='Estudiante que cursa una carrera en alguna de las sedes de la Universidad Simon Bolivar',
         )
+        # 2
         db.auth_group.insert(
             role='Profesor',
             description='2'
         )
+        # 3
         db.auth_group.insert(
             role='Coordinador',
             description='4'
         )
+        # 4
         db.auth_group.insert(
             role='Empresa',
             description='3'
         )
+        # 5
         db.auth_group.insert(
             role='Tutor Industrial',
             description='3'
         )
+        # 6
         db.auth_group.insert(
             role='CoordinadorCCT',
             description='3'
         )
+        # 7
         db.auth_group.insert(
             role='AdministrativoCCT',
             description='3'
         )
+        # 8
         db.auth_group.insert(
             role='Administrativo',
             description='3'
         )
+        # 9
         db.auth_group.insert(
             role='Invitado',
             description='3'

@@ -151,24 +151,28 @@ class Usuario(Model):
             if context:
                 if acciones:
                     acciones.records.append(self.db((current.db.Accion_Usuario.rol.belongs(roles_id)) & (self.db.Accion_Usuario.contexto ==
-                                                                           context)).select(
-                        orderby=self.db.Accion_Usuario.first_name))
+                                                                           context) &
+                                                    (self.db.Accion_Usuario.accion == self.db.Accion.id)).select(
+                        orderby=self.db.Accion.nombre))
                 else:
                     acciones = (self.db((current.db.Accion_Usuario.rol.belongs(roles_id)) & (self.db.Accion_Usuario.contexto ==
-                                                                           context)).select(
-                        orderby=self.db.Accion_Usuario.first_name))
+                                                                           context) &
+                                                    (self.db.Accion_Usuario.accion == self.db.Accion.id)).select(
+                        orderby=self.db.Accion.nombre))
             else:
                 if acciones:
                     acciones.records.append(
-                        self.db((current.db.Accion_Usuario.rol.belongs(roles_id))).select(
-                            orderby=self.db.Accion_Usuario.first_name))
+                        self.db((current.db.Accion_Usuario.rol.belongs(roles_id))  &
+                                                    (self.db.Accion_Usuario.accion == self.db.Accion.id)).select(
+                            orderby=self.db.Accion.nombre))
                 else:
                     acciones = (
-                    self.db((current.db.Accion_Usuario.rol.belongs(roles_id))).select(
-                        orderby=self.db.Accion_Usuario.first_name))
+                    self.db((current.db.Accion_Usuario.rol.belongs(roles_id))  &
+                                                    (self.db.Accion_Usuario.accion == self.db.Accion.id)).select(
+                        orderby=self.db.Accion.nombre))
         destinos = []
         for accion in acciones:
-            destinos.append(accion.destino)
+            destinos.append(accion.Accion.destino)
         return destinos
 
     def checkUserPermission(self, action):

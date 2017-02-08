@@ -4,7 +4,7 @@ from Acciones_Usuario import Accion_Usuario
 import Encoder
 
 Accion_Usuario = Accion_Usuario()
-contextos = ['coordinacion', 'pasantias', 'catalogos', 'configuracion']
+contextos = ['Usuarios','Catálogos', 'Pasantias', 'Configuración','Otros']
 
 def sidebar():
 
@@ -13,7 +13,6 @@ def sidebar():
         usuario = auth.user
         roles = db(db.auth_membership.user_id == auth.user.id).select()
         roles_id = []
-        accion = []
         sidebar = []
         for rol in roles:
             roles_id.append(rol.group_id)
@@ -23,13 +22,20 @@ def sidebar():
                 contextos_usuario = []
                 # PROBAR: cuando haya un rol multiperfil
                 for contexto in contextos:
-                    accion = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
-                                                                        contexto)).select(
-                        orderby=db.Accion_Usuario.first_name)
-                    if accion:
-                        contextos_usuario.append({'contexto': contexto, 'acciones': accion})
+                    acciones = []
+                    acciones_usuario = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
+                                                                        contexto)
+                                & (db.Accion_Usuario.accion == db.Accion.id)).select(
+                        orderby=db.Accion.nombre)
+                    if acciones_usuario:
+                        for accion_usuario in acciones_usuario:
+                            acciones.append(accion_usuario.Accion)
+                        contextos_usuario.append({'contexto': contexto, 'acciones': acciones})
 
                 sidebar.append({'rol': name.role, 'contextos': contextos_usuario})
+    else:
+        roles = {}
+        sidebar = {}
 
     response.view = 'sidebar/sidebar.load.html'
     return dict(roles=roles, sidebar=sidebar)

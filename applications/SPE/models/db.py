@@ -23,6 +23,7 @@ from applications.SPE_lib.modules.db_0_Etapa import Etapa_Table
 from applications.SPE_lib.modules.db_0_Periodo import Periodo_Table
 from applications.SPE_lib.modules.db_0_Sede import Sede_Table
 from applications.SPE_lib.modules.db_0_Tipo_Documento import Tipo_Documento_Table
+from applications.SPE_lib.modules.db_1_Accion import Accion_Table
 from applications.SPE_lib.modules.db_1_Acceso_Etapa import Acceso_Etapa_Table
 from applications.SPE_lib.modules.db_1_Accion_Usuario import Accion_Usuario_Table
 from applications.SPE_lib.modules.db_1_Coordinacion import Coordinacion_Table
@@ -183,6 +184,7 @@ Division_Table(db,T)
 Etapa_Table(db,T)
 Periodo_Table(db,T)
 Acceso_Etapa_Table(db,T)
+Accion_Table(db,T)
 Accion_Usuario_Table(db,T)
 Coordinacion_Table(db,T)
 correo_por_verificar_Table(db,T)
