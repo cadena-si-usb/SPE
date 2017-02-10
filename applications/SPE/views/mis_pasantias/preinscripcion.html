@@ -1,39 +1,50 @@
 {{extend 'shell.html'}}
-{{include 'mis_pasantias/pasantia_etapas.html'}}
 
-<h1>Etapa actual de su pasantia: {{=etapa.first_name}}</h1>
-<div style="font-size: 20px !important;">
-    <p>
-        <span>Descripcion:</span>
-    {{=etapa.descripcion}}
-    </p>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="text-center">
+                        Mi Pasantía
+                    </h1>
+                    {{include 'mis_pasantias/pasantia_etapas.html'}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div style="font-size: 20px !important;">
+                            <p>
+                                <span>Descripcion:</span>
+                                {{=etapa.descripcion}}
+                            </p>
+                        </div>
+                        <div style="flex:5 1 auto; max-width:300px;">
+                            <p>
+                                <span class="fa fa-comments"> </span> Comentarios CCT:
+                                {{if preinscripcion.comentarioCCT:}}
+                                {{=preinscripcion.comentarioCCT}}
+                                {{else:}}
+                                    N/A
+                                {{pass}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Estatus</div>
+                    <div class="panel-body">lorem ipsum dolor sit amet.</div>
+                </div>
+            </div>
+        </div>
+    </body>
 
-<div style="display: flex;font-size: 17px !important;">
-
-
-    <div style="flex:5 1 auto; max-width:386px; padding-right:25px;">
-        <a class="links" href="{{=etapa.procedimientos}}"  ><span class="fa fa-tasks"></span> Procedimientos</a>
-        <br>
-        <a class="links" href="#" ><span class="fa fa-question-circle"></span> Realizar consulta a la CCT</a>
-        <br>
-    </div>
-
-    <div style="flex:5 1 auto; max-width:300px;">
-        <a class="links" href="#" > <span class="fa fa-file"> </span> Ver formulario de preinscripcion</a>
-        <br>
-
-        <span class="fa fa-check-square"> </span> Status del tramite: <span style="color:red;">{{=preinscripcion.estado}}</span>
-        <p>
-            <span class="fa fa-comments"> </span> Comentarios CCT:
-        {{if preinscripcion.comentarioCCT:}}
-        {{=preinscripcion.comentarioCCT}}
-        {{else:}}
-            N/A
-        {{pass}}
-        </p>
-    </div>
-
-</div>
-
-<br><br><br><br><br><br>
+</html>
