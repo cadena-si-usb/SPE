@@ -11,7 +11,7 @@
 /* Toggle Styles */
 
 .nav-side-menu {
-  margin-left: -70px;
+  margin-left: -350px;
   overflow: auto;
   font-family: verdana;
   font-size: 12px;
@@ -33,7 +33,7 @@
   margin: 0px;
   line-height: 40px;
   cursor: pointer;
-   text-indent: 1em;
+  text-indent: 2em;
   /*    
     .collapsed{
        .arrow:before{

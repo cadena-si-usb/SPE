@@ -79,3 +79,65 @@ ul.nav.navbar-nav.navbar-right .navbar-nav>li>.dropdown-menu {
 .navbar-toggle > .icon-bar{
     background-color: #ffffff !important;
 }
+/*------------------------PRUEBA--------------------*/
+
+/*-------------------------------*/
+/*           Wrappers            */
+/*-------------------------------*/
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 270px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    left: 220px;
+    width: 0;
+    height: 100%;
+    margin-left: -220px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #1a1a1a;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#sidebar-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 220px;
+}
+
+#main {
+    width: 100%;
+    padding-top: 0px;
+}
+
+#wrapper.toggled #main {
+    position: absolute;
+    margin-right: -220px;
+}
+
+/*------------------------ICONO DEL MENU ------------------------*/
+.navbar-ico {
+
+    font-size: x-large;
+    padding: 4px 6px 4px 9px;
+}
+
+.navbar-ico:hover,
+.navbar-ico:active {
+    background-color: #000000;
+}
