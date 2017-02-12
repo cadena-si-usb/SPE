@@ -30,7 +30,7 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    response.flash = T("¡Bienvenido!")
+
     return dict(message=T('Sistema de Pasantías Empresariales'))
 
 

@@ -9,7 +9,7 @@
     <div class="row" style="text-align: center">
         <p class='title'>{{=message}}</p>
     </div>
-	
+
 
 <div id="myCarousel" class="col-xs-12 col-md-6 carousel slide" data-ride="carousel">
     <!-- Indicators -->
@@ -30,11 +30,12 @@
         			<div class="clearfix"></div>
     			</div>
     			<div class="panel-body ">
+                     <img class="imageHome" src="{{=URL('static','images/cctHome.png')}}" alt="imagen CCT" />
     				Este sistema le permite realizar Consultas Avanzadas y Reportes de utilidad para la comunidad USB 
     				entera.
 
 	    			{{if auth.is_logged_in() == False :}}
-			         <div class="row">
+			         <div class="row rowButtonHome">
 		                <div class="col-xs-12" style="text-align: center">
 		                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
 		                      <button class='btn-index'>Miembro USB</button>
@@ -53,10 +54,11 @@
 	    			<div class="clearfix"></div>
 				</div>
 				<div class="panel-body ">
+                     <img class="imageHome" src="{{=URL('static','images/profesorHome.jpg')}}" alt="imagen profesor" />
 					Este sistema les permite realizar la Revisión de Planes de Trabajo, Asignación de Notas y Consulta de Pasantías Tutoreadas.
 
 	    			{{if auth.is_logged_in() == False :}}
-			         <div class="row">
+			         <div class="row rowButtonHome">
 		                <div class="col-xs-12" style="text-align: center">
 		                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
 		                      <button class='btn-index'>Miembro USB</button>
@@ -75,11 +77,12 @@
 	    			<div class="clearfix"></div>
 				</div>
 				<div class="panel-body ">
+                    <img class="imageHome" src="{{=URL('static','images/estudianteHome.jpg')}}" alt="imagen estudiante" />
 					Este sistema te permite realizar la Inscripción, Documentación, Formulación y Culminación de Pasantías Empresariales.
                     Debes mantener tu información de contacto actualizada, para que la Coordinación de Cooperación Técnica pueda comunicarse contigo.
 
 	    			{{if auth.is_logged_in() == False :}}
-			         <div class="row">
+			         <div class="row rowButtonHome">
 		                <div class="col-xs-12" style="text-align: center">
 		                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
 		                      <button class='btn-index'>Miembro USB</button>
@@ -117,10 +120,11 @@
 	    			<div class="clearfix"></div>
 				</div>
 				<div class="panel-body ">
+                     <img class="imageHome" src="{{=URL('static','images/empresaHome.jpg')}}" alt="imagen empresa" />
 					Este sistema le permite solicitar pasantes, revisar el plan de trabajo y recibir anuncios de chalas y estudiantes interesados en hacer pasantías tanto largas, intermedias como cortas.
 
 	    			{{if auth.is_logged_in() == False :}}
-			         <div class="row">
+			         <div class="row rowButtonHome">
 		                <div class="col-xs-12" style="text-align: center">
 		                    <a class="link-btn" href={{=URL(a='Empresas',c='default',f='index')}}>
 		                      <button class='btn-index'>Empresas</button>
