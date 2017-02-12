@@ -25,33 +25,10 @@
                             <i class="fa fa-plus fa-fw fa-2x yellow"></i>
                         </a>
                     </div>
-                    <!-- Add new materials -->
+                    {{=LOAD('accesos_etapa', 'sqlform_grid', ajax=True)}}
                 </center>
             </div>
-
-            <br/>
-
-            <div class="row">
-                <table class='table table-hover borde-tabla' id="tabla_acceso_etapa">
-                    <thead>
-                        <tr>
-                            <th class='text-center uai-table-header' id="rol">Rol</th>
-                            <th class='text-center uai-table-header' id="etapa">Etapa</th>
-                            <th class='text-center'>Editar</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="elBody">
-                    </tbody>
-
-                </table>
-                <button id="next" disabled="true">
-                    MAS
-                </button>
-            </div>
-            <br />
         </div>
     </div>
 </div>
 {{end}}
-{{include 'accesos_etapa/contenido.html'}}
