@@ -13,18 +13,6 @@
                             <p>Listado de Accesos A Etapas De Una Pasantia</p>
                         </div>
                     </div>
-
-                    Cantidad = <span id="cantidad">0</span>
-
-                    <label>Buscar: </label>
-                    <input id="search" placeholder="Buscar..." type="text">
-
-                    <!-- Add New Materials -->
-                    <div class="col-xs-4 col-xs-offset-8 col-sm-2 col-sm-offset-10 text-right">
-                        <a class="notif_link_but" title="Agregar Acceso A Etapa" role='button' href="{{=URL('accesos_etapa', 'agregar')}}">
-                            <i class="fa fa-plus fa-fw fa-2x yellow"></i>
-                        </a>
-                    </div>
                     {{=LOAD('accesos_etapa', 'sqlform_grid', ajax=True)}}
                 </center>
             </div>

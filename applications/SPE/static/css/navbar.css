@@ -3,7 +3,8 @@ body{
 }
 
 .navbar-default, .navbar-style {
-    min-height:40px !important;
+    max-height:40px !important;
+
     position: relative;
 
     padding: 0px 12px !important;

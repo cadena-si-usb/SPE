@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge{{=not request.is_local and ',chrome=1' or ''}}">
     <!--  Mobile Viewport Fix
           j.mp/mobileviewport & davidbcalhoun.com/2010/viewport-metatag
-          device-width: Occupy full width of the screen in its current orientation
+          device-width: Occ7upy full width of the screen in its current orientation
           initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
           user-scalable = yes allows the user to zoom in -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,7 +62,7 @@
 
 		    	    {{=IMG(_src=URL('static','images/home/LogoUniversidadSimonBolivar.png'),alt="USBLOGO")}}
 		        </div>
-                <div class="hidden-md">
+                <div class="hidden-sm hidden-md hidden-lg hidden-xl">
 
 		    	    {{=IMG(_src=URL('static','images/home/logo.png'),alt="USBLOGO")}}
 		        </div>
@@ -81,14 +81,15 @@
 
     <nav class="navbar-default navbar-style" role="navigation">
       <div class="container-fluid">
-        <div class="navbar-header">
-            <button type = "button" class = "navbar-toggle collapsed"
+           <button type = "button" class = "navbar-toggle collapsed"
                data-toggle = "collapse" data-target = "#navbar">
                <span class = "sr-only">Toggle navigation</span>
                <span class = "icon-bar"></span>
                <span class = "icon-bar"></span>
                <span class = "icon-bar"></span>
             </button>
+        <div class="navbar-header">
+
         </div>
 
         <div id="navbar" class="collapse navbar-collapse navbar-content-style">
