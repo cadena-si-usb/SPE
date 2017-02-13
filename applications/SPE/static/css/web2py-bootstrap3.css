@@ -114,8 +114,8 @@ select.autocomplete {
   max-width: 100%;
   height: 155px;
   color: inherit;
-  background: url(../images/home/header-usb.png) center center no-repeat ;
-    background-size: 1009px 155px;
+  background: url(../images/home/index_background.jpg) center center no-repeat ;
+    background-size: 100vw 155px;
 }
 
 .transparent{
