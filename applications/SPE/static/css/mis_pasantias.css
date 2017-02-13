@@ -1,0 +1,36 @@
+#panelgris{
+    color: white;
+    font-size: large;
+    text-align: center;
+    background-color: #666666 !important; /*#3e3f3a*/ 
+}
+
+#checkicon{
+    color: green;
+}
+
+#denyicon{
+    color: red;
+}
+
+#botonConsultaCCT{
+    background-color: #3e3f3a;
+    font-size: large;
+    width: 30%;
+    display: table;
+    margin: 0 auto
+}
+
+#botonPlanTrabajoVer{
+    float: left;
+}
+
+#botonPlanTrabajoEditar{
+    background-color: #3e3f3a;
+    display: table;
+    margin: 0 auto
+}
+
+#botonSolicitarPermiso{
+    float: right;
+}

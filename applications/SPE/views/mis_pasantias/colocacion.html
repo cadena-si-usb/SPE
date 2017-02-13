@@ -1,36 +1,72 @@
 {{extend 'shell.html'}}
-{{include 'mis_pasantias/pasantia_etapas.html'}}
 
-<h1>Etapa actual de su pasantia: {{=etapa.first_name}}</h1>
-<div style="font-size: 20px !important;">
-    <p>
-        <span>Descripcion:</span>
-    {{=etapa.descripcion}}
-    </p>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="{{=URL('static', 'css/mis_pasantias.css')}}" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="text-center">
+                        Mi Pasantía
+                    </h1>
+                    {{include 'mis_pasantias/pasantia_etapas.html'}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="descripcion-etapa">
+                            <span style="font-size: 20px !important;">Descripcion:</span>
+                            <p>
+                                {{=etapa.descripcion}}
+                            </p>
+                        </div>
+                        <div id="comentarios-cct">
+                            <span style="font-size: 20px !important;">Comentarios CCT:</span>
+                            <p>
+                                {{if colocacion.comentarioCCT:}}
+                                {{=colocacion.comentarioCCT}}
+                                {{else:}}
+                                    N/A
+                                {{pass}}
+                            </p>
+                        </div>
+                        <div>
+                            <!--a href="#"-->
+                                <button id="botonConsultaCCT" type="button">Consulta a CCT</button>
+                            <!--/a-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading" id="panelgris">
+                        Estatus
+                    </div>
+                    <div class="panel-body">
+                        {{if colocacion.estado == "En Espera":}}
+                        <p><i class="glyphicon glyphicon-time" id="waiticon"></i>   {{=colocacion.estado}}</p>
+                        {{pass}}
+                        {{if colocacion.estado == "Aprobado":}}
+                        <!--<p><i class="glyphicon glyphicon-ban-circle" id="denyicon"></i>   {{=preinscripcion.estado}}</p>-->
+                        <p><i class="glyphicon glyphicon-ok" id="checkicon"></i>   {{=colocacion.estado}}</p>
+                        {{pass}}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <a href="{{=URL('mi_perfil','editar_curriculo')}}" class="clickable">
+                    <button id="botonConsultaCCT" type="button">Editar CV</button>
+                </a>
+            </div>
+        </div>
+    </body>
 
-<div style="display: flex;font-size: 17px !important;">
-    <div style="flex:5 1 auto; max-width:386px; padding-right:25px;">
-        <a class="links" href="{{=etapa.procedimientos}}"><span class="fa fa-tasks"></span> Procedimientos</a>
-        <br>
-        <a class="links"  href="#"><span class="fa fa-question-circle"></span> Realizar consulta a la CCT</a>
-        <br>
-        <a class="links"  href="#"><span class="fa fa-eye"></span> Visualizar ofertas publicadas</a>
-    </div>
-
-    <div style="flex:5 1 auto; max-width:300px;">
-        <a class="links"  href="#"><span class="fa fa-file"></span> Carta de postulacion</a>
-        <br>
-        <span class="fa fa-check-square"> </span>  Status del tramite: <span style="color:red;">{{=colocacion.estado}}</span>
-        <p>
-            <span class="fa fa-comments"> </span> Comentarios CCT:
-        {{if colocacion:}}
-        {{=colocacion.comentarioCCT}}
-        {{else:}}
-            N/A
-        {{pass}}
-        </p>
-    </div>
-</div>
-
-<br><br><br><br><br><br>
+</html>

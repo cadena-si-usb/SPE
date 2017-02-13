@@ -1,11 +1,15 @@
 {{extend 'shell.html'}}
 
-<div class='container'>
+<div class='container-fluid'>
     {{if auth.is_logged_in():}}
         <p class='title'>Pasantias cursadas por '{{=auth.user.first_name}} {{=auth.user.last_name}}'</p>
-        <div class="panel">
-            <div>
-                {{=LOAD('mis_pasantias', 'pasantias_grid_estudiante', ajax=True)}}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel">
+                    <div>
+                        {{=LOAD('mis_pasantias', 'pasantias_grid_estudiante', ajax=True)}}
+                    </div>
+                </div>
             </div>
         </div>
         {{if not pasantia_abierta:}}
