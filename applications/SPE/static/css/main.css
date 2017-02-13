@@ -113,12 +113,30 @@
 
 body{
     background: #ececec;
+    padding-top: 0px;
 }
 .navbar-style, #navbar a, .footer {
     background: #666666 !important;
     color: white !important;
 }
+.transparent {
+    background: rgba(240, 237, 237, 0.63);
+    height: 100%;
+    width: 100%;
+}
+.titlesHeader{
+    text-align: center;
+    color: white;
+    text-shadow: -2px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.imageHome{
+    width: 100%;
+    margin-bottom: 15px;
+    height: 250px;
+}
+.rowButtonHome{
 
+}
 .carousel-inner > .item > div,
   .carousel-inner > .item > a > div {
       width: 70%;
@@ -139,3 +157,4 @@ body{
 .carousel-control span {
 	color: #666666;
 }
+
