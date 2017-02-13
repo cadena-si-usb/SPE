@@ -10,7 +10,7 @@
     <body>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <h1 class="text-center">
                         Mi Pasantía
                     </h1>
@@ -38,7 +38,7 @@
                         </div>
                         <div>
                             <!--a href="#"-->
-                                <button id="botonConsultaCCT" type="button">Consulta a CCT</button>
+                                <button id="botonConsultaCCT" type="button" title='En construccion'>Consulta a CCT</button>
                             <!--/a-->
                         </div>
                     </div>
@@ -46,6 +46,7 @@
             </div>
             <div class="row">
                 <div class="column-xs-6">
+                    <div class="row">
                     <div class="panel panel-default">
                         <div class="panel-heading" id="panelgris">
                             Estatus
@@ -61,8 +62,10 @@
                             {{pass}}
                         </div>
                     </div>
+                    </div>
                 </div>
                 <div class="column-xs-6">
+                    <div class="row">
                     <div class="panel panel-default">
                         <div class="panel-heading" id="panelgris">
                             Permisos
@@ -79,9 +82,34 @@
                             {{pass}}
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
-            
+            <div class="row-fluid">
+                <div class="center">
+                <!--div class="span4 text-left"-->
+                    <a href="{{=URL(c='Pasantia',f='verDetallePasantia',args=[plan_trabajo.id])}}" class="button">
+                        <button id="botonPlanTrabajoVer">
+                            Ver Plan de Trabajo
+                        </button>
+                    </a>
+                <!--/div-->
+                <!--div class="span4 text-center"-->
+                    <a href="{{=URL(c='Pasantia',f='verPlanDeTrabajo',args=[pasantia.id])}}">
+                        <button id ="botonPlanTrabajoEditar">
+                            Editar Plan de Trabajo
+                        </button>
+                    </a>
+                <!--/div>
+                <div class="span4 text-right"-->
+                    <a href="{{=URL(c='permisos',f='agregar',args=['Inscripcion Extemporanea', inscripcion.pasantia])}}">
+                        <button id="botonSolicitarPermisos">
+                            Solicitar Permisos
+                        </button>
+                    </a>
+                <!--/div-->
+                </div>
+            </div>
         </div>
     </body>
 

@@ -1,56 +1,123 @@
 {{extend 'shell.html'}}
-{{include 'mis_pasantias/pasantia_etapas.html'}}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="{{=URL('static', 'css/mis_pasantias.css')}}" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="text-center">
+                        Mi Pasantía
+                    </h1>
+                    {{include 'mis_pasantias/pasantia_etapas.html'}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="descripcion-etapa">
+                            <span style="font-size: 20px !important;">Descripcion:</span>
+                            <p>
+                                {{=etapa.descripcion}}
+                            </p>
+                        </div>
+                        <div id="comentarios-cct">
+                            <span style="font-size: 20px !important;">Comentarios CCT:</span>
+                            <p>
+                                {{if ejecucion.comentarioCCT:}}
+                                {{=ejecucion.comentarioCCT}}
+                                {{else:}}
+                                    N/A
+                                {{pass}}
+                            </p>
+                        </div>
+                        <div>
+                            <!--a href="#"-->
+                                <button id="botonConsultaCCT" type="button" title='En construccion'>Consulta a CCT</button>
+                            <!--/a-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column-xs-6">
+                    <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" id="panelgris">
+                            Estatus
+                        </div>
+                        <div class="panel-body">
+                            {{if ejecucion.estado == "En Espera":}}
+                                <p><i class="glyphicon glyphicon-time" id="waiticon"></i>   {{=ejecucion.estado}}</p>
+                            {{pass}}
+                            {{if ejecucion.estado == "Aprobado":}}
+                            <!--<p><i class="glyphicon glyphicon-ban-circle" id="denyicon"></i>   
+                            {{=preinscripcion.estado}}</p>-->
+                            <p><i class="glyphicon glyphicon-ok" id="checkicon"></i>   {{=ejecucion.estado}}</p>
+                            {{pass}}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="column-xs-6">
+                    <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" id="panelgris">
+                            Permisos
+                        </div>
+                        <div class="panel-body">
+                            {{if globals().get('permisos_evaluacion_extemporanea', False):}}
+                                <p>Estado de permiso de evaluación extemporanea</p>
+                                <p>Aprobacion del tutor academico:{{=permisos_evaluacion_extemporanea.aprobacion_tutor_academico}}</p>
+                                <p>Aprobacion de la coordinacion de carrera: {{=permisos_evaluacion_extemporanea.aprobacion_coordinacion}}</p>
+                            {{ else: }}
+                                {{if globals().get('permisos_retirar_pasantia', False):}}
+                                    <p>Estado de permiso de evaluación extemporanea</p>
+                                    <p>Aprobacion del tutor academico:{{=permisos_retirar_pasantia.aprobacion_tutor_academico}}</p>
+                                    <p>Aprobacion de la coordinacion de carrera: {{=permisos_retirar_pasantia.aprobacion_coordinacion}}</p>
+                                {{ else: }}
+                                    <p>
+                                        No existen permisos solicitados actualmente
+                                    </p>
+                                {{pass}}
+                            {{pass}}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="center">
+                <!--div class="span4 text-left"-->
+                    <a href="{{=URL(c='permisos',f='agregar',args=['Retiro Extemporaneo', ejecucion.pasantia])}}" class="button">
+                        <button>
+                            Solicitar Eliminar Pasantía
+                        </button>
+                    </a>
+                <!--/div-->
+                <!--div class="span4 text-right"-->
+                    <a href="#">
+                        <button title='En construcción'>
+                            Cronograma
+                        </button>
+                    </a>
+                <!--/div-->
+                <!--div class="span4 text-center"-->
+                    <a href="{{=URL(c='permisos',f='agregar',args=['Evaluacion Extemporanea', ejecucion.pasantia])}}">
+                        <button>
+                            Solicitar Evaluación Extemporánea
+                        </button>
+                    </a>
+                <!--/div-->
+                
+                </div>
+            </div>
+        </div>
+    </body>
 
-<h1>Etapa actual de su pasantia: {{=etapa.first_name}}</h1>
-<div style="font-size: 20px !important;">
-    <p>
-        <span>Descripcion:</span>
-    {{=etapa.descripcion}}
-    </p>
-</div>
-
-<div style="display: flex;font-size: 17px !important;">
-    <div style="flex:5 1 auto; max-width:386px; padding-right:25px;">
-        <a class="links" href="{{=etapa.procedimientos}}"  ><span class="fa fa-tasks"></span> Procedimientos</a>
-        <br>
-        <a class="links" href="#" ><span class="fa fa-question-circle"></span> Realizar consulta a la CCT</a>
-        <br>
-        <a class="links" href="#"  ><span class="fa fa-tasks"></span> Cronograma de actividades</a>
-        <br>
-        <a class="links" href="#"  ><span class="fa fa-check-square"></span> Resultados Evaluación Entidad de Trabajo  </a>
-
-    </div>
-
-    <div style="flex:5 1 auto; max-width:300px;">
-        <a class="links" href="#"  ><span class="fa fa-file"></span> Acta Defensa (sin firmas) </a>
-        <br>
-        <a class="links" href="#"  ><span class="fa fa-file"></span> Acta Defensa (firmada </a>
-        <br>
-        <span class="fa fa-calendar"></span> Fecha de inicio: <span style="color:red;">{{=pasantia.fecha_inicio}}</span>
-        <br>
-        <span class="fa fa-calendar"></span> Fecha de culminacion: <span style="color:red;">{{=pasantia.fecha_fin}}</span>
-        <br>
-        <span class="fa fa-calendar"></span> Fecha tope para designar jurado: <span style="color:red;">{{=pasantia.fecha_tope_jurado}}</span>
-        <br>
-        <span class="fa fa-calendar"></span> Fecha de la defensa: <span style="color:red;">{{=pasantia.fecha_defensa}}</span>
-        <br>
-        <a class="links" href="{{=URL(c='permisos',f='agregar',args=['Retiro Extemporaneo', ejecucion.pasantia])}}"
-        ><span class="fa
-        fa-trash"></span> Solicitar permiso – Eliminar Pasantía</a>
-        <br>
-        <a class="links" href="{{=URL(c='permisos',f='agregar',args=['Evaluacion Extemporanea', ejecucion.pasantia])}}"  ><span
-                class="fa fa-calendar"></span> Solicitar permiso – Evaluación Extemporánea</a>
-        <br>
-        <p>
-            <span class="fa fa-comments"> </span> Comentarios CCT:
-        {{if ejecucion:}}
-        {{=ejecucion.comentarioCCT}}
-        {{else:}}
-            N/A
-        {{pass}}
-        </p>
-
-    </div>
-</div>
-
-<br><br><br><br><br><br>
+</html>
