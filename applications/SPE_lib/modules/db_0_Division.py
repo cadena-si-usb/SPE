@@ -14,6 +14,18 @@ def Division_Table(db, T):
 
     if db(db.Division.id > 0).count() == 0:
         db.Division.insert(
-            first_name='Ciencias Informaticas'
+            first_name='Ciencias Físicas y Matemáticas'
+        )
+        db.Division.insert(
+            first_name='Ciencias Biológicas'
+        )
+        db.Division.insert(
+            first_name='Ciencias Sociales y Humanidades'
+        )
+        db.Division.insert(
+            first_name='Externo a la USB'
+        )
+        db.Division.insert(
+            first_name='Ciencias y Tecnologías Administrativas e Industriales'
         )
         db.commit()
