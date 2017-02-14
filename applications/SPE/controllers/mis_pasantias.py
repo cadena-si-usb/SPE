@@ -230,7 +230,9 @@ def pasantias_grid_coordinador():
 
 @auth.requires(auth.is_logged_in() and auth.has_membership(role='Estudiante'))
 def consultar_pasantias_estudiante():
-    pasantia_abierta = not db(db.Pasantia.status != 'Culminada').isempty()
+    userId = auth.user.id
+    estudiante = db.Estudiante(usuario=userId)
+    pasantia_abierta = db((db.Pasantia.status != 'Culminada') & (db.Pasantia.estudiante == estudiante.id))
     response.view = 'mis_pasantias/consultar_pasantias_estudiante.html'
     return locals()
 
