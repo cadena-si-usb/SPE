@@ -133,4 +133,16 @@ def Coordinacion_Table(db, T):
             usb_id='coord-urb',
             sede=1
         )
+
+        #no salen en el archivo
+        db.Coordinacion.insert(
+            nombre='Coordinación de Ciclo Básico',
+            usb_id='coord-ciclobasico',
+            sede=1
+        )
+        db.Coordinacion.insert(
+            nombre='Coordinación de Comercio Exterior',
+            usb_id='coord-coex',
+            sede=2
+        )
         db.commit()
