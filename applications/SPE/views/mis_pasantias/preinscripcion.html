@@ -1,17 +1,16 @@
 {{extend 'shell.html'}}
 
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="{{=URL('static', 'css/mis_pasantias.css')}}" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
+
+{{extend 'shell.html'}}
+
+
+{{block head}}
+  <link href="{{=URL('static', 'css/mis_pasantias.css')}}" rel="stylesheet" type="text/css" />
+{{end}}
+
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <h1 class="text-center">
                         Mi Pasantía
                     </h1>
@@ -19,13 +18,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="panel panel-default">
+                <div class="panel panel-default  col-xs-12">
                     <div class="panel-body">
                         <div id="descripcion-etapa">
                             <span style="font-size: 20px !important;">Descripcion:</span>
                             <p>
                                 {{=etapa.descripcion}}
                             </p>
+
+                            <span style="font-size: 20px !important;">Procedimientos:</span>
+                            <p>
+                                {{=etapa.procedimientos}}
+                            </p>
+
                         </div>
                         <div id="comentarios-cct">
                             <span style="font-size: 20px !important;">Comentarios CCT:</span>
@@ -37,16 +42,16 @@
                                 {{pass}}
                             </p>
                         </div>
-                        <div>
-                            <!--a href="#"-->
-                                <button id="botonConsultaCCT" type="button">Consulta a CCT</button>
-                            <!--/a-->
+                        <div class="center">
+                            <a href="#" class="clickable">
+                                <button class="btn-index" type="button">Consulta a CCT</button>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="panel panel-default">
+                <div class="panel panel-default col-xs-12 ">
                     <div class="panel-heading" id="panelgris">
                         Estatus
                     </div>
@@ -62,6 +67,3 @@
                 </div>
             </div>
         </div>
-    </body>
-
-</html>

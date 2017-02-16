@@ -1,52 +1,59 @@
 {{extend 'shell.html'}}
 
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="{{=URL('static', 'css/mis_pasantias.css')}}" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
+{{block head}}
+  <link href="{{=URL('static', 'css/mis_pasantias.css')}}" rel="stylesheet" type="text/css" />
+{{end}}
+
+
+
         <div class="container-fluid">
+
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <h1 class="text-center">
                         Mi Pasantía
                     </h1>
                     {{include 'mis_pasantias/pasantia_etapas.html'}}
                 </div>
             </div>
+
             <div class="row">
-                <div class="panel panel-default">
+                <div class="col-xs-12 panel panel-default">
                     <div class="panel-body">
+
                         <div id="descripcion-etapa">
                             <span style="font-size: 20px !important;">Descripcion:</span>
                             <p>
                                 {{=etapa.descripcion}}
                             </p>
-                        </div>
-                        <div id="comentarios-cct">
-                            <span style="font-size: 20px !important;">Comentarios CCT:</span>
+
+                            <span style="font-size: 20px !important;">Procedimientos:</span>
                             <p>
-                                {{if colocacion.comentarioCCT:}}
-                                {{=colocacion.comentarioCCT}}
-                                {{else:}}
-                                    N/A
-                                {{pass}}
+                                {{=etapa.procedimientos}}
                             </p>
                         </div>
-                        <div>
-                            <!--a href="#"-->
-                                <button id="botonConsultaCCT" type="button">Consulta a CCT</button>
-                            <!--/a-->
+
+                        <div id="comentarios-cct">
+                            <span style="font-size: 20px !important;">Comentarios CCT:</span>
+                                <p>
+                                    {{if colocacion.comentarioCCT:}}
+                                        {{=colocacion.comentarioCCT}}
+                                    {{else:}}
+                                        N/A
+                                    {{pass}}
+                                </p>
+                        </div>
+                        <div class="center">
+                            <a href="#" class="clickable">
+                                <button class="btn-index" type="button">Consulta a CCT</button>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="row">
-                <div class="panel panel-default">
+                <div class="col-xs-12 panel panel-default">
                     <div class="panel-heading" id="panelgris">
                         Estatus
                     </div>
@@ -61,24 +68,38 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="center">
-                    <a href="{{=URL('mi_perfil','editar_curriculo')}}" class="clickable">
-                        <button id="botonConsultaCCT" type="button">Editar CV</button>
-                    </a>
-                    <a href="#" class="clickable">
-                        <button id="botonConsultaCCT" type="button" title='En construccion'>
-                            Ver Ofertas Disponibles
-                        </button>
-                    </a>
-                    <a href="#" class="clickable">
-                        <button id="botonConsultaCCT" type="button" title='En construccion'>
-                            Carta de Postulación
-                        </button>
-                    </a>
+
+                    <div class="col-xs-12 col-md-4">
+                        <a href="{{=URL('mi_perfil','editar_curriculo')}}" class="clickable">
+                            <button class="btn-index" type="button">Editar CV</button>
+                        </a>
+
+                    </div>
+
+                    <div class="col-xs-12 col-md-4">
+                        <a href="#" class="clickable">
+                            <button class="btn-index" type="button" title='En construccion'>
+                                Ver Ofertas Disponibles
+                            </button>
+                        </a>
+
+                    </div>
+
+                    <div class="col-xs-12 col-md-4">
+                         <a href="#" class="clickable">
+                            <button class="btn-index" type="button" title='En construccion'>
+                                Carta de Postulación
+                            </button>
+                        </a>
+
+                    </div>
+
+
+
                 </div>
             </div>
         </div>
-    </body>
 
-</html>
