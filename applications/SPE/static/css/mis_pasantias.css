@@ -1,0 +1,110 @@
+#panelgris{
+    color: white;
+    font-size: large;
+    text-align: center;
+    background-color: #666666 !important; /*#3e3f3a*/ 
+}
+
+#checkicon{
+    color: green;
+}
+
+#denyicon{
+    color: red;
+}
+
+#botonConsultaCCT{
+    background-color: #3e3f3a;
+    font-size: large;
+    width: 30%;
+    display: table;
+    margin: 0 auto
+}
+
+#botonPlanTrabajoVer{
+    float: left;
+}
+
+#botonPlanTrabajoEditar{
+    background-color: #3e3f3a;
+    display: table;
+    margin: 0 auto
+}
+
+#botonSolicitarPermiso{
+    float: right;
+}
+
+
+.flex-container {
+  display: flex;
+}
+.timeline-item {
+  display: block;
+  flex: 1;
+  height: 50px;
+  border-top: solid 4px;
+  position: relative;
+  transition: all .25s ease-in-out;
+}
+.timeline-item:before {
+  transition: all .25s ease-in-out;
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 15%;
+  background: white;
+}
+.timeline-text-item {
+  display: block;
+  flex: 1;
+  position: relative;
+  text-align: center;
+  word-break: break-all;
+}
+.timelinePasantias{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.timeline-item.active {
+  border-color: #29abe0;
+}
+.timeline-item.done {
+  border-color: #65bb5f;
+}
+.timeline-item.pending {
+  border-color: #d9534f;
+}
+
+.timeline-item.active:before {
+  background-color:  #29abe0;
+  content: "\f192";
+  text-align: center;
+      padding: 5px;
+    font-family: FontAwesome;
+    color: white;
+    font-size: 2em;
+}
+.timeline-item.pending:before {
+  background-color: #d9534f;
+  content: "\f00d";
+  text-align: center;
+      padding: 5px;
+    font-family: FontAwesome;
+    color: white;
+    font-size: 2em;
+}
+.timeline-item.done:before {
+  background-color: #65bb5f;
+  content: "\f00c";
+  text-align: center;
+    padding: 5px;
+    font-family: FontAwesome;
+    color: white;
+    font-size: 2em;
+}
