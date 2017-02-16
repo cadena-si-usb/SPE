@@ -1,36 +1,105 @@
 {{extend 'shell.html'}}
-{{include 'mis_pasantias/pasantia_etapas.html'}}
 
-<h1>Etapa actual de su pasantia: {{=etapa.first_name}}</h1>
-<div style="font-size: 20px !important;">
-    <p>
-        <span>Descripcion:</span>
-    {{=etapa.descripcion}}
-    </p>
-</div>
+{{block head}}
+  <link href="{{=URL('static', 'css/mis_pasantias.css')}}" rel="stylesheet" type="text/css" />
+{{end}}
 
-<div style="display: flex;font-size: 17px !important;">
-    <div style="flex:5 1 auto; max-width:386px; padding-right:25px;">
-        <a class="links" href="{{=etapa.procedimientos}}"><span class="fa fa-tasks"></span> Procedimientos</a>
-        <br>
-        <a class="links"  href="#"><span class="fa fa-question-circle"></span> Realizar consulta a la CCT</a>
-        <br>
-        <a class="links"  href="#"><span class="fa fa-eye"></span> Visualizar ofertas publicadas</a>
-    </div>
 
-    <div style="flex:5 1 auto; max-width:300px;">
-        <a class="links"  href="#"><span class="fa fa-file"></span> Carta de postulacion</a>
-        <br>
-        <span class="fa fa-check-square"> </span>  Status del tramite: <span style="color:red;">{{=colocacion.estado}}</span>
-        <p>
-            <span class="fa fa-comments"> </span> Comentarios CCT:
-        {{if colocacion:}}
-        {{=colocacion.comentarioCCT}}
-        {{else:}}
-            N/A
-        {{pass}}
-        </p>
-    </div>
-</div>
 
-<br><br><br><br><br><br>
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="text-center">
+                        Mi Pasantía
+                    </h1>
+                    {{include 'mis_pasantias/pasantia_etapas.html'}}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 panel panel-default">
+                    <div class="panel-body">
+
+                        <div id="descripcion-etapa">
+                            <span style="font-size: 20px !important;">Descripcion:</span>
+                            <p>
+                                {{=etapa.descripcion}}
+                            </p>
+
+                            <span style="font-size: 20px !important;">Procedimientos:</span>
+                            <p>
+                                {{=etapa.procedimientos}}
+                            </p>
+                        </div>
+
+                        <div id="comentarios-cct">
+                            <span style="font-size: 20px !important;">Comentarios CCT:</span>
+                                <p>
+                                    {{if colocacion.comentarioCCT:}}
+                                        {{=colocacion.comentarioCCT}}
+                                    {{else:}}
+                                        N/A
+                                    {{pass}}
+                                </p>
+                        </div>
+                        <div class="center">
+                            <a href="#" class="clickable">
+                                <button class="btn-index" type="button">Consulta a CCT</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 panel panel-default">
+                    <div class="panel-heading" id="panelgris">
+                        Estatus
+                    </div>
+                    <div class="panel-body">
+                        {{if colocacion.estado == "En Espera":}}
+                        <p><i class="glyphicon glyphicon-time" id="waiticon"></i>   {{=colocacion.estado}}</p>
+                        {{pass}}
+                        {{if colocacion.estado == "Aprobado":}}
+                        <!--<p><i class="glyphicon glyphicon-ban-circle" id="denyicon"></i>   {{=preinscripcion.estado}}</p>-->
+                        <p><i class="glyphicon glyphicon-ok" id="checkicon"></i>   {{=colocacion.estado}}</p>
+                        {{pass}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="center">
+
+                    <div class="col-xs-12 col-md-4">
+                        <a href="{{=URL('mi_perfil','editar_curriculo')}}" class="clickable">
+                            <button class="btn-index" type="button">Editar CV</button>
+                        </a>
+
+                    </div>
+
+                    <div class="col-xs-12 col-md-4">
+                        <a href="#" class="clickable">
+                            <button class="btn-index" type="button" title='En construccion'>
+                                Ver Ofertas Disponibles
+                            </button>
+                        </a>
+
+                    </div>
+
+                    <div class="col-xs-12 col-md-4">
+                         <a href="#" class="clickable">
+                            <button class="btn-index" type="button" title='En construccion'>
+                                Carta de Postulación
+                            </button>
+                        </a>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
