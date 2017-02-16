@@ -3,8 +3,12 @@ from Permisos import Permiso
 from gluon import current
 import Encoder
 import ast
-
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Permiso = Permiso()
+
+def sqlform_grid():
+    sqlform_grid = simple_spe_grid(db.Permiso)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
@@ -21,7 +25,8 @@ def agregar():
         tipo = request.args[0]
     except IndexError:
         tipo = None 
-
+    pasantia_id = request.args[1]
+    db.Permiso.pasantia.default = pasantia_id
     currentRoles = current.auth.user_groups.values()
     permisoBD = db.Permiso
     fieldsEstudianteInscr = ['Tipo','pasantia','justificacion']
@@ -31,8 +36,9 @@ def agregar():
     
 
     if 'Estudiante' in currentRoles:
+        estudiante = db.Estudiante(usuario=auth.user.id)
         permisoBD.Estudiante.writable = False
-        permisoBD.Estudiante.default = current.auth.user_id
+        permisoBD.Estudiante.default = estudiante.id
         
         permisoBD.Tipo.writable = False
         if tipo == 'Inscripcion Extemporanea':

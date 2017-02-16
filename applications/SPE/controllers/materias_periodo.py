@@ -2,8 +2,12 @@
 from Materias_Periodo import Materia_Periodo
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Materia_Periodo = Materia_Periodo()
+
+def sqlform_grid():
+    sqlform_grid = simple_spe_grid(db.Materia_Periodo)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

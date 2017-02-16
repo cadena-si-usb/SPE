@@ -19,13 +19,11 @@
 }
 
 #foto-perfil{
-	border-radius: 50%;
-	height: 200px;
-	width: 200px;
 	background: url("../images/profile.png");
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: contain;
+}
+
+#perfil {
+	text-align: right;
 }
 
 #footer, #barra{
@@ -42,11 +40,18 @@
 	padding-top: 2% !important;
 }
 
+.bio {
+	text-align: left; 
+	margin-top: 08%;"
+}
+
 .boton-negro{
 	background: #2B2B2B;
 	color: #DDD;
 	border: none;
-	width: 250px;
+	width: 200px;
+	margin-right: 25px;
+	margin-top: -25px;
 }
 
 .cols{
@@ -65,4 +70,77 @@
 .parrafos{
 	color: #9D9D9D;
 	font-size: 12px;
+}
+
+.clickable
+{
+    cursor: pointer;
+}
+
+.clickable .icon
+{
+    background: rgba(0, 0, 0, 0.15);
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+a.clickable { color: inherit; }
+
+.button_est {
+   margin-top: -06px;
+   margin-bottom: -06px;
+   margin-right: -10px;
+}
+
+.boton_posicion {
+  margin-top: -06px;
+  margin-bottom: -06px;
+  margin-right: -10px;
+  border-radius: 05px; 
+}
+
+.button_position_cv {
+	margin-left: 35px; 
+	margin-top: -06px;
+	margin-bottom: -06px;
+	margin-right: 0px;
+	border-radius: 05px;
+}
+
+
+.boton_posicion:hover:after, .button_est_ed:hover:after {
+	content: ' Editar';
+}
+
+.button_est_cv:hover:after {
+	content: ' Curriculum';
+}
+
+.button_position_cv:hover {
+	background: rgba(0, 0, 0, 0.40);
+	margin-left: -35px; 
+	width: 115px; 
+	border-radius:5px; 
+}
+
+.boton_posicion:hover,  {
+	background: rgba(0, 0, 0, 0.40);
+	width: 80px; 
+	border-radius:5px; 
+}
+
+@media screen and (max-width: 800px) {
+
+	#perfil, .bio { text-align: center; }
+
+	.boton-negro {
+		margin-right: 0px;
+	}
+}
+
+@media screen and (max-device-width : 480px) {
+
+
 }

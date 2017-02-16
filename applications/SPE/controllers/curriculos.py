@@ -2,8 +2,12 @@
 from Curriculos import Curriculo
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Curriculo = Curriculo()
+
+def sqlform_grid():
+    sqlform_grid = simple_spe_grid(db.Curriculo)
+    return sqlform_grid
 
 # Verifica que se accedan a los recursos asignados al actor correspondiente 
 def chequear_permisologia():
@@ -76,14 +80,13 @@ def editar():
         'idiomas'         
     ]
 
-    userid = str(auth.user['username'])
+    userid = str(auth.user['id'])
 
-    estudiante = db.Estudiante(db.Estudiante.carnet == userid)
+    estudiante = db.Estudiante(usuario=userid)
 
-    curriculo = db.Curriculo(db.Curriculo.estudiante == estudiante['id'])
+    curriculo = db.Curriculo(estudiante=estudiante['id'])
 
-    form = SQLFORM(db.Curriculo,record=curriculo,fields=fields,submit_button='Actualizar',showid=False)
-
+    form = SQLFORM(db.Curriculo, record=curriculo, fields=fields, submit_button='Actualizar', showid=False)
     if form.process().accepted:
         session.flash = T('Perfil actualizado exitosamente!')
         curriculo.update_record(activo=True)

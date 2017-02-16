@@ -30,41 +30,46 @@ if [[ $? -ne $zero ]]; then
 	echo "No se instalaron las dependencias correctamente. Abortando instalacion"
 	exit
 fi
+
 # Verificando que el servidor este instalado previamente
-dpkg-query -s mysql-server > /dev/null 2>&1
+dpkg-query -s postgresql > /dev/null 2>&1
 if [[ $? -eq 0 ]]; then
-	echo "Servidor MySQL previamente instalado, saltando este paso"
+	echo "Servidor PostgreSQL previamente instalado, saltando este paso"
 	echo "---------------------------------------------------------------"
 
 else
-	echo "Instalando servidor de mysql"
+	echo "Instalando servidor de PostgreSQL"
 	echo "---------------------------------------------------------------"
 
-	# Instala el servidor de MySQL en Debian/Ubuntu
-	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
-	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
-	sudo apt-get -y install mysql-client-5.7 mysql-client-core-5.7 mysql-common-5.7 mysql-server-5.7 mysql-server-core-5.7
+	# Instala el servidor de PostgreSQL en Debian/Ubuntu
+	sudo apt-get -y install postgresql
 fi
+
+PGPASSWORD=postgres
+
+username=speclient
+dbName=SPE
+dbPasswd=spe2016
+
+
+sudo -u postgres psql postgres << EOF
+CREATE USER speclient WITH PASSWORD 'spe2016';
+CREATE SCHEMA IF NOT EXISTS spe;
+CREATE DATABASE SPE OWNER speclient;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA spe TO speclient;
+GRANT ALL PRIVILEGES ON DATABASE SPE TO speclient;
+EOF
 
 echo "Cuentas habilitadas:"
 echo "------------------------------"
-echo "   - Username: root"
-echo "     Password: root"
+echo "   - Username: postgres"
+echo "     Password: postgres"
 echo "------------------------------"
 echo "   - Username: speclient"
 echo "     Password: spe2016"
 echo "---------------------------------------------------------------"
 echo "Configurando Base de datos SPE:"
-username=speclient
-dbName=SPE
-dbPasswd=spe2016
 
-mysql -uroot -proot <<MYSQL_SCRIPT
-CREATE DATABASE IF NOT EXISTS $dbName;
-CREATE USER IF NOT EXISTS '$username'@'localhost' IDENTIFIED BY '$dbPasswd';
-GRANT ALL PRIVILEGES ON $dbName.* TO '$username'@'localhost';
-FLUSH PRIVILEGES;
-MYSQL_SCRIPT
 
 echo "La base de datos fue configurada exitosamentes"
 echo "---------------------------------------------------------------"
@@ -76,6 +81,5 @@ echo "luego presione cualquier tecla:"
 read ans
 
 echo "La migracion fue completada exitosamente. De presentarse una falla, mandar"
-echo "captura de pantalla con el error de la consola a hectoragoncalvesp@gmail.com"
+echo "captura de pantalla con el error de la consola a hectoragoncalvesp@gmail.com o franciscojsucreg@gmail.com"
 echo "---------------------------------------------------------------"
-#mysql -u speclient SPE -pspe2016 < mysql_dump.sql

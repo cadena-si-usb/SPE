@@ -2,35 +2,17 @@
 # cleanDB.sh
 # Limpia la base de datos de mysql y la carpeta databases de la respectiva app
 echo "---------------------------------------------------------------"
-if [ -z $1 ]; then
-	echo "Seleccione en cual aplicacion desea realizar la limpieza de base de datos"
-	echo "   1) SPE"
-	echo "   2) Empresas"
-	printf "(1/2): "
-	read ans
-else
-	ans=$1
-fi
-
-if [ $ans -eq "1" ]; then
-	dbName=SPE
-elif [ $ans -eq "2" ]; then
-	dbName=Empresas
-else
-	echo "ERROR: Debe introducir 1 si desea limpiar SPE o 2 si desea limpiar Empresas"
-	exit
-fi
+dbName=spe
 username=speclient
 dbPasswd=spe2016
 
 scriptDir=$(dirname -- "$(readlink -e -- "$BASH_SOURCE")")
-cd "$scriptDir" && rm ../../applications/$dbName/databases/*
+cd "$scriptDir" && rm -rf ../../applications/*/databases/*
 
-dbName=SPE
-mysql -uspeclient -pspe2016 <<MYSQL_SCRIPT
-DROP DATABASE $dbName;
-CREATE DATABASE $dbName;
-MYSQL_SCRIPT
+dbName=spe
+
+sudo -u postgres dropdb spe
+sudo -u postgres createdb -O speclient -E UTF8 spe
 
 if [[ $? -eq 0 ]]; then
 	echo "El script finalizo exitosamente"

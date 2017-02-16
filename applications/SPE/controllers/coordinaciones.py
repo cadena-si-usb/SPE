@@ -2,8 +2,12 @@
 from Coordinaciones import Coordinacion
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Coordinacion = Coordinacion()
+
+def sqlform_grid():
+    sqlform_grid = simple_spe_grid(db.Coordinacion)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
@@ -13,7 +17,7 @@ def listar():
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
-    fields = ['first_name','username','sede']
+    fields = ['nombre','codigo','sede']
 
     form = Coordinacion.form(fields)
 

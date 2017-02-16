@@ -36,7 +36,7 @@ def generarLinksCoordinador(row):
 @auth.requires(auth.is_logged_in() and not (auth.has_membership(role='Tutor Industrial')))
 def consultarPermisos():
     userId=auth.user.id
-    usuario=db(db.auth_user.auth_User == userId).select().first()
+    usuario=auth.user.id
     currentRoles = auth.user_groups.values()
 
     fields = (db.Permiso._id,db.Permiso.Tipo, db.Permiso.aprobacion_tutor_academico, db.Permiso.aprobacion_coordinacion, db.Permiso.pasantia, db.Permiso.estado, db.Permiso.justificacion)    
@@ -52,12 +52,12 @@ def consultarPermisos():
 
     # Obtenemos todas las pasantias en los que este usuario interviene
     if 'Profesor' in currentRoles:
-        tutor_academico = db.Profesor(id=userId).usuario
+        tutor_academico = db.Profesor(usuario=userId)
         permisos = db((db.Pasantia.tutor_academico == tutor_academico) & (db.Permiso.pasantia == db.Pasantia.id))
         form = SQLFORM.grid(query=permisos, fields=fields, headers=headers, orderby=default_sort_order,create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,csv=False,user_signature=False,links=links)
 
     elif 'Estudiante' in currentRoles:
-        estudiante = db.Estudiante(id=userId).usuario
+        estudiante = db.Estudiante(usuario=userId)
         permisos = db((db.Permiso.Estudiante == estudiante) & (db.Permiso.pasantia == db.Pasantia.id))
         form = SQLFORM.grid(query=permisos, fields=fields, headers=headers, orderby=default_sort_order,create=False, deletable=False, editable=False, maxtextlength=64, paginate=25,details=False,csv=False,user_signature=False,links=links)
 
@@ -67,7 +67,7 @@ def consultarPermisos():
 
     elif 'Coordinador' in currentRoles:
         # Carrera de la coordinacion donde participa este coordinador
-        idCoordinacion = db.Coordinador(id=userId).coordinacion
+        idCoordinacion = db.Coordinador(usuario=userId).coordinacion
         carreraCoordinacion = db.Coordinacion(id=idCoordinacion).Carrera.select().first()
         
         # Estudiantes que cursan la carrera carreraCoordinacion

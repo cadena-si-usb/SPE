@@ -1,18 +1,215 @@
-{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
-{{extend 'layoutViejo.html'}}
+{{extend 'shell.html'}}
 
 {{if 'message' in globals():}}
-<p class='title'>{{=message}}</p>
-<div class='content'>
-  <p><b>Estudiante</b>, este sistema te permite realizar la Inscripción, Documentación, Formulación y Culminación de Pasantías Empresariales.
-  Debes mantener tu información de contacto actualizada, para que la Coordinación de Cooperación Técnica pueda comunicarse contigo.</p>
 
-  <p><b>Profesores USB</b>, este sistema les permite realizar la Revisión de Planes de Trabajo, Asignación de Notas y Consulta de Pasantías Tutoreadas.</p>
 
-  <p><b>CCT</b>, este sistema le permite realizar Consultas Avanzadas y Reportes de utilidad para la comunidad USB entera.</p>
 
-  <p><b>Empresa Pública o Privada</b>, este sistema le permite solicitar pasantes, revisar el plan de trabajo y recibir anuncios de chalas y estudiantes interesados en hacer pasantías tanto largas, intermedias como cortas.</p>
+<div class='content container-fluid'>
+
+    <div class="row" style="text-align: center">
+        <p class='title'>{{=message}}</p>
+    </div>
+
+
+<div id="myCarousel" class="col-xs-12 col-md-6 carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <!-- <div class="containerCCT"> -->
+    <div class="carousel-inner" role="listbox">
+
+		<div class="item active">
+      		<div class="panel panel-danger containerCCT">
+    			<div class="panel-heading">
+        			<center><span class="panel-title tituloCCT">CCT</span></center>
+        			<div class="clearfix"></div>
+    			</div>
+    			<div class="panel-body ">
+                     <img class="imageHome" src="{{=URL('static','images/cctHome.png')}}" alt="imagen CCT" />
+    				Este sistema le permite realizar Consultas Avanzadas y Reportes de utilidad para la comunidad USB 
+    				entera.
+
+	    			{{if auth.is_logged_in() == False :}}
+			         <div class="row rowButtonHome">
+		                <div class="col-xs-12" style="text-align: center">
+		                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
+		                      <button class='btn-index'>Miembro USB</button>
+		                    </a>
+		                </div>
+			         </div>
+				    {{pass}}
+    			</div>
+			</div>		 
+		</div>
+
+		<div class="item">
+	  		<div class="panel panel-success containerProfesor">
+				<div class="panel-heading">
+	    			<center><span class="panel-title tituloProfesor">Profesores</span></center>
+	    			<div class="clearfix"></div>
+				</div>
+				<div class="panel-body ">
+                     <img class="imageHome" src="{{=URL('static','images/profesorHome.jpg')}}" alt="imagen profesor" />
+					Este sistema les permite realizar la Revisión de Planes de Trabajo, Asignación de Notas y Consulta de Pasantías Tutoreadas.
+
+	    			{{if auth.is_logged_in() == False :}}
+			         <div class="row rowButtonHome">
+		                <div class="col-xs-12" style="text-align: center">
+		                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
+		                      <button class='btn-index'>Miembro USB</button>
+		                    </a>
+		                </div>
+			         </div>
+				    {{pass}}
+				</div>
+			</div>
+		</div>
+
+		<div class="item">
+	  		<div class="panel panel-info containerEstudiante">
+				<div class="panel-heading">
+	    			<center><span class="panel-title tituloEstudiante">Estudiante</span></center>
+	    			<div class="clearfix"></div>
+				</div>
+				<div class="panel-body ">
+                    <img class="imageHome" src="{{=URL('static','images/estudianteHome.jpg')}}" alt="imagen estudiante" />
+					Este sistema te permite realizar la Inscripción, Documentación, Formulación y Culminación de Pasantías Empresariales.
+                    Debes mantener tu información de contacto actualizada, para que la Coordinación de Cooperación Técnica pueda comunicarse contigo.
+
+	    			{{if auth.is_logged_in() == False :}}
+			         <div class="row rowButtonHome">
+		                <div class="col-xs-12" style="text-align: center">
+		                    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
+		                      <button class='btn-index'>Miembro USB</button>
+		                    </a>
+		                </div>
+			         </div>
+				    {{pass}}
+				</div>
+			</div>
+		</div>
+       
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+
+   
+
+  </div>
+
+
+    <div class="row containers">
+
+		<div class="col-md-offset-1 col-md-4 col-xs-12">
+			<div class="panel panel-emp containerEmpresa">
+				<div class="panel-heading">
+	    			<center><span class="panel-title tituloEmpresa">Empresas</span></center>
+	    			<div class="clearfix"></div>
+				</div>
+				<div class="panel-body ">
+                     <img class="imageHome" src="{{=URL('static','images/empresaHome.jpg')}}" alt="imagen empresa" />
+					Este sistema le permite solicitar pasantes, revisar el plan de trabajo y recibir anuncios de chalas y estudiantes interesados en hacer pasantías tanto largas, intermedias como cortas.
+
+	    			{{if auth.is_logged_in() == False :}}
+			         <div class="row rowButtonHome">
+		                <div class="col-xs-12" style="text-align: center">
+		                    <a class="link-btn" href={{=URL(a='Empresas',c='default',f='index')}}>
+		                      <button class='btn-index'>Empresas</button>
+		                    </a>
+		                </div>
+			         </div>
+				    {{pass}}
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
 </div>
+
+<script>
+
+    function sameHeightContainers(){
+        var maxHeight = 0;
+        maxHeight = $(".containerEmpresa").height();
+
+
+	$(" .item").each(function(){
+            console.log($(this).height())
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+        });
+
+	$(".item > div ").height(maxHeight);
+       
+        $(".containerEmpresa").height(maxHeight);
+	$("#myCarousel").height(maxHeight+60);
+
+
+
+    }
+
+    function sameHeightTitles(){
+
+        var maxHeight = 0;
+        $(" .containers div > span").each(function(){
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height() }
+        });
+	$(" .item div > span").each(function(){
+            console.log($(this).height())
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+        });
+
+
+        $(".titleCCT").height(maxHeight);
+        $(".titleProfesor").height(maxHeight);
+        $(".titleEstudiante").height(maxHeight);
+        $(".titleEmpresa").height(maxHeight);
+
+
+    }
+
+    function resetHeight(){
+     
+	$(".item > div").height("auto");	
+	$(".titleCCT").height("auto");
+        $(".titleProfesor").height("auto");
+        $(".titleEstudiante").height("auto");
+        $(".titleEmpresa").height("auto");
+        $(".containerCCT").height("auto");
+        $(".containerProfesor").height("auto");
+        $(".containerEstudiante").height("auto");
+        $(".containerEmpresa").height("auto");
+    }
+
+    resetHeight();
+
+     sameHeightContainers();
+        sameHeightTitles();
+
+    $(window).resize(function() {
+        resetHeight();
+        sameHeightContainers();
+        sameHeightTitles();
+
+    });
+
+</script>
+
 
 {{elif 'content' in globals():}}
 {{=content}}
@@ -20,23 +217,4 @@
 {{=BEAUTIFY(response._vars)}}
 {{pass}}
 
-{{block right_sidebar}}
-<div class="container">
-  <div class="title"> Iniciar Sesión</div>
-    <br>
-    <!--
-    <a href="https://secure.dst.usb.ve/login?service=https%3A%2F%2Fprosigue.dex.usb.ve%2FSPE%2Fdefault%2Flogin_cas">
-      <button class='success'>Miembro USB</button>
-    </a>
--->
 
-    <a class="link-btn" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas">
-      <button class='btn-index'>Miembro USB</button>
-    </a>
-
-
-    <a class="link-btn" href={{=URL(a='Empresas',c='default',f='index')}}>
-      <button class='btn-index'>Empresas</button>
-    </a>
-</div>
-{{end}}

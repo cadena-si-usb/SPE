@@ -1,0 +1,29 @@
+{{extend 'shell.html'}}
+
+<div class='container'>
+    {{if auth.is_logged_in():}}
+        <p class='title'>Pasantias cursadas por '{{=auth.user.first_name}} {{=auth.user.last_name}}'</p>
+        <div class="panel">
+            <div>
+                {{=LOAD('mis_pasantias', 'pasantias_grid_estudiante', ajax=True)}}
+            </div>
+        </div>
+        {{if not pasantia_abierta:}}
+            <div>
+                <p>¿Quieres iniciar una nueva pasantia?</p>
+            </div>
+            <div>
+                <a style="color:white;" href="/mis_pasantias/listar_materias">
+                    <button class="btn btn-default">
+                        Preinscribir
+                    </button>
+                </a>
+            </div>
+        {{else:}}
+            <div>
+                <p>Ya tienes una pasantia abierta</p>
+            </div>
+        {{pass}}
+
+    {{pass}}
+</div>

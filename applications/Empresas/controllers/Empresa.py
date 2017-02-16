@@ -49,6 +49,7 @@ def registrar_Empresa():
 
         # Insertamos en la tabla User de Web2py, para el correoin
         result = db.auth_user.insert(
+            username=request.vars.email,
             first_name=request.vars.first_name,
             password=db.auth_user.password.validate(request.vars.password)[0],
             email=request.vars.email,
@@ -58,13 +59,13 @@ def registrar_Empresa():
             estado=request.vars.estado,
             telefono=request.vars.telefono,
             direccion=request.vars.direccion,
+            miembro_usb=False,
         )
         group_id = auth.id_group(role='Empresa')
         auth.add_membership(group_id, result)
 
         # Registramos la Empresa
         db.Empresa.insert(
-            id=result,
             usuario = result,
             area_laboral = request.vars.area_laboral,
             direccion_web = request.vars.direccion_web,
@@ -163,6 +164,7 @@ def registrar_Tutor_Industrial():
 
         # Insertamos en la tabla user de Web2py
         result = db.auth_user.insert(
+            username=request.vars.email,
             first_name=request.vars.first_name,
             last_name=request.vars.last_name,
             password=db.auth_user.password.validate(request.vars.password)[0],
@@ -173,6 +175,7 @@ def registrar_Tutor_Industrial():
             estado=request.vars.estado,
             telefono=request.vars.telefono,
             direccion=request.vars.direccion,
+            miembro_usb=False,
         )
 
         empresa = \
@@ -180,7 +183,6 @@ def registrar_Tutor_Industrial():
 
         # Registramos al tutor
         db.Tutor_Industrial.insert(
-            id=result,
             usuario=result,
             last_name=request.vars.last_name,
             tipo_documento=request.vars.tipo_documento,

@@ -4,65 +4,38 @@ from Acciones_Usuario import Accion_Usuario
 import Encoder
 
 Accion_Usuario = Accion_Usuario()
+contextos = ['Usuarios','Catálogos', 'Pasantias', 'Configuración','Otros']
 
-def coordinacion():
-	rows = []
-	obj = Encoder.to_dict(request.vars)
+def sidebar():
 
-	#TODO Hacer que esto filtre dependiendo del rol del usuario logeado
-	if ('currentUser' in session):
-		usuario = session.currentUser
+    obj = Encoder.to_dict(request.vars)
+    if (auth.is_logged_in()):
+        usuario = auth.user
+        roles = db(db.auth_membership.user_id == auth.user.id).select()
+        roles_id = []
+        sidebar = []
+        for rol in roles:
+            roles_id.append(rol.group_id)
+            names = db(db.auth_group.id == rol.group_id.id).select(db.auth_group.role)
 
-		if usuario['activo']:
-			rol= db((db.auth_membership.user_id == auth.user.id)
-						  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
-			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'coordinacion')).select(orderby=db.Accion_Usuario.first_name)
+            for name in names:
+                contextos_usuario = []
+                # PROBAR: cuando haya un rol multiperfil
+                for contexto in contextos:
+                    acciones = []
+                    acciones_usuario = db((db.Accion_Usuario.rol.belongs(roles_id)) & (db.Accion_Usuario.contexto ==
+                                                                        contexto)
+                                & (db.Accion_Usuario.accion == db.Accion.id)).select(
+                        orderby=db.Accion.nombre)
+                    if acciones_usuario:
+                        for accion_usuario in acciones_usuario:
+                            acciones.append(accion_usuario.Accion)
+                        contextos_usuario.append({'contexto': contexto, 'acciones': acciones})
 
-	response.view = 'sidebar/coordinacion.load.html'
-	return dict(routes=rows,id="id")
+                sidebar.append({'rol': name.role, 'contextos': contextos_usuario})
+    else:
+        roles = {}
+        sidebar = {}
 
-def pasantias():
-	rows = []
-	obj = Encoder.to_dict(request.vars)
-
-	#TODO Hacer que esto filtre dependiendo del rol del usuario logeado
-	if ('currentUser' in session):
-		usuario = session.currentUser
-
-		if usuario['activo']:
-			rol= db((db.auth_membership.user_id == auth.user.id)
-						  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
-			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'pasantias')).select(orderby=db.Accion_Usuario.first_name)
-
-	response.view = 'sidebar/coordinacion.load.html'
-	return dict(routes=rows,id="id")
-
-def catalogos():
-	rows = []
-	obj = Encoder.to_dict(request.vars)
-
-	#TODO Hacer que esto filtre dependiendo del rol del usuario logeado
-	if ('currentUser' in session):
-		usuario = session.currentUser
-
-		if usuario['activo']:
-			rol= db((db.auth_membership.user_id == auth.user.id)
-						  & (db.auth_membership.group_id == db.auth_group.id)).select().first()
-			rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'catalogos')).select(orderby=db.Accion_Usuario.first_name)
-
-	response.view = 'sidebar/catalogos.load.html'
-	return dict(routes=rows,id="id")
-
-def configuracion():
-	rows = []
-	obj = Encoder.to_dict(request.vars)
-
-	#TODO Hacer que esto filtre dependiendo del rol del usuario logeado
-	if ('currentUser' in session):
-		usuario = session.currentUser
-		rol = db((db.auth_membership.user_id == auth.user.id)
-				 & (db.auth_membership.group_id == db.auth_group.id)).select().first()
-		rows = db((db.Accion_Usuario.rol == rol.auth_group.id) & (db.Accion_Usuario.contexto == 'configuracion')).select(orderby=db.Accion_Usuario.first_name)
-
-	response.view = 'sidebar/configuracion.load.html'
-	return dict(routes=rows,id="id")
+    response.view = 'sidebar/sidebar.load.html'
+    return dict(roles=roles, sidebar=sidebar)

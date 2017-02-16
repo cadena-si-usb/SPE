@@ -1,1 +1,20 @@
-{{=LOAD('sidebar','coordinacion.load',ajax=True)}}
+{{=roles}}
+<ul style="margin-top: 20px; display: flex; flex-direction: column; font-family: 'DejaVu Sans' !important;" class="container">
+    {{for roles in sidebar:}}
+        <li>{{=roles['rol']}}:
+            <ul>
+                {{for contexto in roles['contextos']:}}
+                    <li>{{=contexto['contexto']}}
+                        <ul>
+                            {{for accion in contexto['acciones']:}}
+                                <li>
+                                    {{=accion['first_name']}}
+                                </li>
+                            {{pass}}
+                        </ul>
+                    </li>
+                {{pass}}
+            </ul>
+        </li>
+    {{pass}}
+</ul>

@@ -2,8 +2,12 @@
 from Pais import Pais
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Pais = Pais()
+
+def sqlform_grid():
+    sqlform_grid = simple_spe_grid(db.Pais)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():

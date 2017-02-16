@@ -4828,7 +4828,7 @@ a.list-group-item-danger.active,button.list-group-item-danger.active,a.list-grou
 }
 .panel-success>.panel-heading {
 	color:#93c54b;
-	background-color:#93c54b;
+	background-color:#65bb5f;
 	border-color:#d6e9c6
 }
 .panel-success>.panel-heading+.panel-collapse>.panel-body {
@@ -4846,7 +4846,7 @@ a.list-group-item-danger.active,button.list-group-item-danger.active,a.list-grou
 }
 .panel-info>.panel-heading {
 	color:#29abe0;
-	background-color:#29abe0;
+	background-color:#6da8e1;
 	border-color:#bce8f1
 }
 .panel-info>.panel-heading+.panel-collapse>.panel-body {
@@ -4864,7 +4864,7 @@ a.list-group-item-danger.active,button.list-group-item-danger.active,a.list-grou
 }
 .panel-warning>.panel-heading {
 	color:#ff8227;
-	background-color:#ff8227;
+	background-color:#706DE1;
 	border-color:#faebcc
 }
 .panel-warning>.panel-heading+.panel-collapse>.panel-body {
@@ -4895,6 +4895,27 @@ a.list-group-item-danger.active,button.list-group-item-danger.active,a.list-grou
 .panel-danger>.panel-footer+.panel-collapse>.panel-body {
 	border-bottom-color:#ebccd1
 }
+/* -------------------PANEL INVENTADO POR MI -------------------*/
+
+.panel-emp {
+  border-color: #bce8f1;
+}
+.panel-emp > .panel-heading {
+  color: #31708f;
+  background-color: #cc9900 !important;
+  border-color: #bce8f1;
+}
+.panel-emp > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #bce8f1;
+}
+.panel-emp > .panel-heading .badge {
+  color: #d9edf7;
+  background-color: #31708f;
+}
+.panel-emp > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #bce8f1;
+}
+--------------------------------------------------------------------
 .embed-responsive {
 	position:relative;
 	display:block;

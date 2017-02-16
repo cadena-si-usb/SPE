@@ -2,8 +2,26 @@
 from Colocaciones import Colocacion
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Colocacion = Colocacion()
+
+def sqlform_grid():
+    query = db(db.Colocacion.pasantia == db.Pasantia.id)
+    db.Estudiante._format = lambda row: row.carnet
+
+    fields = [
+        db.Pasantia.titulo,
+        db.Pasantia.estudiante,
+        db.Pasantia.materia,
+        db.Pasantia.periodo,
+        db.Colocacion.estado,
+    ]
+    if not request.args:
+        return simple_spe_grid(query,fields=fields,field_id=db.Colocacion.id)
+    elif request.args[-3]=='edit':
+        return modificar(request)
+    else:
+        return simple_spe_grid(query, fields=fields, field_id=db.Colocacion.id)
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
@@ -40,11 +58,11 @@ def get():
     return rows.as_json()
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
-def modificar():
-    record = db.Colocacion(request.args(0)) or redirect(URL('agregar'))
+def modificar(request):
+    record = db.Colocacion(request.args[-1]) or redirect(URL('agregar'))
 
     pasantia = db.Pasantia(record.pasantia)
-    etapaInsc = db(db.Etapa.first_name == 'Inscripcion').select().first()
+    etapaInsc = db.Etapa(first_name='Inscripcion')
 
     db.Colocacion.id.default = record.id
     db.Colocacion.pasantia.default = record.pasantia
@@ -85,7 +103,7 @@ def modificar():
         record.update_record(**db.Colocacion._filter_fields(form.vars))
 
         if request.vars.aprobacionCCT:
-            existeInscripcion = db(db.Inscripcion.pasantia == record.pasantia).select().first()
+            existeInscripcion = db.Inscripcion(pasantia=record.pasantia)
             if not existeInscripcion:
                 inscripcion = db.Inscripcion.insert(pasantia=record.pasantia)
                 plan_trabajo = db.Plan_Trabajo.insert(pasantia=record.pasantia)
@@ -97,13 +115,13 @@ def modificar():
                 record.update_record(estado='Aprobado')
 
         session.flash = T('Perfil actualizado exitosamente!')
-        redirect(URL('listar'))
+        redirect(URL('sqlform_grid'))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
         response.flash = T('Por favor llene la forma.')
 
-    return locals()
+    return form
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def create():

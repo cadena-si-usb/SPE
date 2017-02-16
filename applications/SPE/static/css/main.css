@@ -13,8 +13,18 @@
 /*FOOTER*/
 .footer{
     margin-top: 20px;
-    background: #D7D7D7;
-    color: #1a1a1a;
+    background: #666666;
+    color:  white;
+}
+
+.main-container{
+    background: #ececec !important;
+    margin-top: 0;
+}
+
+.header_home{
+    padding-top: 0;
+
 }
 
 /*BOTONES*/
@@ -56,3 +66,95 @@
     color: #3e3f3a;
     cursor: pointer;
 }
+
+/*Home*/
+
+.title{
+    text-transform: uppercase;
+}
+
+.tituloCCT, .tituloEstudiante, .tituloProfesor, .tituloEmpresa{
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+
+}
+
+.tituloCCT, .tituloEstudiante, .tituloProfesor, .tituloEmpresa{
+    font-size: 17px !important;
+}
+
+.containerCCT, .containerEstudiante, .containerProfesor, .containerEmpresa{
+    padding: 0;
+    margin-bottom: 10px;
+    background: white;
+
+}
+
+.containerCCT{
+    border: 2px solid #ebccd1;
+}
+
+.containerEstudiante{
+    border: 2px solid #bce8f1;
+}
+
+.containerProfesor{
+    border: 2px solid #d6e9c6;
+}
+
+.containerEmpresa{
+    border: 2px solid #edd797;
+}
+
+.contenidoColumnas{
+    padding: 10px;
+}
+
+body{
+    background: #ececec;
+    padding-top: 0px;
+}
+.navbar-style, #navbar a, .footer {
+    background: #666666 !important;
+    color: white !important;
+}
+.transparent {
+    background: rgba(240, 237, 237, 0.63);
+    height: 100%;
+    width: 100%;
+}
+.titlesHeader{
+    text-align: center;
+    color: white;
+    text-shadow: -2px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.imageHome{
+    width: 100%;
+    margin-bottom: 15px;
+    height: 250px;
+}
+.rowButtonHome{
+
+}
+.carousel-inner > .item > div,
+  .carousel-inner > .item > a > div {
+      width: 70%;
+      margin: auto;
+  }
+.carousel-control.right, .carousel-control.left{
+	background: transparent;
+}
+
+.carousel-indicators li{
+	border: 2px solid #666666;
+}
+
+.carousel-indicators .active {
+	background: #666666;
+}
+
+.carousel-control span {
+	color: #666666;
+}
+

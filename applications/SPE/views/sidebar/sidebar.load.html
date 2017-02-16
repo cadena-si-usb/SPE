@@ -1,0 +1,27 @@
+<ul style="margin-top: 20px; display: flex; flex-direction: column; font-family: 'DejaVu Sans' !important;" class="container">
+    {{for roles in sidebar:}}
+    <li><div class="dropdown">
+        <button class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            {{=roles['rol']}}:
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            {{for contexto in roles['contextos']:}}
+                <li><div class="dropdown">
+                    <span class="dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        {{=contexto['contexto']}}
+                        <span class="caret"></span>
+                    </span>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        {{for accion in contexto['acciones']:}}
+                            <li>
+                                <a href="{{=accion['destino']}}">{{=accion['nombre']}}</a>
+                            </li>
+                        {{pass}}
+                    </ul>
+                </div></li>
+            {{pass}}
+        </ul>
+    </li></div>
+    {{pass}}
+</ul>

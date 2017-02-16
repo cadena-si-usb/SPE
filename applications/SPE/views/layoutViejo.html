@@ -50,20 +50,22 @@
     }}
   </head>
   <body>
-    <!--[if lt IE 8]><p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
-    <div class="w2p_flash alert alert-dismissable">{{=response.flash or ''}}</div>
+
     <!-- Navbar ======================================= -->
     <div class="header_home">
 		  <div class="container transparent">
-        <div class="col-xs-3 logo">
+              <div class="col-xs-3 logo">
 		    	{{=IMG(_src=URL('static','images/home/LogoUniversidadSimonBolivar.png'),alt="USBLOGO")}}
-		    </div>
-		  	<div class="title" padding-top: 10%>
-		    	Coordinación de Cooperación Técnica - CCT
-		    </div>
-		    <div class="col-xs-offset-1 subtitle">
-		    	Sistema de Pasantías Empresariales de la USB
-		    </div>
+              </div>
+              <div class="col-xs-9 titlesHeader">
+                  	<div class="title" padding-top: 10%>
+		    	        Coordinación de Cooperación Técnica - CCT
+                    </div>
+                    <div class="col-xs-offset-1 subtitle">
+                        Sistema de Pasantías Empresariales de la USB
+                    </div>
+              </div>
+
 		  </div>
 		</div>
 
@@ -150,5 +152,22 @@
     {{pass}}
     <!-- Share ============================y============ -->
     <script src="{{=URL('static','js/share.js',vars=dict(static=URL('static','images')))}}"></script>
+
+
+    <script>
+        function contentHeight(){
+            var maxHeight = 0;
+            var maxHeight = $(".footer").height();
+            $(".main-container").css("padding-bottom", maxHeight+"px");
+        }
+
+        contentHeight();
+
+        $(window).resize(function() {
+            contentHeight();
+        });
+
+    </script>
+
   </body>
 </html>

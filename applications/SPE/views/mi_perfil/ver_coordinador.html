@@ -1,69 +1,53 @@
-{{extend 'mi_perfil/ver.html'}}
-{{block content}}
-
-<h2>Hola {{=usuario['last_name']}}, {{=usuario['first_name']}}.</h2>
-<h4>{{=usuario['rol']}}</h4>
-<div id="perfil_estudiante">
-    <section id="sec1" style="margin-bottom: 10%">
-        <div class="container">
+<div class="panel panel-danger">
+    <div class="panel-heading">
+        <h3 class="panel-title pull-left" style="font-size: 15px">Coordinador</h1>
+        <a href="{{=URL('configuracion', args=['coordinador'])}}" class="clickable">
+            <span class="pull-right icon boton_posicion"><i class="fa fa-pencil-square-o"></i></span>
+        </a>
+      <div class="clearfix"></div>
+    </div>
+    <div class="panel-body">
+        <section id="sec1">
             <div class="row">
-                <div class="col-lg-4">
-                    <div id="foto-perfil">
-                        <h5 style="margin-bottom: 90%"><b>Foto del Perfil</b></h5>
-                        <button class="boton-negro">SUBIR FOTO</button>
-                        <p class="parrafos">Una vez completado todos sus datos finalice su inscripcion.</p>
+                <div class="col-sm-12">
+                    {{if cont == 12 or cont == 6 :}}
+                        <div class="col-sm-6">
+                            <center>
+                                <h4> <b>Coordinación</b> </h4>
+                                <div>
+                                     <h5>{{=coordinacion.Coordinacion.nombre}}</h5>
+                                </div>
+                            </center>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <center>
+                                <h4> <b>Correo Alternativo</b> </h4>
+                                <div>
+                                    <h5>{{=coordinador.Coordinador.correo_Alternativo}}</h5>
+                                </div>
+                            </center>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-8">
-                    <h2>
-                        <b>Coordinacion</b>
-                    </h2>
+                    {{pass}}
 
-                    <h3>{{=coordinacion.Coordinacion.first_name}}</h3>
-
-                    <h2>
-                        <b>USB-ID</b>
-                    </h2>
-
-                    <h3>{{=currentUser.username}}</h3>
-                    <h2>
-                        <b>{{=currentUser.tipo_documento.first_name}}</b>
-                    </h2>
-                    <h3>{{=currentUser.numero_documento}}</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4">
-                    <h2>
-                        <b>Telefono</b>
-                    </h2>
-                    <h3>{{=currentUser.telefono}}</h3>
-
-
-                    <h2>
-                        <b>Direccion</b>
-                    </h2>
-                    <h3>{{=currentUser.direccion}}</h3>
-
-                    <h2>
-                        <b>Sexo</b>
-                    </h2>
-                    <h3>{{=currentUser.sexo}}</h3>
-                </div>
-                <div class="col-lg-8">
-                    <h2>
-                        <b>Correo</b>
-                    </h2>
-                    <h3>{{=coordinador.auth_user.email}}</h3>
-
-                    <h2>
-                        <b>Correo Alternativo</b>
-                    </h2>
-                    <h3>{{=coordinador.Coordinador.correo_Alternativo}}</h3>
+                    {{if cont == 4:}}
+                        <center>
+                            <h4> <b>Coordinación</b> </h4>
+                            <div>
+                                 <h5>{{=coordinacion.Coordinacion.nombre}}</h5>
+                            </div>
+                        </center>
+                            <br>
+                        <center>
+                            <h4> <b>Correo Alternativo</b> </h4>
+                            <div>
+                                <h5>{{=coordinador.Coordinador.correo_Alternativo}}</h5>
+                            </div>
+                        </center>
+                    {{pass}}
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </div>
-
-{{end}}

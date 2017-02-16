@@ -6,11 +6,15 @@ from Tipos_Documento import Tipo_Documento
 
 import json
 import Encoder
-
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Usuario = Usuario()
 Carrera = Carrera()
 Sede = Sede()
 Tipo_Documento = Tipo_Documento()
+
+def sqlform_grid():
+    sqlform_grid = simple_spe_grid(db.auth_user)
+    return sqlform_grid
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
