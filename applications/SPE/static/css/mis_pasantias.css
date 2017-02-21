@@ -5,6 +5,16 @@
     background-color: #666666 !important; /*#3e3f3a*/ 
 }
 
+.containerEstatus,.containerPermisos{
+    padding: 0;
+    margin-bottom: 10px;
+    background: white;
+    border: 2px solid #d7d7d7;
+}
+
+#waiticon{
+    color: #29abe0;
+}
 #checkicon{
     color: green;
 }
@@ -19,6 +29,10 @@
     width: 30%;
     display: table;
     margin: 0 auto
+}
+
+.botonConsultaCCT,.botonSolicitarEliminarPasantia,.botonCronograma,.botonSolicitarEvaluacionExtemporanea{
+    border: 10px solid transparent
 }
 
 #botonPlanTrabajoVer{

@@ -45,7 +45,7 @@
                         </div>
                         <div class="center">
                             <a href="#" class="clickable">
-                                <button class="btn-index" type="button">Consulta a CCT</button>
+                                <button class="btn-index botonConsultaCCT" type="button">Consulta a CCT</button>
                             </a>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
 
                      <div class="col-xs-12 col-md-4">
                         <a href="{{=URL(c='Pasantia',f='verDetallePasantia',args=[plan_trabajo.id])}}" class="clickable">
-                            <button class="btn-index" type="button">
+                            <button class="btn-index botonVerPlanTrabajo" type="button">
                                 Ver Plan de Trabajo
                             </button>
                         </a>
@@ -105,7 +105,7 @@
 
                      <div class="col-xs-12 col-md-4">
                         <a href="{{=URL(c='Pasantia',f='verPlanDeTrabajo',args=[pasantia.id])}}" class="clickable">
-                            <button class="btn-index" type="button">
+                            <button class="btn-index botonEditarPlanTrabajo" type="button">
                                 Editar Plan de Trabajo
                             </button>
                         </a>
@@ -113,7 +113,7 @@
 
                     <div class="col-xs-12 col-md-4">
                         <a href="{{=URL(c='permisos',f='agregar',args=['Inscripcion Extemporanea', inscripcion.pasantia])}}" class="clickable">
-                            <button class="btn-index" type="button">
+                            <button class="btn-index botonSolicitarPermisos" type="button">
                                 Solicitar Permisos
                             </button>
                         </a>
@@ -140,19 +140,59 @@
 
     }
 
+    //.botonConsultaCCT,.botonSolicitarEliminarPasantia,.botonCronograma,.botonSolicitarEvaluacionExtemporanea
+    function sameHeightWidthButtons(){
+        var maxHeight = 0;
+        var maxWidth = 0;
+        maxHeight = $(".botonConsultaCCT").height();
+        maxWidth = $(".botonConsultaCCT").width();
+
+        if ($(".botonVerPlanTrabajo").height() > maxHeight) { maxHeight = $(".botonVerPlanTrabajo").height(); }
+        if ($(".botonEditarPlanTrabajo").height() > maxHeight) { maxHeight = $(".botonEditarPlanTrabajo").height(); }
+        if ($(".botonSolicitarPermisos").height() > maxHeight){maxHeight= $(".botonSolicitarPermisos").height(); }
+        
+        if ($(".botonVerPlanTrabajo").width() > maxWidth) { maxWidth = $(".botonVerPlanTrabajo").width(); }
+        if ($(".botonEditarPlanTrabajo").width() > maxWidth) { maxWidth = $(".botonEditarPlanTrabajo").width(); }
+        if ($(".botonSolicitarPermisos").width() > maxWidth) { maxWidth = $(".botonSolicitarPermisos").width(); }
+        
+        $(".botonConsultaCCT").height(maxHeight);
+        $(".botonConsultaCCT").width(maxWidth);
+        $(".botonVerPlanTrabajo").height(maxHeight);
+        $(".botonVerPlanTrabajo").width(maxWidth);
+        $(".botonEditarPlanTrabajo").height(maxHeight);
+        $(".botonEditarPlanTrabajo").width(maxWidth);
+        $(".botonSolicitarPermisos").height(maxHeight);
+        $(".botonSolicitarPermisos").width(maxWidth);
+
+    }
+
     function resetHeight(){
         $(".containerPermisos").height("auto");
         $(".containerEstatus").height("auto");
     }
 
+    function resetHeightWidthButtons(){
+        $(".botonConsultaCCT").height("auto");
+        $(".botonVerPlanTrabajo").height("auto");
+        $(".botonEditarPlanTrabajo").height("auto");
+        $(".botonSolicitarPermisos").height("auto");
+        $(".botonConsultaCCT").width("auto");
+        $(".botonVerPlanTrabajo").width("auto");
+        $(".botonEditarPlanTrabajo").width("auto");
+        $(".botonSolicitarPermisos").width("auto");
+    }
+
     resetHeight();
-
+    resetHeightWidthButtons();
+    
     sameHeight();
-
+    sameHeightWidthButtons();
 
     $(window).resize(function() {
         resetHeight();
+        resetHeightWidthButtons();
         sameHeight();
+        sameHeightWidthButtons();
     });
 
 </script>

@@ -42,7 +42,7 @@
                         </div>
                         <div class="center">
                             <a href="#" class="clickable">
-                                <button class="btn-index" type="button">Consulta a CCT</button>
+                                <button class="btn-index botonConsultaCCT" type="button">Consulta a CCT</button>
                             </a>
                         </div>
                     </div>
@@ -99,21 +99,21 @@
                 <div class="center">
                     <div class="col-xs-12 col-md-4">
                         <a href="{{=URL(c='permisos',f='agregar',args=['Retiro Extemporaneo', ejecucion.pasantia])}}" class="clickable">
-                            <button class="btn-index" type="button">
+                            <button class="btn-index botonSolicitarEliminarPasantia" type="button" title='En construcción'>
                                 Solicitar Eliminar Pasantía
                             </button>
                         </a>
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <a href="#" class="clickable">
-                            <button class="btn-index" type="button" title='En construcción'>
+                            <button class="btn-index botonCronograma" type="button" title='En construcción'>
                                 Cronograma
                             </button>
                         </a>
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <a href="{{=URL(c='permisos',f='agregar',args=['Evaluacion Extemporanea', ejecucion.pasantia])}}" class="clickable">
-                            <button  class="btn-index" type="button" >
+                            <button  class="btn-index botonSolicitarEvaluacionExtemporanea" type="button" title='En construcción'>
                                 Solicitar Evaluación Extemporánea
                             </button>
                         </a>
@@ -138,21 +138,57 @@
 
     }
 
+    //.botonConsultaCCT,.botonSolicitarEliminarPasantia,.botonCronograma,.botonSolicitarEvaluacionExtemporanea
+    function sameHeightWidthButtons(){
+        var maxHeight = 0;
+        var maxWidth = 0;
+        maxHeight = $(".botonConsultaCCT").height();
+        maxWidth = $(".botonConsultaCCT").width();
+
+        if ($(".botonSolicitarEliminarPasantia").height() > maxHeight) { maxHeight = $(".botonSolicitarEliminarPasantia").height(); }
+        if ($(".botonCronograma").height() > maxHeight) { maxHeight = $(".botonCronograma").height(); }
+        if ($(".botonSolicitarEvaluacionExtemporanea").height() > maxHeight){maxHeight= $(".botonSolicitarEvaluacionExtemporanea").height(); }
+        if ($(".botonSolicitarEliminarPasantia").width() > maxWidth) { maxWidth = $(".botonSolicitarEliminarPasantia").width(); }
+        if ($(".botonCronograma").width() > maxWidth) { maxWidth = $(".botonCronograma").width(); }
+        if ($(".botonSolicitarEvaluacionExtemporanea").width() > maxWidth) { maxWidth = $(".botonSolicitarEvaluacionExtemporanea").width(); }
+        $(".botonConsultaCCT").height(maxHeight);
+        $(".botonConsultaCCT").width(maxWidth);
+        $(".botonSolicitarEliminarPasantia").height(maxHeight);
+        $(".botonSolicitarEliminarPasantia").width(maxWidth);
+        $(".botonCronograma").height(maxHeight);
+        $(".botonCronograma").width(maxWidth);
+        $(".botonSolicitarEvaluacionExtemporanea").height(maxHeight);
+        $(".botonSolicitarEvaluacionExtemporanea").width(maxWidth);
+
+    }
+
     function resetHeight(){
         $(".containerPermisos").height("auto");
         $(".containerEstatus").height("auto");
     }
 
-
+    function resetHeightWidthButtons(){
+        $(".botonConsultaCCT").height("auto");
+        $(".botonSolicitarEliminarPasantia").height("auto");
+        $(".botonCronograma").height("auto");
+        $(".botonSolicitarEvaluacionExtemporanea").height("auto");
+        $(".botonConsultaCCT").width("auto");
+        $(".botonSolicitarEliminarPasantia").width("auto");
+        $(".botonCronograma").width("auto");
+        $(".botonSolicitarEvaluacionExtemporanea").width("auto");
+    }
 
     resetHeight();
-
+    resetHeightWidthButtons();
+    
     sameHeight();
-
+    sameHeightWidthButtons();
 
     $(window).resize(function() {
         resetHeight();
+        resetHeightWidthButtons();
         sameHeight();
+        sameHeightWidthButtons();
     });
 
 </script>
