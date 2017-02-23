@@ -78,11 +78,7 @@ class Usuario(Model):
         tipo = usuario['tipo']
         carnet = usuario['email'].split('@')[0]
         telefono = usuario['phone']
-        carrera = current.db.Carrera(first_name=usuario['carrera'])
-        # Colocamos la sede de sartenejas como la sede por defecto
-        sede = current.db.Sede(first_name="Sartenejas")
         clave = random_key()
-        tabla = self.db.auth_user
         auth_User_Id = self.db.auth_user.insert(
             first_name=first_name,
             last_name=last_name,
@@ -93,6 +89,9 @@ class Usuario(Model):
             telefono=telefono,
             password=self.db.auth_user.password.validate(clave)[0])
         if (tipo == 'Pregrado' or tipo == 'Postgrado'):
+            carrera = current.db.Carrera(first_name=usuario['carrera'])
+            # Colocamos la sede de sartenejas como la sede por defecto
+            sede = current.db.Sede(first_name="Sartenejas")
             estudiante = self.db.Estudiante.insert(
                 usuario=auth_User_Id,
                 carnet=carnet,
@@ -103,23 +102,30 @@ class Usuario(Model):
                                      activo=False)
             auth.add_membership(role='Estudiante', user_id=auth_User_Id)
         elif (tipo == 'Docente'):
+            # Colocamos la sede de sartenejas como la sede por defecto
+            sede = current.db.Sede(first_name="Sartenejas")
+            departamento = current.db.Departamento(first_name=usuario['dpto'])
             profesor = self.db.Profesor.insert(
-                id=auth_User_Id,
-                usuario=usuario['id'],
+                usuario=auth_User_Id,
+                departamento=departamento,
                 sede=sede,
                 activo=False)
             auth.add_membership(role='Profesor', user_id=auth_User_Id)
-        elif (tipo == 'Coordinador'):
-            coordinador = self.db.Coordinador.insert(
-                id=auth_User_Id,
-                usuario=usuario['id'],
-                carnet=carnet,
-                activo=False)
-            auth.add_membership(role='Coordinador', user_id=auth_User_Id)
-        elif (tipo == 'Administrativo'):
+        elif (tipo == 'Organización'):
+            # Buscamos si se trata de una coordinacion
+            nombre = first_name + " " + last_name
+            coordinacion = current.db.Coordinacion(first_name=nombre)
+            if coordinacion:
+                coordinador = self.db.Coordinador.insert(
+                    usuario=auth_User_Id,
+                    carnet=carnet,
+                    activo=False)
+                auth.add_membership(role='Coordinador', user_id=auth_User_Id)
+            else:
+                auth.add_membership(role='Invitado', user_id=auth_User_Id)
+        elif (tipo == 'Administrativo' or tipo == 'Empleado'):
             administrativo = self.db.Administrativo.insert(
-                id=auth_User_Id,
-                usuario=usuario['id'],
+                usuario=auth_User_Id,
                 carnet=carnet,
                 activo=False)
             auth.add_membership(role='Administrativo', user_id=auth_User_Id)
