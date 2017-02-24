@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{=URL('static','css/footer.css')}}"/>
     <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{=URL('static','css/font-awesome.css')}}">
     <link rel="stylesheet" href="{{=URL('static','css/main.css')}}"/>
     <!-- All JavaScript at the bottom, except for Modernizr which enables
          HTML5 elements & feature detects -->
@@ -92,15 +92,16 @@
 
     <!-- Main ========================================= -->
     <!-- Begin page content -->
-
-    <div id="main" class="container-fluid main-container">
-      {{block center}}
-      {{include}}
-      {{end}}
+    <div clas="row">
+      <div id="main" class="container-fluid main-container">
+        {{block center}}
+        {{include}}
+        {{end}}
+      </div>
     </div>
 
     {{block footer}} <!-- this is default footer -->
-    <footer class="footer footer-style">
+    <footer class="footer footer-style" style="position:fixed;">
       <div class="container-fluid">
         <div class="col-xs-offset-1">
              Edificio Ciencias Básicas 1, Piso 1, ofic 135. Sartenejas, Baruta, Edo. Miranda
