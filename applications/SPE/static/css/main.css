@@ -1,3 +1,14 @@
+.contenido {
+    color: #777;
+    max-width: 100%;
+    min-height: 100%;
+    text-align: left;
+    padding: 0.5em 2em 0.5em 2em;
+    margin: 0.5em 2.5em 0.5em 2.5em;
+    font-size: 100%;
+}
+
+
 .link-spe{
     text-decoration: none;
     color: #0000C0;
