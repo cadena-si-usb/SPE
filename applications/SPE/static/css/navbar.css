@@ -30,9 +30,14 @@ ul {
 	font-size: 13px !important;
 }
 
+#navbar a:hover {
+    background: #d7d7d7 !important;
+    color: #666666  !important;
+}
+
 ul.dropdown-menu.dropdown-menu-style {
-    background-color: #D7D7D7;
-} 
+    background-color: #666666;
+}
 
 li a {
 	color: #1a1a1a !important;
