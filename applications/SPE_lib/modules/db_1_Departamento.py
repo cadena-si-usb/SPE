@@ -10,7 +10,8 @@ def Departamento_Table(db, T):
                     Field('id_division', 'reference Division', notnull=True, label='Nombre de División'),
                     Field('usb_id', 'string', unique=True), #required?
                     Field('email_dep', 'string', label='Correo Electrónico del Departamento'),
-                    Field('sede', 'reference Sede'))
+                    Field('sede', 'reference Sede'),
+                    format=lambda r: '%s - %s' % (r.first_name, r.sede.first_name))
 
     # Validadores
     db.Departamento.email_dep.requires = [IS_EMAIL(error_message=T('Este no es un email valido'))]
