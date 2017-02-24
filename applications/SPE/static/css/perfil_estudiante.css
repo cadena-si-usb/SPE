@@ -23,7 +23,11 @@
 }
 
 #perfil {
-	text-align: right;
+	text-align: center;
+}
+
+#perfil > div:nth-child(2) {
+	margin-top: 40px;
 }
 
 #footer, #barra{
