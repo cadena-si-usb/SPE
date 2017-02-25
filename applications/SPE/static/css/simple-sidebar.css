@@ -9,6 +9,10 @@
  }
 
 /* Toggle Styles */
+#sidebar {
+  position: static !important;
+}
+
 .content {
   height: 100% !important;
 }
