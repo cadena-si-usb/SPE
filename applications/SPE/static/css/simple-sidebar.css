@@ -12,7 +12,10 @@
 #sidebar {
   position: static !important;
 }
-
+.nav-side-menu .menu-list .menu-content{
+  position: fixed;
+  top: 150px;
+}
 .content {
   height: 100% !important;
 }
