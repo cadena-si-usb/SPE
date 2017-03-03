@@ -232,7 +232,9 @@ def pasantias_grid_coordinador():
 def consultar_pasantias_estudiante():
     userId = auth.user.id
     estudiante = db.Estudiante(usuario=userId)
+
     pasantia_abierta = db((db.Pasantia.status != 'Culminada') & (db.Pasantia.estudiante == estudiante.id))
+    pasantia_abierta = not pasantia_abierta.isempty()
     response.view = 'mis_pasantias/consultar_pasantias_estudiante.html'
     return locals()
 
