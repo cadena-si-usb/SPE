@@ -140,29 +140,41 @@
 
     }
 
-    //.botonConsultaCCT,.botonSolicitarEliminarPasantia,.botonCronograma,.botonSolicitarEvaluacionExtemporanea
+   //.botonConsultaCCT,.botonSolicitarEliminarPasantia,.botonCronograma,.botonSolicitarEvaluacionExtemporanea
     function sameHeightWidthButtons(){
         var maxHeight = 0;
         var maxWidth = 0;
-        maxHeight = $(".botonConsultaCCT").height();
-        maxWidth = $(".botonConsultaCCT").width();
 
-        if ($(".botonVerPlanTrabajo").height() > maxHeight) { maxHeight = $(".botonVerPlanTrabajo").height(); }
-        if ($(".botonEditarPlanTrabajo").height() > maxHeight) { maxHeight = $(".botonEditarPlanTrabajo").height(); }
-        if ($(".botonSolicitarPermisos").height() > maxHeight){maxHeight= $(".botonSolicitarPermisos").height(); }
-        
-        if ($(".botonVerPlanTrabajo").width() > maxWidth) { maxWidth = $(".botonVerPlanTrabajo").width(); }
-        if ($(".botonEditarPlanTrabajo").width() > maxWidth) { maxWidth = $(".botonEditarPlanTrabajo").width(); }
-        if ($(".botonSolicitarPermisos").width() > maxWidth) { maxWidth = $(".botonSolicitarPermisos").width(); }
-        
-        $(".botonConsultaCCT").height(maxHeight);
-        $(".botonConsultaCCT").width(maxWidth);
-        $(".botonVerPlanTrabajo").height(maxHeight);
-        $(".botonVerPlanTrabajo").width(maxWidth);
-        $(".botonEditarPlanTrabajo").height(maxHeight);
-        $(".botonEditarPlanTrabajo").width(maxWidth);
-        $(".botonSolicitarPermisos").height(maxHeight);
-        $(".botonSolicitarPermisos").width(maxWidth);
+
+        $(" .btn-index").each(function(){
+            if ($(this).width() > maxWidth) { maxWidth = $(this).width(); }
+
+
+
+        });
+
+        $(" .btn-index").each(function(){
+            $(this).width(maxWidth);
+
+        });
+
+
+
+
+        $(" .btn-index").each(function(){
+
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+
+
+        });
+
+        $(" .btn-index").each(function(){
+            $(this).height(maxHeight);
+
+        });
+
+
+
 
     }
 
@@ -171,15 +183,14 @@
         $(".containerEstatus").height("auto");
     }
 
-    function resetHeightWidthButtons(){
-        $(".botonConsultaCCT").height("auto");
-        $(".botonVerPlanTrabajo").height("auto");
-        $(".botonEditarPlanTrabajo").height("auto");
-        $(".botonSolicitarPermisos").height("auto");
-        $(".botonConsultaCCT").width("auto");
-        $(".botonVerPlanTrabajo").width("auto");
-        $(".botonEditarPlanTrabajo").width("auto");
-        $(".botonSolicitarPermisos").width("auto");
+     function resetHeightWidthButtons(){
+
+        $(" .btn-index").each(function(){
+
+           $(this).height("auto");
+           $(this).width("auto");
+        });
+
     }
 
     resetHeight();

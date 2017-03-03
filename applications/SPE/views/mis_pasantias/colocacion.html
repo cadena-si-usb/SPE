@@ -105,42 +105,52 @@
 
 <script>
 
-    //.botonConsultaCCT,.botonEditarCV,.botonVerOfertas,.botonSolicitarEvaluacionExtemporanea
+    //.botonConsultaCCT,.botonSolicitarEliminarPasantia,.botonCronograma,.botonSolicitarEvaluacionExtemporanea
     function sameHeightWidthButtons(){
         var maxHeight = 0;
         var maxWidth = 0;
-        maxHeight = $(".botonConsultaCCT").height();
-        maxWidth = $(".botonConsultaCCT").width();
 
-        if ($(".botonEditarCV").height() > maxHeight) { maxHeight = $(".botonEditarCV").height(); }
-        if ($(".botonVerOfertas").height() > maxHeight) { maxHeight = $(".botonVerOfertas").height(); }
-        if ($(".botonCartaPostulacion").height() > maxHeight){maxHeight= $(".botonCartaPostulacion").height(); }
-        
-        if ($(".botonEditarCV").width() > maxWidth) { maxWidth = $(".botonEditarCV").width(); }
-        if ($(".botonVerOfertas").width() > maxWidth) { maxWidth = $(".botonVerOfertas").width(); }
-        if ($(".botonCartaPostulacion").width() > maxWidth) { maxWidth = $(".botonCartaPostulacion").width(); }
-        
-        $(".botonConsultaCCT").height(maxHeight);
-        $(".botonConsultaCCT").width(maxWidth);
-        $(".botonEditarCV").height(maxHeight);
-        $(".botonEditarCV").width(maxWidth);
-        $(".botonVerOfertas").height(maxHeight);
-        $(".botonVerOfertas").width(maxWidth);
-        $(".botonCartaPostulacion").height(maxHeight);
-        $(".botonCartaPostulacion").width(maxWidth);
+
+        $(" .btn-index").each(function(){
+            if ($(this).width() > maxWidth) { maxWidth = $(this).width(); }
+
+
+
+        });
+
+        $(" .btn-index").each(function(){
+            $(this).width(maxWidth);
+
+        });
+
+
+
+
+        $(" .btn-index").each(function(){
+
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+
+
+        });
+
+        $(" .btn-index").each(function(){
+            $(this).height(maxHeight);
+
+        });
+
+
+
 
     }
 
-    function resetHeightWidthButtons(){
-        $(".botonConsultaCCT").height("auto");
-        $(".botonEditarCV").height("auto");
-        $(".botonVerOfertas").height("auto");
-        $(".botonCartaPostulacion").height("auto");
-        
-        $(".botonConsultaCCT").width("auto");
-        $(".botonEditarCV").width("auto");
-        $(".botonVerOfertas").width("auto");
-        $(".botonCartaPostulacion").width("auto");
+     function resetHeightWidthButtons(){
+
+        $(" .btn-index").each(function(){
+
+           $(this).height("auto");
+           $(this).width("auto");
+        });
+
     }
 
     resetHeightWidthButtons();

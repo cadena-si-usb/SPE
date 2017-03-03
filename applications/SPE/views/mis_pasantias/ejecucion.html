@@ -140,53 +140,71 @@
     function sameHeightWidthButtons(){
         var maxHeight = 0;
         var maxWidth = 0;
-        maxHeight = $(".botonConsultaCCT").height();
-        maxWidth = $(".botonConsultaCCT").width();
 
-        if ($(".botonSolicitarEliminarPasantia").height() > maxHeight) { maxHeight = $(".botonSolicitarEliminarPasantia").height(); }
-        if ($(".botonCronograma").height() > maxHeight) { maxHeight = $(".botonCronograma").height(); }
-        if ($(".botonSolicitarEvaluacionExtemporanea").height() > maxHeight){maxHeight= $(".botonSolicitarEvaluacionExtemporanea").height(); }
-        if ($(".botonSolicitarEliminarPasantia").width() > maxWidth) { maxWidth = $(".botonSolicitarEliminarPasantia").width(); }
-        if ($(".botonCronograma").width() > maxWidth) { maxWidth = $(".botonCronograma").width(); }
-        if ($(".botonSolicitarEvaluacionExtemporanea").width() > maxWidth) { maxWidth = $(".botonSolicitarEvaluacionExtemporanea").width(); }
-        $(".botonConsultaCCT").height(maxHeight);
-        $(".botonConsultaCCT").width(maxWidth);
-        $(".botonSolicitarEliminarPasantia").height(maxHeight);
-        $(".botonSolicitarEliminarPasantia").width(maxWidth);
-        $(".botonCronograma").height(maxHeight);
-        $(".botonCronograma").width(maxWidth);
-        $(".botonSolicitarEvaluacionExtemporanea").height(maxHeight);
-        $(".botonSolicitarEvaluacionExtemporanea").width(maxWidth);
+
+        $(" .btn-index").each(function(){
+            if ($(this).width() > maxWidth) { maxWidth = $(this).width(); }
+
+
+
+        });
+
+        $(" .btn-index").each(function(){
+            $(this).width(maxWidth);
+
+        });
+
+
+
+
+        $(" .btn-index").each(function(){
+
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+
+
+        });
+
+        $(" .btn-index").each(function(){
+            $(this).height(maxHeight);
+
+        });
+
+
+
 
     }
 
     function resetHeight(){
         $(".containerPermisos").height("auto");
         $(".containerEstatus").height("auto");
+
+
     }
 
     function resetHeightWidthButtons(){
-        $(".botonConsultaCCT").height("auto");
-        $(".botonSolicitarEliminarPasantia").height("auto");
-        $(".botonCronograma").height("auto");
-        $(".botonSolicitarEvaluacionExtemporanea").height("auto");
-        $(".botonConsultaCCT").width("auto");
-        $(".botonSolicitarEliminarPasantia").width("auto");
-        $(".botonCronograma").width("auto");
-        $(".botonSolicitarEvaluacionExtemporanea").width("auto");
+
+        $(" .btn-index").each(function(){
+
+           $(this).height("auto");
+           $(this).width("auto");
+        });
+
     }
 
     resetHeight();
-    resetHeightWidthButtons();
-    
     sameHeight();
+
+    resetHeightWidthButtons();
     sameHeightWidthButtons();
 
     $(window).resize(function() {
         resetHeight();
-        resetHeightWidthButtons();
         sameHeight();
+
+        resetHeightWidthButtons();
+
         sameHeightWidthButtons();
+
     });
 
 </script>
