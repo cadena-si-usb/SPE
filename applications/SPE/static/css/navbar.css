@@ -3,12 +3,15 @@ body{
 }
 
 .navbar-default, .navbar-style {
-    min-height:40px !important;
+    max-height:50px !important;
+
     position: relative;
-    margin-top: 10px;
-    padding: 0px 12px !important;
+
+    padding: 5px 12px !important;
+    padding-top: 10px !important;
 	background-color: #e3e3e3 !important;
 }
+
 
 .navbar-collapse.collapse.in, .navbar-toggle.open,
 .navbar-toggle:hover, .navbar-toggle:focus {
@@ -27,9 +30,14 @@ ul {
 	font-size: 13px !important;
 }
 
+#navbar a:hover {
+    background: #d7d7d7 !important;
+    color: #666666  !important;
+}
+
 ul.dropdown-menu.dropdown-menu-style {
-    background-color: #D7D7D7;
-} 
+    background-color: #666666;
+}
 
 li a {
 	color: #1a1a1a !important;
@@ -78,4 +86,9 @@ ul.nav.navbar-nav.navbar-right .navbar-nav>li>.dropdown-menu {
 }
 .navbar-toggle > .icon-bar{
     background-color: #ffffff !important;
+}
+
+.navbar-toggle {
+	margin:0px;
+	padding:0px;
 }

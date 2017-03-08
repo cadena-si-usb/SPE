@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge{{=not request.is_local and ',chrome=1' or ''}}">
     <!--  Mobile Viewport Fix
           j.mp/mobileviewport & davidbcalhoun.com/2010/viewport-metatag
-          device-width: Occupy full width of the screen in its current orientation
+          device-width: Occ7upy full width of the screen in its current orientation
           initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
           user-scalable = yes allows the user to zoom in -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,19 +57,31 @@
     <div class="header_home">
 		<div class="container transparent">
             <div class="col-xs-3 logo">
-		    	{{=IMG(_src=URL('static','images/home/LogoUniversidadSimonBolivar.png'),alt="USBLOGO")}}
+
+		    	<div class="hidden-xs">
+
+		    	    {{=IMG(_src=URL('static','images/home/LogoUniversidadSimonBolivar.png'),alt="USBLOGO")}}
+		        </div>
+                <div class="hidden-sm hidden-md hidden-lg hidden-xl">
+
+		    	    {{=IMG(_src=URL('static','images/home/logo.png'),alt="USBLOGO")}}
+		        </div>
 		    </div>
-		  	<div class="title" padding-top: 10%>
-		    	Coordinación de Cooperación Técnica - CCT
-		    </div>
-		    <div class="col-xs-offset-1 subtitle">
-		    	Sistema de Pasantías Empresariales de la USB
-		    </div>
+
+            <div class="col-xs-9 titlesHeader">
+                  	<div class="title" padding-top: 10%>
+		    	        Coordinación de Cooperación Técnica - CCT
+                    </div>
+                    <div class="subtitle">
+                        Sistema de Pasantías Empresariales
+                    </div>
+              </div>
 	    </div>
 	</div>
 
     <nav class="navbar-default navbar-style" role="navigation">
       <div class="container-fluid">
+
         <div class="navbar-header">
             <button type = "button" class = "navbar-toggle collapsed"
                data-toggle = "collapse" data-target = "#navbar">

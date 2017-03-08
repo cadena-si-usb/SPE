@@ -8,8 +8,8 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
-from usbutils import get_ldap_data, random_key
 from Usuarios import Usuario
+from usbutils import get_ldap_data
 
 Usuario = Usuario()
 
@@ -30,7 +30,7 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    response.flash = T("¡Bienvenido!")
+
     return dict(message=T('Sistema de Pasantías Empresariales'))
 
 
@@ -62,14 +62,16 @@ def login_cas():
         ssl._create_default_https_context = ssl._create_unverified_context
 
         # url en caso de querer iniciar sesion en el servidor remoto
-        url = "https://secure.dst.usb.ve/validate?ticket=" + \
-              request.vars.getfirst('ticket') + \
-              "&service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas"
 
-        # url en caso de querer iniciar sesion en el servidor remoto
-        # url = "https://secure.dst.usb.ve/validate?ticket="+\
-        #      request.vars.getfirst('ticket') +\
-        #      "&service=https%3A%2F%2Fprosigue.dex.usb.ve%2FSPE%2Fdefault%2Flogin_cas"
+        if request.is_local:
+            url = "https://secure.dst.usb.ve/validate?ticket=" + \
+                  request.vars.getfirst('ticket') + \
+                  "&service=http%3A%2F%2Flocalhost%3A8000%2FSPE%2Fdefault%2Flogin_cas"
+        else:
+            # url en caso de querer iniciar sesion en el servidor remoto
+            url = "https://secure.dst.usb.ve/validate?ticket=" + \
+                  request.vars.getfirst('ticket') + \
+                  "&service=https%3A%2F%2Fprosigue.dex.usb.ve%2FSPE%2Fdefault%2Flogin_cas"
 
         req = urllib2.Request(url)
         response = urllib2.urlopen(req)
