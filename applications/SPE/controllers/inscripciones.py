@@ -99,3 +99,14 @@ def modificar(request):
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application, request.controller)))
 def create():
     return request.vars
+
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application, request.controller)))
+def eliminar_pasantias_no_inscritas():
+    form = FORM.confirm('Comfirmar', {'Volver': URL(c='inscripciones', f='listar')})
+    if form.accepted:
+        query = db((db.Pasantia.id == db.Inscripcion.pasantia) & (db.Inscripcion.aprobacionCCT==False))
+        rows = query.select(db.Pasantia.id)
+        db(db.Pasantia.id.belongs(rows)).delete()
+        redirect(URL(c='inscripciones', f='listar'))
+    response.view = 'inscripciones/eliminar_pasantias_no_inscritas.html'
+    return locals()

@@ -6,7 +6,6 @@ from applications.SPE_lib.modules.grids import simple_spe_grid
 Pasantia = Pasantia()
 
 def actividades_grid():
-    constraint = auth.user.id
     estudiante = db.Estudiante(usuario=auth.user.id)
     pasantia = db((db.Pasantia.status != 'Culminada') & (db.Pasantia.estudiante == estudiante.id)).select().first()
     plan_trabajo_id = db.Plan_Trabajo(pasantia=pasantia.id)
@@ -25,6 +24,7 @@ def actividades_grid():
     links = [lambda row: A('Terminar',
                            _href=URL(c='actividades', f='cambiar_estado', args=[row.id])) if not row.terminada else A(
         'Deshacer', _href=URL(c='actividades', f='cambiar_estado', args=[row.id]))]
+
     grid = simple_spe_grid(
         query,
         fields=fields,
