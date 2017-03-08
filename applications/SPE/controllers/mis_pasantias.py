@@ -2,9 +2,41 @@
 from Pasantias import Pasantia
 
 import Encoder
-
+from applications.SPE_lib.modules.grids import simple_spe_grid
 Pasantia = Pasantia()
 
+def actividades_grid():
+    constraint = auth.user.id
+    estudiante = db.Estudiante(usuario=auth.user.id)
+    pasantia = db((db.Pasantia.status != 'Culminada') & (db.Pasantia.estudiante == estudiante.id)).select().first()
+    plan_trabajo_id = db.Plan_Trabajo(pasantia=pasantia.id)
+
+    fields = [
+        db.Actividad.fase,
+        db.Actividad.numero,
+        db.Actividad.descripcion,
+        db.Actividad.semana_inicio,
+        db.Actividad.semana_fin,
+        db.Actividad.terminada,
+    ]
+
+    query = db((db.Actividad.fase == db.Fase.id) & (db.Fase.plan_trabajo==plan_trabajo_id))
+
+    links = [lambda row: A('Terminar',
+                           _href=URL(c='actividades', f='cambiar_estado', args=[row.id])) if not row.terminada else A(
+        'Deshacer', _href=URL(c='actividades', f='cambiar_estado', args=[row.id]))]
+    grid = simple_spe_grid(
+        query,
+        fields=fields,
+        field_id=db.Actividad.id,
+        orderby=db.Actividad.semana_inicio,
+        add=False,
+        view=False,
+        edit=False,
+        delete=False,
+        searchable=False,
+        links=links)
+    return grid
 
 # Hacer para el caso en el que el actor sea tutor academico
 def listar_materias():

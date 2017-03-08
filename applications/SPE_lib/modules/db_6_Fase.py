@@ -19,5 +19,5 @@ def Fase_Table(db, T):
                           requires=[IS_NOT_EMPTY
                                     (error_message='Es necesario una Descripcion')],
                           label='Descripción'),
-                    format=lambda r: 'Fase "%s" De La Pasantia "%s"' % (r.numero, r.plan_trabajo.pasantia.titulo)
+                    format=lambda r: '%s - %s' % (r.numero, r.objetivo_especifico)
                     )
