@@ -2,8 +2,27 @@ body{
 	overflow-x: hidden;
 }
 
+.transparent {
+    background: #ececec  !important;
+}
+
+.header_home {
+    position: fixed;
+    height: 101px !important;
+    margin-top: 0px;
+    z-index: 1030;
+    background:none;
+}
+
+
+.banner-fixed-top {
+    top: 0 !important;
+    border-width: 0 0 1px !important;
+    position: fixed !important;
+}
+
 .navbar-fixed-top {
-    top: 87 !important;
+    top: 87px !important;
     border-width: 0 0 1px !important;
     position: fixed !important;
 }
