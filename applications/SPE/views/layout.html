@@ -68,7 +68,7 @@
 	    </div>
 	</div>
 
-    <nav class="navbar-default navbar-style" role="navigation">
+    <nav class="navbar-default navbar-style navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         
 
@@ -78,7 +78,7 @@
           </span>
         </div>
 
-        <div id="navbar" class="collapse navbar-collapse navbar-content-style">
+        <div id="navbar" class="collapse navbar-collapse navbar-content-style" style="position: static;">
 
             {{if auth.is_logged_in():}}
             {{=MENU(menu_autenticado, _class='nav navbar-nav navbar-right',li_class='dropdown',ul_class='dropdown-menu dropdown-menu-style', li_first='dropdown', li_last='dropdown')}}

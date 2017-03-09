@@ -2,6 +2,12 @@ body{
 	overflow-x: hidden;
 }
 
+.navbar-fixed-top {
+    top: 87 !important;
+    border-width: 0 0 1px !important;
+    position: fixed !important;
+}
+
 .navbar-default, .navbar-style {
     min-height:40px !important;
     position: relative;
