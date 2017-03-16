@@ -58,6 +58,7 @@ from applications.SPE_lib.modules.db_6_Fase import Fase_Table
 
 from applications.SPE_lib.modules.db_7_Actividad import Actividad_Table
 from applications.SPE_lib.modules.db_7_Materia_Periodo import Materia_Periodo_Table
+from applications.SPE_lib.modules.db_7_Solicitud_Modificacion import Solicitud_Modificacion_Table
 
 from applications.SPE_lib.modules.fixtures import load_auth_fixtures
 # Se importan aqui para no tener que importarlos en el resto del sistema
@@ -70,7 +71,7 @@ myconf = AppConfig(reload=True)
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
-    db = DAL(myconf.take('db.uri'), 
+    db = DAL(myconf.take('db.uri'),
       pool_size=myconf.take('db.pool_size', cast=int), check_reserved=['all'],migrate=True)
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
@@ -88,7 +89,7 @@ current.db = db
 response.generic_patterns = ['*'] if request.is_local else []
 ## choose a style for forms
 # or 'bootstrap3_stacked' or 'bootstrap2' or other
-response.formstyle = myconf.take('forms.formstyle')  
+response.formstyle = myconf.take('forms.formstyle')
 response.form_label_separator = myconf.take('forms.separator')
 
 
@@ -212,4 +213,5 @@ Preinscripcion_Table(db,T)
 Fase_Table(db,T)
 Actividad_Table(db,T)
 Materia_Periodo_Table(db,T)
+Solicitud_Modificacion_Table(db,T)
 # Cargamos La Data Predeterminada
