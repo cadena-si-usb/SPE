@@ -35,14 +35,13 @@ def agregar():
     return locals()
 
 @auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
+def listar():
+    session.rows = []
+    return dict(rows=session.rows)
+
+@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     count = Solicitud_Modificacion.count(obj)
 
     return count
-
-@auth.requires(auth.is_logged_in() and auth.has_membership(role='Estudiante'))
-def solicitar_modificacion():
-
-    response.view = 'solicitud_modificacion/solicitar_modificacion.html'
-    return locals()

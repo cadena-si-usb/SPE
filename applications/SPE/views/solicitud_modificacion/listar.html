@@ -1,0 +1,22 @@
+{{extend 'shell.html'}}
+{{block content}}
+
+<div class="container-fluid" id="pasantiasIndex">
+    <div class="row">
+        <div class="col-lg-12 rounded_border" >
+            <div class="row">
+                <center>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Pasantias</h3>
+                            <hr WIDTH="30%" />
+                            <p>Listado de Pasantias</p>
+                        </div>
+                    </div>
+                    {{=LOAD('solicitud_modificacion', 'sqlform_grid', ajax=True)}}
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

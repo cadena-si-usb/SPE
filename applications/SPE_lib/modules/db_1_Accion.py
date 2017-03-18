@@ -239,6 +239,11 @@ def Accion_Table(db,T):
             nombre='Mi Currículo',
             destino='/SPE/mi_perfil/ver_curriculo',
         )
+        # 45
+        db.Accion.insert(
+            nombre='Solicitudes de modificación',
+            destino='/SPE/solicitud_modificacion/listar',
+        )
 
 
 
