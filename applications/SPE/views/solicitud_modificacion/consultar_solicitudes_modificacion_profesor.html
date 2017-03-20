@@ -1,0 +1,13 @@
+{{extend 'shell.html'}}
+
+<div class='container'>
+    {{if auth.is_logged_in():}}
+        <p class='title'>Pasantias tutoreadas por '{{=auth.user.first_name}} {{=auth.user.last_name}}'</p>
+        <div class="panel">
+            <div>
+                {{=LOAD('mis_solicitudes_modificacion', 'solicitudes_modificacion_grid_profesor', ajax=True)}}
+            </div>
+        </div>
+
+    {{pass}}
+</div>

@@ -249,7 +249,11 @@ def Accion_Usuario_Table(db,T):
             contexto='Pasantias',
             rol='6'
         )
-
+        db.Accion_Usuario.insert(
+            accion=46,
+            contexto='Pasantias',
+            rol='2'
+        )
         db.commit()
 
 #------------------------------------------------------------------------------#
