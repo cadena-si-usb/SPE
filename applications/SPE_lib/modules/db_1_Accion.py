@@ -249,7 +249,11 @@ def Accion_Table(db,T):
             nombre='Mis solicitudes de modificación',
             destino='/SPE/mis_solicitudes_modificacion/consultar_solicitudes_modificacion_profesor',
         )
-
+        # 47
+        db.Accion.insert(
+            nombre='Mis solicitudes de modificación',
+            destino='/SPE/mis_solicitudes_modificacion/consultar_solicitudes_modificacion_coordinador',
+        )
 
 
 
