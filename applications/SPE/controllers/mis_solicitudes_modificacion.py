@@ -58,12 +58,8 @@ def consultar_solicitudes_modificacion_coordinador():
 def solicitudes_modificacion_grid_coordinador():
     userId = auth.user.id
     coordinador = db.Coordinador(id=userId)
-    print coordinador
     coordinacion = db.Coordinacion(id=coordinador.coordinacion)
-    print coordinacion
-    print coordinacion.id
     carrera = db.Carrera(coordinacion=coordinacion)
-    print carrera
     email = auth.user.email
     solicitudes = db((db.Estudiante.id == db.Pasantia.estudiante) & (db.Estudiante.carrera == carrera.id) & (db.Pasantia.id == db.Solicitud_Modificacion.pasantia))
 

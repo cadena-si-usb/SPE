@@ -217,7 +217,8 @@ def Accion_Table(db,T):
         # 40
         db.Accion.insert(
             nombre='Mis Pasantias',
-            destino='/SPE/Coordinador/consultarPasantias',
+            # destino='/SPE/Coordinador/consultarPasantias',
+            destino='/SPE/mis_pasantias/consultar_pasantias_coordinador',
         )
         # 41
         db.Accion.insert(

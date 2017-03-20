@@ -2,7 +2,7 @@
 
 <div class='container'>
     {{if auth.is_logged_in():}}
-        <p class='title'>Pasantias de estudiantes de '{{=coordinacion.first_name}}'</p>
+        <p class='title'>Pasantias de estudiantes de '{{=coordinacion.nombre}}'</p>
         <div class="panel">
             <div>
                 {{=LOAD('mis_pasantias', 'pasantias_grid_coordinador', ajax=True)}}
