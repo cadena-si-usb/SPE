@@ -157,4 +157,31 @@ body{
 .carousel-control span {
 	color: #666666;
 }
+/*Tables*/
 
+.web2py_grid th a , .web2py_table th a {
+
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+
+.web2py_grid td a , .web2py_table td a {
+
+    color: #666666;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    font-style: italic;
+
+}
+
+
+
+.web2py_grid td a span, .web2py_table td a span {
+
+    color: white;
+
+}

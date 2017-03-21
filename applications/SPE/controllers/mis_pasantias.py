@@ -256,7 +256,7 @@ def pasantias_grid_estudiante():
     ]
     # Let's specify a default sort order on date_of_birth column in grid
     default_sort_order = [db.Pasantia.titulo]
-    links = [lambda row: A('Detalle', _href=URL(c='mis_pasantias', f='ver', args=[row.id]))]
+    links = [lambda row: A('Ver', _href=URL(c='mis_pasantias', f='ver', args=[row.id]))]
 
     # Creating the grid object
     form = SQLFORM.grid(query=pasantias, fields=fields, orderby=default_sort_order,

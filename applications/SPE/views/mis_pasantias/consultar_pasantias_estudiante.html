@@ -37,16 +37,10 @@
                 </a>
             </div>
         {{else:}}
-            <div style="text-align:right;">
-                <a style="color:white;" href="/mis_pasantias/listar_materias">
-                    <button class="btn btn-default">
-                        Inicia una nueva Pasantía
-                    </button>
-                </a>
-            </div>
+
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="panel">
+                    <div class="panel" style="border: none">
                         <div>
                             {{=LOAD('mis_pasantias', 'pasantias_grid_estudiante', ajax=True)}}
                         </div>

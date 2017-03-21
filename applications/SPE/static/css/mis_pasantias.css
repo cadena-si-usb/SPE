@@ -148,3 +148,22 @@
     color: white;
     font-size: 2em;
 }
+
+
+.web2py_grid {
+    background: #ececec;
+}
+
+.web2py_console #w2p_keywords{
+
+    width: 84%;
+}
+
+.w2p_query_panel{
+    text-align: right;
+
+}
+
+.web2py_console .form-control{
+    width: 23%;
+}

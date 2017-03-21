@@ -1,4 +1,7 @@
 {{extend 'shell.html'}}
+{{block head}}
+  <link href="{{=URL('static', 'css/mis_pasantias.css')}}" rel="stylesheet" type="text/css" />
+{{end}}
 
 <div class='container'>
     {{if auth.is_logged_in():}}

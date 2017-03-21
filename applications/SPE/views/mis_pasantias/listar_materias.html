@@ -69,3 +69,50 @@
 
 
 {{end}}
+
+
+
+<script>
+
+    function sameHeight(){
+        var maxHeight = 0;
+
+
+        $("#materias .containerEstatus").each(function() {
+            if ($(this).height() > maxHeight) {
+                maxHeight = $(this).height();
+            }
+
+        });
+	   $("#materias .containerEstatus").height(maxHeight);
+
+
+    }
+
+
+
+    function resetHeight(){
+
+        $("#materias .containerEstatus").each(function(){
+            $(this).height("auto");
+        });
+
+
+
+    }
+
+
+    resetHeight();
+
+
+    sameHeight();
+
+
+    $(window).resize(function() {
+        resetHeight();
+
+        sameHeight();
+
+    });
+
+</script>
