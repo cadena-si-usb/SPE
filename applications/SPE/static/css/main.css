@@ -1,3 +1,8 @@
+#contenido {
+    margin-top: 190px;
+}
+
+
 .link-spe{
     text-decoration: none;
     color: #0000C0;
@@ -10,11 +15,14 @@
     cursor: pointer;
 }
 
+
 /*FOOTER*/
 .footer{
     margin-top: 20px;
     background: #666666;
     color:  white;
+    position:absolute; 
+    margin-bottom:-15%
 }
 
 .main-container{
