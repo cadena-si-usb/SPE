@@ -76,7 +76,7 @@ def stylesheet():
         'firma',
         parent=styles['default'],
         fontName='Times-Roman',
-        fontSize=9,
+        fontSize=10,
         leading=10,
         alignment=TA_CENTER,
         textColor=black,
@@ -89,6 +89,15 @@ def stylesheet():
         fontSize=12,
         leading=10,
         alignment=TA_LEFT,
+        textColor=black,
+    )
+    styles['blacktitle2'] = ParagraphStyle(
+        'blacktitle2',
+        parent=styles['default'],
+        fontName='Times-Roman',
+        fontSize=12,
+        leading=10,
+        alignment=TA_CENTER,
         textColor=black,
     )
     styles['space'] = ParagraphStyle(
@@ -107,7 +116,16 @@ def stylesheet():
         fontSize=8,
         leading=10,
         textColor=black,
-        alignment=TA_JUSTIFY,
+        alignment=TA_CENTER,
+    )
+    styles['default2-2'] = ParagraphStyle(
+        'default2',
+        parent=styles['default'],
+        fontName='Times-Roman',
+        fontSize=8,
+        leading=10,
+        textColor=black,
+        alignment=TA_LEFT,
     )
     styles['default3'] = ParagraphStyle(
         'default3',
@@ -126,6 +144,15 @@ def stylesheet():
         leading=16,
         textColor=black,
         alignment=TA_LEFT,
+    )
+    styles['default5'] = ParagraphStyle(
+        'default5',
+        parent=styles['default'],
+        fontName='Times-Roman',
+        fontSize=12,
+        leading=16,
+        textColor=black,
+        alignment=TA_RIGHT,
     )
     styles['table_default2'] = TableStyle(
         [
@@ -147,13 +174,25 @@ def stylesheet():
     )
     styles['table_default4'] = TableStyle(
         [
-            ('INNERGRID', (0, 0), (-1, -1), 1, gray),
-            ('LINEABOVE', (0, 0), (-1, -1), 1, black),
-            ('LINEBEFORE', (0, 0), (-1, -1), 1, black),
-            ('LINEAFTER', (0, 0), (-1, -1), 1, black),
-            ('LINEBELOW', (0, 0), (-1, -1), 1, black),
+            ('INNERGRID', (0, 0), (-1, -1), 0.5, gray),
+            ('LINEABOVE', (0, 0), (-1, -1), 0.5, gray),
+            ('LINEBEFORE', (0, 0), (-1, -1), 0.5, gray),
+            ('LINEAFTER', (0, 0), (-1, -1), 0.5, gray),
+            ('LINEBELOW', (0, 0), (-1, -1), 0.5, gray),
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+
+        ]
+    )
+    styles['table_firma'] = TableStyle(
+        [
+            ('INNERGRID', (0, 0), (-1, -1), 0.5, gray),
+            ('LINEABOVE', (0, 0), (-1, -1), 0.5, gray),
+            ('LINEBEFORE', (0, 0), (-1, -1), 0.5, gray),
+            ('LINEAFTER', (0, 0), (-1, -1), 0.5, gray),
+            ('LINEBELOW', (0, 0), (-1, -1), 0.5, gray),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
 
         ]
     )
@@ -171,9 +210,9 @@ def stylesheet():
     )
     styles['table_default6'] = TableStyle(
         [
-            ('LINEABOVE', (0, 0), (-1, -1), 1, black),
-            ('LINEBEFORE', (0, 0), (-1, -1), 1, black),
-            ('LINEAFTER', (0, 0), (-1, -1), 1, black),
+            ('LINEABOVE', (0, 0), (-1, -1), 0.5, gray),
+            ('LINEBEFORE', (0, 0), (-1, -1), 0.5, gray),
+            ('LINEAFTER', (0, 0), (-1, -1), 0.5, gray),
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
             ('VALIGN', (0, 0), (-1, -1), 'TOP'),
 
@@ -198,15 +237,27 @@ def stylesheet():
         ]
     )
 
+    styles['table_encabezado'] = TableStyle(
+        [
+
+            ('ALIGN', (-1, 0), (-1, -1), 'RIGHT'),
+            ('VALIGN', (-1, 0), (-1, -1), 'MIDDLE'),
+
+        ]
+    )
+
 
     return styles
 
 
 def generarPdfInscripcionExtemporanea():
 
-    coordinacion = 'Ingenieria Geofisica'
+    carrera = 'Ingenieria Geofisica'
     estudiante = 'Christian Jose Merino Gonzalez'
     carnet = '12-10946'
+    cedula = '20.156.258'
+    tutor = 'Leonid Tineo'
+    telefono = '0416-1234567'
     periodo = 'Julio-Agosto 2016'
     justificacion = '''Debido que, conseguí la pasantía en el período vacacional y me encontraba en el Estado
                         Anzoategui, necesito, obligatoriamente inscribir las pasantías durante la inscripción
@@ -223,31 +274,33 @@ def generarPdfInscripcionExtemporanea():
     logo = Image(logo_path, width=180, height=120)
 
     # ENCABEZADO
-    tbl_cabeza = [
-        [logo,
-         Paragraph("<b>PERMISO PARA PASANTIA</b>", styles["default3"]),
-         Paragraph("", styles["default4"]),
-         ],
-    ]
 
-    tbl_cab = Table(tbl_cabeza, colWidths=[2.5 * inch])
-    story.append(tbl_cab)
-    story.append(Paragraph("<b>Inscripcion Extemporanea</b>", styles["default3"]))
-    story.append(Spacer(1, 12))
-    story.append(Paragraph("<b>COORDINACION DE: </b>" + coordinacion, styles["blacktitle"]))
-    story.append(Spacer(1, 6))
-    tbl_estudiante = [
-        [Paragraph("<b>Nombre del Estudiante: </b>" + estudiante, styles["blacktitle"]),
-         Paragraph("<b>Carnet: </b>" + carnet, styles["blacktitle"]),
+    tbl_tempo = Table(
+        [[Paragraph("Fecha de la Solicitud", styles["default5"]),
+          ],
+         [Paragraph("<b>PLANILLA DE INSCRIPCIÓN EXTEMPORANEA</b>", styles["default3"]),
+          ],
          ],
-    ]
-    tbl_est = Table(tbl_estudiante, colWidths=[h * inch for h in [4.5, 3]])
-    story.append(tbl_est)
+        rowHeights=[h * inch for h in [0.25, 1]],
+        colWidths= 4.5 * inch,
+        style=styles['table_encabezado'],
 
-    story.append(Spacer(1, 24))
+    )
 
     tbl_prueba = Table(
-        [[Paragraph("<b>PASANTIA</b>"
+        [[logo,
+          tbl_tempo,
+          ]
+         ],
+        colWidths=[h * inch for h in [2.5, 5]],
+        style=styles['table_encabezado'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph("<b>Datos del Estudiante</b>"
                     , styles["default3"]),
           ],
          ],
@@ -257,68 +310,14 @@ def generarPdfInscripcionExtemporanea():
 
     story.append(tbl_prueba)
 
-    if pasantia == 'corta':
-        tbl_prueba = Table(
-            [[Spacer(1, 5),
-              ],
-             [Paragraph("<b>CORTA(EP1420)<u>_X_</u>INTERMEDIA(EP2420)<u>__</u>LARGA(EP3420)<u>__</u></b>"
-                        , styles["default3"]),
-              ],
-             [Spacer(1, 5),
-              ],
-             ],
-            style=styles['table_default7'],
-
-        )
-    elif pasantia == 'intermedia':
-        tbl_prueba = Table(
-            [[Spacer(1, 5),
-              ],
-             [Paragraph("<b>CORTA(EP1420)<u>__</u>INTERMEDIA(EP2420)<u>_X_</u>LARGA(EP3420)<u>__</u></b>"
-                        , styles["default3"]),
-              ],
-             [Spacer(1, 5),
-              ],
-             ],
-            style=styles['table_default7'],
-
-        )
-    else:
-        tbl_prueba = Table(
-            [[Spacer(1, 5),
-              ],
-             [Paragraph("<b>CORTA(EP1420)<u>__</u>INTERMEDIA(EP2420)<u>__</u>LARGA(EP3420)<u>_X_</u></b>"
-                        , styles["default3"]),
-              ],
-             [Spacer(1, 5),
-              ],
-             ],
-            style=styles['table_default7'],
-
-        )
-
-    story.append(tbl_prueba)
-
     tbl_prueba = Table(
-        [[Paragraph("<b>Periodo: </b>" + periodo, styles["default3"]),
-          ],
-         [Spacer(1, 5),
-          ],
-         ],
-        style=styles['table_default7'],
-
-    )
-
-    story.append(tbl_prueba)
-
-    tbl_prueba = Table(
-        [[Paragraph("<b>TUTOR ACADEMICO</b>", styles["blacktitle"]),
-          Paragraph("Nombre:", styles["blacktitle"]),
-          Paragraph("Firma:<u>___________________</u>", styles["blacktitle"]),
+        [[Paragraph("<b>Número de Carnet: </b>", styles["default"]),
+          Paragraph(carnet, styles["default"]),
+          Paragraph("<b>Número de Cédula de Identidad: </b>", styles["default"]),
+          Paragraph(cedula, styles["default"]),
           ]
          ],
-        colWidths=[h * inch for h in [2, 3, 2.5]],
-        rowHeights=0.75 * inch,
+        colWidths=[h * inch for h in [1.75, 2, 1.75, 2]],
         style=styles['table_default4'],
 
     )
@@ -326,39 +325,215 @@ def generarPdfInscripcionExtemporanea():
     story.append(tbl_prueba)
 
     tbl_prueba = Table(
-        [[Paragraph("<b>Justificacion:</b>", styles["default4"]),
-          ],
-         [Paragraph(justificacion, styles["default"]),
+        [[Paragraph("<b>Nombre del Estudiante: </b>", styles["default"]),
+          Paragraph(estudiante, styles["default"]),
+          ]
          ],
-         ],
-        rowHeights=[h * inch for h in [0.5, 2]],
-        style=styles['table_default8'],
+        colWidths=[h * inch for h in [1.75, 5.75]],
+        style=styles['table_default4'],
 
     )
 
     story.append(tbl_prueba)
 
     tbl_prueba = Table(
-        [[Paragraph("<b>Observaciones CCT:</b>", styles["default4"]),
-          Paragraph("Vo Bo. Firma y sello de Coordinación de Carrera Fecha:", styles["default4"]),
-          Paragraph("Firma del Coordinador de CCT Fecha:", styles["default4"]),
+        [[Paragraph("<b>Carrera: </b>", styles["default"]),
+          Paragraph(carrera, styles["default"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [1.75, 5.75]],
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph("<b>Trimestre: </b>", styles["default"]),
+          Paragraph(periodo, styles["default"]),
+          Paragraph("<b>Teléfono de contacto: </b>", styles["default"]),
+          Paragraph(telefono, styles["default"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [1.75, 2, 1.75, 2]],
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph("<b>Nombre del Tutor Academico: </b>", styles["default"]),
+          Paragraph(tutor, styles["default"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [1.75, 5.75]],
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph("<b>Datos de la pasantia</b>"
+                    , styles["default3"]),
           ],
          ],
-        colWidths=[h * inch for h in [3, 2.20, 2.30]],
-        rowHeights=2.25 * inch,
-        style=styles['table_default5'],
+        style=styles['table_default4'],
 
     )
 
     story.append(tbl_prueba)
 
     story.append(Spacer(1, 12))
-    story.append(Paragraph("<b><i>Puerta de Comunidad a Comunidad</i></b>", styles["bluetitle2"]))
-    story.append(Paragraph("<b>Codigo Seguridad:</b>" + codigo, styles["default"]))
-    story.append(Spacer(1, 6))
-    story.append(Paragraph("<b>Sartenejas, Baruta, Edif. Comunicaciones Telf: (0212) 906.3157 al 64 Apartado postal 89000, Zip Code 1080-A. www.usb.ve</b>", styles["bluetitle"]))
 
+    tbl_prueba = Table(
+        [[Paragraph("<b>Código de asignatura</b>", styles["default2"]),
+          Paragraph("<b>Nombre de la asignatura</b>", styles["default2"]),
+          Paragraph("<b>Acción que solicita</b>", styles["default2"]),
+          Paragraph("<b>Permiso que solicita</b>", styles["default2"]),
+          Paragraph("<b>Autorizado </b>(Coordinacion)", styles["default2"]),
+          Paragraph("<b>Solicitud de cupo </b>(Sección, firma y sello Dpto)", styles["default2"]),
+          Paragraph("<b>Dejar sin efecto el tramite</b>", styles["default2"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [0.75, 1.5, 0.75, 1.25, 1, 1.5, 0.75]],
+        style=styles['table_default4'],
 
+    )
+
+    story.append(tbl_prueba)
+
+    if pasantia == 'corta':
+
+        tbl_prueba = Table(
+            [[Paragraph("EP1420", styles["blacktitle"]),
+              Paragraph("Pasantia Corta", styles["blacktitle"]),
+              Paragraph("<u>__</u>Incluir <u>__</u>Modificar", styles["default2-2"]),
+              [[Paragraph("<u>__</u>Requisito/correquisito", styles["default2-2"]),
+               ],
+              [Paragraph("<u>__</u>Extraplan", styles["default2-2"]),
+               ],
+              [Paragraph("<u>__</u>Cambio de Seccion", styles["default2-2"]),
+               ]],
+              Paragraph("<u>__</u>SI   <u>__</u>NO", styles["blacktitle"]),
+              Paragraph(" ", styles["default2"]),
+              Paragraph("<u>__</u>", styles["default2"]),
+              ]
+             ],
+            colWidths=[h * inch for h in [0.75, 1.5, 0.75, 1.25, 1, 1.5, 0.75]],
+            rowHeights=0.5 * inch,
+            style=styles['table_default4'],
+
+        )
+
+    elif pasantia == 'intermedia':
+
+        tbl_prueba = Table(
+            [[Paragraph("EP2420", styles["blacktitle"]),
+              Paragraph("Pasantia Intermedia", styles["blacktitle"]),
+              Paragraph("<u>__</u>Incluir <u>__</u>Modificar", styles["default2-2"]),
+              [[Paragraph("<u>__</u>Requisito/correquisito", styles["default2-2"]),
+                ],
+               [Paragraph("<u>__</u>Extraplan", styles["default2-2"]),
+                ],
+               [Paragraph("<u>__</u>Cambio de Seccion", styles["default2-2"]),
+                ]],
+              Paragraph("<u>__</u>SI   <u>__</u>NO", styles["blacktitle"]),
+              Paragraph(" ", styles["default2"]),
+              Paragraph("<u>__</u>", styles["default2"]),
+              ]
+             ],
+            colWidths=[h * inch for h in [0.75, 1.5, 0.75, 1.25, 1, 1.5, 0.75]],
+            rowHeights=0.5 * inch,
+            style=styles['table_default4'],
+
+        )
+
+    else:
+
+        tbl_prueba = Table(
+            [[Paragraph("EP3420", styles["blacktitle"]),
+              Paragraph("Pasantia Larga", styles["blacktitle"]),
+              Paragraph("<u>__</u>Incluir <u>__</u>Modificar", styles["default2-2"]),
+              [[Paragraph("<u>__</u>Requisito/correquisito", styles["default2-2"]),
+                ],
+               [Paragraph("<u>__</u>Extraplan", styles["default2-2"]),
+                ],
+               [Paragraph("<u>__</u>Cambio de Seccion", styles["default2-2"]),
+                ]],
+              Paragraph("<u>__</u>SI   <u>__</u>NO", styles["blacktitle"]),
+              Paragraph(" ", styles["default2"]),
+              Paragraph("<u>__</u>", styles["default2"]),
+              ]
+             ],
+            colWidths=[h * inch for h in [0.75, 1.5, 0.75, 1.25, 1, 1.5, 0.75]],
+            rowHeights=0.5 * inch,
+            style=styles['table_default4'],
+
+        )
+
+    story.append(tbl_prueba)
+
+    story.append(Spacer(1, 24))
+
+    tbl_prueba = Table(
+        [[Paragraph("", styles["default2"]),
+          Paragraph("<b>Observaciones </b>(Coordinación)", styles["blacktitle2"]),
+          Paragraph("<b>Dejar sin efecto el tramite</b>", styles["default2"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [1.5, 5.25, 0.75]],
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph("<u>__</u>SI <u>__</u>NO", styles["blacktitle2"]),
+          Paragraph("", styles["blacktitle"]),
+          Paragraph("<u>__</u>", styles["default2"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [1.5, 5.25, 0.75]],
+        rowHeights=2 * inch,
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    story.append(Spacer(1, 42))
+
+    tbl_prueba = Table(
+        [[Paragraph("FIRMA DEL ESTUDIANTE", styles["firma"]),
+          Paragraph("FIRMA DEL TUTOR ACADEMICO", styles["firma"]),
+          Paragraph("COORDINACIÓN (Firma, sello y fecha)", styles["firma"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [2.5, 2.5, 2.5]],
+        rowHeights=1 * inch,
+        style=styles['table_firma'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph('''NOTA: Presentar ante la Coordinación tres copias de la planilla debidamente completadas y sin enmiendas (una copia para la Coordinación, una copia para el
+expediente en DACE, una copia para el estudiante) junto con la copia del comprobante de inscripción y el arancel correspondiente.
+La solicitud está sujeta a su aprobación por parte de la Coordinación docente. Verificar el resultado de la solicitud a través del comprobante de inscripción.
+Deberá utilizarse únicamente bolígrafo cuando la planilla no sea llenada en el formato .DOC o .PDF''', styles["default2"]),
+
+          ]
+         ],
+        colWidths=7.5 * inch,
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
 
     buffer = cStringIO.StringIO()
     doc = SimpleDocTemplate(buffer,pagesize=letter,
@@ -375,15 +550,20 @@ def generarPdfInscripcionExtemporanea():
     return pdf
 
 
-def generarPdfEvaluacionExtemporanea():
+def generarPdfRetiro():
 
-    coordinacion = 'Ingenieria Mecanica'
-    estudiante = 'Erick Jose Vianello Schloeter'
-    carnet = '10-10763'
+    carrera = 'Ingenieria Geofisica'
+    estudiante = 'Christian Jose Merino Gonzalez'
+    carnet = '12-10946'
+    cedula = '20.156.258'
+    tutor = 'Leonid Tineo'
+    telefono = '0416-1234567'
     periodo = 'Julio-Agosto 2016'
-    justificacion = ''' '''
+    justificacion = '''Debido que, conseguí la pasantía en el período vacacional y me encontraba en el Estado
+                        Anzoategui, necesito, obligatoriamente inscribir las pasantías durante la inscripción
+                        extemporánea.'''
     codigo = 'b25512fe28'
-    pasantia = 'intermedia'
+    pasantia = 'corta'
 
     width, height = letter
 
@@ -394,37 +574,33 @@ def generarPdfEvaluacionExtemporanea():
     logo = Image(logo_path, width=180, height=120)
 
     # ENCABEZADO
-    tbl_cabeza = [
-        [logo,
-         Paragraph("<b>PERMISO PARA PASANTIA</b>", styles["default3"]),
-         Paragraph("", styles["default4"]),
-         ],
-    ]
 
-    tbl_cab = Table(tbl_cabeza, colWidths=[2.5 * inch])
-    story.append(tbl_cab)
-    story.append(Paragraph("<b>Evaluacion Extemporanea</b>", styles["default3"]))
-    story.append(Spacer(1, 6))
-    story.append(Paragraph("<b>COORDINACION DE: </b>" + coordinacion, styles["blacktitle"]))
-    story.append(Spacer(1, 6))
-    tbl_estudiante = [
-        [Paragraph("<b>Nombre del Estudiante: </b>" + estudiante, styles["blacktitle"]),
-         Paragraph("<b>Carnet: </b>" + carnet, styles["blacktitle"]),
+    tbl_tempo = Table(
+        [[Paragraph("Fecha de la Solicitud", styles["default5"]),
+          ],
+         [Paragraph("<b>PLANILLA DE INSCRIPCIÓN EXTEMPORANEA</b>", styles["default3"]),
+          ],
          ],
-    ]
-    tbl_est = Table(tbl_estudiante, colWidths=[h * inch for h in [4.5, 3]])
-    story.append(tbl_est)
-    story.append(Spacer(1, 6))
-    tbl_prueba = [
-        [Paragraph("<b>Fecha Propuesta: </b>", styles["default3"]),
-         ],
-    ]
-    tbl_pru = Table(tbl_prueba, colWidths=[h * inch for h in [4.5, 3]])
-    story.append(tbl_pru)
-    story.append(Spacer(1, 6))
+        rowHeights=[h * inch for h in [0.25, 1]],
+        colWidths= 4.5 * inch,
+        style=styles['table_encabezado'],
+
+    )
 
     tbl_prueba = Table(
-        [[Paragraph("<b>PASANTIA</b>"
+        [[logo,
+          tbl_tempo,
+          ]
+         ],
+        colWidths=[h * inch for h in [2.5, 5]],
+        style=styles['table_encabezado'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph("<b>Datos del Estudiante</b>"
                     , styles["default3"]),
           ],
          ],
@@ -434,68 +610,14 @@ def generarPdfEvaluacionExtemporanea():
 
     story.append(tbl_prueba)
 
-    if pasantia == 'corta':
-        tbl_prueba = Table(
-            [[Spacer(1, 5),
-              ],
-             [Paragraph("<b>CORTA(EP1420)<u>_X_</u>INTERMEDIA(EP2420)<u>__</u>LARGA(EP3420)<u>__</u></b>"
-                        , styles["default3"]),
-              ],
-             [Spacer(1, 5),
-              ],
-             ],
-            style=styles['table_default7'],
-
-        )
-    elif pasantia == 'intermedia':
-        tbl_prueba = Table(
-            [[Spacer(1, 5),
-              ],
-             [Paragraph("<b>CORTA(EP1420)<u>__</u>INTERMEDIA(EP2420)<u>_X_</u>LARGA(EP3420)<u>__</u></b>"
-                        , styles["default3"]),
-              ],
-             [Spacer(1, 5),
-              ],
-             ],
-            style=styles['table_default7'],
-
-        )
-    else:
-        tbl_prueba = Table(
-            [[Spacer(1, 5),
-              ],
-             [Paragraph("<b>CORTA(EP1420)<u>__</u>INTERMEDIA(EP2420)<u>__</u>LARGA(EP3420)<u>_X_</u></b>"
-                        , styles["default3"]),
-              ],
-             [Spacer(1, 5),
-              ],
-             ],
-            style=styles['table_default7'],
-
-        )
-
-    story.append(tbl_prueba)
-
     tbl_prueba = Table(
-        [[Paragraph("<b>Periodo: </b>" + periodo, styles["default3"]),
-          ],
-         [Spacer(1, 5),
-          ],
-         ],
-        style=styles['table_default7'],
-
-    )
-
-    story.append(tbl_prueba)
-
-    tbl_prueba = Table(
-        [[Paragraph("<b>TUTOR ACADEMICO</b>", styles["blacktitle"]),
-          Paragraph("Nombre:", styles["blacktitle"]),
-          Paragraph("Firma:<u>___________________</u>", styles["blacktitle"]),
+        [[Paragraph("<b>Número de Carnet: </b>", styles["default"]),
+          Paragraph(carnet, styles["default"]),
+          Paragraph("<b>Número de Cédula de Identidad: </b>", styles["default"]),
+          Paragraph(cedula, styles["default"]),
           ]
          ],
-        colWidths=[h * inch for h in [2, 3, 2.5]],
-        rowHeights=0.75 * inch,
+        colWidths=[h * inch for h in [1.75, 2, 1.75, 2]],
         style=styles['table_default4'],
 
     )
@@ -503,39 +625,193 @@ def generarPdfEvaluacionExtemporanea():
     story.append(tbl_prueba)
 
     tbl_prueba = Table(
-        [[Paragraph("<b>Justificacion:</b>", styles["default4"]),
-          ],
-         [Paragraph(justificacion, styles["default"]),
+        [[Paragraph("<b>Nombre del Estudiante: </b>", styles["default"]),
+          Paragraph(estudiante, styles["default"]),
+          ]
          ],
-         ],
-        rowHeights=[h * inch for h in [0.5, 2]],
-        style=styles['table_default8'],
+        colWidths=[h * inch for h in [1.75, 5.75]],
+        style=styles['table_default4'],
 
     )
 
     story.append(tbl_prueba)
 
     tbl_prueba = Table(
-        [[Paragraph("<b>Observaciones CCT:</b>", styles["default4"]),
-          Paragraph("Vo Bo. Firma y sello de Coordinación de Carrera Fecha:", styles["default4"]),
-          Paragraph("Firma del Coordinador de CCT Fecha:", styles["default4"]),
+        [[Paragraph("<b>Carrera: </b>", styles["default"]),
+          Paragraph(carrera, styles["default"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [1.75, 5.75]],
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph("<b>Trimestre: </b>", styles["default"]),
+          Paragraph(periodo, styles["default"]),
+          Paragraph("<b>Teléfono de contacto: </b>", styles["default"]),
+          Paragraph(telefono, styles["default"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [1.75, 2, 1.75, 2]],
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph("<b>Nombre del Tutor Academico: </b>", styles["default"]),
+          Paragraph(tutor, styles["default"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [1.75, 5.75]],
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph("<b>Datos de la pasantia</b>"
+                    , styles["default3"]),
           ],
          ],
-        colWidths=[h * inch for h in [3, 2.20, 2.30]],
-        rowHeights=2.25 * inch,
-        style=styles['table_default5'],
+        style=styles['table_default4'],
 
     )
 
     story.append(tbl_prueba)
 
     story.append(Spacer(1, 12))
-    story.append(Paragraph("<b><i>Puerta de Comunidad a Comunidad</i></b>", styles["bluetitle2"]))
-    story.append(Paragraph("<b>Codigo Seguridad:</b>" + codigo, styles["default"]))
-    story.append(Spacer(1, 6))
-    story.append(Paragraph("<b>Sartenejas, Baruta, Edif. Comunicaciones Telf: (0212) 906.3157 al 64 Apartado postal 89000, Zip Code 1080-A. www.usb.ve</b>", styles["bluetitle"]))
+
+    tbl_prueba = Table(
+        [[Paragraph("<b>Código de asignatura</b>", styles["default2"]),
+          Paragraph("<b>Nombre de la asignatura</b>", styles["default2"]),
+          Paragraph("<b>Autorizado </b>(Coordinacion)", styles["default2"]),
+          Paragraph("<b>Solicitud de cupo </b>(Sección, firma y sello Dpto)", styles["default2"]),
+          Paragraph("<b>Dejar sin efecto el tramite</b>", styles["default2"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [1.5, 2.5, 1.25, 1.5, 0.75]],
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    if pasantia == 'corta':
+
+        tbl_prueba = Table(
+            [[Paragraph("EP1420", styles["blacktitle2"]),
+              Paragraph("Pasantia Corta", styles["blacktitle2"]),
+              Paragraph("<u>__</u>SI   <u>__</u>NO", styles["blacktitle2"]),
+              Paragraph(" ", styles["default2"]),
+              Paragraph("<u>__</u>", styles["default2"]),
+              ]
+             ],
+            colWidths=[h * inch for h in [1.5, 2.5, 1.25, 1.5, 0.75]],
+            rowHeights=0.5 * inch,
+            style=styles['table_default4'],
+
+        )
 
 
+    elif pasantia == 'intermedia':
+
+        tbl_prueba = Table(
+            [[Paragraph("EP3420", styles["blacktitle2"]),
+              Paragraph("Pasantia Larga", styles["blacktitle2"]),
+              Paragraph("<u>__</u>SI   <u>__</u>NO", styles["blacktitle2"]),
+              Paragraph(" ", styles["default2"]),
+              Paragraph("<u>__</u>", styles["default2"]),
+              ]
+             ],
+            colWidths=[h * inch for h in [1.5, 2.5, 1.25, 1.5, 0.75]],
+            rowHeights=0.5 * inch,
+            style=styles['table_default4'],
+
+        )
+
+    else:
+
+        tbl_prueba = Table(
+            [[Paragraph("EP3420", styles["blacktitle2"]),
+              Paragraph("Pasantia Larga", styles["blacktitle2"]),
+              Paragraph("<u>__</u>SI   <u>__</u>NO", styles["blacktitle2"]),
+              Paragraph(" ", styles["default2"]),
+              Paragraph("<u>__</u>", styles["default2"]),
+              ]
+             ],
+            colWidths=[h * inch for h in [1.5, 2.5, 1.25, 1.5, 0.75]],
+            rowHeights=0.5 * inch,
+            style=styles['table_default4'],
+
+        )
+
+    story.append(tbl_prueba)
+
+    story.append(Spacer(1, 24))
+
+    tbl_prueba = Table(
+        [[Paragraph("", styles["default2"]),
+          Paragraph("<b>Observaciones </b>(Coordinación)", styles["blacktitle2"]),
+          Paragraph("<b>Dejar sin efecto el tramite</b>", styles["default2"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [1.5, 5.25, 0.75]],
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph("<u>__</u>SI <u>__</u>NO", styles["blacktitle2"]),
+          Paragraph("", styles["blacktitle"]),
+          Paragraph("<u>__</u>", styles["default2"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [1.5, 5.25, 0.75]],
+        rowHeights=2 * inch,
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    story.append(Spacer(1, 42))
+
+    tbl_prueba = Table(
+        [[Paragraph("FIRMA DEL ESTUDIANTE", styles["firma"]),
+          Paragraph("FIRMA DEL TUTOR ACADEMICO", styles["firma"]),
+          Paragraph("COORDINACIÓN (Firma, sello y fecha)", styles["firma"]),
+          ]
+         ],
+        colWidths=[h * inch for h in [2.5, 2.5, 2.5]],
+        rowHeights=1 * inch,
+        style=styles['table_firma'],
+
+    )
+
+    story.append(tbl_prueba)
+
+    tbl_prueba = Table(
+        [[Paragraph('''NOTA: Presentar ante la Coordinación tres copias de la planilla debidamente completadas y sin enmiendas (una copia para la Coordinación, una copia para el
+expediente en DACE, una copia para el estudiante) junto con la copia del comprobante de inscripción y el arancel correspondiente.
+La solicitud está sujeta a su aprobación por parte de la Coordinación docente. Verificar el resultado de la solicitud a través del comprobante de inscripción.
+Deberá utilizarse únicamente bolígrafo cuando la planilla no sea llenada en el formato .DOC o .PDF''', styles["default2"]),
+
+          ]
+         ],
+        colWidths=7.5 * inch,
+        style=styles['table_default4'],
+
+    )
+
+    story.append(tbl_prueba)
 
     buffer = cStringIO.StringIO()
     doc = SimpleDocTemplate(buffer,pagesize=letter,
@@ -545,7 +821,7 @@ def generarPdfEvaluacionExtemporanea():
     pdf = buffer.getvalue()
     buffer.close()
 
-    filename = "Evaluacion Extemporanea"
+    filename = "Retiro"
     header = {'Content-Disposition': 'attachment; filename=' + filename}
     response.headers.update(header)
 
