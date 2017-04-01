@@ -181,3 +181,9 @@ ul.nav.navbar-nav.navbar-right .navbar-nav>li>.dropdown-menu {
     background-color: #000000;
 
 }
+
+.navbar-header span i {
+        margin-top: 7px;
+    font-size: 25px;
+
+}
