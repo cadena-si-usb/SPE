@@ -8,12 +8,12 @@
               <ul id="menu-content" class="menu-content collapse out">
                 {{for roles in sidebar:}}
 
-                  <li  data-toggle="collapse" data-target="#{{=roles['rol']}}" class="collapsed active pad-prin">
+                  <li  id="principal" data-toggle="collapse" data-target="#{{=roles['rol']}}" class="collapsed active pad-prin">
                     <a href="#"> {{=roles['rol']}} <span class="arrow "></span></a>
                   </li>
                   <ul class="collapse" id="{{=roles['rol']}}" >
                     {{for contexto in roles['contextos']:}}
-                      <li  data-toggle="collapse" data-target="#{{=roles['rol']}}-{{=contexto['contexto']}}" class="collapsed inter-menu">
+                      <li id="inter-menu" data-toggle="collapse" data-target="#{{=roles['rol']}}-{{=contexto['contexto']}}" class="collapsed inter-menu">
                         <a href="#">  {{=contexto['contexto']}} <span class="arrow"></span></a>
                           <ul class="sub-menu collapse" id="{{=roles['rol']}}-{{=contexto['contexto']}}">
                             {{for accion in contexto['acciones']:}}
