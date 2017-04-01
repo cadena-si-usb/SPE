@@ -1,5 +1,5 @@
 #contenido {
-    margin-top: 190px;
+    margin-top: 140px;
 }
 
 
@@ -21,8 +21,8 @@
     margin-top: 20px;
     background: #666666;
     color:  white;
-    position:absolute; 
-    margin-bottom:-15%
+    position:fixed;
+    bottom: 0;
 }
 
 .main-container{
