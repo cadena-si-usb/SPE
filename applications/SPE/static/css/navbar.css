@@ -160,6 +160,7 @@ ul.nav.navbar-nav.navbar-right .navbar-nav>li>.dropdown-menu {
 #main {
     width: 100%;
     padding-top: 0px;
+    height: 100vh;
 }
 
 #wrapper.toggled #main {
