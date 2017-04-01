@@ -15,6 +15,11 @@
     cursor: pointer;
 }
 
+.btn-primary {
+  color: #fff;
+  background-color: #3e3f3a;
+  border-color: #3e3f3a;
+}
 
 /*FOOTER*/
 .footer{

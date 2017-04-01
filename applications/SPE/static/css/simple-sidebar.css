@@ -17,6 +17,7 @@
 #sidebar {
   position: static !important;
 }
+
 .nav-side-menu .menu-list .menu-content{
   position: fixed;
   top: 140px;
@@ -33,7 +34,7 @@
   background-color: #666666;
   position: absolute;
   height: 113.40%;
-  width: 230px;
+  width: 280px;
   color: #e1ffff;
 }-
 .nav-side-menu .toggle-btn {
@@ -48,7 +49,7 @@
   line-height: 40px;
   cursor: pointer;
   text-indent: 2em;
-  width: 230px;
+  width: 280px;
   /*    
     .collapsed{
        .arrow:before{
@@ -134,7 +135,7 @@
     position: relative;
     width: 100%;
     margin-bottom: 10px;
-    margin-left: -27%;
+    margin-left: -29%;
   }
   .nav-side-menu .toggle-btn {
     display: block;

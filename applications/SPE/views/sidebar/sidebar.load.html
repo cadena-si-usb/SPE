@@ -9,6 +9,14 @@
                 {{for roles in sidebar:}}
 
                   <li  id="principal" data-toggle="collapse" data-target="#{{=roles['rol']}}" class="collapsed active pad-prin">
+                    {{ if roles['rol'] =="Estudiante": }}
+                      <img src="{{=URL('static','images/sidebar-student.png')}}" alt="icon estudiante"/>
+                    {{ elif roles['rol'] == "Profesor": }}
+                         <img src="{{=URL('static','images/sidebar-teacher.png')}}" alt="icon profesor"/>
+                    {{ else: }}
+                         <img src="{{=URL('static','images/sidebar-coordination.png')}}" alt="icon coordinacion"/>
+                    {{ pass }}
+
                     <a href="#"> {{=roles['rol']}} <span class="arrow "></span></a>
                   </li>
                   <ul class="collapse" id="{{=roles['rol']}}" >
