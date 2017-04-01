@@ -193,3 +193,7 @@ body{
     color: white;
 
 }
+
+.botonEliminar{
+    float: right;
+}

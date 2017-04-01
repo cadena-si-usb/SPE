@@ -41,8 +41,9 @@ body{
 .navbar-collapse.collapse.in, .navbar-toggle.open,
 .navbar-toggle:hover, .navbar-toggle:focus {
     border-color: rgba(63, 93, 93, 0.50);
-    background-color: rgba(63, 93, 93, 0.50) !important;
+    background-color: rgb(102, 102, 102) !important;
     overflow-y: visible;
+    margin-top: 0px;
 }
 
 .navbar-nav>li>a {  
