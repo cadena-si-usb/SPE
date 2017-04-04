@@ -14,8 +14,8 @@ def solicitudes_modificacion_grid_profesor():
     userId = auth.user.id
     profesor = db.Profesor(usuario=userId)
     email = auth.user.email
-    query = (profesor.id == db.Pasantia.tutor_academico) & (db.Pasantia.id == db.Solicitud_Modificacion.pasantia)
-    solicitudes = db(query)
+    pasantia = db.Pasantia(tutor_academico=profesor.id)
+    solicitudes = db(db.Solicitud_Modificacion.pasantia == pasantia.id)
 
     # Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
     # this is not required in later versions)
@@ -36,12 +36,12 @@ def solicitudes_modificacion_grid_profesor():
     }
 
     # Let's specify a default sort order on date_of_birth column in grid
-    default_sort_order = [db.Pasantia.titulo]
+    default_sort_order = [db.Solicitud_Modificacion.pasantia]
     links = []
 
     # Creating the grid object
     form = SQLFORM.grid(query=solicitudes, fields=fields, headers=headers, orderby=default_sort_order,
-                        create=False, deletable=False, editable=False, maxtextlength=64, paginate=25, details=False,
+                        create=False, deletable=False, editable=True, maxtextlength=64, paginate=25, details=True,
                         links=links, csv=False, user_signature=False)
 
     return form
