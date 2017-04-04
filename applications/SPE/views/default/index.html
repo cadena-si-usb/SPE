@@ -30,7 +30,7 @@
         			<div class="clearfix"></div>
     			</div>
     			<div class="panel-body ">
-                     <img class="imageHome" src="{{=URL('static','images/cctHome.png')}}" alt="imagen CCT" />
+                     <img class="imageHome" src="{{=URL('static','images/home_coordinador.png')}}" alt="imagen CCT" />
     				Este sistema le permite realizar Consultas Avanzadas y Reportes de utilidad para la comunidad USB 
     				entera.
 
@@ -60,7 +60,7 @@
 	    			<div class="clearfix"></div>
 				</div>
 				<div class="panel-body ">
-                     <img class="imageHome" src="{{=URL('static','images/profesorHome.jpg')}}" alt="imagen profesor" />
+                     <img class="imageHome" src="{{=URL('static','images/home_profesor.png')}}" alt="imagen profesor" />
 					Este sistema les permite realizar la Revisión de Planes de Trabajo, Asignación de Notas y Consulta de Pasantías Tutoreadas.
 
 	    			{{if auth.is_logged_in() == False :}}
@@ -89,7 +89,7 @@
 	    			<div class="clearfix"></div>
 				</div>
 				<div class="panel-body ">
-                    <img class="imageHome" src="{{=URL('static','images/estudianteHome.jpg')}}" alt="imagen estudiante" />
+                    <img class="imageHome" src="{{=URL('static','images/home_estudiante.png')}}" alt="imagen estudiante" />
 					Este sistema te permite realizar la Inscripción, Documentación, Formulación y Culminación de Pasantías Empresariales.
                     Debes mantener tu información de contacto actualizada, para que la Coordinación de Cooperación Técnica pueda comunicarse contigo.
 
@@ -138,7 +138,7 @@
 	    			<div class="clearfix"></div>
 				</div>
 				<div class="panel-body ">
-                     <img class="imageHome" src="{{=URL('static','images/empresaHome.jpg')}}" alt="imagen empresa" />
+                     <img class="imageHome" src="{{=URL('static','images/home_empresa.png')}}" alt="imagen empresa" />
 					Este sistema le permite solicitar pasantes, revisar el plan de trabajo y recibir anuncios de chalas y estudiantes interesados en hacer pasantías tanto largas, intermedias como cortas.
 
 	    			{{if auth.is_logged_in() == False :}}
@@ -192,12 +192,10 @@
             if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
         });
 
-
         $(".titleCCT").height(maxHeight);
         $(".titleProfesor").height(maxHeight);
         $(".titleEstudiante").height(maxHeight);
         $(".titleEmpresa").height(maxHeight);
-
 
     }
 

@@ -20,7 +20,7 @@ def sqlform_grid():
 def sqlform_grid():
     query = db(db.Profesor.usuario == db.auth_user.id)
     db.auth_user._format = lambda row: row.first_name + " " + row.last_name
-
+    db.Departamento._format = lambda row: row.first_name
     fields = [
         db.auth_user.username,
         db.Profesor.usuario,

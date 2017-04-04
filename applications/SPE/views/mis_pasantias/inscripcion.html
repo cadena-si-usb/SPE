@@ -45,7 +45,7 @@
                         </div>
                         <div class="center">
                             <a href="#" class="clickable">
-                                <button class="btn-index" type="button">Consulta a CCT</button>
+                                <button class="btn-index botonConsultaCCT" type="button">Consulta a CCT</button>
                             </a>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
 
                      <div class="col-xs-12 col-md-4">
                         <a href="{{=URL(c='Pasantia',f='verDetallePasantia',args=[plan_trabajo.id])}}" class="clickable">
-                            <button class="btn-index" type="button">
+                            <button class="btn-index botonVerPlanTrabajo" type="button">
                                 Ver Plan de Trabajo
                             </button>
                         </a>
@@ -105,7 +105,7 @@
 
                      <div class="col-xs-12 col-md-4">
                         <a href="{{=URL(c='Pasantia',f='verPlanDeTrabajo',args=[pasantia.id])}}" class="clickable">
-                            <button class="btn-index" type="button">
+                            <button class="btn-index botonEditarPlanTrabajo" type="button">
                                 Editar Plan de Trabajo
                             </button>
                         </a>
@@ -113,7 +113,7 @@
 
                     <div class="col-xs-12 col-md-4">
                         <a href="{{=URL(c='permisos',f='agregar',args=['Inscripcion Extemporanea', inscripcion.pasantia])}}" class="clickable">
-                            <button class="btn-index" type="button">
+                            <button class="btn-index botonSolicitarPermisos" type="button">
                                 Solicitar Permisos
                             </button>
                         </a>
@@ -140,19 +140,70 @@
 
     }
 
+   //.botonConsultaCCT,.botonSolicitarEliminarPasantia,.botonCronograma,.botonSolicitarEvaluacionExtemporanea
+    function sameHeightWidthButtons(){
+        var maxHeight = 0;
+        var maxWidth = 0;
+
+
+        $(" .btn-index").each(function(){
+            if ($(this).width() > maxWidth) { maxWidth = $(this).width(); }
+
+
+
+        });
+
+        $(" .btn-index").each(function(){
+            $(this).width(maxWidth);
+
+        });
+
+
+
+
+        $(" .btn-index").each(function(){
+
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+
+
+        });
+
+        $(" .btn-index").each(function(){
+            $(this).height(maxHeight);
+
+        });
+
+
+
+
+    }
+
     function resetHeight(){
         $(".containerPermisos").height("auto");
         $(".containerEstatus").height("auto");
     }
 
+     function resetHeightWidthButtons(){
+
+        $(" .btn-index").each(function(){
+
+           $(this).height("auto");
+           $(this).width("auto");
+        });
+
+    }
+
     resetHeight();
-
+    resetHeightWidthButtons();
+    
     sameHeight();
-
+    sameHeightWidthButtons();
 
     $(window).resize(function() {
         resetHeight();
+        resetHeightWidthButtons();
         sameHeight();
+        sameHeightWidthButtons();
     });
 
 </script>

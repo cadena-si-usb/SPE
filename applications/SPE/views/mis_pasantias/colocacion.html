@@ -45,7 +45,7 @@
                         </div>
                         <div class="center">
                             <a href="#" class="clickable">
-                                <button class="btn-index" type="button">Consulta a CCT</button>
+                                <button class="btn-index botonConsultaCCT" type="button">Consulta a CCT</button>
                             </a>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
             </div>
 
             <div class="row">
-                <div class="col-xs-12 panel panel-default">
+                <div class="col-xs-12 panel panel-default containerEstatus">
                     <div class="panel-heading" id="panelgris">
                         Estatus
                     </div>
@@ -74,14 +74,14 @@
 
                     <div class="col-xs-12 col-md-4">
                         <a href="{{=URL('mi_perfil','editar_curriculo')}}" class="clickable">
-                            <button class="btn-index" type="button">Editar CV</button>
+                            <button class="btn-index botonEditarCV" type="button">Editar CV</button>
                         </a>
 
                     </div>
 
                     <div class="col-xs-12 col-md-4">
                         <a href="#" class="clickable">
-                            <button class="btn-index" type="button" title='En construccion'>
+                            <button class="btn-index botonVerOfertas" type="button" title='En construccion'>
                                 Ver Ofertas Disponibles
                             </button>
                         </a>
@@ -90,7 +90,7 @@
 
                     <div class="col-xs-12 col-md-4">
                          <a href="#" class="clickable">
-                            <button class="btn-index" type="button" title='En construccion'>
+                            <button class="btn-index botonCartaPostulacion" type="button" title='En construccion'>
                                 Carta de Postulación
                             </button>
                         </a>
@@ -103,3 +103,62 @@
             </div>
         </div>
 
+<script>
+
+    //.botonConsultaCCT,.botonSolicitarEliminarPasantia,.botonCronograma,.botonSolicitarEvaluacionExtemporanea
+    function sameHeightWidthButtons(){
+        var maxHeight = 0;
+        var maxWidth = 0;
+
+
+        $(" .btn-index").each(function(){
+            if ($(this).width() > maxWidth) { maxWidth = $(this).width(); }
+
+
+
+        });
+
+        $(" .btn-index").each(function(){
+            $(this).width(maxWidth);
+
+        });
+
+
+
+
+        $(" .btn-index").each(function(){
+
+            if ($(this).height() > maxHeight) { maxHeight = $(this).height(); }
+
+
+        });
+
+        $(" .btn-index").each(function(){
+            $(this).height(maxHeight);
+
+        });
+
+
+
+
+    }
+
+     function resetHeightWidthButtons(){
+
+        $(" .btn-index").each(function(){
+
+           $(this).height("auto");
+           $(this).width("auto");
+        });
+
+    }
+
+    resetHeightWidthButtons();
+    sameHeightWidthButtons();
+
+    $(window).resize(function() {
+        resetHeightWidthButtons();
+        sameHeightWidthButtons();
+    });
+
+</script>

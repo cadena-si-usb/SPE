@@ -11,6 +11,15 @@
                             <h3>Inscripciones</h3>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <a href="{{=URL(c='inscripciones',f='eliminar_pasantias_no_inscritas')}}" class="clickable">
+                                <button class="btn btn-default botonEliminar" type="button" title='En construcción'>
+                                    Eliminar pasantias incompletas
+                                </button>
+                            </a>
+                        </div>
+                    </div>
                     {{=LOAD('inscripciones', 'sqlform_grid', ajax=True)}}
                 </center>
             </div>

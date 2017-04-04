@@ -1,29 +1,52 @@
 {{extend 'shell.html'}}
+{{block head}}
+  <link href="{{=URL('static', 'css/mis_pasantias.css')}}" rel="stylesheet" type="text/css" />
+{{end}}
+<style>
+    a {
+        color: #6da8e1;
+    }
+</style>
 
 <div class='container-fluid'>
     {{if auth.is_logged_in():}}
-        <p class='title'>Pasantias cursadas por '{{=auth.user.first_name}} {{=auth.user.last_name}}'</p>
-        <div class="row">
+        <div class='row'>
             <div class="col-sm-12">
-                <div class="panel">
-                    <div>
-                        {{=LOAD('mis_pasantias', 'pasantias_grid_estudiante', ajax=True)}}
-                    </div>
-                </div>
+                <p class='title centrar'>Pasantias cursadas </p>
+                <h3 class="centrar">por {{=auth.user.first_name}} {{=auth.user.last_name}}</h3>
             </div>
         </div>
+
         {{if not pasantia_abierta:}}
             <div>
-                <p>¿Quieres iniciar una nueva pasantia?</p>
+                <br>
             </div>
             <div>
+                <h3 class='centrar'>Aún no has cursado pasantías</h3>
+                <h3 class='centrar'>¡PREINSCRÍBETE!</h3>
+            </div>
+            <div>
+                <br>
+                <br>
+            </div>
+            <div class='centrar'>
                 <a style="color:white;" href="/mis_pasantias/listar_materias">
                     <button class="btn btn-default">
-                        Preinscribir
+                        Inicia una nueva Pasantía
                     </button>
                 </a>
             </div>
         {{else:}}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel" style="border: none">
+                        <div>
+                            {{=LOAD('mis_pasantias', 'pasantias_grid_estudiante', ajax=True)}}
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div>
                 <p>Ya tienes una pasantia abierta</p>
             </div>
