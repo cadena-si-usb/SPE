@@ -1,3 +1,8 @@
+#contenido {
+    margin-top: 140px;
+}
+
+
 .link-spe{
     text-decoration: none;
     color: #0000C0;
@@ -10,11 +15,19 @@
     cursor: pointer;
 }
 
+.btn-primary {
+  color: #fff;
+  background-color: #3e3f3a;
+  border-color: #3e3f3a;
+}
+
 /*FOOTER*/
 .footer{
     margin-top: 20px;
     background: #666666;
     color:  white;
+    position:fixed;
+    bottom: 0;
 }
 
 .main-container{
@@ -157,4 +170,35 @@ body{
 .carousel-control span {
 	color: #666666;
 }
+/*Tables*/
 
+.web2py_grid th a , .web2py_table th a {
+
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+
+.web2py_grid td a , .web2py_table td a {
+
+    color: #666666;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    font-style: italic;
+
+}
+
+
+
+.web2py_grid td a span, .web2py_table td a span {
+
+    color: white;
+
+}
+
+.botonEliminar{
+    float: right;
+}

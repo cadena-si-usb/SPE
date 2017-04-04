@@ -62,37 +62,22 @@ if auth.has_membership(role='CoordinadorCCT'):
     opciones = opciones_coordinadorCCT
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
-        (T('Administracion'), False, "#",[
-            ((SPAN(_class='fa fa-cog'), '  Catalogos'), False, '/SPE/materias/listar'),
-            ((SPAN(_class='fa fa-list'), '  Pasantias'), False, '/SPE/pasantias/listar'),
-            ((SPAN(_class='fa fa-user'), '  Usuarios'), False, '/SPE/usuarios/listar'),
-            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/Permiso/consultarPermisos')
-        ]),
         (T('Reportes Y Estadisticas'), False, "#", []),
     ]
 elif auth.has_membership(role='Estudiante'):
     opciones = opciones_estudiante
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
-        (T('Administracion'), False, "#",[
-            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/Permiso/consultarPermisos')
-        ]),
     ]
 elif auth.has_membership(role='Profesor'):
     opciones = opciones_profesor
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
-        (T('Administracion'), False, "#",[
-            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/Permiso/consultarPermisos')
-        ]),
     ]
 elif auth.has_membership(role='Coordinador'):
     opciones = opciones_coordinador
     response.menu = [
         (T('Índice'), URL('default', 'index') == URL(), URL('default', 'index'), []),
-        (T('Administracion'), False, "#",[
-            ((SPAN(_class='fa fa-file-text'), '  Permisos'), False, '/SPE/Permiso/consultarPermisos')
-        ]),
     ]
 elif not auth.is_logged_in():
     response.menu = [

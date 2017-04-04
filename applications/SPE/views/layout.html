@@ -22,13 +22,13 @@
     <!-- include stylesheets -->
     <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}"/>
     <link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap3.css')}}"/>
-    
+    <link rel="stylesheet" href="{{=URL('static','css/simple-sidebar.css')}}"/>
     <link rel="stylesheet" href="{{=URL('static','css/perfil_estudiante.css')}}"/>
     <link rel="stylesheet" href="{{=URL('static','css/navbar.css')}}"/>
     <link rel="stylesheet" href="{{=URL('static','css/footer.css')}}"/>
     <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{=URL('static','css/font-awesome.css')}}">
     <link rel="stylesheet" href="{{=URL('static','css/main.css')}}"/>
     <!-- All JavaScript at the bottom, except for Modernizr which enables
          HTML5 elements & feature detects -->
@@ -56,71 +56,82 @@
     <!-- Navbar ======================================= -->
     <div class="header_home">
 		<div class="container transparent">
+
             <div class="col-xs-3 logo">
-
-		    	<div class="hidden-xs">
-
-		    	    {{=IMG(_src=URL('static','images/home/LogoUniversidadSimonBolivar.png'),alt="USBLOGO")}}
-		        </div>
-                <div class="hidden-sm hidden-md hidden-lg hidden-xl">
-
-		    	    {{=IMG(_src=URL('static','images/home/logo.png'),alt="USBLOGO")}}
-		        </div>
+		    	{{=IMG(_src=URL('static','images/home/LogoUniversidadSimonBolivar.png'),alt="USBLOGO")}}
 		    </div>
 
-            <div class="col-xs-9 titlesHeader">
-                  	<div class="title" padding-top: 10%>
-		    	        Coordinación de Cooperación Técnica - CCT
-                    </div>
-                    <div class="subtitle">
-                        Sistema de Pasantías Empresariales
-                    </div>
-              </div>
 	    </div>
 	</div>
 
-    <nav class="navbar-default navbar-style" role="navigation">
+    <nav class="navbar-default navbar-style navbar-fixed-top" role="navigation">
       <div class="container-fluid">
 
-        <div class="navbar-header">
-            <button type = "button" class = "navbar-toggle collapsed"
-               data-toggle = "collapse" data-target = "#navbar">
-               <span class = "sr-only">Toggle navigation</span>
-               <span class = "icon-bar"></span>
-               <span class = "icon-bar"></span>
-               <span class = "icon-bar"></span>
+<div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
             </button>
         </div>
 
-        <div id="navbar" class="collapse navbar-collapse navbar-content-style">
+
+        <div class="navbar-header navbar-icon hamburger hidden-xs  is-open"  data-toggle="offcanvas">
+          <span type="button">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </span>
+
+        </div>
+
+        <div id="navbar" class="collapse navbar-collapse navbar-content-style" style="position: static;">
+
             {{if auth.is_logged_in():}}
             {{=MENU(menu_autenticado, _class='nav navbar-nav navbar-right',li_class='dropdown',ul_class='dropdown-menu dropdown-menu-style', li_first='dropdown', li_last='dropdown')}}
             {{pass}}
           {{if response.menu:}}
           {{=MENU(response.menu, _class='nav navbar-nav',li_class='dropdown',ul_class='dropdown-menu dropdown-menu-style', li_first='dropdown', li_last='dropdown')}}
           {{pass}}
+           <ul class='nav navbar-nav'>
+               <li class="dropdown"><a href="http://funindes.usb.ve/units/" target="_blank">Catálogo FUNINDES</a></li>
+           <li class="dropdown"><a href="http://www.cctds.dex.usb.ve/node/26" target="_blank">Reglamentos</a></li>
+
+           </ul>
+
+
         </div>
       </div>
     </nav>
 
     <!-- Main ========================================= -->
     <!-- Begin page content -->
+      <div id="main" class="container-fluid main-container">
 
-    <div id="main" class="container-fluid main-container">
-      {{block center}}
-      {{include}}
-      {{end}}
-    </div>
+        {{block center}}
+
+        {{include}}
+        {{end}}
+      </div>
 
     {{block footer}} <!-- this is default footer -->
     <footer class="footer footer-style">
       <div class="container-fluid">
         <div class="col-xs-offset-1">
-             Edificio Ciencias Básicas 1, Piso 1, ofic 135. Sartenejas, Baruta, Edo. Miranda
-              - Apartado 89000 Calle Unibolivar - Caracas Venezuela. <br>
-              Teléfono: +58 0212-9063378. Correo: coord-ccc@usb.ve Twitter: @usbpasantias
+            <strong>Sartenejas:</strong>
+            Edificio Ciencias básicas 1, piso 1, ofic 135. Sartenejas, Baruta, Edo. Miranda
+              - Apartado 89000 Calle Unibolivar - Caracas, Venezuela.
+            <br>
+            <i class="fa fa-phone" aria-hidden="true"></i> 0212-9063378
+            <i class="fa fa-envelope-o" aria-hidden="true"></i> coord-ccc@usb.ve
+            <i class="fa fa-twitter" aria-hidden="true"></i> @usbpasantias
+            <br>
+            <strong>Litoral:</strong> NA
+            <br>
+            <i class="fa fa-phone" aria-hidden="true"></i> NA
+            <i class="fa fa-envelope-o" aria-hidden="true"></i> NA
+            <i class="fa fa-twitter" aria-hidden="true"></i> NA
         </div>
-        <div class="copyright pull-right">{{=T('Copyright')}} &#169; {{=request.now.year}}. &nbsp;</div>
+
       </div>
     </footer>
     {{end}}
@@ -148,6 +159,35 @@
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        $(document).ready(function () {
+          var trigger = $('.hamburger'),
+              overlay = $('.overlay'),
+              isClosed = false;
+
+            trigger.click(function () {
+              hamburger_cross();      
+            });
+
+            function hamburger_cross() {
+
+              if (isClosed == true) {          
+                overlay.hide();
+                trigger.removeClass('is-open');
+                trigger.addClass('is-closed');
+                isClosed = false;
+              } else {   
+                overlay.show();
+                trigger.removeClass('is-closed');
+                trigger.addClass('is-open');
+                isClosed = true;
+              }
+          }
+          
+          $('[data-toggle="offcanvas"]').click(function () {
+                $('#wrapper').toggleClass('toggled');
+          });  
         });
     </script>
   </body>

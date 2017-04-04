@@ -1,49 +1,118 @@
 {{extend 'shell.html'}}
 {{block content}}
 
+{{block head}}
+  <link href="{{=URL('static', 'css/mis_pasantias.css')}}" rel="stylesheet" type="text/css" />
+{{end}}
+
+<style>
+.centrar{
+    text-align: center;
+}
+.derecha{
+    text-align: right;
+}
+#panelazul{
+    color: white;
+    font-size: large;
+    text-align: center;
+    background-color: #6da8e1 !important; /*#3e3f3a*/ 
+}
+</style>
+
+
 <div class="container-fluid" id="mis_pasantias_index">
     <div class="row">
-        <div class="col-lg-12 rounded_border" >
-            <br/>
-            <div class="row">
-                <div id="materias">
-                    {{ for materia in materias: }}
-                        <div data-id="id"  style="background-color: #ddd; padding: 20px; color: black; margin-bottom: 10px;-webkit-box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);">
-                            <div style="display:flex; flex-direction: row; flex-wrap: wrap;">
-                                <div class="col-lg-8" style="flex:5 1 auto; max-width:600px; padding-right:25px; text-align: justify;">
-                                    <h2>Pasantia <span class='text-center'> {{ =materia.tipo }} </span> (<span class='text-center'>{{=materia.codigo }})</span></h2>
-                                    <p>
-                                        <b>Descripción</b>: <span class='text-center'> {{ =materia.descripcion }}</span>
-                                    </p>
-                                    <p>
-                                        <b>Duración</b>: <span class='text-center'>{{ =materia.duracion }} </span>
-                                    </p>
-                                    <a class="link-spe">Programa del curso</a>
-                                    <br>
-                                    <a class="link-spe" target="_blank" href="http://sistema.cenda.usb.ve/reglamentos/ver/237">Reglamentosr</a>
-                                    <br>
-                                    <a class="link-spe" target="_blank" href="http://cct.dex.usb.ve/sites/default/files/Normas_y_Procedimientos_05_2011.pdf">Procedimientos</a>
-                                </div>
+        <div class="col-sm-12">
+            <p class='title centrar'>PREINSCRIBE TU PASANTÍA </p>
+        </div>
+    </div>
 
-                                <div class="col-lg-4" style="background-color: #bbb; border: none; padding: 20px; color: black; flex:5 1 auto; text-align: center;">
-                                    <h2>Cursos</h2>
-                                    <a style="color:white;" href="preinscribir/{{=materia.id}}">
-                                        <button class="btn btn-default">
-                                            Preinscribir
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
+    <div class="row">
+        <div id="materias">
+            {{ for materia in materias: }}
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-default containerEstatus">
+                        <div class="panel-heading " id="panelazul">
+                            Pasantia {{ =materia.tipo }} ({{=materia.codigo }})
                         </div>
-                        <br>
-                    {{ pass }}
+                        <div class="panel-body">
+                            <div class='derecha'>
+                                <a href="preinscribir/{{=materia.id}}">
+                                    <button class="btn btn-default derecha">
+                                        Preinscribir
+                                    </button>
+                                </a>
+                            </div>
+                            <br>
+                            <p>
+                                <b>Descripción</b>: <span class='text-center'> {{ =materia.descripcion }}</span>
+                            </p>
+                            <p>
+                                <b>Duración</b>: <span class='text-center'>{{ =materia.duracion }} </span>
+                            </p>
+                            <p>
+                                Información:
+                            </p>
+                            <a class="link-spe">Programa del curso</a>
+                                <br>
+                            <a class="link-spe" target="_blank" href="http://sistema.cenda.usb.ve/reglamentos/ver/237">Reglamentos</a>
+                                <br>
+                            <a class="link-spe" target="_blank" href="http://cct.dex.usb.ve/sites/default/files/Normas_y_Procedimientos_05_2011.pdf">Procedimientos</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <br />
-            <br />
+            {{pass}}
         </div>
     </div>
 </div>
 
 
 {{end}}
+
+
+
+<script>
+
+    function sameHeight(){
+        var maxHeight = 0;
+
+
+        $("#materias .containerEstatus").each(function() {
+            if ($(this).height() > maxHeight) {
+                maxHeight = $(this).height();
+            }
+
+        });
+	   $("#materias .containerEstatus").height(maxHeight);
+
+
+    }
+
+
+
+    function resetHeight(){
+
+        $("#materias .containerEstatus").each(function(){
+            $(this).height("auto");
+        });
+
+
+
+    }
+
+
+    resetHeight();
+
+
+    sameHeight();
+
+
+    $(window).resize(function() {
+        resetHeight();
+
+        sameHeight();
+
+    });
+
+</script>
