@@ -39,6 +39,13 @@ def solicitudes_modificacion_grid_profesor():
     default_sort_order = [db.Solicitud_Modificacion.pasantia]
     links = []
 
+    # Permisology
+    db.Solicitud_Modificacion.pasantia.writable = False
+    db.Solicitud_Modificacion.justificacion.writable = False
+    db.Solicitud_Modificacion.cambios_solicitados.writable = False
+    db.Solicitud_Modificacion.aprobacion_coordinacion_carrera.writable = False
+    db.Solicitud_Modificacion.procesado_CCT.writable = False
+
     # Creating the grid object
     form = SQLFORM.grid(query=solicitudes, fields=fields, headers=headers, orderby=default_sort_order,
                         create=False, deletable=False, editable=True, maxtextlength=64, paginate=25, details=True,
@@ -87,6 +94,13 @@ def solicitudes_modificacion_grid_coordinador():
     # Let's specify a default sort order on date_of_birth column in grid
     default_sort_order = [db.Solicitud_Modificacion.pasantia]
     links = []
+
+    # Permisology
+    db.Solicitud_Modificacion.pasantia.writable = False
+    db.Solicitud_Modificacion.justificacion.writable = False
+    db.Solicitud_Modificacion.cambios_solicitados.writable = False
+    db.Solicitud_Modificacion.aprobacion_tutor_academico.writable = False
+    db.Solicitud_Modificacion.procesado_CCT.writable = False
 
     # Creating the grid object
     form = SQLFORM.grid(query=solicitudes, fields=fields, headers=headers, orderby=default_sort_order,

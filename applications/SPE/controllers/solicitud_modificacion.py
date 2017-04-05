@@ -9,24 +9,24 @@ def sqlform_grid():
     sqlform_grid = simple_spe_grid(db.Solicitud_Modificacion)
     return sqlform_grid
 
-@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def agregar():
 
     currentRoles = current.auth.user_groups.values()
-    etapa = db(db.Etapa.nombre == 'Ejecucion').select().first()
 
-    fields = ['pasantia','justificacion', 'cambios_solicitados', 'aprobacion_tutor_academico', 'aprobacion_coordinacion_carrera', 'procesado_CCT']
+    # fields = ['pasantia','justificacion', 'cambios_solicitados', 'aprobacion_tutor_academico', 'aprobacion_coordinacion_carrera', 'procesado_CCT']
+    fields = ['pasantia','justificacion', 'cambios_solicitados']
 
     if 'Estudiante' in currentRoles:
         estudiante = db.Estudiante(usuario=auth.user.id)
         pasantia_id = request.args[0]
         db.Solicitud_Modificacion.pasantia.default = pasantia_id
+        db.Solicitud_Modificacion.pasantia.writable = False
 
-        form = SQLFORM(db.Solicitud_Modificacion, pasantia, showid=False)
+        form = Solicitud_Modificacion.form(fields)
 
     if form.process().accepted:
         session.flash = T('La solicitud fue procesada exitosamente!')
-        redirect(URL('listar'))
+        # redirect(URL('listar'))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
@@ -34,12 +34,10 @@ def agregar():
     response.view = 'solicitud_modificacion/solicitar_modificacion.html'
     return locals()
 
-@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def listar():
     session.rows = []
     return dict(rows=session.rows)
 
-@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def count():
     obj = Encoder.to_dict(request.vars)
     query = "db.Estudiante"
@@ -51,7 +49,6 @@ def count():
     count = db(eval(query) & (db.Pasantia.estudiante == db.Estudiante.id)).count()
     return count
 
-@auth.requires(Usuario.checkUserPermission(construirAccion(request.application,request.controller)))
 def modificar():
 
     currentRoles = current.auth.user_groups.values()
