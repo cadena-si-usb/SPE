@@ -14,8 +14,7 @@ def solicitudes_modificacion_grid_profesor():
     userId = auth.user.id
     profesor = db.Profesor(usuario=userId)
     email = auth.user.email
-    pasantia = db.Pasantia(tutor_academico=profesor.id)
-    solicitudes = db(db.Solicitud_Modificacion.pasantia == pasantia.id)
+    solicitudes = (profesor.id == db.Pasantia.tutor_academico) & (db.Pasantia.id == db.Solicitud_Modificacion.pasantia)
 
     # Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
     # this is not required in later versions)
@@ -47,7 +46,7 @@ def solicitudes_modificacion_grid_profesor():
     db.Solicitud_Modificacion.procesado_CCT.writable = False
 
     # Creating the grid object
-    form = SQLFORM.grid(query=solicitudes, fields=fields, headers=headers, orderby=default_sort_order,
+    form = SQLFORM.grid(query=solicitudes, fields=fields, field_id=db.Solicitud_Modificacion.id, headers=headers, orderby=default_sort_order,
                         create=False, deletable=False, editable=True, maxtextlength=64, paginate=25, details=True,
                         links=links, csv=False, user_signature=False)
 
@@ -68,9 +67,8 @@ def solicitudes_modificacion_grid_coordinador():
     coordinacion = db.Coordinacion(id=coordinador.coordinacion)
     carrera = db.Carrera(coordinacion=coordinacion)
     email = auth.user.email
-    estudiante = db.Estudiante(carrera=carrera)
-    pasantia = db.Pasantia(estudiante=estudiante.id)
-    solicitudes = db(db.Solicitud_Modificacion.pasantia == pasantia.id)
+    pasantias = (db.Estudiante.id == db.Pasantia.estudiante) & (db.Estudiante.carrera == carrera.id)
+    solicitudes = (db.Solicitud_Modificacion.pasantia == db.Pasantia.id) & pasantias
 
 
     # Define the fields to show on grid. Note: (you need to specify id field in fields section in 1.99.2
@@ -86,7 +84,7 @@ def solicitudes_modificacion_grid_coordinador():
     headers = {
         ''
         # 'Solicitud_Modificacion.pasantia': 'Titulo Pasantía',
-        'Solicitud_Modificacion.aprobacion_tutor_academico': 'Aprobacion del Tutor Academico',
+        'Solicitud_Modificacion.aprobacion_tutor_academico': 'Aprobación del Tutor Academico',
         'Solicitud_Modificacion.aprobacion_coordinacion_carrera': 'Aprobación de la Coordinacion de carrera',
         'Solicitud_Modificacion.procesado_CCT': 'Procesado por la CCT'
     }
@@ -103,7 +101,7 @@ def solicitudes_modificacion_grid_coordinador():
     db.Solicitud_Modificacion.procesado_CCT.writable = False
 
     # Creating the grid object
-    form = SQLFORM.grid(query=solicitudes, fields=fields, headers=headers, orderby=default_sort_order,
+    form = SQLFORM.grid(query=solicitudes, fields=fields, field_id=db.Solicitud_Modificacion.id, headers=headers, orderby=default_sort_order,
                         create=False, deletable=False, editable=True, maxtextlength=64, paginate=25, details=True,
                         links=links, csv=False, user_signature=False)
 
