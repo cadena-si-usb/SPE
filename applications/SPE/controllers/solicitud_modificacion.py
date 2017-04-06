@@ -26,7 +26,8 @@ def agregar():
 
     if form.process().accepted:
         session.flash = T('La solicitud fue procesada exitosamente!')
-        # redirect(URL('listar'))
+        # print(response.vars)
+        redirect(URL('ver', args=[form.vars.id]))
     elif form.errors:
         response.flash = T('La forma tiene errores, por favor llenela correctamente.')
     else:
@@ -77,4 +78,10 @@ def modificar():
     else:
         response.flash = T('Por favor llene la forma.')
 
+    return locals()
+
+def ver():
+    print(request.args(0))
+    solicitud = db.Solicitud_Modificacion(request.args(0)) or redirect(URL('agregar'))
+    response.view = 'solicitud_modificacion/ver.html'
     return locals()
