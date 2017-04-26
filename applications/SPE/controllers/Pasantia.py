@@ -81,7 +81,7 @@ def verPlanDeTrabajo():
                 and planTrabajo.aprobacion_tutor_academico == 'Aprobado'
                 and planTrabajo.aprobacion_tutor_industrial == 'Aprobado')
     estudiante = db.Estudiante(id=pasantia.estudiante)
-    tutor_academico = db.Estudiante(id=pasantia.tutor_academico)
+    tutor_academico = db.Profesor(id=pasantia.tutor_academico)
     if auth.user.id == estudiante.usuario:
         response.view = 'Pasantia/Detalle_Plan_De_Trabajo_estudiante.html'
     elif auth.user.id == tutor_academico.usuario:
