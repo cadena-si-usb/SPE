@@ -9,9 +9,15 @@ body{
 .header_home {
     position: fixed;
     height: 101px !important;
+    max-height: 101px;
+    width: 100%;
+    max-width: 100%;
     margin-top: 0px;
     z-index: 1030;
-    background:none;
+    background:url("../images/banner-test-53.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
 }
 
 

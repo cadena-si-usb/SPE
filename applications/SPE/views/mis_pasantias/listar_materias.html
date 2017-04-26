@@ -34,6 +34,11 @@
                 <div class="col-xs-12 col-md-6">
                     <div class="panel panel-default containerEstatus">
                         <div class="panel-heading " id="panelazul">
+                            {{if materia.codigo == "EP3420":}}
+                                <img style="max-width: 50%; max-height: 150px;" src="/static/images/pasantia_larga.png" />
+                            {{else:}}
+                                <img style="max-width: 50%; max-height: 150px;" src="/static/images/pasantia_corta.png" />
+                            {{pass}}
                             Pasantia {{ =materia.tipo }} ({{=materia.codigo }})
                         </div>
                         <div class="panel-body">
