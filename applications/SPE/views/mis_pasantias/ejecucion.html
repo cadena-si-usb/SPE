@@ -60,7 +60,7 @@
                                 <p><i class="glyphicon glyphicon-time" id="waiticon"></i>   {{=ejecucion.estado}}</p>
                             {{pass}}
                             {{if ejecucion.estado == "Aprobado":}}
-                            <!--<p><i class="glyphicon glyphicon-ban-circle" id="denyicon"></i>   
+                            <!--<p><i class="glyphicon glyphicon-ban-circle" id="denyicon"></i>
                             {{=preinscripcion.estado}}</p>-->
                             <p><i class="glyphicon glyphicon-ok" id="checkicon"></i>   {{=ejecucion.estado}}</p>
                             {{pass}}
@@ -127,6 +127,12 @@
                             </button>
                         </a>
                     </div>
+                    <!-- PONERLO BONITO -->
+                    <a href="{{=URL(c='solicitud_modificacion',f='agregar', args=[pasantia.id])}}" class="clickable">
+                        <button class="btn-index" type="button">
+                            Solicitar modificacion de pasantia
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>

@@ -1,0 +1,20 @@
+{{extend 'shell.html'}}
+{{block content}}
+
+<div class="container-fluid" id="pasantiasIndex">
+    <div class="row">
+        <div class="col-lg-12 rounded_border" >
+            <div class="row">
+                <center>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Pasantias tutoreadas por '{{=auth.user.first_name}} {{=auth.user.last_name}}'</h3>
+                        </div>
+                    </div>
+                    {{=LOAD('mis_solicitudes_modificacion', 'solicitudes_modificacion_grid_profesor', ajax=True)}}
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

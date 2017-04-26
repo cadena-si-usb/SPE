@@ -1,0 +1,20 @@
+{{extend 'shell.html'}}
+{{block content}}
+
+<div class="container-fluid" id="pasantiasIndex">
+    <div class="row">
+        <div class="col-lg-12 rounded_border" >
+            <div class="row">
+                <div class="row">
+                    <h4>Pasantia</h4>
+                    {{=solicitud.pasantia}}
+                    <h4>Cambios solicitados</h4>
+                    {{=solicitud.cambios_solicitados}}
+                    <h4>Justificacion</h4>
+                    {{=solicitud.justificacion}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
